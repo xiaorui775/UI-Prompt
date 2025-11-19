@@ -1258,6 +1258,16 @@ export default {
           "title": "复古图书馆页面",
           "description": "古典图书馆美学，羊皮纸质感与蜡封装饰元素的知识殿堂"
         },
+        "leatherTexture": {
+          "title": "皮革质感 - 旅行日志",
+          "description": "复古皮革笔记本风格，模拟旅行者的手工日志本，融合邮票、Polaroid照片和手写字体元素",
+          "demoText": {
+            "title": "探索世界",
+            "subtitle": "记录每一个故事",
+            "destination": "目的地",
+            "memories": "旅行回忆"
+          }
+        },
 
         "preview": {
           "techCompany": "科技公司官网",
@@ -1272,7 +1282,10 @@ export default {
           "vintageLibraryColorScheme": "主色羊皮纸 (#F5E6D3)、深棕皮革 (#5C4033)、黄铜金属 (#B87333)、深褐文字 (#3E2723)、酒红色 (#8B4513)、橡木色 (#8B7355)、古董白 (#FAEBD7)、蜡封红/绿/蓝/金",
           "techCorpHomepage": "科技公司主页",
           "homeOfficeDashboard": "居家办公仪表板",
-          "vintageLibraryLanding": "复古图书馆页面"
+          "vintageLibraryLanding": "复古图书馆页面",
+          "leatherTexture": "皮革质感 - 旅行日志",
+          "leatherTextureDesc": "模拟旅行者手工皮革笔记本，融合邮票样式卡片、Polaroid相片墙、手写日记页面等复古元素。包含深褐色皮革背景纹理、邮票锯齿边缘、旅行印章装饰、黄铜徽章、手写字体标题、透明胶带效果、装订线细节等真实质感元素。",
+          "leatherTextureColorScheme": "主色浅棕皮革 (#8B6F47)、深棕皮革 (#5D4E37)、深褐边缘 (#4A3C2F)、羊皮纸 (#F4E8C1)、邮票红 (#DC143C)、黄铜金 (#B8860B, #8B6914)、深墨色 (#2C2416)、柔和白 (#E8D4B0)"
         }
       },
       "flat-design": {
@@ -1350,6 +1363,23 @@ export default {
       "fluent2": {
         "title": "Fluent Design 2.0",
         "description": "Microsoft 最新设计系统，采用 Acrylic 和 Mica 材质效果，展现现代企业级应用的优雅与实用性。"
+      },
+      "typography": {
+        "newspaper": {
+          "title": "报纸排版",
+          "description": "传统报纸排版技术：首字下沉、多栏布局、衬线字体",
+          "colorScheme": "深蓝强调色、米白背景、深灰正文",
+          "modernEditorial": {
+            "title": "现代报纸编辑",
+            "description": "现代数字报纸风格：纯白背景、清晰排版、适合在线阅读",
+            "colorScheme": "深蓝 (#1E3A8A)、米白 (#FAF8F5)、深灰 (#374151)"
+          },
+          "vintageRetro": {
+            "title": "复古报纸",
+            "description": "20世纪复古报纸风格：米黄纸张、旧化纹理、咖啡渍效果",
+            "colorScheme": "深棕褐色 (#8B4513)、米黄色 (#F5DEB3)、暗褐背景 (#3B2F2F)"
+          }
+        }
       },
       "fluent2-productivity": {
         "title": "生产力工作台",
@@ -1438,13 +1468,6 @@ export default {
         "preview": {
           "vacantSpace": "虚空空间 VACANT_SPACE.EXE",
           "digitalMuseum": "数位博物馆档案馆"
-        }
-      },      "aurora": {
-        "title": "Aurora 极光",
-        "description": "极光灵感的流动渐变与飘逸光影效果。",
-        "previews": {
-          "analyticsDashboard": "极光数据仪表板",
-          "analyticsDashboardDesc": "企业级 SaaS 数据仪表板，展示极光渐变、玻璃态卡片和动态数据可视化"
         }
       },
       "clay": {
@@ -1564,6 +1587,16 @@ export default {
       "kawaii-minimal": {
         "title": "可爱极简",
         "description": "可爱极简设计，融合可爱、趣味元素与极简美学。"
+      },
+      "handDrawnSketch": {
+        "title": "手绘涂鸦",
+        "description": "通过手写字体、SVG 滤镜和随性线条创造温暖亲切的视觉体验。结合粘贴便签、网格纸背景和手绘边框元素，营造友好轻松的设计氛围。",
+        "previews": {
+          "landingPage": "手绘着陆页",
+          "landingPageDesc": "完整的手绘风格着陆页，包含粘贴便签卡片、网格纸背景、SVG 手绘滤镜效果、手绘边框和图标、俏皮旋转动画等元素",
+          "components": "手绘 UI 组件库",
+          "componentsDesc": "18+ 手绘风格 UI 组件展示，包含按钮、卡片、表单元素、时间线、可拖放列表、加载动画、徽章、警告框、提示框、手风琴、表格等完整交互组件"
+        }
       },
       "translucent": {
         "title": "透明质感",
@@ -1709,10 +1742,6 @@ export default {
         "title": "自然元素",
         "description": "模拟极光、波浪、粒子、液体和烟雾等自然现象的动态效果"
       },
-      "aurora": {
-        "title": "极光流动",
-        "description": "流动渐变，水平移动，模糊融合"
-      },
       "wave": {
         "title": "波浪效果",
         "description": "SVG 路径，贝塞尔曲线，波浪动画"
@@ -1840,8 +1869,8 @@ export default {
         "title": "复古报纸",
         "description": "印刷时代美学，报纸排版 + 纸张质感 + 咖啡渍装饰",
         "vintageNewspaper": {
-          "title": "复古报纸",
-          "description": "经典报纸排版风格，传达印刷时代美学"
+          "title": "经典报纸版面",
+          "description": "传统报纸设计，包含多栏布局、复古字体、旧化纸张纹理和经典印刷美学"
         }
       },
 
@@ -3207,3 +3236,6 @@ export default {
   },
   "artGalleryNFT": {}
 }
+
+// Newspaper Typography 报纸排版家族翻译补充
+// 添加到 styles.core 对象中

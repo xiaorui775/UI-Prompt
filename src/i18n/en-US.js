@@ -1253,13 +1253,16 @@ export default {
           "techCorpHomepage": "Tech Corp Homepage",
           "homeOfficeDashboard": "Home Office Dashboard",
           "vintageLibraryLanding": "Vintage Library Landing",
+          "leatherTexture": "Leather Texture - Travel Journal",
           "vintageAudioPanelDesc": "Simulates 70-80s high-end audio equipment, showcasing classic skeuomorphic design features. Includes dark leather background texture, brushed metal frame, wood accent strips, glass display screen (VU volume meter), metal knob controllers (volume/bass), glowing LED indicators (red/green/blue), raised physical buttons, toggle switches, and other authentic interaction elements.",
+          "leatherTextureDesc": "Simulates traveler's handcrafted leather notebook, combining vintage elements like postage stamp cards, Polaroid photo walls, and handwritten diary pages. Features deep brown leather background texture, stamp serrated edges, travel postmark decorations, brass badges, handwritten font titles, transparent tape effects, binding line details, and other authentic texture elements.",
           "techCompanyDesc": "Simulates metal and glass textures of professional tech equipment, showcasing modern tech company corporate image. Includes glowing LED indicators, metal knob controllers, glass panel effects, spotlight product displays, and other skeuomorphic elements.",
           "homeOfficeDesc": "Simulates real office environment digital workspace. Combines wood textures, leather materials, sticky notes, flip calendars, filing cabinet drawers, and other office supplies' physical textures to create a warm and friendly home office atmosphere.",
           "vintageAudioPanelColorScheme": "Primary dark brown leather (#2C2420), black brushed metal (#1A1A1A, #4A4A4A), wood accent (#5D4E37, #3D2E17), dark green display (#0A1A0A), terminal green text (#4ADE80), LED red (#FF0000), LED green (#00FF00), LED blue (#00AAFF), metal knobs (#7A7A7A, #6A6A6A), button red (#C41E3A)",
           "techCompanyColorScheme": "Primary dark gray metal (#2A2A2A), metal gradient (#404040, #1A1A1A), accent gold (#D4AF37), LED green (#00FF41), LED blue (#00D9FF), LED orange (#FFA500), glass effect semi-transparent white (rgba(255,255,255,0.1-0.3))",
           "homeOfficeColorScheme": "Primary wood brown (#8B4513, #A0522D), leather brown (#654321), sticky note yellow (#FFE066), sticky note pink (#FFB3BA), sticky note green (#BAFFC9), sticky note blue (#BAE1FF), LCD green (#00FF41), metal silver (#C0C0C0)",
-          "vintageLibraryColorScheme": "Primary parchment (#F5E6D3), dark leather (#5C4033), brass metal (#B87333), deep brown text (#3E2723), burgundy (#8B4513), oak wood (#8B7355), antique white (#FAEBD7), wax seal colors (red/green/blue/gold)"
+          "vintageLibraryColorScheme": "Primary parchment (#F5E6D3), dark leather (#5C4033), brass metal (#B87333), deep brown text (#3E2723), burgundy (#8B4513), oak wood (#8B7355), antique white (#FAEBD7), wax seal colors (red/green/blue/gold)",
+          "leatherTextureColorScheme": "Primary light brown leather (#8B6F47), dark brown leather (#5D4E37), deep brown edges (#4A3C2F), parchment (#F4E8C1), stamp red (#DC143C), brass gold (#B8860B, #8B6914), deep ink (#2C2416), soft white (#E8D4B0)"
         }
       },
       "flat-design": {
@@ -1337,6 +1340,23 @@ export default {
       "fluent2": {
         "title": "Fluent Design 2.0",
         "description": "Microsoft's latest design system featuring Acrylic and Mica materials, showcasing elegance and practicality for modern enterprise applications."
+      },
+      "typography": {
+        "newspaper": {
+          "title": "Newspaper Typography",
+          "description": "Traditional newspaper layout: drop caps, multi-column layout, serif fonts",
+          "colorScheme": "Deep blue accent, off-white background, dark grey body",
+          "modernEditorial": {
+            "title": "Modern Newspaper Editorial",
+            "description": "Modern digital newspaper style: pure white background, clean layout, optimized for online reading",
+            "colorScheme": "Deep blue (#1E3A8A), off-white (#FAF8F5), dark grey (#374151)"
+          },
+          "vintageRetro": {
+            "title": "Vintage Newspaper",
+            "description": "20th century vintage newspaper style: beige paper, aged texture, coffee stain effects",
+            "colorScheme": "Deep sepia (#8B4513), beige (#F5DEB3), dark brown (#3B2F2F)"
+          }
+        }
       },
       "fluent2-productivity": {
         "title": "Productivity Workbench",
@@ -1423,13 +1443,6 @@ export default {
         "preview": {
           "vacantSpace": "Vacant Space VACANT_SPACE.EXE",
           "digitalMuseum": "Digital Museum Archive"
-        }
-      },      "aurora": {
-        "title": "Aurora",
-        "description": "Aurora-inspired design with flowing gradients and ethereal light effects.",
-        "previews": {
-          "analyticsDashboard": "Aurora Analytics Dashboard",
-          "analyticsDashboardDesc": "Enterprise SaaS analytics dashboard featuring aurora gradients, glass-morphism cards, and dynamic data visualization"
         }
       },
       "clay": {
@@ -1546,6 +1559,16 @@ export default {
       "kawaii-minimal": {
         "title": "Kawaii Minimal",
         "description": "Kawaii minimal design with cute, playful elements and minimalist aesthetics."
+      },
+      "handDrawnSketch": {
+        "title": "Hand-Drawn Sketch",
+        "description": "Create warm and approachable visual experiences through handwritten fonts, SVG filters, and casual lines. Combining sticky notes, grid paper backgrounds, and hand-drawn borders to create a friendly and relaxed design atmosphere.",
+        "previews": {
+          "landingPage": "Hand-Drawn Landing Page",
+          "landingPageDesc": "Complete hand-drawn style landing page featuring sticky note cards, grid paper background, SVG hand-drawn filter effects, hand-drawn borders and icons, playful rotation animations, and more",
+          "components": "Hand-Drawn UI Components",
+          "componentsDesc": "18+ hand-drawn style UI components showcase including buttons, cards, form elements, timeline, drag-and-drop list, loading animations, badges, alerts, tooltips, accordion, table, and complete interactive components"
+        }
       },
       "translucent": {
         "title": "Translucent",
@@ -1691,10 +1714,6 @@ export default {
         "title": "Nature Elements",
         "description": "Simulate dynamic effects of natural phenomena like aurora, waves, particles, liquid, and smoke"
       },
-      "aurora": {
-        "title": "Aurora Flow",
-        "description": "Flowing gradients with horizontal movement and blur blending"
-      },
       "wave": {
         "title": "Wave Effect",
         "description": "SVG paths with Bézier curves and wave animations"
@@ -1822,8 +1841,8 @@ export default {
         "title": "Vintage Newspaper",
         "description": "Print era aesthetics, newspaper typography + paper texture + coffee stains",
         "vintageNewspaper": {
-          "title": "Vintage Newspaper",
-          "description": "Classic newspaper typography conveying print era aesthetics"
+          "title": "Classic Layout",
+          "description": "Traditional newspaper design with multi-column layout, vintage typography, aged paper texture, and classic print aesthetics"
         }
       },
 
