@@ -1,0 +1,23 @@
+/* 簡易 CSS columns 瀑布流：mobile 一欄、md 兩欄、lg 三欄 */
+.masonry {
+  column-count: 1;
+  column-gap: 1.5rem; /* 24px */
+}
+
+@media (min-width: 768px) {
+  .masonry { column-count: 2; }
+}
+
+@media (min-width: 1024px) {
+  .masonry { column-count: 3; }
+}
+
+.masonry-item {
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  -moz-column-break-inside: avoid;
+  display: inline-block;
+  width: 100%;
+  margin: 0 0 1.5rem;
+}
+

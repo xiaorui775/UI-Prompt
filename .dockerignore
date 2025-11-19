@@ -1,0 +1,60 @@
+# 依賴
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 構建輸出
+dist
+build
+.vite
+
+# 測試
+coverage
+.nyc_output
+tests/e2e/test-results
+tests/e2e/playwright-report
+
+# 環境變量
+.env
+.env.local
+.env.*.local
+
+# 編輯器
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# CI/CD
+.github
+
+# 文檔
+*.md
+!README.md
+docs
+
+# 日誌
+logs
+*.log
+
+# 臨時文件
+tmp
+temp
+*.tmp
+
+# 部署文件（已在 Docker 內配置）
+nginx.conf
+docker-compose.yml
+Dockerfile
+.dockerignore
+ecosystem.config.js
+DEPLOYMENT_GUIDE.md

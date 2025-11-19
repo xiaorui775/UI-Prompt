@@ -1,0 +1,475 @@
+import { 
+  materialDesignFullPageHTML,
+  materialDesignFullPageStyles,
+} from './MaterialDesignFullPage'
+
+export const materialDesign = {
+  id: 'core-material-design',
+  title: 'styles.core.material-design.title',
+  description: 'styles.core.material-design.description',
+
+  // ✨ 简短 Prompt（用于 StyleCard 快速理解）
+  customPrompt: {
+    'zh-CN': `核心理念：纸片隐喻 + 层级阴影 + 触摸反馈
+
+设计要点：
+1. 纸片层级系统 — 使用多层级阴影（Elevation 1-24dp）模拟现实世界中的纸张层叠
+2. 触摸涟漪效果 — 点击时产生从触点扩散的圆形波纹，提供即时视觉反馈
+3. 大胆色彩体系 — Primary、Secondary、Accent 三级色彩系统，创造品牌识别度
+4. FAB 浮动按钮 — 圆形悬浮按钮作为主要操作入口，具有最高层级的阴影
+5. 卡片式布局 — 使用白色卡片承载内容，每个卡片是独立的纸片单元`,
+    'en-US': `Core Concept: Paper metaphor + Elevation shadows + Touch feedback
+
+Design Points:
+1. Paper elevation system — Use multi-level shadows (Elevation 1-24dp) to simulate real-world paper stacking
+2. Touch ripple effect — Circular wave expanding from touch point for instant visual feedback
+3. Bold color system — Primary, Secondary, Accent three-tier color system for brand identity
+4. FAB floating button — Circular floating button as primary action entry with highest elevation shadow
+5. Card-based layout — Use white cards to hold content, each card is an independent paper unit`
+  },
+
+  // ✨ 風格 Prompt（用于 PreviewModal HTML 预览）
+  stylePrompt: {
+    'zh-CN': `角色：你是一位专精于 Material Design 的 UI 设计师，深刻理解 Google 的设计语言和纸片隐喻哲学。
+
+场景定位：
+为现代应用程序打造符合 Material Design 规范的界面，通过纸片隐喻、层级阴影和触摸反馈创造直观的用户体验。目标用户为追求现代化、高效率的应用使用者，需要在视觉上体现清晰的层次结构和即时的交互反馈。界面要求遵循 Google 的设计规范，让用户能够理解元素的空间关系和可操作性。这是一个强调物理隐喻和有意义动效的设计系统，需要在数字界面中模拟真实世界的纸张叠放规则。
+
+视觉设计理念：
+采用纸片隐喻的设计语言，将界面元素想象为不同高度的纸张层叠在一起。设计强调通过阴影深度来表达元素的重要性和层级关系，Z轴高度越高的元素拥有越深的阴影。整体风格追求大胆鲜明的色彩表达，使用高饱和度的主色调建立品牌识别，同时保持清晰的信息层次。界面运用三级色彩系统，包含主色、次要色和强调色，营造出现代、活力、专业的视觉氛围。所有交互都强调有意义的动效，让用户理解操作的因果关系。
+
+材质与质感：
+所有元素都模拟真实世界中的纸张材质，具有明确的边界和厚度感。卡片元素呈现为白色的纸片，通过多层阴影系统营造出悬浮在背景之上的立体感。阴影分为六个标准层级，从最轻微的表面阴影到最深重的对话框阴影，每个层级都有精确的扩散半径和透明度。浮动操作按钮采用圆形设计，具有最高层级的阴影，如同漂浮在界面最上方的纸片。按钮表面使用大胆的纯色填充，鼠标悬停时会产生细微的阴影加深，点击时从触点向外扩散圆形涟漪波纹，模拟水波纹效果。导航栏和工具栏通常具有中等层级的阴影，表明它们位于内容之上。整体色彩使用高对比度的鲜明色调，主色调为饱和度较高的紫色或蓝色，次要色为青色，配以功能性的红色、绿色、橙色。
+
+交互体验：
+所有交互都强调即时的视觉反馈和有意义的动效。按钮点击时产生涟漪动画，从触摸点向外扩散的圆形波纹，持续时间约三百至六百毫秒，颜色为半透明的主色调。卡片悬停时阴影会轻微加深，从浅层级过渡到深层级，暗示元素可以被操作。浮动操作按钮始终保持最高的阴影层级，吸引用户注意力到主要操作上。页面切换使用共享元素过渡，相同元素在不同页面间平滑移动和变形。对话框和底部动作表从屏幕边缘滑入，伴随阴影的逐渐加深。所有动画都使用标准的缓动曲线，快速进入、缓慢退出，营造自然流畅的运动感。文本输入框在获得焦点时下划线会扩展并改变颜色，提供明确的状态反馈。
+
+氛围营造：
+界面营造出现代科技应用的专业氛围，充满活力而不失严谨。大胆的主色调占据导航栏、主要按钮等关键位置，建立强烈的品牌识别度。白色卡片承载主要内容，通过阴影层级清晰表达信息架构。浮动操作按钮使用鲜艳的强调色，圆形设计配以最深的阴影，强力引导用户完成核心操作。文字使用深灰色而非纯黑，减少视觉疲劳，同时保持足够的对比度。次要文字使用更浅的灰色，建立清晰的文字层次。功能色遵循通用语义，错误用红色、成功用绿色、警告用橙色、信息用蓝色。图标使用简洁的几何形状，统一的视觉风格。响应式网格系统确保内容在不同屏幕尺寸上都保持良好的对齐和间距。整体设计遵循八像素网格系统，所有尺寸和间距都是八的倍数，确保视觉的一致性和规范性。`,
+
+    'en-US': `Role: You are a UI designer specializing in Material Design, deeply understanding Google's design language and paper metaphor philosophy.
+
+Scenario Positioning:
+Create interfaces conforming to Material Design specifications for modern applications, creating intuitive user experiences through paper metaphor, elevation shadows, and touch feedback. Target users are those seeking modern, efficient application usage who need interfaces that visually reflect clear hierarchical structure and immediate interaction feedback. The interface must follow Google's design specifications, allowing users to understand spatial relationships and operability of elements. This is a design system emphasizing physical metaphor and meaningful motion, needing to simulate real-world paper stacking rules in digital interfaces.
+
+Visual Design Philosophy:
+Adopt paper metaphor design language, imagining interface elements as paper sheets stacked at different heights. Design emphasizes using shadow depth to express element importance and hierarchical relationships, with higher Z-axis elements having deeper shadows. The overall style pursues bold vivid color expression, using high-saturation primary colors to establish brand identity while maintaining clear information hierarchy. The interface employs a three-tier color system including primary, secondary, and accent colors, creating modern, vital, professional visual atmosphere. All interactions emphasize meaningful motion, helping users understand cause-effect relationships of operations.
+
+Materials & Textures:
+All elements simulate real-world paper materials with clear boundaries and thickness perception. Card elements present as white paper sheets, creating floating three-dimensional feel above background through multi-layer shadow systems. Shadows are divided into six standard elevations, from lightest surface shadows to deepest dialog shadows, each level having precise diffusion radius and transparency. Floating action buttons adopt circular design with highest elevation shadows, like paper floating at topmost interface layer. Button surfaces use bold solid color fills, showing subtle shadow deepening on mouse hover, expanding circular ripple waves from touch point on click, simulating water ripple effects. Navigation bars and toolbars typically have medium elevation shadows, indicating their position above content. Overall colors use high-contrast vivid tones, primary colors being highly saturated purple or blue, secondary colors cyan, with functional red, green, orange.
+
+Interaction Experience:
+All interactions emphasize immediate visual feedback and meaningful motion. Button clicks produce ripple animations, circular waves expanding outward from touch points, lasting about three hundred to six hundred milliseconds, with semi-transparent primary color. Cards show slightly deepened shadows on hover, transitioning from shallow to deep elevations, hinting elements can be operated. Floating action buttons always maintain highest shadow elevation, attracting user attention to primary actions. Page transitions use shared element transitions, same elements smoothly moving and transforming between different pages. Dialogs and bottom sheets slide in from screen edges, accompanied by gradually deepening shadows. All animations use standard easing curves, fast entry and slow exit, creating natural fluid motion feel. Text input boxes show expanding and color-changing underlines when focused, providing clear state feedback.
+
+Atmosphere Creation:
+The interface creates the professional atmosphere of modern tech applications, full of vitality without losing rigor. Bold primary colors occupy key positions like navigation bars and primary buttons, establishing strong brand identity. White cards carry main content, clearly expressing information architecture through shadow elevations. Floating action buttons use vivid accent colors, circular design with deepest shadows, strongly guiding users to complete core operations. Text uses dark gray rather than pure black, reducing visual fatigue while maintaining sufficient contrast. Secondary text uses lighter gray, establishing clear text hierarchy. Functional colors follow universal semantics: errors in red, success in green, warnings in orange, information in blue. Icons use simple geometric shapes with unified visual style. Responsive grid systems ensure content maintains good alignment and spacing across different screen sizes. Overall design follows eight-pixel grid system, all sizes and spacing being multiples of eight, ensuring visual consistency and standardization.`
+  },
+
+1. **主色调（Primary）**：
+   - 主紫色: #6200ee
+   - 深紫色: #3700b3
+   - 浅紫色: #bb86fc
+
+2. **次要色（Secondary / Accent）**：
+   - 青色: #03dac6
+   - 深青色: #018786
+   - 浅青色: #03dac5
+
+3. **功能色**：
+   - 错误红: #b00020, #cf6679
+   - 成功绿: #4caf50
+   - 警告橙: #ff9800
+
+4. **中性色**：
+   - 背景白: #ffffff
+   - 表面白: #ffffff
+   - 深色背景: #121212
+   - 文字黑: rgba(0,0,0,0.87)
+   - 次要文字: rgba(0,0,0,0.60)
+   - 禁用文字: rgba(0,0,0,0.38)
+
+核心设计要求：
+
+1. **层级阴影系统（Elevation）**：
+   - 1dp: box-shadow: 0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12), 0 1px 3px 0 rgba(0,0,0,0.20);
+   - 2dp: box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.20);
+   - 4dp: box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.20);
+   - 8dp: box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.20);
+   - 16dp: box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.20);
+   - 24dp: box-shadow: 0 24px 38px 3px rgba(0,0,0,0.14), 0 9px 46px 8px rgba(0,0,0,0.12), 0 11px 15px -7px rgba(0,0,0,0.20);
+
+2. **触摸涟漪效果（Ripple）**：
+   - 点击时从触点扩散的圆形波纹
+   - 使用 CSS transition 或 JavaScript 实现
+   - 颜色: rgba(主色, 0.1) - rgba(主色, 0.3)
+   - 动画时长: 300-600ms
+
+3. **大胆色彩应用**：
+   - Primary 色用于主要操作和品牌元素
+   - Secondary 色用于次要操作和点缀
+   - 高对比度: 确保文字可读性（WCAG AA 标准）
+   - 色彩层级: 深色 -> 中间色 -> 浅色
+
+4. **FAB 浮动按钮**：
+   - 圆形按钮: border-radius: 50%; width: 56px; height: 56px;
+   - 最高阴影层级: 使用 16dp 或 24dp 阴影
+   - 颜色: 使用 Primary 或 Secondary 色
+   - 图标: 24x24px，白色或深色
+   - 位置: 固定在右下角（margin: 16px 或 24px）
+
+5. **卡片设计**：
+   - 白色背景: background: #ffffff;
+   - 圆角: border-radius: 4px;
+   - 阴影: 使用 2dp 或 4dp Elevation
+   - 内边距: padding: 16px 或 24px;
+   - 悬停效果: 阴影提升至 8dp
+
+6. **排版系统**：
+   - 标题: Roboto, 24px-34px, font-weight: 400-500
+   - 正文: Roboto, 14px-16px, font-weight: 400
+   - 按钮文字: Roboto, 14px, font-weight: 500, uppercase
+   - 行高: 1.5-1.75
+   - 字母间距: 0.01em - 0.02em
+
+技术实现：
+
+1. **Material Design 卡片**：
+\`\`\`css
+.md-card {
+  background: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),
+              0 3px 1px -2px rgba(0,0,0,0.12),
+              0 1px 5px 0 rgba(0,0,0,0.20);
+  padding: 16px;
+  transition: box-shadow 280ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.md-card:hover {
+  box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14),
+              0 3px 14px 2px rgba(0,0,0,0.12),
+              0 5px 5px -3px rgba(0,0,0,0.20);
+}
+\`\`\`
+
+2. **FAB 浮动按钮**：
+\`\`\`css
+.md-fab {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #6200ee;
+  color: #ffffff;
+  box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14),
+              0 3px 14px 2px rgba(0,0,0,0.12),
+              0 5px 5px -3px rgba(0,0,0,0.20);
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 280ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.md-fab:hover {
+  box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14),
+              0 6px 30px 5px rgba(0,0,0,0.12),
+              0 8px 10px -5px rgba(0,0,0,0.20);
+  transform: scale(1.05);
+}
+\`\`\`
+
+3. **触摸涟漪效果**：
+\`\`\`css
+.md-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.md-ripple::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(98, 0, 238, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.md-ripple:active::after {
+  width: 300px;
+  height: 300px;
+}
+\`\`\`
+
+4. **按钮样式**：
+\`\`\`css
+.md-button {
+  padding: 8px 24px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: all 280ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.md-button-primary {
+  background: #6200ee;
+  color: #ffffff;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),
+              0 3px 1px -2px rgba(0,0,0,0.12),
+              0 1px 5px 0 rgba(0,0,0,0.20);
+}
+
+.md-button-primary:hover {
+  box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14),
+              0 1px 10px 0 rgba(0,0,0,0.12),
+              0 2px 4px -1px rgba(0,0,0,0.20);
+}
+\`\`\`
+
+交互规范：
+
+1. **动效时长**：
+   - 快速: 100ms - 200ms（小元素）
+   - 中等: 280ms - 300ms（常规元素）
+   - 慢速: 400ms - 600ms（大元素）
+   - 缓动函数: cubic-bezier(0.4, 0.0, 0.2, 1)
+
+2. **响应式网格**：
+   - 手机: 4 列，16px 边距
+   - 平板: 8 列，24px 边距
+   - 桌面: 12 列，24px 边距
+   - 栏间距: 16px 或 24px
+
+3. **间距系统**：
+   - 基础单位: 4px 或 8px
+   - 常用间距: 8px, 16px, 24px, 32px, 48px, 64px
+
+重要提示：
+- 遵循 Google Material Design Guidelines（material.io/design）
+- 保持一致的层级阴影系统
+- 确保触摸目标至少 48x48dp
+- 使用有意义的动效引导用户注意力
+- 色彩对比度符合 WCAG AA 标准（文字至少 4.5:1）`,
+    'en-US': `Role: You are a UI designer specialized in Material Design, with deep understanding of Google's design language and paper metaphor philosophy.
+
+Goal: Use TailwindCSS to create Material Design compliant interfaces through elevation shadows, touch feedback, and bold colors for modern, intuitive user experiences.
+
+Design Philosophy:
+- Core Concept: Paper metaphor + Elevation shadows + Touch feedback + Meaningful motion
+- Visual Language: Bold colors + Clear hierarchy + Responsive grids + Iconography
+- Emotional Expression: Modern + Intuitive + Energetic + Professional
+
+Color Scheme (Material Design Standard Palette):
+
+1. **Primary Colors**:
+   - Primary Purple: #6200ee
+   - Dark Purple: #3700b3
+   - Light Purple: #bb86fc
+
+2. **Secondary / Accent Colors**:
+   - Teal: #03dac6
+   - Dark Teal: #018786
+   - Light Teal: #03dac5
+
+3. **Functional Colors**:
+   - Error Red: #b00020, #cf6679
+   - Success Green: #4caf50
+   - Warning Orange: #ff9800
+
+4. **Neutral Colors**:
+   - Background White: #ffffff
+   - Surface White: #ffffff
+   - Dark Background: #121212
+   - Text Black: rgba(0,0,0,0.87)
+   - Secondary Text: rgba(0,0,0,0.60)
+   - Disabled Text: rgba(0,0,0,0.38)
+
+Core Design Requirements:
+
+1. **Elevation Shadow System**:
+   - 1dp: box-shadow: 0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12), 0 1px 3px 0 rgba(0,0,0,0.20);
+   - 2dp: box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.20);
+   - 4dp: box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.20);
+   - 8dp: box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.20);
+   - 16dp: box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.20);
+   - 24dp: box-shadow: 0 24px 38px 3px rgba(0,0,0,0.14), 0 9px 46px 8px rgba(0,0,0,0.12), 0 11px 15px -7px rgba(0,0,0,0.20);
+
+2. **Touch Ripple Effect**:
+   - Circular wave expanding from touch point
+   - Use CSS transition or JavaScript implementation
+   - Color: rgba(primary, 0.1) - rgba(primary, 0.3)
+   - Animation duration: 300-600ms
+
+3. **Bold Color Application**:
+   - Primary color for main actions and brand elements
+   - Secondary color for secondary actions and accents
+   - High contrast: Ensure text readability (WCAG AA standard)
+   - Color hierarchy: Dark -> Medium -> Light
+
+4. **FAB Floating Button**:
+   - Circular button: border-radius: 50%; width: 56px; height: 56px;
+   - Highest shadow level: Use 16dp or 24dp shadow
+   - Color: Use Primary or Secondary color
+   - Icon: 24x24px, white or dark
+   - Position: Fixed bottom-right (margin: 16px or 24px)
+
+5. **Card Design**:
+   - White background: background: #ffffff;
+   - Border radius: border-radius: 4px;
+   - Shadow: Use 2dp or 4dp Elevation
+   - Padding: padding: 16px or 24px;
+   - Hover effect: Shadow elevation to 8dp
+
+6. **Typography System**:
+   - Headline: Roboto, 24px-34px, font-weight: 400-500
+   - Body: Roboto, 14px-16px, font-weight: 400
+   - Button text: Roboto, 14px, font-weight: 500, uppercase
+   - Line height: 1.5-1.75
+   - Letter spacing: 0.01em - 0.02em
+
+Technical Implementation:
+
+1. **Material Design Card**:
+\`\`\`css
+.md-card {
+  background: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),
+              0 3px 1px -2px rgba(0,0,0,0.12),
+              0 1px 5px 0 rgba(0,0,0,0.20);
+  padding: 16px;
+  transition: box-shadow 280ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.md-card:hover {
+  box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14),
+              0 3px 14px 2px rgba(0,0,0,0.12),
+              0 5px 5px -3px rgba(0,0,0,0.20);
+}
+\`\`\`
+
+2. **FAB Floating Button**:
+\`\`\`css
+.md-fab {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #6200ee;
+  color: #ffffff;
+  box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14),
+              0 3px 14px 2px rgba(0,0,0,0.12),
+              0 5px 5px -3px rgba(0,0,0,0.20);
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 280ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.md-fab:hover {
+  box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14),
+              0 6px 30px 5px rgba(0,0,0,0.12),
+              0 8px 10px -5px rgba(0,0,0,0.20);
+  transform: scale(1.05);
+}
+\`\`\`
+
+3. **Touch Ripple Effect**:
+\`\`\`css
+.md-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.md-ripple::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(98, 0, 238, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.md-ripple:active::after {
+  width: 300px;
+  height: 300px;
+}
+\`\`\`
+
+4. **Button Styles**:
+\`\`\`css
+.md-button {
+  padding: 8px 24px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: all 280ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.md-button-primary {
+  background: #6200ee;
+  color: #ffffff;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),
+              0 3px 1px -2px rgba(0,0,0,0.12),
+              0 1px 5px 0 rgba(0,0,0,0.20);
+}
+
+.md-button-primary:hover {
+  box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14),
+              0 1px 10px 0 rgba(0,0,0,0.12),
+              0 2px 4px -1px rgba(0,0,0,0.20);
+}
+\`\`\`
+
+Interaction Guidelines:
+
+1. **Animation Duration**:
+   - Fast: 100ms - 200ms (small elements)
+   - Medium: 280ms - 300ms (regular elements)
+   - Slow: 400ms - 600ms (large elements)
+   - Easing: cubic-bezier(0.4, 0.0, 0.2, 1)
+
+2. **Responsive Grid**:
+   - Phone: 4 columns, 16px margins
+   - Tablet: 8 columns, 24px margins
+   - Desktop: 12 columns, 24px margins
+   - Gutter: 16px or 24px
+
+3. **Spacing System**:
+   - Base unit: 4px or 8px
+   - Common spacing: 8px, 16px, 24px, 32px, 48px, 64px
+
+Important Notes:
+- Follow Google Material Design Guidelines (material.io/design)
+- Maintain consistent elevation shadow system
+- Ensure touch targets at least 48x48dp
+- Use meaningful motion to guide user attention
+- Color contrast meets WCAG AA standard (text at least 4.5:1)`
+  },
+
+  fullPageHTML: materialDesignFullPageHTML,
+  fullPageStyles: materialDesignFullPageStyles,
+}

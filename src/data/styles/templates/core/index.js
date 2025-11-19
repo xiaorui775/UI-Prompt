@@ -1,0 +1,132 @@
+// Core Templates Aggregator
+// 核心模板聚合器 - 統一匯出所有 core templates
+
+// Import all core templates
+import {
+  skeuomorphismTemplates,
+  name as skeuomorphismName,
+  demoUI as skeuomorphismDemoUI,
+  customStyles as skeuomorphismCustomStyles,
+  description as skeuomorphismDescription,
+  customPrompt as skeuomorphismCustomPrompt,
+} from './skeuomorphism';
+
+import {
+  flatDesignTemplates,
+  name as flatDesignName,
+  demoUI as flatDesignDemoUI,
+  customStyles as flatDesignCustomStyles,
+  description as flatDesignDescription,
+  customPrompt as flatDesignCustomPrompt,
+} from './flatDesign';
+
+import {
+  materialDesignTemplates,
+  name as materialDesignName,
+  demoUI as materialDesignDemoUI,
+  customStyles as materialDesignCustomStyles,
+  description as materialDesignDescription,
+  customPrompt as materialDesignCustomPrompt,
+} from './materialDesign';
+
+import {
+  minimalismTemplates,
+  name as minimalismName,
+  demoUI as minimalismDemoUI,
+  customStyles as minimalismCustomStyles,
+  description as minimalismDescription,
+  customPrompt as minimalismCustomPrompt,
+} from './minimalism';
+
+import {
+  fluent2Templates,
+  title as fluent2Name,
+  demoUI as fluent2DemoUI,
+  customStyles as fluent2CustomStyles,
+  description as fluent2Description,
+} from './fluent2';
+
+// typography 已移除 - 重複顯示
+
+// ✨ 創建核心模板配置陣列
+export const coreTemplateConfigs = [
+  {
+    id: 'core-skeuomorphism',
+    name: skeuomorphismName,
+    demoUI: skeuomorphismDemoUI,
+    customStyles: skeuomorphismCustomStyles,
+    description: skeuomorphismDescription,
+    customPrompt: skeuomorphismCustomPrompt,
+    templates: skeuomorphismTemplates,
+  },
+  {
+    id: 'core-flat',
+    name: flatDesignName,
+    demoUI: flatDesignDemoUI,
+    customStyles: flatDesignCustomStyles,
+    description: flatDesignDescription,
+    customPrompt: flatDesignCustomPrompt,
+    templates: flatDesignTemplates,
+  },
+  {
+    id: 'core-material',
+    name: materialDesignName,
+    demoUI: materialDesignDemoUI,
+    customStyles: materialDesignCustomStyles,
+    description: materialDesignDescription,
+    customPrompt: materialDesignCustomPrompt,
+    templates: materialDesignTemplates,
+  },
+  {
+    id: 'core-minimalism',
+    name: minimalismName,
+    demoUI: minimalismDemoUI,
+    customStyles: minimalismCustomStyles,
+    description: minimalismDescription,
+    customPrompt: minimalismCustomPrompt,
+    templates: minimalismTemplates,
+  },
+  {
+    id: 'core-fluent2',
+    name: fluent2Name,
+    demoUI: fluent2DemoUI,
+    customStyles: fluent2CustomStyles,
+    description: fluent2Description,
+    templates: fluent2Templates,
+  },
+  // core-typography 已移除 - 重複顯示
+];
+
+// 保持向後兼容：單獨匯出所有變數（供其他地方直接使用）
+export {
+  skeuomorphismTemplates,
+  skeuomorphismName,
+  skeuomorphismDemoUI,
+  skeuomorphismCustomStyles,
+  skeuomorphismDescription,
+  skeuomorphismCustomPrompt,
+  flatDesignTemplates,
+  flatDesignName,
+  flatDesignDemoUI,
+  flatDesignCustomStyles,
+  flatDesignDescription,
+  flatDesignCustomPrompt,
+  materialDesignTemplates,
+  materialDesignName,
+  materialDesignDemoUI,
+  materialDesignCustomStyles,
+  materialDesignDescription,
+  materialDesignCustomPrompt,
+  minimalismTemplates,
+  minimalismName,
+  minimalismDemoUI,
+  minimalismCustomStyles,
+  minimalismDescription,
+  minimalismCustomPrompt,
+  fluent2Templates,
+  fluent2Name,
+  fluent2DemoUI,
+  fluent2CustomStyles,
+  fluent2Description,
+  // typography 已移除 - 重複顯示
+};

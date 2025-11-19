@@ -1,0 +1,32 @@
+/* VariantGrid Masonry 佈局樣式 */
+
+.variants-masonry-grid {
+  display: flex;
+  margin-left: -24px; /* gutter size offset */
+  width: auto;
+}
+
+.variants-masonry-grid-column {
+  padding-left: 24px; /* gutter size */
+  background-clip: padding-box;
+}
+
+/* 卡片之間的垂直間距 */
+.variants-masonry-grid-column > div {
+  margin-bottom: 24px;
+}
+
+/* 響應式調整 */
+@media (max-width: 768px) {
+  .variants-masonry-grid {
+    margin-left: -16px;
+  }
+
+  .variants-masonry-grid-column {
+    padding-left: 16px;
+  }
+
+  .variants-masonry-grid-column > div {
+    margin-bottom: 16px;
+  }
+}
