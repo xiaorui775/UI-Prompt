@@ -2,6 +2,7 @@
 // 瑞士设计 - 工作室模板
 
 import { swissDesignFullPageHTML, swissDesignFullPageStyles } from './swissDesignFullPage';
+import { fullPageCustomPrompt } from './fullPageCustomPrompt';
 
 export const swissDesign = {
     id: 'retro-swiss-design',
@@ -21,6 +22,7 @@ export const swissDesign = {
     demoBoxClass: 'bg-white border border-gray-200',
     fullPageHTML: swissDesignFullPageHTML,
     fullPageStyles: swissDesignFullPageStyles,
+    fullPageCustomPrompt,
     colorScheme: {
       'zh-CN': '瑞士红 (#E30613)、纯黑 (#000000)、纯白 (#FFFFFF)、中性灰 (#808080)',
       'en-US': 'Swiss red (#E30613), pure black (#000000), pure white (#FFFFFF), neutral gray (#808080)'

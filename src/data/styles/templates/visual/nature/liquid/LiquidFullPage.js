@@ -1,298 +1,221 @@
-// LiquidFullPage.js - Full page preview for Liquid Motion style
-// Digital Ocean Dashboard Theme
+// LiquidFullPage.js - Immersive Ocean Dashboard (7+ Animation Layers)
+// Updated with rich ocean physics animations
 
 export const fullPageHTML = `
 <div class="liquid-page">
-  <!-- Liquid Background Layers -->
-  <div class="liquid-bg-container">
-    <div class="liquid-bg liquid-bg-1"></div>
-    <div class="liquid-bg liquid-bg-2"></div>
-    <div class="liquid-bg liquid-bg-3"></div>
-    <div class="liquid-bg liquid-bg-4"></div>
+  <!-- ========================================
+       LAYER 1: Deep Ocean Current Blobs (30s)
+       ======================================== -->
+  <div class="ocean-blob-deep ocean-blob-deep-1"></div>
+  <div class="ocean-blob-deep ocean-blob-deep-2"></div>
+
+  <!-- ========================================
+       LAYER 2: Mid-Layer Water Mass (20s)
+       ======================================== -->
+  <div class="ocean-blob-mid ocean-blob-mid-1"></div>
+  <div class="ocean-blob-mid ocean-blob-mid-2"></div>
+  <div class="ocean-blob-mid ocean-blob-mid-3"></div>
+
+  <!-- ========================================
+       LAYER 3: Surface Surge (12s)
+       ======================================== -->
+  <div class="ocean-blob-surface ocean-blob-surface-1"></div>
+  <div class="ocean-blob-surface ocean-blob-surface-2"></div>
+
+  <!-- ========================================
+       LAYER 4: Rising Bubbles (22 particles)
+       ======================================== -->
+  <div class="bubble" style="left: 5%; --bubble-size: 8px; --bubble-duration: 9s; --bubble-delay: 0s; --bubble-drift: 15px;"></div>
+  <div class="bubble" style="left: 12%; --bubble-size: 6px; --bubble-duration: 7s; --bubble-delay: 1s; --bubble-drift: -20px;"></div>
+  <div class="bubble" style="left: 18%; --bubble-size: 10px; --bubble-duration: 11s; --bubble-delay: 0.5s; --bubble-drift: 25px;"></div>
+  <div class="bubble" style="left: 25%; --bubble-size: 5px; --bubble-duration: 8s; --bubble-delay: 2s; --bubble-drift: -10px;"></div>
+  <div class="bubble" style="left: 32%; --bubble-size: 7px; --bubble-duration: 10s; --bubble-delay: 0.3s; --bubble-drift: 18px;"></div>
+  <div class="bubble" style="left: 38%; --bubble-size: 9px; --bubble-duration: 12s; --bubble-delay: 1.5s; --bubble-drift: -22px;"></div>
+  <div class="bubble" style="left: 45%; --bubble-size: 6px; --bubble-duration: 8.5s; --bubble-delay: 0.8s; --bubble-drift: 12px;"></div>
+  <div class="bubble" style="left: 52%; --bubble-size: 8px; --bubble-duration: 9.5s; --bubble-delay: 2.2s; --bubble-drift: -15px;"></div>
+  <div class="bubble" style="left: 58%; --bubble-size: 7px; --bubble-duration: 10.5s; --bubble-delay: 0.2s; --bubble-drift: 20px;"></div>
+  <div class="bubble" style="left: 65%; --bubble-size: 5px; --bubble-duration: 7.5s; --bubble-delay: 1.8s; --bubble-drift: -18px;"></div>
+  <div class="bubble" style="left: 72%; --bubble-size: 9px; --bubble-duration: 11.5s; --bubble-delay: 0.6s; --bubble-drift: 16px;"></div>
+  <div class="bubble" style="left: 78%; --bubble-size: 6px; --bubble-duration: 8.8s; --bubble-delay: 2.5s; --bubble-drift: -12px;"></div>
+  <div class="bubble" style="left: 85%; --bubble-size: 10px; --bubble-duration: 12.5s; --bubble-delay: 0.9s; --bubble-drift: 22px;"></div>
+  <div class="bubble" style="left: 92%; --bubble-size: 7px; --bubble-duration: 9.2s; --bubble-delay: 1.2s; --bubble-drift: -25px;"></div>
+  <div class="bubble" style="left: 8%; --bubble-size: 5px; --bubble-duration: 7.8s; --bubble-delay: 3s; --bubble-drift: 14px;"></div>
+  <div class="bubble" style="left: 15%; --bubble-size: 8px; --bubble-duration: 10.8s; --bubble-delay: 0.4s; --bubble-drift: -16px;"></div>
+  <div class="bubble" style="left: 22%; --bubble-size: 6px; --bubble-duration: 8.3s; --bubble-delay: 2.8s; --bubble-drift: 19px;"></div>
+  <div class="bubble" style="left: 35%; --bubble-size: 9px; --bubble-duration: 11.3s; --bubble-delay: 0.7s; --bubble-drift: -21px;"></div>
+  <div class="bubble" style="left: 48%; --bubble-size: 7px; --bubble-duration: 9.8s; --bubble-delay: 2.3s; --bubble-drift: 17px;"></div>
+  <div class="bubble" style="left: 62%; --bubble-size: 5px; --bubble-duration: 7.3s; --bubble-delay: 1.6s; --bubble-drift: -13px;"></div>
+  <div class="bubble" style="left: 75%; --bubble-size: 8px; --bubble-duration: 10.3s; --bubble-delay: 3.2s; --bubble-drift: 23px;"></div>
+  <div class="bubble" style="left: 88%; --bubble-size: 6px; --bubble-duration: 8.6s; --bubble-delay: 1.1s; --bubble-drift: -19px;"></div>
+
+  <!-- ========================================
+       LAYER 5: Bioluminescent Plankton (12 points)
+       ======================================== -->
+  <div class="plankton" style="top: 15%; left: 10%; --plankton-size: 4px; --plankton-duration: 16s; --plankton-delay: 0s;"></div>
+  <div class="plankton" style="top: 25%; left: 30%; --plankton-size: 3px; --plankton-duration: 14s; --plankton-delay: 2s;"></div>
+  <div class="plankton" style="top: 40%; left: 20%; --plankton-size: 5px; --plankton-duration: 18s; --plankton-delay: 1s;"></div>
+  <div class="plankton" style="top: 55%; left: 50%; --plankton-size: 4px; --plankton-duration: 15s; --plankton-delay: 3s;"></div>
+  <div class="plankton" style="top: 20%; left: 70%; --plankton-size: 3px; --plankton-duration: 17s; --plankton-delay: 0.5s;"></div>
+  <div class="plankton" style="top: 60%; left: 80%; --plankton-size: 5px; --plankton-duration: 16.5s; --plankton-delay: 2.5s;"></div>
+  <div class="plankton" style="top: 35%; left: 85%; --plankton-size: 4px; --plankton-duration: 14.5s; --plankton-delay: 1.5s;"></div>
+  <div class="plankton" style="top: 70%; left: 15%; --plankton-size: 3px; --plankton-duration: 19s; --plankton-delay: 3.5s;"></div>
+  <div class="plankton" style="top: 45%; left: 40%; --plankton-size: 5px; --plankton-duration: 15.5s; --plankton-delay: 0.8s;"></div>
+  <div class="plankton" style="top: 80%; left: 60%; --plankton-size: 4px; --plankton-duration: 17.5s; --plankton-delay: 2.8s;"></div>
+  <div class="plankton" style="top: 10%; left: 45%; --plankton-size: 3px; --plankton-duration: 14.8s; --plankton-delay: 1.8s;"></div>
+  <div class="plankton" style="top: 65%; left: 25%; --plankton-size: 5px; --plankton-duration: 18.5s; --plankton-delay: 3.2s;"></div>
+
+  <!-- ========================================
+       LAYER 6: Light Refraction Beams (5 beams)
+       ======================================== -->
+  <div class="light-beam" style="left: 10%; --beam-width: 80px; --beam-duration: 28s; --beam-delay: 0s;"></div>
+  <div class="light-beam" style="left: 30%; --beam-width: 100px; --beam-duration: 23s; --beam-delay: -5s;"></div>
+  <div class="light-beam" style="left: 50%; --beam-width: 90px; --beam-duration: 26s; --beam-delay: -10s;"></div>
+  <div class="light-beam" style="left: 70%; --beam-width: 110px; --beam-duration: 24s; --beam-delay: -15s;"></div>
+  <div class="light-beam" style="left: 85%; --beam-width: 85px; --beam-duration: 27s; --beam-delay: -20s;"></div>
+
+  <!-- ========================================
+       LAYER 7: Auto Ripples (3 ripples)
+       ======================================== -->
+  <div class="auto-ripple" style="top: 30%; left: 20%; animation-delay: 0s;"></div>
+  <div class="auto-ripple" style="top: 60%; left: 70%; animation-delay: -5s;"></div>
+  <div class="auto-ripple" style="top: 45%; left: 50%; animation-delay: -3s;"></div>
+
+  <!-- ========================================
+       LAYER 8: Seaweed (Bottom decoration, 8 plants)
+       ======================================== -->
+  <div class="seaweed" style="left: 5%; --seaweed-width: 18px; --seaweed-height: 180px; --seaweed-duration: 20s; --seaweed-delay: 0s;"></div>
+  <div class="seaweed" style="left: 12%; --seaweed-width: 22px; --seaweed-height: 150px; --seaweed-duration: 17s; --seaweed-delay: -3s;"></div>
+  <div class="seaweed" style="left: 25%; --seaweed-width: 16px; --seaweed-height: 200px; --seaweed-duration: 22s; --seaweed-delay: -1s;"></div>
+  <div class="seaweed" style="left: 35%; --seaweed-width: 20px; --seaweed-height: 170px; --seaweed-duration: 19s; --seaweed-delay: -5s;"></div>
+  <div class="seaweed" style="left: 50%; --seaweed-width: 24px; --seaweed-height: 160px; --seaweed-duration: 18s; --seaweed-delay: -2s;"></div>
+  <div class="seaweed" style="left: 65%; --seaweed-width: 19px; --seaweed-height: 190px; --seaweed-duration: 21s; --seaweed-delay: -4s;"></div>
+  <div class="seaweed" style="left: 78%; --seaweed-width: 21px; --seaweed-height: 155px; --seaweed-duration: 18.5s; --seaweed-delay: -6s;"></div>
+  <div class="seaweed" style="left: 88%; --seaweed-width: 17px; --seaweed-height: 175px; --seaweed-duration: 20.5s; --seaweed-delay: -1.5s;"></div>
+
+  <!-- ========================================
+       MAIN CONTENT (No Navigation Bar)
+       ======================================== -->
+  <div class="ocean-content">
+
+    <!-- Top Stats Cards -->
+    <div class="stats-row">
+      <div class="glass-card floating-card" style="animation-delay: 0s;">
+        <div class="stat-value">27.5°C</div>
+        <div class="stat-label">Ocean Temperature</div>
+        <div class="liquid-progress">
+          <div class="liquid-progress-fill" style="width: 75%;"></div>
+        </div>
+      </div>
+
+      <div class="glass-card floating-card" style="animation-delay: -2s;">
+        <div class="stat-value">35.2‰</div>
+        <div class="stat-label">Salinity Index</div>
+        <div class="liquid-progress">
+          <div class="liquid-progress-fill" style="width: 88%;"></div>
+        </div>
+      </div>
+
+      <div class="glass-card floating-card" style="animation-delay: -4s;">
+        <div class="stat-value">2.3 m/s</div>
+        <div class="stat-label">Current Speed</div>
+        <div class="liquid-progress">
+          <div class="liquid-progress-fill" style="width: 62%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Central Hero Section -->
+    <div class="hero-section">
+      <div class="glass-card hero-card">
+        <h1 class="ocean-title">Ocean Analytics Center</h1>
+        <p class="ocean-subtitle">
+          Real-time monitoring of ocean conditions. Explore temperature patterns,
+          salinity levels, and current dynamics across global marine environments.
+        </p>
+        <div class="hero-actions">
+          <button class="liquid-button">Explore Data</button>
+          <a href="javascript:void(0)" style="text-decoration: none;">
+            <button class="liquid-button liquid-button-outline">View Report</button>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Info Cards -->
+    <div class="info-cards-row">
+      <!-- Depth Chart Card -->
+      <div class="glass-card info-card">
+        <div class="card-header">
+          <div class="card-icon">📊</div>
+          <div>
+            <h3 class="card-title">Depth Profile</h3>
+            <p class="card-meta">Last updated: 5 min ago</p>
+          </div>
+        </div>
+
+        <div class="chart-placeholder">
+          <div class="chart-bar" style="height: 60%;"></div>
+          <div class="chart-bar" style="height: 80%;"></div>
+          <div class="chart-bar" style="height: 45%;"></div>
+          <div class="chart-bar" style="height: 90%;"></div>
+          <div class="chart-bar" style="height: 55%;"></div>
+          <div class="chart-bar" style="height: 70%;"></div>
+        </div>
+
+        <div class="card-badges">
+          <span class="glow-badge">Real-time</span>
+          <span class="glow-badge">Pacific Ocean</span>
+        </div>
+      </div>
+
+      <!-- Species Activity Card -->
+      <div class="glass-card info-card">
+        <div class="card-header">
+          <div class="card-icon">🐋</div>
+          <div>
+            <h3 class="card-title">Species Activity</h3>
+            <p class="card-meta">Biodiversity tracking</p>
+          </div>
+        </div>
+
+        <div class="data-rows">
+          <div class="data-row">
+            <span class="data-label">Marine Mammals</span>
+            <span class="data-value">142</span>
+          </div>
+          <div class="liquid-progress">
+            <div class="liquid-progress-fill" style="width: 85%;"></div>
+          </div>
+
+          <div class="data-row">
+            <span class="data-label">Fish Schools</span>
+            <span class="data-value">3.2k</span>
+          </div>
+          <div class="liquid-progress">
+            <div class="liquid-progress-fill" style="width: 92%;"></div>
+          </div>
+        </div>
+
+        <div class="card-badges">
+          <span class="glow-badge">Active</span>
+          <span class="glow-badge">Monitoring</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Note -->
+    <div class="footer-note">
+      <p>Data sourced from global ocean monitoring stations • Updated every 5 minutes</p>
+    </div>
+
   </div>
-
-  <!-- Navigation -->
-  <nav class="liquid-navbar">
-    <div class="nav-container">
-      <div class="nav-brand">
-        <div class="brand-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-          </svg>
-        </div>
-        <span class="brand-text">LiquidFlow</span>
-      </div>
-      <div class="nav-links">
-        <a href="javascript:void(0)" class="nav-link active">Dashboard</a>
-        <a href="javascript:void(0)" class="nav-link">Analytics</a>
-        <a href="javascript:void(0)" class="nav-link">Reports</a>
-        <a href="javascript:void(0)" class="nav-link">Settings</a>
-      </div>
-      <div class="nav-actions">
-        <button class="nav-btn nav-btn-ghost">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-          </svg>
-        </button>
-        <button class="nav-btn nav-btn-primary">Get Started</button>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Hero Section -->
-  <section class="liquid-hero">
-    <div class="hero-content">
-      <div class="hero-badge">
-        <span class="badge-dot"></span>
-        <span>Real-time Analytics Platform</span>
-      </div>
-      <h1 class="hero-title">
-        Transform Your Data Into
-        <span class="gradient-text">Actionable Insights</span>
-      </h1>
-      <p class="hero-subtitle">
-        Powerful analytics dashboard with real-time data visualization.
-        Monitor, analyze, and optimize your business metrics with our
-        intuitive liquid interface design.
-      </p>
-      <div class="hero-actions">
-        <a href="javascript:void(0)" class="btn btn-primary">
-          <span>Start Free Trial</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
-        </a>
-        <a href="javascript:void(0)" class="btn btn-outline">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"/>
-            <polygon points="10 8 16 12 10 16 10 8"/>
-          </svg>
-          <span>Watch Demo</span>
-        </a>
-      </div>
-      <div class="hero-stats">
-        <div class="hero-stat">
-          <span class="stat-number">10K+</span>
-          <span class="stat-text">Active Users</span>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="hero-stat">
-          <span class="stat-number">99.9%</span>
-          <span class="stat-text">Uptime</span>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="hero-stat">
-          <span class="stat-number">50M+</span>
-          <span class="stat-text">Data Points</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Stats Cards Section -->
-  <section class="liquid-stats-section">
-    <div class="stats-container">
-      <div class="stat-card">
-        <div class="stat-card-glow"></div>
-        <div class="stat-card-icon icon-blue">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-            <circle cx="9" cy="7" r="4"/>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-          </svg>
-        </div>
-        <div class="stat-card-content">
-          <span class="stat-card-value">24,521</span>
-          <span class="stat-card-label">Total Users</span>
-        </div>
-        <div class="stat-card-trend trend-up">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
-            <polyline points="17 6 23 6 23 12"/>
-          </svg>
-          <span>+12.5%</span>
-        </div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-glow"></div>
-        <div class="stat-card-icon icon-green">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="12" y1="1" x2="12" y2="23"/>
-            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-          </svg>
-        </div>
-        <div class="stat-card-content">
-          <span class="stat-card-value">$128.4K</span>
-          <span class="stat-card-label">Revenue</span>
-        </div>
-        <div class="stat-card-trend trend-up">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
-            <polyline points="17 6 23 6 23 12"/>
-          </svg>
-          <span>+8.2%</span>
-        </div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-glow"></div>
-        <div class="stat-card-icon icon-purple">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-            <line x1="3" y1="9" x2="21" y2="9"/>
-            <line x1="9" y1="21" x2="9" y2="9"/>
-          </svg>
-        </div>
-        <div class="stat-card-content">
-          <span class="stat-card-value">1,842</span>
-          <span class="stat-card-label">Projects</span>
-        </div>
-        <div class="stat-card-trend trend-up">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
-            <polyline points="17 6 23 6 23 12"/>
-          </svg>
-          <span>+23.1%</span>
-        </div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-card-glow"></div>
-        <div class="stat-card-icon icon-cyan">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-          </svg>
-        </div>
-        <div class="stat-card-content">
-          <span class="stat-card-value">98.7%</span>
-          <span class="stat-card-label">Performance</span>
-        </div>
-        <div class="stat-card-trend trend-up">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
-            <polyline points="17 6 23 6 23 12"/>
-          </svg>
-          <span>+2.4%</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Features Section -->
-  <section class="liquid-features-section">
-    <div class="features-header">
-      <h2 class="features-title">Powerful Features</h2>
-      <p class="features-subtitle">Everything you need to analyze and visualize your data</p>
-    </div>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"/>
-            <polyline points="12 6 12 12 16 14"/>
-          </svg>
-        </div>
-        <h3 class="feature-title">Real-time Updates</h3>
-        <p class="feature-desc">
-          Monitor your metrics with live data streaming. No refresh needed,
-          see changes as they happen.
-        </p>
-        <a href="javascript:void(0)" class="feature-link">
-          Learn more
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
-        </a>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21.21 15.89A10 10 0 1 1 8 2.83"/>
-            <path d="M22 12A10 10 0 0 0 12 2v10z"/>
-          </svg>
-        </div>
-        <h3 class="feature-title">Advanced Charts</h3>
-        <p class="feature-desc">
-          Beautiful, interactive visualizations with multiple chart types.
-          Customize colors, labels, and data points.
-        </p>
-        <a href="javascript:void(0)" class="feature-link">
-          Learn more
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
-        </a>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-          </svg>
-        </div>
-        <h3 class="feature-title">Secure & Private</h3>
-        <p class="feature-desc">
-          Enterprise-grade security with end-to-end encryption.
-          Your data stays private and protected.
-        </p>
-        <a href="javascript:void(0)" class="feature-link">
-          Learn more
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA Section -->
-  <section class="liquid-cta-section">
-    <div class="cta-blob cta-blob-1"></div>
-    <div class="cta-blob cta-blob-2"></div>
-    <div class="cta-content">
-      <h2 class="cta-title">Ready to Get Started?</h2>
-      <p class="cta-text">
-        Join thousands of teams who trust LiquidFlow for their analytics needs.
-        Start your free 14-day trial today.
-      </p>
-      <div class="cta-form">
-        <input type="email" placeholder="Enter your email" class="cta-input">
-        <button class="cta-button">Start Free Trial</button>
-      </div>
-      <p class="cta-note">No credit card required · Cancel anytime</p>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="liquid-footer">
-    <div class="footer-container">
-      <div class="footer-brand">
-        <div class="brand-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-          </svg>
-        </div>
-        <span>LiquidFlow</span>
-      </div>
-      <div class="footer-links">
-        <a href="javascript:void(0)">About</a>
-        <a href="javascript:void(0)">Features</a>
-        <a href="javascript:void(0)">Pricing</a>
-        <a href="javascript:void(0)">Contact</a>
-      </div>
-      <p class="footer-copyright">© 2024 LiquidFlow. All rights reserved.</p>
-    </div>
-  </footer>
 </div>
 `;
 
 export const fullPageStyles = `
-/* Base Styles */
+/* ========================================
+   BASE STYLES
+   ======================================== */
 * {
   margin: 0;
   padding: 0;
@@ -301,276 +224,451 @@ export const fullPageStyles = `
 
 .liquid-page {
   min-height: 100vh;
-  background: linear-gradient(180deg, #0a192f 0%, #0d3b66 50%, #112240 100%);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-  color: #ccd6f6;
+  background: linear-gradient(180deg, #020617 0%, #0a192f 50%, #112240 100%);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #e2e8f0;
   position: relative;
   overflow-x: hidden;
 }
 
-/* Liquid Background Layers */
-.liquid-bg-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+/* ========================================
+   LAYER 1: Deep Ocean Current (30s)
+   ======================================== */
+@keyframes deepOceanCurrent {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  }
+  20% {
+    transform: translate(150px, -100px) rotate(72deg) scale(1.3);
+    border-radius: 60% 40% 30% 70% / 50% 60% 50% 40%;
+  }
+  40% {
+    transform: translate(-80px, 120px) rotate(144deg) scale(0.8);
+    border-radius: 30% 70% 60% 40% / 60% 40% 50% 60%;
+  }
+  60% {
+    transform: translate(200px, 80px) rotate(216deg) scale(1.2);
+    border-radius: 70% 30% 40% 60% / 40% 60% 70% 30%;
+  }
+  80% {
+    transform: translate(-120px, -60px) rotate(288deg) scale(0.9);
+    border-radius: 50% 50% 60% 40% / 55% 45% 55% 45%;
+  }
+}
+
+.ocean-blob-deep {
+  position: absolute;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(0, 229, 255, 0.15) 0%, rgba(100, 255, 218, 0.08) 50%, transparent 70%);
+  filter: blur(80px);
+  animation: deepOceanCurrent 30s ease-in-out infinite;
+  will-change: transform, border-radius;
   pointer-events: none;
-  filter: blur(60px);
-  opacity: 0.6;
   z-index: 0;
 }
 
-.liquid-bg {
-  position: absolute;
-  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-  animation: liquidFloat 20s ease-in-out infinite;
-  will-change: transform, border-radius;
+.ocean-blob-deep-1 {
+  top: -20%;
+  left: -10%;
+  animation-delay: 0s;
 }
 
-.liquid-bg-1 {
-  width: 600px;
-  height: 600px;
-  top: -200px;
-  left: -100px;
-  background: radial-gradient(circle, rgba(0, 229, 255, 0.4) 0%, transparent 70%);
-  animation-duration: 25s;
+.ocean-blob-deep-2 {
+  bottom: -30%;
+  right: -15%;
+  animation-delay: -15s;
+  background: radial-gradient(circle, rgba(100, 255, 218, 0.12) 0%, rgba(0, 229, 255, 0.06) 50%, transparent 70%);
 }
 
-.liquid-bg-2 {
-  width: 500px;
-  height: 500px;
-  top: 30%;
-  right: -150px;
-  background: radial-gradient(circle, rgba(100, 255, 218, 0.35) 0%, transparent 70%);
-  animation-duration: 30s;
-  animation-delay: 5s;
-}
-
-.liquid-bg-3 {
-  width: 400px;
-  height: 400px;
-  bottom: 20%;
-  left: 10%;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
-  animation-duration: 22s;
-  animation-delay: 10s;
-}
-
-.liquid-bg-4 {
-  width: 350px;
-  height: 350px;
-  bottom: -100px;
-  right: 20%;
-  background: radial-gradient(circle, rgba(236, 72, 153, 0.25) 0%, transparent 70%);
-  animation-duration: 28s;
-  animation-delay: 15s;
-}
-
-@keyframes liquidFloat {
+/* ========================================
+   LAYER 2: Mid-Layer Water Mass (20s)
+   ======================================== */
+@keyframes midLayerFlow {
   0%, 100% {
-    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
     transform: translate(0, 0) rotate(0deg) scale(1);
+    border-radius: 50% 50% 40% 60% / 60% 40% 60% 40%;
   }
   25% {
-    border-radius: 60% 40% 30% 70% / 50% 60% 50% 40%;
-    transform: translate(50px, -50px) rotate(90deg) scale(1.1);
+    transform: translate(100px, -80px) rotate(90deg) scale(1.15);
+    border-radius: 40% 60% 50% 50% / 50% 50% 50% 50%;
   }
   50% {
-    border-radius: 30% 70% 60% 40% / 60% 40% 50% 60%;
-    transform: translate(-30px, 60px) rotate(180deg) scale(0.95);
+    transform: translate(-60px, 100px) rotate(180deg) scale(0.85);
+    border-radius: 60% 40% 60% 40% / 40% 60% 40% 60%;
   }
   75% {
-    border-radius: 70% 30% 40% 60% / 40% 60% 70% 30%;
-    transform: translate(60px, 30px) rotate(270deg) scale(1.05);
+    transform: translate(80px, 40px) rotate(270deg) scale(1.1);
+    border-radius: 45% 55% 55% 45% / 55% 45% 55% 45%;
   }
 }
 
-/* Navigation */
-.liquid-navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  padding: 16px 32px;
-  background: rgba(10, 25, 47, 0.8);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(100, 255, 218, 0.1);
-}
-
-.nav-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.nav-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.brand-icon {
-  width: 32px;
-  height: 32px;
-  color: #64ffda;
-}
-
-.brand-icon svg {
-  width: 100%;
-  height: 100%;
-}
-
-.brand-text {
-  font-size: 20px;
-  font-weight: 700;
-  color: #ccd6f6;
-}
-
-.nav-links {
-  display: flex;
-  gap: 32px;
-}
-
-.nav-link {
-  color: #8892b0;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 500;
-  transition: color 0.3s ease;
-  position: relative;
-}
-
-.nav-link:hover,
-.nav-link.active {
-  color: #64ffda;
-}
-
-.nav-link.active::after {
-  content: '';
+.ocean-blob-mid {
   position: absolute;
-  bottom: -8px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: #64ffda;
-  border-radius: 1px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(0, 229, 255, 0.2) 0%, rgba(100, 255, 218, 0.1) 60%, transparent 80%);
+  filter: blur(60px);
+  animation: midLayerFlow 20s ease-in-out infinite;
+  will-change: transform, border-radius;
+  pointer-events: none;
+  z-index: 0;
 }
 
-.nav-actions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+.ocean-blob-mid-1 {
+  top: 20%;
+  left: 30%;
+  animation-delay: -5s;
 }
 
-.nav-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.3s ease;
+.ocean-blob-mid-2 {
+  top: 50%;
+  right: 20%;
+  animation-delay: -10s;
 }
 
-.nav-btn-ghost {
-  width: 40px;
-  height: 40px;
-  background: transparent;
-  color: #8892b0;
-  border-radius: 8px;
+.ocean-blob-mid-3 {
+  bottom: 20%;
+  left: 10%;
+  animation-delay: -15s;
 }
 
-.nav-btn-ghost:hover {
-  background: rgba(100, 255, 218, 0.1);
-  color: #64ffda;
+/* ========================================
+   LAYER 3: Surface Surge (12s)
+   ======================================== */
+@keyframes surfaceSurge {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  }
+  33% {
+    transform: translate(120px, -60px) rotate(120deg) scale(1.25);
+    border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+  }
+  66% {
+    transform: translate(-80px, 80px) rotate(240deg) scale(0.75);
+    border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
+  }
 }
 
-.nav-btn-ghost svg {
-  width: 20px;
-  height: 20px;
+.ocean-blob-surface {
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(0, 229, 255, 0.25) 0%, rgba(100, 255, 218, 0.15) 50%, transparent 70%);
+  filter: blur(40px);
+  animation: surfaceSurge 12s ease-in-out infinite;
+  will-change: transform, border-radius;
+  pointer-events: none;
+  z-index: 0;
 }
 
-.nav-btn-primary {
-  padding: 10px 20px;
-  background: #64ffda;
-  color: #0a192f;
-  border-radius: 8px;
+.ocean-blob-surface-1 {
+  top: 10%;
+  right: 30%;
+  animation-delay: -3s;
 }
 
-.nav-btn-primary:hover {
-  background: #4cd7b8;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(100, 255, 218, 0.3);
+.ocean-blob-surface-2 {
+  bottom: 30%;
+  left: 40%;
+  animation-delay: -6s;
 }
 
-/* Hero Section */
-.liquid-hero {
-  position: relative;
-  z-index: 1;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 120px 32px 80px;
+/* ========================================
+   LAYER 4: Rising Bubbles (8s)
+   ======================================== */
+@keyframes bubbleRise {
+  0% {
+    transform: translateY(100vh) translateX(0) scale(0.3);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(50vh) translateX(var(--bubble-drift, 20px)) scale(0.6);
+  }
+  90% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(-10vh) translateX(calc(var(--bubble-drift, 20px) * -1)) scale(1);
+    opacity: 0;
+  }
 }
 
-.hero-content {
-  max-width: 800px;
-  text-align: center;
-}
-
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  background: rgba(100, 255, 218, 0.1);
-  border: 1px solid rgba(100, 255, 218, 0.2);
-  border-radius: 100px;
-  font-size: 13px;
-  color: #64ffda;
-  margin-bottom: 32px;
-}
-
-.badge-dot {
-  width: 8px;
-  height: 8px;
-  background: #64ffda;
+.bubble {
+  position: absolute;
+  width: var(--bubble-size, 10px);
+  height: var(--bubble-size, 10px);
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(0, 229, 255, 0.3));
   border-radius: 50%;
-  animation: pulse 2s ease-in-out infinite;
+  animation: bubbleRise var(--bubble-duration, 8s) ease-in-out infinite;
+  animation-delay: var(--bubble-delay, 0s);
+  will-change: transform, opacity;
+  pointer-events: none;
+  z-index: 1;
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(1.2); }
+/* ========================================
+   LAYER 5: Bioluminescent Plankton (15s)
+   ======================================== */
+@keyframes planktonGlow {
+  0%, 100% {
+    opacity: 0.2;
+    transform: translate(0, 0) scale(0.8);
+    filter: blur(1px);
+  }
+  25% {
+    opacity: 0.9;
+    transform: translate(30px, -20px) scale(1.3);
+    filter: blur(0px);
+    box-shadow: 0 0 20px #00e5ff, 0 0 40px #64ffda;
+  }
+  50% {
+    opacity: 0.3;
+    transform: translate(-25px, 35px) scale(0.9);
+    filter: blur(2px);
+  }
+  75% {
+    opacity: 0.95;
+    transform: translate(40px, 15px) scale(1.2);
+    filter: blur(0px);
+    box-shadow: 0 0 25px #00e5ff, 0 0 50px #64ffda;
+  }
 }
 
-.hero-title {
-  font-size: 56px;
+.plankton {
+  position: absolute;
+  width: var(--plankton-size, 4px);
+  height: var(--plankton-size, 4px);
+  background: #00e5ff;
+  border-radius: 50%;
+  animation: planktonGlow var(--plankton-duration, 15s) ease-in-out infinite;
+  animation-delay: var(--plankton-delay, 0s);
+  will-change: transform, opacity, filter;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ========================================
+   LAYER 6: Light Refraction Beams (25s)
+   ======================================== */
+@keyframes lightBeam {
+  0%, 100% {
+    opacity: 0.2;
+    transform: translateY(0) scaleY(1) skewX(0deg);
+  }
+  25% {
+    opacity: 0.5;
+    transform: translateY(30px) scaleY(1.1) skewX(2deg);
+  }
+  50% {
+    opacity: 0.3;
+    transform: translateY(10px) scaleY(0.95) skewX(-1deg);
+  }
+  75% {
+    opacity: 0.6;
+    transform: translateY(40px) scaleY(1.15) skewX(3deg);
+  }
+}
+
+.light-beam {
+  position: absolute;
+  top: 0;
+  width: var(--beam-width, 100px);
+  height: 100%;
+  background: linear-gradient(180deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(0, 229, 255, 0.08) 30%,
+    rgba(100, 255, 218, 0.03) 70%,
+    transparent 100%
+  );
+  filter: blur(20px);
+  animation: lightBeam var(--beam-duration, 25s) ease-in-out infinite;
+  animation-delay: var(--beam-delay, 0s);
+  will-change: transform, opacity;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ========================================
+   LAYER 7: Auto Ripples (10s)
+   ======================================== */
+@keyframes autoRipple {
+  0%, 100% {
+    transform: scale(0);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.auto-ripple {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  border: 1px solid rgba(100, 255, 218, 0.3);
+  border-radius: 50%;
+  animation: autoRipple 10s ease-in-out infinite;
+  will-change: transform, opacity;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ========================================
+   LAYER 8: Seaweed Sway (18s)
+   ======================================== */
+@keyframes seaweedSway {
+  0%, 100% {
+    transform: rotate(-5deg) scaleY(1);
+  }
+  25% {
+    transform: rotate(3deg) scaleY(1.02);
+  }
+  50% {
+    transform: rotate(-8deg) scaleY(0.98);
+  }
+  75% {
+    transform: rotate(6deg) scaleY(1.01);
+  }
+}
+
+.seaweed {
+  position: absolute;
+  bottom: 0;
+  width: var(--seaweed-width, 20px);
+  height: var(--seaweed-height, 150px);
+  background: linear-gradient(180deg, rgba(100, 255, 218, 0.4) 0%, rgba(0, 229, 255, 0.2) 100%);
+  border-radius: 50% 50% 0 0;
+  transform-origin: bottom center;
+  animation: seaweedSway var(--seaweed-duration, 18s) ease-in-out infinite;
+  animation-delay: var(--seaweed-delay, 0s);
+  will-change: transform;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ========================================
+   MAIN CONTENT CONTAINER
+   ======================================== */
+.ocean-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  min-height: 100vh;
+  padding: 60px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+/* Stats Row */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Glass Card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(0, 229, 255, 0.2), 0 8px 32px rgba(0, 0, 0, 0.4);
+  border-color: rgba(0, 229, 255, 0.3);
+}
+
+/* Floating Animation */
+@keyframes floatCard {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.floating-card {
+  animation: floatCard 6s ease-in-out infinite;
+}
+
+/* Stat Values */
+.stat-value {
+  font-size: 2.5rem;
   font-weight: 700;
-  line-height: 1.2;
-  margin-bottom: 24px;
-  color: #e6f1ff;
-}
-
-.gradient-text {
-  display: block;
-  background: linear-gradient(135deg, #64ffda 0%, #00e5ff 50%, #8b5cf6 100%);
+  background: linear-gradient(135deg, #00e5ff, #64ffda);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  margin-bottom: 8px;
 }
 
-.hero-subtitle {
-  font-size: 18px;
+.stat-label {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+}
+
+/* Liquid Progress Bar */
+.liquid-progress {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 16px;
+}
+
+.liquid-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00e5ff, #64ffda);
+  border-radius: 4px;
+  animation: liquidFill 2s ease-out forwards;
+}
+
+@keyframes liquidFill {
+  from { width: 0; }
+}
+
+/* Hero Section */
+.hero-section {
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+}
+
+.hero-card {
+  padding: 60px 40px;
+}
+
+.ocean-title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #e2e8f0;
+  text-shadow: 0 0 40px rgba(0, 229, 255, 0.3);
+  margin-bottom: 20px;
+}
+
+.ocean-subtitle {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.7);
   line-height: 1.6;
-  color: #8892b0;
-  margin-bottom: 40px;
+  margin-bottom: 32px;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
@@ -580,531 +678,220 @@ export const fullPageStyles = `
   display: flex;
   gap: 16px;
   justify-content: center;
-  margin-bottom: 48px;
+  flex-wrap: wrap;
 }
 
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 14px 28px;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-}
-
-.btn svg {
-  width: 18px;
-  height: 18px;
-}
-
-.btn-primary {
-  background: #64ffda;
-  color: #0a192f;
+/* Liquid Button */
+.liquid-button {
+  position: relative;
+  padding: 12px 32px;
+  background: linear-gradient(135deg, #00e5ff, #64ffda);
   border: none;
-}
-
-.btn-primary:hover {
-  background: #4cd7b8;
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(100, 255, 218, 0.4);
-}
-
-.btn-outline {
-  background: transparent;
-  color: #64ffda;
-  border: 1px solid #64ffda;
-}
-
-.btn-outline:hover {
-  background: rgba(100, 255, 218, 0.1);
-  transform: translateY(-3px);
-}
-
-.hero-stats {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 32px;
-}
-
-.hero-stat {
-  text-align: center;
-}
-
-.stat-number {
-  display: block;
-  font-size: 28px;
-  font-weight: 700;
-  color: #e6f1ff;
-  margin-bottom: 4px;
-}
-
-.stat-text {
-  font-size: 13px;
-  color: #8892b0;
-}
-
-.stat-divider {
-  width: 1px;
-  height: 40px;
-  background: rgba(136, 146, 176, 0.3);
-}
-
-/* Stats Cards Section */
-.liquid-stats-section {
-  position: relative;
-  z-index: 1;
-  padding: 0 32px 80px;
-}
-
-.stats-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-}
-
-.stat-card {
-  position: relative;
-  padding: 24px;
-  background: rgba(17, 34, 64, 0.6);
-  backdrop-filter: blur(12px);
-  border-radius: 16px;
-  border: 1px solid rgba(100, 255, 218, 0.1);
-  overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.stat-card:hover {
-  border-color: rgba(100, 255, 218, 0.3);
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-
-.stat-card-glow {
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle at 30% 30%, rgba(0, 229, 255, 0.08) 0%, transparent 50%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.stat-card:hover .stat-card-glow {
-  opacity: 1;
-}
-
-.stat-card-icon {
-  width: 48px;
-  height: 48px;
-  padding: 12px;
   border-radius: 12px;
-  margin-bottom: 16px;
+  color: #020617;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
-.stat-card-icon svg {
-  width: 100%;
-  height: 100%;
+.liquid-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
 }
 
-.icon-blue {
-  background: rgba(0, 229, 255, 0.1);
+.liquid-button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.liquid-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 40px rgba(0, 229, 255, 0.4);
+}
+
+.liquid-button-outline {
+  background: transparent;
+  border: 2px solid #00e5ff;
   color: #00e5ff;
 }
 
-.icon-green {
-  background: rgba(100, 255, 218, 0.1);
-  color: #64ffda;
+.liquid-button-outline:hover {
+  background: rgba(0, 229, 255, 0.1);
 }
 
-.icon-purple {
-  background: rgba(139, 92, 246, 0.1);
-  color: #8b5cf6;
-}
-
-.icon-cyan {
-  background: rgba(6, 182, 212, 0.1);
-  color: #06b6d4;
-}
-
-.stat-card-content {
-  margin-bottom: 12px;
-}
-
-.stat-card-value {
-  display: block;
-  font-size: 28px;
-  font-weight: 700;
-  color: #e6f1ff;
-  margin-bottom: 4px;
-}
-
-.stat-card-label {
-  font-size: 13px;
-  color: #8892b0;
-}
-
-.stat-card-trend {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.stat-card-trend svg {
-  width: 14px;
-  height: 14px;
-}
-
-.trend-up {
-  background: rgba(100, 255, 218, 0.1);
-  color: #64ffda;
-}
-
-/* Features Section */
-.liquid-features-section {
-  position: relative;
-  z-index: 1;
-  padding: 80px 32px;
-}
-
-.features-header {
-  text-align: center;
-  margin-bottom: 64px;
-}
-
-.features-title {
-  font-size: 40px;
-  font-weight: 700;
-  color: #e6f1ff;
-  margin-bottom: 16px;
-}
-
-.features-subtitle {
-  font-size: 18px;
-  color: #8892b0;
-}
-
-.features-grid {
-  max-width: 1200px;
-  margin: 0 auto;
+/* Info Cards Row */
+.info-cards-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 32px;
-}
-
-.feature-card {
-  padding: 32px;
-  background: rgba(17, 34, 64, 0.4);
-  backdrop-filter: blur(8px);
-  border-radius: 16px;
-  border: 1px solid rgba(100, 255, 218, 0.1);
-  transition: all 0.4s ease;
-}
-
-.feature-card:hover {
-  border-color: rgba(100, 255, 218, 0.3);
-  transform: translateY(-4px);
-}
-
-.feature-icon {
-  width: 56px;
-  height: 56px;
-  padding: 14px;
-  background: rgba(100, 255, 218, 0.1);
-  border-radius: 12px;
-  color: #64ffda;
-  margin-bottom: 20px;
-}
-
-.feature-icon svg {
-  width: 100%;
-  height: 100%;
-}
-
-.feature-title {
-  font-size: 20px;
-  font-weight: 600;
-  color: #e6f1ff;
-  margin-bottom: 12px;
-}
-
-.feature-desc {
-  font-size: 14px;
-  line-height: 1.6;
-  color: #8892b0;
-  margin-bottom: 20px;
-}
-
-.feature-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: #64ffda;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 500;
-  transition: gap 0.3s ease;
-}
-
-.feature-link:hover {
-  gap: 10px;
-}
-
-.feature-link svg {
-  width: 16px;
-  height: 16px;
-}
-
-/* CTA Section */
-.liquid-cta-section {
-  position: relative;
-  z-index: 1;
-  padding: 80px 32px;
-  margin: 0 32px;
-  background: rgba(17, 34, 64, 0.6);
-  backdrop-filter: blur(12px);
-  border-radius: 24px;
-  border: 1px solid rgba(100, 255, 218, 0.1);
-  overflow: hidden;
-}
-
-.cta-blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.3;
-}
-
-.cta-blob-1 {
-  width: 300px;
-  height: 300px;
-  top: -100px;
-  left: -100px;
-  background: rgba(100, 255, 218, 0.5);
-}
-
-.cta-blob-2 {
-  width: 250px;
-  height: 250px;
-  bottom: -80px;
-  right: -80px;
-  background: rgba(139, 92, 246, 0.5);
-}
-
-.cta-content {
-  position: relative;
-  max-width: 600px;
+  max-width: 1000px;
   margin: 0 auto;
-  text-align: center;
+  width: 100%;
 }
 
-.cta-title {
-  font-size: 36px;
-  font-weight: 700;
-  color: #e6f1ff;
-  margin-bottom: 16px;
+.info-card {
+  padding: 32px;
 }
 
-.cta-text {
-  font-size: 16px;
-  color: #8892b0;
-  margin-bottom: 32px;
-}
-
-.cta-form {
+.card-header {
   display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.card-icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #00e5ff, #64ffda);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.card-title {
+  color: #e2e8f0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.card-meta {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.875rem;
+  margin: 4px 0 0;
+}
+
+/* Chart Placeholder */
+.chart-placeholder {
+  height: 120px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  padding: 12px;
+}
+
+.chart-bar {
+  flex: 1;
+  max-width: 40px;
+  background: linear-gradient(180deg, #00e5ff, #64ffda);
+  border-radius: 4px 4px 0 0;
+  margin: 0 4px;
+}
+
+/* Data Rows */
+.data-rows {
+  display: grid;
   gap: 12px;
   margin-bottom: 16px;
 }
 
-.cta-input {
-  flex: 1;
-  padding: 14px 20px;
-  background: rgba(10, 25, 47, 0.8);
-  border: 1px solid rgba(136, 146, 176, 0.3);
-  border-radius: 8px;
-  color: #ccd6f6;
-  font-size: 14px;
-  outline: none;
-  transition: border-color 0.3s ease;
-}
-
-.cta-input::placeholder {
-  color: #8892b0;
-}
-
-.cta-input:focus {
-  border-color: #64ffda;
-}
-
-.cta-button {
-  padding: 14px 28px;
-  background: #64ffda;
-  color: #0a192f;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.cta-button:hover {
-  background: #4cd7b8;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(100, 255, 218, 0.3);
-}
-
-.cta-note {
-  font-size: 12px;
-  color: #8892b0;
-}
-
-/* Footer */
-.liquid-footer {
-  position: relative;
-  z-index: 1;
-  padding: 48px 32px;
-  border-top: 1px solid rgba(136, 146, 176, 0.1);
-  margin-top: 80px;
-}
-
-.footer-container {
-  max-width: 1200px;
-  margin: 0 auto;
+.data-row {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
 }
 
-.footer-brand {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #8892b0;
+.data-label {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+}
+
+.data-value {
+  background: linear-gradient(135deg, #00e5ff, #64ffda);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   font-weight: 600;
 }
 
-.footer-brand .brand-icon {
-  width: 24px;
-  height: 24px;
-  color: #64ffda;
-}
-
-.footer-links {
+/* Card Badges */
+.card-badges {
   display: flex;
-  gap: 32px;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
-.footer-links a {
-  color: #8892b0;
-  text-decoration: none;
-  font-size: 14px;
-  transition: color 0.3s ease;
+.glow-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(0, 229, 255, 0.2);
+  border: 1px solid #00e5ff;
+  border-radius: 20px;
+  color: #00e5ff;
+  font-size: 0.75rem;
+  font-weight: 500;
+  animation: badgePulse 2s ease-in-out infinite;
 }
 
-.footer-links a:hover {
-  color: #64ffda;
+@keyframes badgePulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(0, 229, 255, 0);
+  }
 }
 
-.footer-copyright {
-  font-size: 13px;
-  color: #8892b0;
+/* Footer Note */
+.footer-note {
+  text-align: center;
+  padding: 20px;
+}
+
+.footer-note p {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.875rem;
 }
 
 /* Responsive Design */
-@media (max-width: 1024px) {
-  .stats-container {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .features-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
 @media (max-width: 768px) {
-  .liquid-navbar {
-    padding: 12px 20px;
+  .ocean-content {
+    padding: 40px 20px;
+    gap: 40px;
   }
 
-  .nav-links {
-    display: none;
+  .ocean-title {
+    font-size: 2rem;
   }
 
-  .hero-title {
-    font-size: 36px;
+  .ocean-subtitle {
+    font-size: 1rem;
   }
 
-  .hero-subtitle {
-    font-size: 16px;
+  .stats-row,
+  .info-cards-row {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-card {
+    padding: 40px 24px;
   }
 
   .hero-actions {
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
   }
 
-  .hero-stats {
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .stat-divider {
-    width: 40px;
-    height: 1px;
-  }
-
-  .stats-container {
-    grid-template-columns: 1fr;
-  }
-
-  .features-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .cta-form {
-    flex-direction: column;
-  }
-
-  .footer-container {
-    flex-direction: column;
-    gap: 24px;
-    text-align: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .liquid-hero {
-    padding: 100px 20px 60px;
-  }
-
-  .hero-title {
-    font-size: 28px;
-  }
-
-  .features-title {
-    font-size: 28px;
-  }
-
-  .cta-title {
-    font-size: 24px;
-  }
-
-  .liquid-cta-section {
-    margin: 0 16px;
-    padding: 48px 24px;
+  .liquid-button {
+    width: 100%;
   }
 }
 `;

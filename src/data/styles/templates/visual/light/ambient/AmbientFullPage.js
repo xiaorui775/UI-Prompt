@@ -1,31 +1,40 @@
 /**
  * Ambient Light - Full Page Preview
- * Meditation Dashboard 風格
- * 配色：Purple-Blue Spectrum (#667eea, #764ba2, #4facfe)
- * 光球數量：5 個（平衡設計）
+ * Meditation & Wellness App Theme
+ * Color Scheme: Warm Sunset Glow (#ff6b6b, #feca57, #ff9ff3)
+ * Orbs: 5 (Balanced design with mouse interaction)
  */
 
 export const fullPageHTML = `
-  <!-- Ambient Light Background with 5 Orbs -->
-  <div class="ambient-orb ambient-orb-1"></div>
-  <div class="ambient-orb ambient-orb-2"></div>
-  <div class="ambient-orb ambient-orb-3"></div>
-  <div class="ambient-orb ambient-orb-4"></div>
-  <div class="ambient-orb ambient-orb-5"></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ambient Light - Meditation & Wellness</title>
+</head>
+<body>
+  <!-- Ambient Light Background with 5 Warm Sunset Orbs -->
+  <div class="ambient-orb ambient-orb-1" data-orb="1"></div>
+  <div class="ambient-orb ambient-orb-2" data-orb="2"></div>
+  <div class="ambient-orb ambient-orb-3" data-orb="3"></div>
+  <div class="ambient-orb ambient-orb-4" data-orb="4"></div>
+  <div class="ambient-orb ambient-orb-5" data-orb="5"></div>
 
   <!-- Header Navigation -->
   <header class="ambient-header">
     <div class="ambient-container">
       <div class="ambient-nav">
-        <div class="ambient-logo">✨ Ambient</div>
+        <div class="ambient-logo">🌅 ZenFlow</div>
         <nav class="ambient-nav-links">
-          <a href="javascript:void(0)" class="ambient-nav-link">Features</a>
-          <a href="javascript:void(0)" class="ambient-nav-link">Showcase</a>
-          <a href="javascript:void(0)" class="ambient-nav-link">About</a>
+          <a href="javascript:void(0)" class="ambient-nav-link">Meditate</a>
+          <a href="javascript:void(0)" class="ambient-nav-link">Sleep</a>
+          <a href="javascript:void(0)" class="ambient-nav-link">Breathe</a>
+          <a href="javascript:void(0)" class="ambient-nav-link">Music</a>
         </nav>
         <div class="ambient-nav-actions">
-          <button class="ambient-lang-switch">EN / 中</button>
-          <button class="ambient-cta-btn">Get Started</button>
+          <button class="ambient-lang-switch">EN</button>
+          <button class="ambient-cta-btn">Start Free Trial</button>
         </div>
       </div>
     </div>
@@ -35,15 +44,15 @@ export const fullPageHTML = `
   <section class="ambient-hero">
     <div class="ambient-container">
       <div class="ambient-hero-content">
-        <h1 class="ambient-hero-title">Ambient Light Design</h1>
-        <p class="ambient-hero-subtitle">環境光氛圍設計 / Atmosphere Through Light</p>
+        <h1 class="ambient-hero-title">Find Your Inner Peace</h1>
+        <p class="ambient-hero-subtitle">Guided Meditation & Mindfulness for Modern Life</p>
         <p class="ambient-hero-desc">
-          Create calming, immersive interfaces through soft light halos and gentle gradients.
-          營造平靜沉浸式介面，透過柔和光暈與溫柔漸層。
+          Experience tranquility through science-backed meditation techniques,
+          soothing soundscapes, and breathing exercises designed to reduce stress and improve sleep.
         </p>
         <div class="ambient-hero-buttons">
-          <button class="ambient-primary-btn">Explore Gallery</button>
-          <button class="ambient-secondary-btn">Documentation</button>
+          <button class="ambient-primary-btn">Start Your Journey</button>
+          <button class="ambient-secondary-btn">Explore Courses</button>
         </div>
       </div>
     </div>
@@ -54,24 +63,24 @@ export const fullPageHTML = `
     <div class="ambient-container">
       <div class="ambient-stats-grid">
         <div class="ambient-stat-card">
-          <div class="ambient-stat-icon">👥</div>
-          <div class="ambient-stat-value">12.5K</div>
-          <div class="ambient-stat-label">Active Users</div>
+          <div class="ambient-stat-icon">🧘</div>
+          <div class="ambient-stat-value" data-target="50000">0</div>
+          <div class="ambient-stat-label">Daily Meditators</div>
         </div>
         <div class="ambient-stat-card">
-          <div class="ambient-stat-icon">⚡</div>
-          <div class="ambient-stat-value">98ms</div>
-          <div class="ambient-stat-label">Response Time</div>
+          <div class="ambient-stat-icon">🎵</div>
+          <div class="ambient-stat-value" data-target="200">0</div>
+          <div class="ambient-stat-label">Guided Sessions</div>
         </div>
         <div class="ambient-stat-card">
           <div class="ambient-stat-icon">⭐</div>
-          <div class="ambient-stat-value">99.2%</div>
-          <div class="ambient-stat-label">Satisfaction</div>
+          <div class="ambient-stat-value" data-target="4.9">0</div>
+          <div class="ambient-stat-label">User Rating</div>
         </div>
         <div class="ambient-stat-card">
-          <div class="ambient-stat-icon">🚀</div>
-          <div class="ambient-stat-value">99.9%</div>
-          <div class="ambient-stat-label">Uptime</div>
+          <div class="ambient-stat-icon">😴</div>
+          <div class="ambient-stat-value" data-target="10000">0</div>
+          <div class="ambient-stat-label">Hours Slept Better</div>
         </div>
       </div>
     </div>
@@ -80,29 +89,55 @@ export const fullPageHTML = `
   <!-- Feature Showcase -->
   <section class="ambient-features">
     <div class="ambient-container">
-      <h2 class="ambient-section-title">Core Features</h2>
+      <h2 class="ambient-section-title">Features for Your Wellbeing</h2>
       <div class="ambient-feature-grid">
         <div class="ambient-feature-card">
-          <div class="ambient-feature-icon">🌈</div>
-          <h3 class="ambient-feature-title">Glassmorphism</h3>
+          <div class="ambient-feature-icon">🌬️</div>
+          <h3 class="ambient-feature-title">Breathing Exercises</h3>
           <p class="ambient-feature-desc">
-            Translucent cards with backdrop blur effects create depth and elegance.
+            Master box breathing, 4-7-8 technique, and pranayama to calm your nervous system instantly.
           </p>
         </div>
         <div class="ambient-feature-card">
-          <div class="ambient-feature-icon">✨</div>
-          <h3 class="ambient-feature-title">Gentle Animations</h3>
+          <div class="ambient-feature-icon">🎧</div>
+          <h3 class="ambient-feature-title">Guided Meditations</h3>
           <p class="ambient-feature-desc">
-            Slow-paced floating animations (10-16s) ensure a calming experience.
+            200+ expert-led sessions ranging from 3-30 minutes for stress, focus, sleep, and self-love.
           </p>
         </div>
         <div class="ambient-feature-card">
-          <div class="ambient-feature-icon">🎨</div>
-          <h3 class="ambient-feature-title">Calming Atmosphere</h3>
+          <div class="ambient-feature-icon">🌙</div>
+          <h3 class="ambient-feature-title">Sleep Stories</h3>
           <p class="ambient-feature-desc">
-            Purple-blue spectrum with soft glows creates therapeutic ambiance.
+            Drift into deep sleep with soothing narrations, ambient sounds, and binaural beats.
           </p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Meditation Timer Section -->
+  <section class="ambient-timer">
+    <div class="ambient-container">
+      <div class="ambient-timer-card">
+        <h2 class="ambient-timer-title">Quick Meditation Timer</h2>
+        <div class="ambient-timer-circle">
+          <svg class="ambient-timer-ring" viewBox="0 0 200 200">
+            <circle class="ambient-timer-track" cx="100" cy="100" r="85" />
+            <circle class="ambient-timer-progress" cx="100" cy="100" r="85" />
+          </svg>
+          <div class="ambient-timer-display">
+            <div class="ambient-timer-time">5:00</div>
+            <div class="ambient-timer-label">Minutes</div>
+          </div>
+        </div>
+        <div class="ambient-timer-presets">
+          <button class="ambient-preset-btn ambient-preset-active">5 min</button>
+          <button class="ambient-preset-btn">10 min</button>
+          <button class="ambient-preset-btn">15 min</button>
+          <button class="ambient-preset-btn">20 min</button>
+        </div>
+        <button class="ambient-timer-start">Start Session</button>
       </div>
     </div>
   </section>
@@ -113,13 +148,14 @@ export const fullPageHTML = `
       <div class="ambient-quote-card">
         <div class="ambient-quote-icon">💬</div>
         <p class="ambient-quote-text">
-          "Ambient Light design transformed our meditation app. Users report feeling more relaxed and focused."
+          "ZenFlow transformed my bedtime routine. I fall asleep faster and wake up feeling truly refreshed. The ambient light interface itself is incredibly soothing."
         </p>
         <div class="ambient-quote-author">
-          <div class="ambient-author-avatar">👤</div>
+          <div class="ambient-author-avatar">👩‍💼</div>
           <div class="ambient-author-info">
-            <div class="ambient-author-name">Sarah Chen</div>
-            <div class="ambient-author-title">Product Designer, ZenFlow</div>
+            <div class="ambient-author-name">Emily Rodriguez</div>
+            <div class="ambient-author-title">Marketing Director, San Francisco</div>
+            <div class="ambient-author-stars">⭐⭐⭐⭐⭐</div>
           </div>
         </div>
       </div>
@@ -130,17 +166,147 @@ export const fullPageHTML = `
   <section class="ambient-final-cta">
     <div class="ambient-container">
       <div class="ambient-cta-content">
-        <h2 class="ambient-cta-title">Start Your Journey</h2>
+        <h2 class="ambient-cta-title">Begin Your Mindfulness Journey Today</h2>
         <p class="ambient-cta-subtitle">
-          Experience the power of ambient light in your next project
+          Join 50,000+ daily meditators finding peace in the chaos
         </p>
         <div class="ambient-cta-buttons">
-          <button class="ambient-cta-primary">Get Started Free</button>
+          <button class="ambient-cta-primary">Try 7 Days Free</button>
           <button class="ambient-cta-secondary">Learn More</button>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- Footer -->
+  <footer class="ambient-footer">
+    <div class="ambient-container">
+      <div class="ambient-footer-content">
+        <div class="ambient-footer-logo">🌅 ZenFlow</div>
+        <div class="ambient-footer-links">
+          <a href="javascript:void(0)">Privacy</a>
+          <a href="javascript:void(0)">Terms</a>
+          <a href="javascript:void(0)">Support</a>
+        </div>
+        <div class="ambient-footer-social">
+          <a href="javascript:void(0)">📘</a>
+          <a href="javascript:void(0)">📸</a>
+          <a href="javascript:void(0)">🐦</a>
+        </div>
+      </div>
+      <div class="ambient-footer-copyright">
+        © 2024 ZenFlow. Designed with Ambient Light Style.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ========== Mouse Interaction with Orbs ==========
+    const orbs = document.querySelectorAll('.ambient-orb');
+    let mouseX = 0;
+    let mouseY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+
+      orbs.forEach((orb, i) => {
+        const rect = orb.getBoundingClientRect();
+        const orbCenterX = rect.left + rect.width / 2;
+        const orbCenterY = rect.top + rect.height / 2;
+
+        // Calculate distance from mouse to orb center
+        const distX = mouseX - orbCenterX;
+        const distY = mouseY - orbCenterY;
+        const distance = Math.sqrt(distX * distX + distY * distY);
+
+        // Interaction radius: 300px
+        const interactionRadius = 300;
+
+        if (distance < interactionRadius) {
+          const force = (interactionRadius - distance) / interactionRadius;
+          const moveX = -distX * force * 0.08; // Gentle movement
+          const moveY = -distY * force * 0.08;
+
+          // Apply transform with smooth transition
+          orb.style.transition = 'transform 0.3s ease-out';
+          orb.style.transform = 'translate(' + moveX + 'px, ' + moveY + 'px)';
+        } else {
+          // Reset to original position when mouse is far
+          orb.style.transition = 'transform 0.6s ease-out';
+          orb.style.transform = '';
+        }
+      });
+    });
+
+    // ========== Counter Animation for Stats ==========
+    function animateCounter(element, target, duration = 2000) {
+      let start = 0;
+      const increment = target / (duration / 16); // 60 FPS
+      const isDecimal = target % 1 !== 0;
+
+      const timer = setInterval(() => {
+        start += increment;
+        if (start >= target) {
+          element.textContent = isDecimal ? target.toFixed(1) : target.toLocaleString();
+          clearInterval(timer);
+        } else {
+          element.textContent = isDecimal ? start.toFixed(1) : Math.floor(start).toLocaleString();
+        }
+      }, 16);
+    }
+
+    // Trigger counter animation when stats section comes into view
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const statValues = entry.target.querySelectorAll('.ambient-stat-value');
+          statValues.forEach(stat => {
+            const target = parseInt(stat.getAttribute('data-target'));
+            animateCounter(stat, target);
+          });
+          statsObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    const statsSection = document.querySelector('.ambient-stats');
+    if (statsSection) {
+      statsObserver.observe(statsSection);
+    }
+
+    // ========== Timer Preset Selection ==========
+    const presetButtons = document.querySelectorAll('.ambient-preset-btn');
+    const timerDisplay = document.querySelector('.ambient-timer-time');
+
+    presetButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        presetButtons.forEach(b => b.classList.remove('ambient-preset-active'));
+        btn.classList.add('ambient-preset-active');
+        const minutes = btn.textContent.replace(' min', '');
+        timerDisplay.textContent = minutes + ':00';
+      });
+    });
+
+    // ========== Smooth Scroll for Nav Links ==========
+    document.querySelectorAll('.ambient-nav-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Smooth scroll behavior (placeholder for actual sections)
+      });
+    });
+
+    // ========== Accessibility: Respect prefers-reduced-motion ==========
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReducedMotion) {
+      orbs.forEach(orb => {
+        orb.style.animation = 'none';
+      });
+    }
+  </script>
+</body>
+</html>
 `;
 
 export const fullPageStyles = `
@@ -151,32 +317,38 @@ export const fullPageStyles = `
     box-sizing: border-box;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-    background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #0f0f1e 100%);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+    background: radial-gradient(circle at 50% 50%, #2a1a1f 0%, #1a0f14 100%);
     color: #ffffff;
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
+    line-height: 1.6;
   }
 
-  /* ==================== AMBIENT LIGHT ORBS ==================== */
+  /* ==================== AMBIENT LIGHT ORBS (WARM SUNSET GLOW) ==================== */
   .ambient-orb {
     position: fixed;
     border-radius: 50%;
     filter: blur(70px);
     pointer-events: none;
     z-index: 1;
+    will-change: transform;
   }
 
-  /* Orb 1: Large Purple-Blue (Left Top) */
+  /* Orb 1: Coral Red (Top Left) */
   .ambient-orb-1 {
     width: 500px;
     height: 500px;
     background: radial-gradient(
       circle at 30% 30%,
-      rgba(102, 126, 234, 0.7) 0%,
-      rgba(102, 126, 234, 0.25) 40%,
+      rgba(255, 107, 107, 0.7) 0%,
+      rgba(255, 107, 107, 0.3) 40%,
       transparent 70%
     );
     top: -100px;
@@ -185,79 +357,79 @@ export const fullPageStyles = `
     animation: ambientFloat1 10s ease-in-out infinite;
   }
 
-  /* Orb 2: Medium Deep Purple (Right Bottom) */
+  /* Orb 2: Golden Yellow (Right Bottom) */
   .ambient-orb-2 {
-    width: 400px;
-    height: 400px;
+    width: 450px;
+    height: 450px;
     background: radial-gradient(
       circle at 30% 30%,
-      rgba(118, 75, 162, 0.6) 0%,
-      rgba(118, 75, 162, 0.2) 40%,
+      rgba(254, 202, 87, 0.65) 0%,
+      rgba(254, 202, 87, 0.25) 40%,
       transparent 70%
     );
     bottom: -80px;
     right: -80px;
     opacity: 0.7;
-    animation: ambientFloat2 13s ease-in-out infinite;
+    animation: ambientFloat2 12s ease-in-out infinite;
   }
 
-  /* Orb 3: Medium Cyan Blue (Left Bottom) */
+  /* Orb 3: Pink Purple (Left Center) */
   .ambient-orb-3 {
     width: 400px;
     height: 400px;
     background: radial-gradient(
       circle at 30% 30%,
-      rgba(79, 172, 254, 0.5) 0%,
-      rgba(79, 172, 254, 0.15) 40%,
+      rgba(255, 159, 243, 0.6) 0%,
+      rgba(255, 159, 243, 0.2) 40%,
       transparent 70%
     );
-    bottom: 100px;
-    left: 50px;
+    bottom: 20%;
+    left: 5%;
     opacity: 0.65;
-    animation: ambientFloat3 16s ease-in-out infinite;
+    animation: ambientFloat3 14s ease-in-out infinite;
   }
 
-  /* Orb 4: Small Pink Accent (Right Top) */
+  /* Orb 4: Warm Orange (Right Top) */
   .ambient-orb-4 {
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(
+      circle at 30% 30%,
+      rgba(255, 140, 107, 0.55) 0%,
+      rgba(255, 140, 107, 0.18) 40%,
+      transparent 70%
+    );
+    top: 15%;
+    right: 8%;
+    opacity: 0.6;
+    animation: ambientFloat4 16s ease-in-out infinite;
+  }
+
+  /* Orb 5: Soft Peach (Center Floating) */
+  .ambient-orb-5 {
     width: 300px;
     height: 300px;
     background: radial-gradient(
       circle at 30% 30%,
-      rgba(240, 147, 251, 0.4) 0%,
-      rgba(240, 147, 251, 0.1) 40%,
-      transparent 70%
-    );
-    top: 150px;
-    right: 100px;
-    opacity: 0.6;
-    animation: ambientFloat4 11s ease-in-out infinite;
-  }
-
-  /* Orb 5: Small Cyan (Center Floating) */
-  .ambient-orb-5 {
-    width: 250px;
-    height: 250px;
-    background: radial-gradient(
-      circle at 30% 30%,
-      rgba(0, 242, 254, 0.35) 0%,
-      rgba(0, 242, 254, 0.08) 40%,
+      rgba(255, 200, 150, 0.5) 0%,
+      rgba(255, 200, 150, 0.15) 40%,
       transparent 70%
     );
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     opacity: 0.5;
-    animation: ambientFloat5 14s ease-in-out infinite;
+    animation: ambientFloat5 13s ease-in-out infinite;
   }
 
-  /* Floating Animations */
+  /* Floating Animations (Gentle & Slow) */
   @keyframes ambientFloat1 {
     0%, 100% {
       transform: translate(0, 0) scale(1);
       opacity: 0.75;
     }
     50% {
-      transform: translate(40px, -30px) scale(1.05);
+      transform: translate(35px, -25px) scale(1.05);
       opacity: 0.85;
     }
   }
@@ -268,7 +440,7 @@ export const fullPageStyles = `
       opacity: 0.7;
     }
     50% {
-      transform: translate(-35px, 25px) scale(1.08);
+      transform: translate(-30px, 20px) scale(1.08);
       opacity: 0.8;
     }
   }
@@ -279,7 +451,7 @@ export const fullPageStyles = `
       opacity: 0.65;
     }
     50% {
-      transform: translate(30px, -40px) scale(1.06);
+      transform: translate(25px, -35px) scale(1.06);
       opacity: 0.75;
     }
   }
@@ -290,7 +462,7 @@ export const fullPageStyles = `
       opacity: 0.6;
     }
     50% {
-      transform: translate(-25px, 35px) scale(1.07);
+      transform: translate(-20px, 30px) scale(1.07);
       opacity: 0.7;
     }
   }
@@ -301,7 +473,7 @@ export const fullPageStyles = `
       opacity: 0.5;
     }
     50% {
-      transform: translate(-50%, -50%) translate(20px, -20px) scale(1.1);
+      transform: translate(-50%, -50%) translate(15px, -15px) scale(1.1);
       opacity: 0.65;
     }
   }
@@ -321,11 +493,11 @@ export const fullPageStyles = `
     top: 0;
     left: 0;
     right: 0;
-    padding: 24px 0;
-    background: rgba(26, 26, 46, 0.3);
+    padding: 20px 0;
+    background: rgba(42, 26, 31, 0.4);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 159, 243, 0.1);
     z-index: 100;
   }
 
@@ -338,7 +510,7 @@ export const fullPageStyles = `
   .ambient-logo {
     font-size: 24px;
     font-weight: 800;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #ff9ff3 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -354,10 +526,26 @@ export const fullPageStyles = `
     text-decoration: none;
     font-weight: 500;
     transition: color 0.3s ease;
+    position: relative;
   }
 
   .ambient-nav-link:hover {
-    color: #ffffff;
+    color: #feca57;
+  }
+
+  .ambient-nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #ff6b6b, #feca57);
+    transition: width 0.3s ease;
+  }
+
+  .ambient-nav-link:hover::after {
+    width: 100%;
   }
 
   .ambient-nav-actions {
@@ -368,8 +556,8 @@ export const fullPageStyles = `
 
   .ambient-lang-switch {
     background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 159, 243, 0.3);
+    color: rgba(255, 255, 255, 0.8);
     padding: 8px 16px;
     border-radius: 8px;
     font-size: 14px;
@@ -379,14 +567,15 @@ export const fullPageStyles = `
   }
 
   .ambient-lang-switch:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 159, 243, 0.1);
+    border-color: #ff9ff3;
     color: #ffffff;
   }
 
   .ambient-cta-btn {
-    background: rgba(102, 126, 234, 0.2);
+    background: rgba(255, 107, 107, 0.2);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(102, 126, 234, 0.4);
+    border: 1px solid rgba(255, 107, 107, 0.4);
     color: #ffffff;
     padding: 10px 24px;
     border-radius: 10px;
@@ -396,14 +585,14 @@ export const fullPageStyles = `
   }
 
   .ambient-cta-btn:hover {
-    background: rgba(102, 126, 234, 0.3);
-    box-shadow: 0 0 30px rgba(102, 126, 234, 0.3);
+    background: rgba(255, 107, 107, 0.3);
+    box-shadow: 0 0 30px rgba(255, 107, 107, 0.4);
     transform: translateY(-2px);
   }
 
   /* ==================== HERO SECTION ==================== */
   .ambient-hero {
-    padding: 180px 0 100px;
+    padding: 160px 0 100px;
     text-align: center;
   }
 
@@ -411,34 +600,34 @@ export const fullPageStyles = `
     background: rgba(255, 255, 255, 0.02);
     backdrop-filter: blur(30px);
     -webkit-backdrop-filter: blur(30px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 159, 243, 0.1);
     border-radius: 24px;
     padding: 80px 64px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 32px rgba(255, 107, 107, 0.15);
   }
 
   .ambient-hero-title {
     font-size: 64px;
     font-weight: 900;
     margin-bottom: 16px;
-    background: linear-gradient(135deg, #ffffff 0%, #667eea 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #feca57 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
+    line-height: 1.2;
   }
 
   .ambient-hero-subtitle {
     font-size: 24px;
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 159, 243, 0.9);
     margin-bottom: 24px;
   }
 
   .ambient-hero-desc {
     font-size: 18px;
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.75);
     max-width: 700px;
     margin: 0 auto 48px;
   }
@@ -450,7 +639,7 @@ export const fullPageStyles = `
   }
 
   .ambient-primary-btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
     border: none;
     color: #ffffff;
     padding: 16px 40px;
@@ -459,18 +648,18 @@ export const fullPageStyles = `
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 4px 20px rgba(255, 107, 107, 0.3);
   }
 
   .ambient-primary-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(102, 126, 234, 0.5);
+    box-shadow: 0 8px 30px rgba(255, 107, 107, 0.5);
   }
 
   .ambient-secondary-btn {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 159, 243, 0.3);
     color: #ffffff;
     padding: 16px 40px;
     border-radius: 12px;
@@ -481,7 +670,8 @@ export const fullPageStyles = `
   }
 
   .ambient-secondary-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 159, 243, 0.1);
+    border-color: #ff9ff3;
     transform: translateY(-2px);
   }
 
@@ -500,7 +690,7 @@ export const fullPageStyles = `
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 159, 243, 0.1);
     border-radius: 20px;
     padding: 40px 32px;
     text-align: center;
@@ -509,8 +699,9 @@ export const fullPageStyles = `
 
   .ambient-stat-card:hover {
     background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 159, 243, 0.2);
     transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(102, 126, 234, 0.2);
+    box-shadow: 0 12px 40px rgba(255, 107, 107, 0.2);
   }
 
   .ambient-stat-icon {
@@ -521,7 +712,10 @@ export const fullPageStyles = `
   .ambient-stat-value {
     font-size: 48px;
     font-weight: 900;
-    color: #667eea;
+    background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     margin-bottom: 8px;
   }
 
@@ -541,7 +735,7 @@ export const fullPageStyles = `
     font-weight: 800;
     text-align: center;
     margin-bottom: 64px;
-    background: linear-gradient(135deg, #ffffff 0%, #667eea 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #feca57 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -557,7 +751,7 @@ export const fullPageStyles = `
     background: rgba(255, 255, 255, 0.02);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 159, 243, 0.08);
     border-radius: 20px;
     padding: 48px 32px;
     text-align: center;
@@ -566,8 +760,9 @@ export const fullPageStyles = `
 
   .ambient-feature-card:hover {
     background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 159, 243, 0.2);
     transform: translateY(-8px);
-    box-shadow: 0 16px 48px rgba(102, 126, 234, 0.25);
+    box-shadow: 0 16px 48px rgba(254, 202, 87, 0.2);
   }
 
   .ambient-feature-icon {
@@ -588,6 +783,131 @@ export const fullPageStyles = `
     color: rgba(255, 255, 255, 0.7);
   }
 
+  /* ==================== MEDITATION TIMER SECTION ==================== */
+  .ambient-timer {
+    padding: 80px 0;
+  }
+
+  .ambient-timer-card {
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 159, 243, 0.1);
+    border-radius: 24px;
+    padding: 64px 48px;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .ambient-timer-title {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 48px;
+    background: linear-gradient(135deg, #ffffff 0%, #feca57 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .ambient-timer-circle {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    margin: 0 auto 48px;
+  }
+
+  .ambient-timer-ring {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+
+  .ambient-timer-track {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.1);
+    stroke-width: 8;
+  }
+
+  .ambient-timer-progress {
+    fill: none;
+    stroke: url(#gradient);
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 534;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 0.3s ease;
+  }
+
+  .ambient-timer-display {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .ambient-timer-time {
+    font-size: 56px;
+    font-weight: 900;
+    color: #ffffff;
+    margin-bottom: 4px;
+  }
+
+  .ambient-timer-label {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .ambient-timer-presets {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 32px;
+  }
+
+  .ambient-preset-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 159, 243, 0.2);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .ambient-preset-btn:hover {
+    background: rgba(255, 159, 243, 0.1);
+    color: #ffffff;
+  }
+
+  .ambient-preset-active {
+    background: linear-gradient(135deg, rgba(255, 107, 107, 0.3), rgba(254, 202, 87, 0.3));
+    border-color: #feca57;
+    color: #ffffff;
+  }
+
+  .ambient-timer-start {
+    background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+    border: none;
+    color: #ffffff;
+    padding: 16px 48px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(255, 107, 107, 0.3);
+  }
+
+  .ambient-timer-start:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(255, 107, 107, 0.5);
+  }
+
   /* ==================== TESTIMONIAL SECTION ==================== */
   .ambient-testimonial {
     padding: 80px 0;
@@ -597,7 +917,7 @@ export const fullPageStyles = `
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(30px);
     -webkit-backdrop-filter: blur(30px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 159, 243, 0.1);
     border-radius: 24px;
     padding: 64px 48px;
     max-width: 900px;
@@ -626,14 +946,15 @@ export const fullPageStyles = `
   }
 
   .ambient-author-avatar {
-    width: 56px;
-    height: 56px;
-    background: rgba(102, 126, 234, 0.2);
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, rgba(255, 107, 107, 0.3), rgba(254, 202, 87, 0.3));
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 28px;
+    font-size: 32px;
+    border: 2px solid rgba(255, 159, 243, 0.2);
   }
 
   .ambient-author-info {
@@ -644,11 +965,17 @@ export const fullPageStyles = `
     font-size: 18px;
     font-weight: 700;
     color: #ffffff;
+    margin-bottom: 4px;
   }
 
   .ambient-author-title {
     font-size: 14px;
     color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 4px;
+  }
+
+  .ambient-author-stars {
+    font-size: 14px;
   }
 
   /* ==================== FINAL CTA SECTION ==================== */
@@ -660,17 +987,18 @@ export const fullPageStyles = `
     background: rgba(255, 255, 255, 0.02);
     backdrop-filter: blur(30px);
     -webkit-backdrop-filter: blur(30px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 159, 243, 0.1);
     border-radius: 24px;
     padding: 80px 64px;
     text-align: center;
+    box-shadow: 0 8px 32px rgba(255, 107, 107, 0.15);
   }
 
   .ambient-cta-title {
     font-size: 48px;
     font-weight: 900;
     margin-bottom: 16px;
-    background: linear-gradient(135deg, #ffffff 0%, #667eea 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #feca57 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -689,7 +1017,7 @@ export const fullPageStyles = `
   }
 
   .ambient-cta-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
     border: none;
     color: #ffffff;
     padding: 18px 48px;
@@ -698,18 +1026,18 @@ export const fullPageStyles = `
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4);
   }
 
   .ambient-cta-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 40px rgba(102, 126, 234, 0.6);
+    box-shadow: 0 8px 40px rgba(255, 107, 107, 0.6);
   }
 
   .ambient-cta-secondary {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 159, 243, 0.3);
     color: #ffffff;
     padding: 18px 48px;
     border-radius: 12px;
@@ -720,8 +1048,68 @@ export const fullPageStyles = `
   }
 
   .ambient-cta-secondary:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 159, 243, 0.1);
+    border-color: #ff9ff3;
     transform: translateY(-2px);
+  }
+
+  /* ==================== FOOTER ==================== */
+  .ambient-footer {
+    padding: 60px 0 40px;
+    border-top: 1px solid rgba(255, 159, 243, 0.1);
+  }
+
+  .ambient-footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+  }
+
+  .ambient-footer-logo {
+    font-size: 24px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #ff9ff3 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .ambient-footer-links {
+    display: flex;
+    gap: 32px;
+  }
+
+  .ambient-footer-links a {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+  }
+
+  .ambient-footer-links a:hover {
+    color: #feca57;
+  }
+
+  .ambient-footer-social {
+    display: flex;
+    gap: 16px;
+  }
+
+  .ambient-footer-social a {
+    font-size: 24px;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+  }
+
+  .ambient-footer-social a:hover {
+    transform: scale(1.2);
+  }
+
+  .ambient-footer-copyright {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
   }
 
   /* ==================== RESPONSIVE ==================== */
@@ -733,11 +1121,28 @@ export const fullPageStyles = `
     .ambient-stats-grid {
       grid-template-columns: repeat(2, 1fr);
     }
+
+    .ambient-orb-1,
+    .ambient-orb-2,
+    .ambient-orb-3 {
+      width: 350px;
+      height: 350px;
+    }
+
+    .ambient-orb-4,
+    .ambient-orb-5 {
+      width: 250px;
+      height: 250px;
+    }
   }
 
   @media (max-width: 768px) {
     .ambient-hero-title {
       font-size: 42px;
+    }
+
+    .ambient-hero-content {
+      padding: 48px 32px;
     }
 
     .ambient-stats-grid {
@@ -748,12 +1153,43 @@ export const fullPageStyles = `
       display: none;
     }
 
-    .ambient-hero-content {
-      padding: 48px 32px;
-    }
-
     .ambient-cta-content {
       padding: 48px 32px;
     }
+
+    .ambient-footer-content {
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .ambient-timer-presets {
+      flex-wrap: wrap;
+    }
+
+    .ambient-orb-5 {
+      display: none; /* Hide center orb on mobile for performance */
+    }
+  }
+
+  /* ==================== ACCESSIBILITY ==================== */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+
+    .ambient-orb {
+      animation: none !important;
+    }
+  }
+
+  /* Focus styles for keyboard navigation */
+  button:focus-visible,
+  a:focus-visible {
+    outline: 2px solid #feca57;
+    outline-offset: 4px;
   }
 `;

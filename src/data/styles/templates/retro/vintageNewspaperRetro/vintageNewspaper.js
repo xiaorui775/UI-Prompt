@@ -5,7 +5,7 @@ import { retroVintageFullPageHTML, retroVintageFullPageStyles } from './vintageN
 
 export const vintageNewspaper =
   {
-    id: 'retro-vintage-newspaper',
+    id: 'retro-classic',
     title: 'styles.retro.vintageNewspaperRetro.vintageNewspaper.title',
     description: 'styles.retro.vintageNewspaperRetro.vintageNewspaper.description',
     demoHTML: `
