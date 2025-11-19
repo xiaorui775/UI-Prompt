@@ -2,6 +2,11 @@
 .masonry {
   column-count: 1;
   column-gap: 1.5rem; /* 24px */
+
+  /* 🚀 性能優化：GPU 加速，減少重排和重繪 */
+  will-change: contents;
+  contain: layout style paint;
+  transform: translateZ(0); /* 強制創建新的合成層，啟用 GPU 渲染 */
 }
 
 @media (min-width: 768px) {
@@ -19,5 +24,10 @@
   display: inline-block;
   width: 100%;
   margin: 0 0 1.5rem;
+
+  /* 🚀 性能優化：每個項目也啟用 GPU 加速 */
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden; /* 避免閃爍 */
 }
 

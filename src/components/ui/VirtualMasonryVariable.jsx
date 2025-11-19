@@ -50,9 +50,12 @@ export function VirtualMasonryVariable({
   // 回退：未載入 VarList 時使用簡單 Grid
   if (!VarList) {
     return (
-      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`, gap }}>
+      <div
+        className="masonry"
+        style={{ columnCount, columnGap: gap }}
+      >
         {items.map((it, i) => (
-          <div key={it?._uniqueKey || i} style={{ marginBottom: gap }}>
+          <div className="masonry-item" key={it?._uniqueKey || i}>
             {renderItem(it, i)}
           </div>
         ))}
@@ -122,20 +125,49 @@ function ColumnVariable({ items, renderItem, defaultItemHeight, listHeight, gap 
 
 function Measured({ children, onSize }) {
   const ref = useRef(null)
+  const rafRef = useRef(null) // 🚀 性能優化：使用 requestAnimationFrame 批量處理尺寸更新
+  const lastHeightRef = useRef(0) // 🚀 性能優化：記錄上次高度，避免重複更新
+
   useEffect(() => {
     if (!ref.current) return
     const el = ref.current
+
     const ro = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        const h = entry.contentRect?.height || el.offsetHeight || 0
-        if (h) onSize(h)
+      // 🚀 性能優化：取消之前的 RAF，避免多次更新
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current)
       }
+
+      // 🚀 性能優化：使用 RAF 批量處理，在瀏覽器下一幀更新
+      rafRef.current = requestAnimationFrame(() => {
+        for (const entry of entries) {
+          const h = entry.contentRect?.height || el.offsetHeight || 0
+          // 🚀 性能優化：只有高度變化超過 1px 才更新，避免微小變化觸發重排
+          if (h > 0 && Math.abs(h - lastHeightRef.current) > 1) {
+            lastHeightRef.current = h
+            onSize(h)
+          }
+        }
+      })
     })
+
     ro.observe(el)
-    // 初次
-    onSize(el.offsetHeight || 0)
-    return () => ro.disconnect()
+
+    // 初次測量
+    const initialHeight = el.offsetHeight || 0
+    if (initialHeight > 0) {
+      lastHeightRef.current = initialHeight
+      onSize(initialHeight)
+    }
+
+    return () => {
+      ro.disconnect()
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current)
+      }
+    }
   }, [onSize])
+
   return <div ref={ref}>{children}</div>
 }
 

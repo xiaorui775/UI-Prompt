@@ -43,11 +43,46 @@ export function StyleCard({
   const [showPreview, setShowPreview] = useState(false);
   const { language, t } = useLanguage();
   const iframeRef = useRef(null);
+  const cardRef = useRef(null);
+
+  // 🚀 性能優化：延遲載入 iframe
+  const [isVisible, setIsVisible] = useState(false);
+  const [hasLoaded, setHasLoaded] = useState(false);
+
   // 語系對應的 demo HTML 須先計算，供 iframe 注入使用
   const currentDemoHTML = getDemoHTML(demoHTML, language);
 
-  // 在 iframe 中渲染 demo，避免自定義 CSS 外溢影響全域（如 Header/Menu）
+  // 🚀 性能優化：IntersectionObserver 監測卡片可見性
   useEffect(() => {
+    const card = cardRef.current;
+    if (!card) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasLoaded) {
+            setIsVisible(true);
+            setHasLoaded(true); // 一旦載入就不再重置，避免重複創建 iframe
+          }
+        });
+      },
+      {
+        rootMargin: '200px', // 提前 200px 開始載入，改善用戶體驗
+        threshold: 0.01 // 只需 1% 可見即觸發
+      }
+    );
+
+    observer.observe(card);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [hasLoaded]);
+
+  // 在 iframe 中渲染 demo，避免自定義 CSS 外溢影響全域（如 Header/Menu）
+  // 🚀 性能優化：只在卡片可見時才創建和渲染 iframe
+  useEffect(() => {
+    if (!isVisible) return; // 關鍵：延遲載入，只有可見時才執行
     const iframe = iframeRef.current;
     if (!iframe) return;
     const doc = iframe.contentDocument || iframe.contentWindow?.document;
@@ -164,7 +199,7 @@ export function StyleCard({
     } catch {
       // Ignore write errors
     }
-  }, [currentDemoHTML, customStyles, layoutMode]);
+  }, [isVisible, currentDemoHTML, customStyles, layoutMode]);
 
   const renderText = (value) => {
     let result = '';
@@ -227,21 +262,23 @@ export function StyleCard({
   const displayDescription = renderText(description);
 
   // ✨ 構建 style 對象以支持自定義 Prompt
-  const styleObject = {
+  const styleObject = useMemo(() => ({
     title: displayTitle,
     description: displayDescription,
     customPrompt,
     stylePrompt,
     demoHTML,
     fullPageHTML
-  };
+  }), [displayTitle, displayDescription, customPrompt, stylePrompt, demoHTML, fullPageHTML]);
 
-  // For StyleCard, prefer short customPrompt; fallback to stylePrompt
-  const promptContent = PromptGenerator.generate(
-    styleObject,
-    { mode: 'card' },
-    language
-  );
+  // ✨ 使用 useMemo 避免每次渲染都重新生成 Prompt（性能優化）
+  const promptContent = useMemo(() => {
+    return PromptGenerator.generate(
+      styleObject,
+      { mode: 'card' },
+      language
+    );
+  }, [styleObject, language]);
   
   // 解析 demoBoxStyle：支援多宣告、移除分號、kebab 轉 camelCase
   const parseStyleString = (str) => {
@@ -270,15 +307,25 @@ export function StyleCard({
 
   return (
     <>
-      <div className="minimal-card bg-white rounded-lg overflow-hidden relative">
+      <div ref={cardRef} className="minimal-card bg-white rounded-lg overflow-hidden relative">
         {/* 演示區：改為 iframe 沙箱，隔離自定義 CSS 對全域的影響 */}
         <div className={`demo-box ${demoBoxClass}`} style={demoBoxInlineStyle}>
-          <iframe
-            ref={iframeRef}
-            title={`style-demo-${id || displayTitle}`}
-            className="w-full h-full border-0"
-            sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
-          />
+          {!isVisible ? (
+            // 🚀 性能優化：佔位符，避免初始載入時創建所有 iframe
+            <div className="w-full h-full flex items-center justify-center bg-gray-50">
+              <div className="flex flex-col items-center gap-2">
+                <div className="w-8 h-8 border-4 border-gray-300 border-t-gray-600 rounded-full animate-spin"></div>
+                <span className="text-sm text-gray-400">{t('common.loading') || 'Loading...'}</span>
+              </div>
+            </div>
+          ) : (
+            <iframe
+              ref={iframeRef}
+              title={`style-demo-${id || displayTitle}`}
+              className="w-full h-full border-0"
+              sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
+            />
+          )}
         </div>
 
         {/* 内容区域 */}

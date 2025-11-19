@@ -138,6 +138,11 @@ body {
 .minimal-card {
   border: 1px solid #e5e5e5;
   transition: border-color 0.2s ease;
+
+  /* 🚀 性能優化：GPU 加速，減少重排 */
+  transform: translateZ(0);
+  will-change: transform;
+  contain: layout style paint;
 }
 
 .minimal-card:hover {
@@ -153,6 +158,18 @@ body {
   padding: 1.5rem;
   overflow: hidden;
   position: relative;
+
+  /* 🚀 性能優化：GPU 加速 iframe 容器 */
+  transform: translateZ(0);
+  will-change: contents;
+  contain: strict; /* 嚴格隔離，優化渲染性能 */
+}
+
+/* 🚀 性能優化：iframe 元素 GPU 加速 */
+.demo-box iframe {
+  transform: translateZ(0);
+  contain: strict;
+  backface-visibility: hidden;
 }
 
 /* Skeuomorphism 拟物化样式 */

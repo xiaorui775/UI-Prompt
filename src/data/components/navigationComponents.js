@@ -3424,33 +3424,33 @@ export const navigationComponents = [
               <!-- 線性進度條 1: 簡潔細線 -->
               <div>
                 <div class="flex justify-between items-center mb-2">
-                  <span class="text-sm font-medium text-gray-900">文件上傳中</span>
+                  <span class="text-sm font-medium text-gray-900">{{t:demo.progressIndicators.uploadingFile}}</span>
                   <span class="text-sm font-semibold text-black">73%</span>
                 </div>
                 <div class="w-full h-1 bg-gray-200 rounded-full overflow-hidden">
                   <div class="progress-min-bar h-1 bg-black rounded-full" style="width: 73%"></div>
                 </div>
-                <p class="text-xs text-gray-500 mt-1">正在處理 document.pdf (2.4 MB / 3.3 MB)</p>
+                <p class="text-xs text-gray-500 mt-1">{{t:demo.progressIndicators.processingFile}}</p>
               </div>
 
               <!-- 線性進度條 2: 粗條帶標籤 -->
               <div>
                 <div class="flex justify-between items-center mb-3">
-                  <span class="text-base font-semibold text-gray-900">數據同步</span>
-                  <span class="text-xs text-gray-600">預計剩餘 2 分鐘</span>
+                  <span class="text-base font-semibold text-gray-900">{{t:demo.progressIndicators.dataSync}}</span>
+                  <span class="text-xs text-gray-600">{{t:demo.progressIndicators.estimatedTimeRemaining}}</span>
                 </div>
                 <div class="w-full h-3 bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
                   <div class="progress-min-thick h-3 bg-gradient-to-r from-gray-800 to-black" style="width: 45%"></div>
                 </div>
                 <div class="flex justify-between mt-2">
-                  <span class="text-xs text-gray-500">已同步 450 / 1000 項</span>
+                  <span class="text-xs text-gray-500">{{t:demo.progressIndicators.syncedItems}}</span>
                   <span class="text-xs font-medium text-gray-700">45%</span>
                 </div>
               </div>
 
               <!-- 線性進度條 3: 多段進度 -->
               <div>
-                <h4 class="text-sm font-semibold text-gray-900 mb-4">安裝進度</h4>
+                <h4 class="text-sm font-semibold text-gray-900 mb-4">{{t:demo.progressIndicators.installationProgress}}</h4>
                 <div class="space-y-4">
                   <div class="flex items-center gap-3">
                     <div class="w-6 h-6 rounded-full bg-black flex items-center justify-center flex-shrink-0">
@@ -3459,12 +3459,12 @@ export const navigationComponents = [
                       </svg>
                     </div>
                     <div class="flex-1">
-                      <p class="text-sm font-medium text-gray-900">下載文件</p>
+                      <p class="text-sm font-medium text-gray-900">{{t:demo.progressIndicators.downloadingFiles}}</p>
                       <div class="w-full h-1.5 bg-gray-200 rounded-full mt-1">
                         <div class="h-1.5 bg-black rounded-full" style="width: 100%"></div>
                       </div>
                     </div>
-                    <span class="text-xs text-gray-500">完成</span>
+                    <span class="text-xs text-gray-500">{{t:demo.progressIndicators.completed}}</span>
                   </div>
 
                   <div class="flex items-center gap-3">
@@ -3472,7 +3472,7 @@ export const navigationComponents = [
                       <div class="w-2 h-2 bg-black rounded-full"></div>
                     </div>
                     <div class="flex-1">
-                      <p class="text-sm font-medium text-gray-900">安裝依賴</p>
+                      <p class="text-sm font-medium text-gray-900">{{t:demo.progressIndicators.installingDependencies}}</p>
                       <div class="w-full h-1.5 bg-gray-200 rounded-full mt-1">
                         <div class="progress-min-bar h-1.5 bg-black rounded-full" style="width: 68%"></div>
                       </div>
@@ -3485,12 +3485,12 @@ export const navigationComponents = [
                       <span class="text-xs text-gray-400">3</span>
                     </div>
                     <div class="flex-1">
-                      <p class="text-sm font-medium text-gray-400">配置環境</p>
+                      <p class="text-sm font-medium text-gray-400">{{t:demo.progressIndicators.configuringEnvironment}}</p>
                       <div class="w-full h-1.5 bg-gray-200 rounded-full mt-1">
                         <div class="h-1.5 bg-gray-300 rounded-full" style="width: 0%"></div>
                       </div>
                     </div>
-                    <span class="text-xs text-gray-400">等待中</span>
+                    <span class="text-xs text-gray-400">{{t:demo.progressIndicators.waiting}}</span>
                   </div>
                 </div>
               </div>
@@ -3529,7 +3529,7 @@ export const navigationComponents = [
               <div class="grid md:grid-cols-2 gap-8">
               <!-- 圓形進度環 1: 立體感 -->
               <div class="progress-skeuo-card">
-                <h4 class="text-sm font-bold text-gray-800 mb-4 text-center">下載進度</h4>
+                <h4 class="text-sm font-bold text-gray-800 mb-4 text-center">{{t:demo.progressIndicators.downloadProgress}}</h4>
                 <div class="flex justify-center mb-4">
                   <div class="relative w-40 h-40">
                     <svg class="w-40 h-40 transform -rotate-90">
@@ -3551,14 +3551,14 @@ export const navigationComponents = [
                   </div>
                 </div>
                 <div class="text-center">
-                  <p class="text-xs text-gray-700 font-semibold">已下載 6.5 GB / 10 GB</p>
-                  <p class="text-xs text-blue-600 mt-1">剩餘時間: 3 分 24 秒</p>
+                  <p class="text-xs text-gray-700 font-semibold">{{t:demo.progressIndicators.downloadedSize}}</p>
+                  <p class="text-xs text-blue-600 mt-1">{{t:demo.progressIndicators.timeRemaining}}</p>
                 </div>
               </div>
 
               <!-- 圓形進度環 2: 儀表盤風格 -->
               <div class="progress-skeuo-card">
-                <h4 class="text-sm font-bold text-gray-800 mb-4 text-center">性能指標</h4>
+                <h4 class="text-sm font-bold text-gray-800 mb-4 text-center">{{t:demo.progressIndicators.performanceMetrics}}</h4>
                 <div class="flex justify-center mb-4">
                   <div class="relative w-40 h-40">
                     <svg class="w-40 h-40 transform -rotate-90">
@@ -3569,22 +3569,22 @@ export const navigationComponents = [
                     </svg>
                     <div class="absolute inset-0 flex flex-col items-center justify-center progress-skeuo-screen">
                       <span class="text-4xl font-black text-green-500 progress-skeuo-neon">88</span>
-                      <span class="text-xs font-bold text-green-400">EXCELLENT</span>
+                      <span class="text-xs font-bold text-green-400">{{t:demo.progressIndicators.excellent}}</span>
                     </div>
                   </div>
                 </div>
                 <div class="text-center">
-                  <p class="text-xs text-gray-700 font-semibold">系統運行正常</p>
+                  <p class="text-xs text-gray-700 font-semibold">{{t:demo.progressIndicators.systemRunningNormal}}</p>
                   <div class="flex justify-center gap-4 mt-2">
-                    <span class="text-xs text-green-600">▲ CPU 12%</span>
-                    <span class="text-xs text-green-600">▲ RAM 45%</span>
+                    <span class="text-xs text-green-600">{{t:demo.progressIndicators.cpuUsage}}</span>
+                    <span class="text-xs text-green-600">{{t:demo.progressIndicators.ramUsage}}</span>
                   </div>
                 </div>
               </div>
 
               <!-- 立體條形進度 -->
               <div class="md:col-span-2 progress-skeuo-card">
-                <h4 class="text-sm font-bold text-gray-800 mb-4">上傳隊列</h4>
+                <h4 class="text-sm font-bold text-gray-800 mb-4">{{t:demo.progressIndicators.uploadQueue}}</h4>
                 <div class="space-y-4">
                   <div>
                     <div class="flex justify-between items-center mb-2">
@@ -3760,7 +3760,7 @@ export const navigationComponents = [
               <div class="max-w-2xl mx-auto space-y-10">
               <!-- 圓形進度環 -->
               <div class="text-center">
-                <h4 class="text-sm font-semibold text-gray-700 mb-6">整體進度</h4>
+                <h4 class="text-sm font-semibold text-gray-700 mb-6">{{t:demo.progressIndicators.overallProgress}}</h4>
                 <div class="flex justify-center mb-6">
                   <div class="relative">
                     <div class="progress-neomorph-circle-outer">
@@ -3783,14 +3783,14 @@ export const navigationComponents = [
                     </div>
                   </div>
                 </div>
-                <p class="text-sm text-gray-600">已完成 7 / 10 個任務</p>
+                <p class="text-sm text-gray-600">{{t:demo.progressIndicators.tasksCompleted}}</p>
               </div>
 
               <!-- 線性進度條 -->
               <div class="space-y-6">
                 <div>
                   <div class="flex justify-between items-center mb-3">
-                    <span class="text-sm font-semibold text-gray-800">數據備份</span>
+                    <span class="text-sm font-semibold text-gray-800">{{t:demo.progressIndicators.dataBackup}}</span>
                     <span class="text-sm font-bold text-blue-600">85%</span>
                   </div>
                   <div class="progress-neomorph-bar">
@@ -3800,7 +3800,7 @@ export const navigationComponents = [
 
                 <div>
                   <div class="flex justify-between items-center mb-3">
-                    <span class="text-sm font-semibold text-gray-800">文件同步</span>
+                    <span class="text-sm font-semibold text-gray-800">{{t:demo.progressIndicators.fileSync}}</span>
                     <span class="text-sm font-bold text-purple-600">62%</span>
                   </div>
                   <div class="progress-neomorph-bar">
@@ -3810,7 +3810,7 @@ export const navigationComponents = [
 
                 <div>
                   <div class="flex justify-between items-center mb-3">
-                    <span class="text-sm font-semibold text-gray-800">系統更新</span>
+                    <span class="text-sm font-semibold text-gray-800">{{t:demo.progressIndicators.systemUpdate}}</span>
                     <span class="text-sm font-bold text-green-600">100%</span>
                   </div>
                   <div class="progress-neomorph-bar">
@@ -3821,7 +3821,7 @@ export const navigationComponents = [
 
               <!-- 步驟進度 -->
               <div>
-                <h4 class="text-sm font-semibold text-gray-800 mb-5">安裝步驟</h4>
+                <h4 class="text-sm font-semibold text-gray-800 mb-5">{{t:demo.progressIndicators.installationSteps}}</h4>
                 <div class="space-y-4">
                   <div class="flex items-center gap-4">
                     <div class="progress-neomorph-step progress-neomorph-step-done">
@@ -3830,8 +3830,8 @@ export const navigationComponents = [
                       </svg>
                     </div>
                     <div class="flex-1">
-                      <p class="text-sm font-semibold text-gray-800">下載安裝包</p>
-                      <p class="text-xs text-green-600 mt-1">已完成</p>
+                      <p class="text-sm font-semibold text-gray-800">{{t:demo.progressIndicators.downloadPackage}}</p>
+                      <p class="text-xs text-green-600 mt-1">{{t:demo.progressIndicators.completed}}</p>
                     </div>
                   </div>
 
@@ -3840,11 +3840,11 @@ export const navigationComponents = [
                       <div class="w-3 h-3 bg-blue-600 rounded-full progress-neomorph-dot"></div>
                     </div>
                     <div class="flex-1">
-                      <p class="text-sm font-semibold text-gray-800">安裝中...</p>
+                      <p class="text-sm font-semibold text-gray-800">{{t:demo.progressIndicators.installing}}</p>
                       <div class="progress-neomorph-bar mt-2" style="height: 0.5rem;">
                         <div class="progress-neomorph-fill progress-neomorph-blue progress-neomorph-animate" style="width: 56%; height: 0.5rem;"></div>
                       </div>
-                      <p class="text-xs text-blue-600 mt-1">進行中 (56%)</p>
+                      <p class="text-xs text-blue-600 mt-1">{{t:demo.progressIndicators.inProgress}}</p>
                     </div>
                   </div>
 
@@ -3853,8 +3853,8 @@ export const navigationComponents = [
                       <span class="text-sm font-medium text-gray-500">3</span>
                     </div>
                     <div class="flex-1">
-                      <p class="text-sm font-medium text-gray-500">配置系統</p>
-                      <p class="text-xs text-gray-400 mt-1">等待中</p>
+                      <p class="text-sm font-medium text-gray-500">{{t:demo.progressIndicators.configureSystem}}</p>
+                      <p class="text-xs text-gray-400 mt-1">{{t:demo.progressIndicators.waiting}}</p>
                     </div>
                   </div>
 
@@ -3863,8 +3863,8 @@ export const navigationComponents = [
                       <span class="text-sm font-medium text-gray-500">4</span>
                     </div>
                     <div class="flex-1">
-                      <p class="text-sm font-medium text-gray-500">完成安裝</p>
-                      <p class="text-xs text-gray-400 mt-1">等待中</p>
+                      <p class="text-sm font-medium text-gray-500">{{t:demo.progressIndicators.finishInstallation}}</p>
+                      <p class="text-xs text-gray-400 mt-1">{{t:demo.progressIndicators.waiting}}</p>
                     </div>
                   </div>
                   </div>
@@ -4003,7 +4003,7 @@ export const navigationComponents = [
               <div class="max-w-2xl mx-auto space-y-8">
               <!-- 圓形進度 + 漸變動畫 -->
               <div class="progress-glass-card">
-                <h4 class="text-sm font-semibold text-purple-800 mb-6 text-center">處理進度</h4>
+                <h4 class="text-sm font-semibold text-purple-800 mb-6 text-center">{{t:demo.progressIndicators.processingProgress}}</h4>
                 <div class="flex justify-center mb-6">
                   <div class="relative">
                     <svg class="w-48 h-48 transform -rotate-90">
@@ -4026,8 +4026,8 @@ export const navigationComponents = [
                   </div>
                 </div>
                 <div class="text-center">
-                  <p class="text-sm font-medium text-purple-700">數據處理中...</p>
-                  <p class="text-xs text-purple-500 mt-1">預計剩餘 2 分 30 秒</p>
+                  <p class="text-sm font-medium text-purple-700">{{t:demo.progressIndicators.processingData}}</p>
+                  <p class="text-xs text-purple-500 mt-1">{{t:demo.progressIndicators.estimatedTimeRemaining2}}</p>
                 </div>
               </div>
 
@@ -4036,7 +4036,7 @@ export const navigationComponents = [
                 <div class="space-y-6">
                   <div>
                     <div class="flex justify-between items-center mb-3">
-                      <span class="text-sm font-semibold text-purple-800">視頻渲染</span>
+                      <span class="text-sm font-semibold text-purple-800">{{t:demo.progressIndicators.videoRendering}}</span>
                       <span class="text-sm font-bold bg-gradient-to-r from-purple-600 to-pink-600 text-transparent bg-clip-text">92%</span>
                     </div>
                     <div class="progress-glass-bar">
@@ -4044,12 +4044,12 @@ export const navigationComponents = [
                         <div class="progress-glass-glow-effect"></div>
                       </div>
                     </div>
-                    <p class="text-xs text-purple-600 mt-2">1080p · 幀 2760 / 3000</p>
+                    <p class="text-xs text-purple-600 mt-2">{{t:demo.progressIndicators.videoProgress}}</p>
                   </div>
 
                   <div>
                     <div class="flex justify-between items-center mb-3">
-                      <span class="text-sm font-semibold text-purple-800">音頻編碼</span>
+                      <span class="text-sm font-semibold text-purple-800">{{t:demo.progressIndicators.audioEncoding}}</span>
                       <span class="text-sm font-bold bg-gradient-to-r from-blue-600 to-cyan-600 text-transparent bg-clip-text">100%</span>
                     </div>
                     <div class="progress-glass-bar">
@@ -4057,12 +4057,12 @@ export const navigationComponents = [
                         <div class="progress-glass-glow-effect"></div>
                       </div>
                     </div>
-                    <p class="text-xs text-green-600 mt-2">✓ 已完成</p>
+                    <p class="text-xs text-green-600 mt-2">{{t:demo.progressIndicators.completedWithCheck}}</p>
                   </div>
 
                   <div>
                     <div class="flex justify-between items-center mb-3">
-                      <span class="text-sm font-semibold text-purple-800">合併輸出</span>
+                      <span class="text-sm font-semibold text-purple-800">{{t:demo.progressIndicators.mergingOutput}}</span>
                       <span class="text-sm font-bold bg-gradient-to-r from-orange-600 to-red-600 text-transparent bg-clip-text">38%</span>
                     </div>
                     <div class="progress-glass-bar">
@@ -4070,14 +4070,14 @@ export const navigationComponents = [
                         <div class="progress-glass-glow-effect progress-glass-wave"></div>
                       </div>
                     </div>
-                    <p class="text-xs text-orange-600 mt-2">處理中...</p>
+                    <p class="text-xs text-orange-600 mt-2">{{t:demo.progressIndicators.processing}}</p>
                   </div>
                 </div>
               </div>
 
               <!-- 多層次進度 -->
               <div class="progress-glass-card">
-                <h4 class="text-sm font-semibold text-purple-800 mb-5">任務隊列</h4>
+                <h4 class="text-sm font-semibold text-purple-800 mb-5">{{t:demo.progressIndicators.taskQueue}}</h4>
                 <div class="space-y-4">
                   <div class="flex items-center gap-4">
                     <div class="progress-glass-icon progress-glass-icon-done">
@@ -4086,12 +4086,12 @@ export const navigationComponents = [
                       </svg>
                     </div>
                     <div class="flex-1">
-                      <p class="text-sm font-semibold text-purple-800">下載素材</p>
+                      <p class="text-sm font-semibold text-purple-800">{{t:demo.progressIndicators.downloadingMaterials}}</p>
                       <div class="flex items-center gap-2 mt-1">
                         <div class="flex-1 h-1 bg-white/20 rounded-full">
                           <div class="h-1 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full" style="width: 100%"></div>
                         </div>
-                        <span class="text-xs text-green-600">完成</span>
+                        <span class="text-xs text-green-600">{{t:demo.progressIndicators.completed}}</span>
                       </div>
                     </div>
                   </div>
@@ -4101,7 +4101,7 @@ export const navigationComponents = [
                       <div class="w-3 h-3 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full progress-glass-dot"></div>
                     </div>
                     <div class="flex-1">
-                      <p class="text-sm font-semibold text-purple-800">AI 分析中</p>
+                      <p class="text-sm font-semibold text-purple-800">{{t:demo.progressIndicators.aiAnalyzing}}</p>
                       <div class="flex items-center gap-2 mt-1">
                         <div class="flex-1 h-1 bg-white/20 rounded-full overflow-hidden">
                           <div class="h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full progress-glass-loading" style="width: 67%"></div>
@@ -4116,12 +4116,12 @@ export const navigationComponents = [
                       <span class="text-xs font-medium text-purple-400">3</span>
                     </div>
                     <div class="flex-1">
-                      <p class="text-sm font-medium text-purple-400">生成報告</p>
+                      <p class="text-sm font-medium text-purple-400">{{t:demo.progressIndicators.generatingReport}}</p>
                       <div class="flex items-center gap-2 mt-1">
                         <div class="flex-1 h-1 bg-white/10 rounded-full">
                           <div class="h-1 bg-purple-300/30 rounded-full" style="width: 0%"></div>
                         </div>
-                        <span class="text-xs text-purple-400">待處理</span>
+                        <span class="text-xs text-purple-400">{{t:demo.progressIndicators.pending}}</span>
                       </div>
                     </div>
                   </div>
@@ -4332,7 +4332,7 @@ export const navigationComponents = [
       <div class="w-full max-w-md">
         <div class="bg-white rounded-lg border border-gray-200 p-6">
           <div class="flex justify-between items-center mb-3">
-            <h4 class="font-semibold text-gray-900">文件上傳</h4>
+            <h4 class="font-semibold text-gray-900">{{t:demo.progressIndicators.uploadingFile}}</h4>
             <span class="text-sm text-gray-600">75%</span>
           </div>
           <div class="w-full bg-gray-200 rounded-full h-2">

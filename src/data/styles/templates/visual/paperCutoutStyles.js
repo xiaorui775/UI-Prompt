@@ -1,6 +1,9 @@
 // Paper/Cutout Style Data
 // 纸张剪贴风格数据
 
+// ✨ 穩定的空數組引用（防止 useMemo 無限循環）
+const EMPTY_PREVIEWS = [];
+
 export const paperCutoutStyles = [
   {
     id: 'paperCutout',
@@ -196,8 +199,7 @@ export const paperCutoutStyles = [
     `,
     // 透過預覽加載器動態載入完整頁面（避免首屏打包過大）
     fullPagePreviewId: 'paper-cutout',
-    fullPageHTML: '', // 將在 paperCutoutFullPage.js 中定義
-    fullPageStyles: '',
+    previews: EMPTY_PREVIEWS,  // ✨ 使用穩定的空數組引用
     // Paper Cutout 風格 StylePrompt（較長版敘事）
     stylePrompt: {
       'zh-CN': `角色：你是一位擅长纸张剪贴与手帐视觉语言的 UI 设计师，需要为灵感板、任务墙或个人记录工具设计一套 Paper/Cutout 风格界面。
@@ -235,82 +237,173 @@ The overall mood is that of a creative person’s desk or wall: slightly messy b
     },
     // Paper Cutout CustomPrompt（模板級 AI 指令）
     customPrompt: {
-      'zh-CN': `请使用 TailwindCSS 创建一个 **Paper / Cutout（纸张剪贴）** 风格界面，围绕便利贴、纸卡与拼贴标签构建一个像桌面灵感板的 UI。
+      'zh-CN': `
+你现在是一名非常熟悉「纸张剪裁 / paper cutout」风格的资深 UI 设计师兼前端工程师，需要为一个全新页面生成一套与当前样式 /styles/preview/paperCutout 高度一致的界面。
 
-**核心设计要求**
+你的任务是：编写一段可以直接复制给 LLM 使用的完整指令，让它生成一个新的 HTML 全页面界面。这个界面在布局逻辑、配色方向、纸张层次、阴影风格上，要与当前 paperCutout 示例高度相似，但承载的业务内容和文案可以完全不同。
 
-1. **纸面背景与桌面氛围**
-   - 背景可使用浅奶油色或米色：\`#FAF0E6\`、\`#FFF8E1\`。
-   - 可以加入轻微纸纹理或噪点，模拟纸张/软木板表面。
+请严格遵守以下约束：
+- 不要照抄现有示例的具体文字内容、标题或图标文案。
+- 必须延续纸张剪裁的视觉语言：多层纸片、便利贴、拼贴标签、柔和阴影。
+- 生成结果应当在第一眼就能被识别为 paperCutout 家族的同系列页面。
+- 输出格式固定为语义化 HTML + 近似 TailwindCSS 的原子化类名，不要输出伪代码。
 
-2. **便利贴与纸卡造型**
-   - 便利贴：略带旋转、轻微阴影、顶部有图钉或胶带。
-   - 纸卡：矩形或稍有撕边感，顶部可加虚线/装饰边。
-   - CSS 示例：
-     \`\`\`css
-     .sticky-note {
-       background: linear-gradient(135deg, #FFF59D, #FFF176);
-       border-radius: 2px;
-       box-shadow: 2px 2px 6px rgba(0,0,0,0.15);
-       transform: rotate(-2deg);
-     }
-     .paper-card {
-       background: #FFFAF0;
-       box-shadow: 2px 2px 6px rgba(0,0,0,0.15);
-       border-top: 3px dashed rgba(0,0,0,0.1);
-     }
-     \`\`\`
+【使用场景设定】
+- 新页面的主题是「创意项目与灵感整理工作台」。
+- 用户是自由职业设计师、插画师、写作者、内容创作者，他们习惯把想法写在纸上、贴在墙上或桌面上。
+- 这个页面主要用来浏览每日任务、正在推进的创意项目、临时灵感便签、收藏素材以及简易日程。
+- 整体氛围要像一个被认真整理过的纸质灵感板：色彩丰富但不过度喧闹，结构有条理但保留一点随性。
 
-3. **拼贴标签与颜色系统**
-   - 使用小色块标签（Ideas / Tasks / Done 等），每个标签有不同的纸张色块：
-     - 粉：\`#F8BBD0\`、蓝：\`#90CAF9\`、绿：\`#AED581\`。
-   - 标签略有旋转和阴影，鼠标悬停时水平微微位移。
+【整体布局结构要求】
+1. 顶部区域（Header）
+   - 顶部采用左右布局：左侧是品牌标识或页面标题区域，右侧放置用户头像、简单设置入口或模式切换按钮。
+   - 标题使用带纸质标签感的矩形条，带轻微圆角和柔和投影，就像一条贴在页面顶部的纸带。
+   - 顶部区块的背景颜色与主背景略有差异，可以是稍微更浅或略偏暖/偏冷的纸张色块，用以分层。
 
-4. **手写感排版**
-   - 标题可以使用手写感字体（或模拟）：字号略大、字距稍紧。
-   - 正文使用常规无衬线或略带人文感的字体，保证可读性。
+2. 主体区域（Main）
+   - 主体采用二到三列的栅格布局，每个功能模块都包装成一张独立的纸片或卡片。
+   - 左侧可以以「今日任务」「待办优先级」为主体，中间放置「创意项目看板」，右侧用于「灵感便签墙」「收藏灵感列表」。
+   - 每张纸片之间要留出明确间距，使用户能感受到各模块之间的分隔，同时保留被刻意排布在桌面上的错落感。
+   - 可以适度使用轻微旋转、错位与叠加，让某些小标签压在大卡片的角落上，增强纸张叠放的真实感。
 
-5. **布局结构建议**
-   - 上方：1–2 个主纸卡（如「Meeting Notes」「Daily Task」）。
-   - 下方：拼贴标签或小纸条网格，用于展示分类或状态。
-   - Tailwind 布局示例：
-     \`\`\`html
-     <div class="grid gap-4 md:grid-cols-3 bg-amber-50 p-6">
-       <!-- sticky note, paper card, collage tags -->
-     </div>
-     \`\`\`
+3. 辅助区域（Sidebar / Footer）
+   - 可以设计一个窄侧边栏，用纸条或竖向卡片展示「今日心情」「番茄钟」「专注模式入口」等信息。
+   - 底部可以加入一条细长纸带作为 footer，用于显示版权、快捷键提示或一句激励文案。
+   - 所有这些辅助区域仍然使用纸片造型，与主卡片保持统一的材质与光影语言。
 
-**重要提示**
-- 保持轻微、自然的不对称（少量旋转和错位），让画面更像真实桌面。
-- 阴影强度适中，不要过于数字化（避免强烈、高对比的 UI 阴影）。
-- 文案可以稍微轻松、有手帐感，但结构仍需清晰。`,
-      'en-US': `Create a **Paper / Cutout** style interface using TailwindCSS, focusing on sticky notes, paper cards, and collage tags arranged like a physical inspiration board.
+【布局结构细化说明】
+为了帮助 LLM 更好地生成结构，请在页面中至少包含以下几个模块（名称可调整，但功能要类似）：
+- 「Today overview」：位于上方或左上，是一个稍大的纸片，汇总日期、今日任务数量、当前专注项目。
+- 「Projects board」：使用两到三列纸卡表示不同项目，每张卡片上有项目名、进度标签以及一到两行说明。
+- 「Inspiration notes」：一组颜色各异的小便利贴卡片，每张包含简短手写风格标题和两三行描述。
+- 「Pinned references」：表现为水平排列的细长纸条或标签，展示用户固定置顶的资源链接或关键词。
+- 「Schedule strip」：可以是一条细长的时间条或列表样式纸片，用于记录当日重要时段的安排。
 
-**Core Design Requirements**
+【色彩体系与纸张质感】
+1. 背景与基底
+   - 整体背景应使用非常浅、接近真实纸张的中性色，例如略带暖调的浅米色或略带冷调的浅灰蓝。
+   - 可以在说明中点出 2～3 个推荐色值，用于帮助 LLM 理解色彩明度和氛围（例如一组用于背景、一组用于卡片、一组用于标签）。
+   - 背景可以加入极轻微的噪点或纹理效果描述，让界面避免过于光滑、塑料感太重。
 
-1. **Paper Background**
-   - Use warm off-white or cream tones (\`#FAF0E6\`, \`#FFF8E1\`) and optional subtle grain.
+2. 卡片与便利贴配色
+   - 主卡片使用比背景略深一点的柔和色块，例如浅米黄、浅奶茶棕、柔和的灰蓝等，保持低饱和。
+   - 便利贴可以更活潑一些，例如淡黃、淡粉、淡綠、淡藍，但仍然避免刺眼的霓虹色。
+   - 为标签型元素（例如狀態標籤、類別標籤）預留一組飽和度略高的紙色，用於強調但不搶佔主視覺。
 
-2. **Sticky Notes and Cards**
-   - Slight rotation and soft drop shadows to simulate taped or pinned notes.
-   - Optional dashed top borders or clips to emphasize the paper feel.
+3. 描边与阴影
+   - 卡片可以有極細的邊框線，以淺灰或接近背景的顏色繪製，營造紙張邊緣。
+   - 陰影應該柔和且略大，方向一致（例如向右下），模糊半徑較大、不透明度較低，讓紙片像浮在背景上。
+   - 在說明中強調上下層關係：上層紙片的陰影會落在下層卡片的一角，以此表達明確層次。
 
-3. **Collage Tags**
-   - Small colored tags (pink, blue, green) with hand-written style labels.
-   - Slight rotation differences and hover shifts for a lively collage effect.
+【交互與動效設計】
+1. 懸停（hover）
+   - 當鼠標懸停在卡片或便利貼上時，紙片輕微向上移動 2～4 像素，陰影略微變深、變窄，營造被手指輕輕撩起的感覺。
+   - 對於主要操作按鈕（例如「新增靈感」「新增任務」），懸停時可以增加亮度或加入一圈柔和描邊，提示可點擊性。
 
-4. **Typography**
-   - Handwritten-style headings paired with clean sans-serif body text.
-   - Emphasize casual, personal tone while preserving readability.
+2. 按下（active）
+   - 在按下狀態下，紙片或按鈕可以輕微下沉 1～2 像素，陰影變小或稍稍移動，模擬紙質按鍵被壓下的觸感。
+   - 避免使用強烈縮放或彈跳動畫，以免破壞紙張風格的柔和氛圍。
 
-5. **Layout**
-   - Use a simple grid (2–3 columns) to place sticky notes, cards, and tag groups.
-   - Leave comfortable gaps between elements to keep the board airy.
+3. 動畫節奏
+   - 所有過渡時間控制在約 150～220 毫秒之間，使用 ease-out 或 ease-in-out 曲線。
+   - 動畫類型以透明度變化、位置小幅移動和陰影強度調整為主，不使用大幅度旋轉或彈性動畫。
 
-**Important Notes**
-- Embrace slight misalignment and rotation to avoid feeling too rigid.
-- Keep colors warm and friendly, like stationery supplies.
-- Avoid heavy UI chrome; the paper objects themselves are the main design language.`
+【文字與圖標風格】
+1. 字體與層級
+   - 標題建議使用帶一點手寫感的字體（或在說明中描述其風格），搭配清晰的無襯線正文字體。
+   - 標題、子標題、正文、輔助說明需要有明確層級差異，透過字重、字號和顏色實現。
+   - 在 CustomPrompt 中提示 LLM 避免使用過於正式的企業風字體，而是偏向個人筆記本的氣質。
+
+2. 圖標與裝飾
+   - 圖標可以簡潔扁平，線條略圓潤，顏色與紙張保持協調。
+   - 可加入像膠帶、紙夾、圖釘等裝飾元素，這些元素也應該遵從紙張色系與柔和陰影。
+
+【輸出技術要求】
+- 使用語義化 HTML5 結構，應包含 header、main、section、aside 和 footer 等標籤，並正確嵌套。
+- 使用近似 TailwindCSS 的原子類名描述佈局與間距，例如 flex、grid、gap-6、px-6、py-4、rounded-xl、shadow-lg、bg-amber-50、text-slate-800 等。
+- 不需要引入真實的 Tailwind 配置，只需在 class 屬性中使用這類語義清晰的工具類名稱。
+- 生成結果必須是一個完整、可獨立渲染的 HTML 頁面，而不是片段或偽代碼。
+
+【質量校驗要求】
+當 LLM 生成完成頁面後，你應當能在以下幾個方面明顯感受到 paperCutout 風格：
+1. 佈局：整體使用紙片模組堆疊，而不是純色分區或玻璃卡片。
+2. 色彩：主色溫和、低飽和，以紙張和文具顏色為主，避免高對比科技藍或霓虹色。
+3. 材質：透過陰影、描邊和細節，讓人聯想到真實紙張、便利貼與手帳。
+4. 交互：懸停與按下的反饋像在觸碰實體紙張，而不是按機械按鈕。
+
+請將以上說明完整內嵌到最終 CustomPrompt 中，確保 LLM 僅憑這段文字就能重建與 paperCutout 示例高度一致的風格與結構，同時生成一個全新的、內容不同的創意工作台界面。
+`,
+      'en-US': `
+You are a senior UI designer and front-end engineer who deeply understands the "paper cutout" visual style. Your task is to generate a brand new HTML page that looks like a sibling of the existing /styles/preview/paperCutout layout, without copying its content verbatim.
+
+Your goal is to write a single, self-contained instruction that can be pasted into an LLM so that it can produce a full-page HTML interface. The new page must follow the same layout logic, color palette direction, paper layering, and shadow language as the current paperCutout demo, while using a different scenario, copy, and data.
+
+[Scenario]
+- The page is a "creative projects and inspiration workspace" for freelancers: designers, illustrators, writers, and content creators.
+- Users come here to scan their tasks for the day, track progress on active projects, review inspiration notes, and keep a small schedule overview.
+- The atmosphere should resemble a carefully arranged desk or wall covered with paper cards, sticky notes, and tags: visually rich yet controlled, playful yet structured.
+
+[Overall Layout]
+1. Header
+   - Use a left-right split: brand or page title on the left, lightweight user controls on the right (avatar, settings icon, theme toggle, etc.).
+   - The title sits on a paper-tag-like strip with rounded corners and a soft drop shadow, as if taped to the top edge.
+   - The header background uses a light paper tone slightly different from the main background to carve out a clear layer.
+
+2. Main Content
+   - Use a 2–3 column grid to place paper cards. Each functional block is represented as an individual sheet of paper.
+   - Place a "Today overview" card in a prominent position, then boards for "Active Projects", an "Inspiration Notes" wall, and a "Pinned References" area.
+   - Reserve comfortable gaps between cards so that each sheet feels separate but still part of the same arrangement.
+   - Allow mild offset and overlapping, such as small labels pinned over the corners of larger cards, to reinforce the collage feeling.
+
+3. Secondary Areas
+   - Add a narrow sidebar or a bottom strip for lightweight elements like "Today's mood", a simple Pomodoro indicator, or quick shortcuts.
+   - These secondary elements are also paper pieces: narrow strips, mini cards, or folded tabs that visually belong to the same paper system.
+
+[Color & Paper Texture]
+1. Background & Canvas
+   - The main background should be a very light, paper-like tone instead of flat pure white, for example a warm cream or a cool chalky blue-gray.
+   - Mention a small set of example colors that communicate the intended brightness and warmth, and explain that saturation should remain low to keep the interface gentle on the eyes.
+   - Describe any subtle grain, noise, or paper texture that should be implied in the design.
+
+2. Cards & Sticky Notes
+   - Main cards use slightly darker or warmer tones than the background, like soft beige, tea brown, or muted blue.
+   - Sticky notes are more playful: pale yellow, pink, green, or blue, but still far from neon. They should read as stationery rather than UI chrome.
+   - Accent tags (for status or categories) use somewhat higher saturation within the same palette family but remain small in area so they do not dominate the page.
+
+3. Borders & Shadows
+   - Light, subtle borders may be used to define paper edges. In many cases, the shadow alone is enough to separate layers.
+   - Shadows are soft and slightly oversized with low opacity and a consistent direction, suggesting sheets of paper hovering just above the desk.
+   - The stacking order is clear: shadows from higher cards fall onto lower ones, reinforcing the sense of depth.
+
+[Interaction & Motion]
+1. Hover
+   - On hover, cards and notes gently move up by a few pixels, while their shadows become a bit darker and crisper, as if you are about to pick them up.
+   - Primary call-to-action buttons like "Add Inspiration" or "New Task" brighten slightly and may gain a subtle outline.
+
+2. Active
+   - On press, interactive elements sink down slightly and their shadows shrink or shift, imitating the feel of pressing a piece of cardstock.
+   - Avoid exaggerated scale or bounce effects that would break the calm paper metaphor.
+
+3. Timing
+   - Transitions should be short and smooth, typically between 150 and 220 milliseconds, with ease-out or ease-in-out timing.
+   - Favor opacity changes, position shifts, and shadow adjustments over complex transforms.
+
+[Typography & Icons]
+1. Typography
+   - Use a friendly, slightly rounded sans-serif for both body text and headings, and optionally hint at a hand-written accent for titles or note headings.
+   - Maintain a clear hierarchy with noticeable differences between headings, subheadings, body, and meta text.
+   - The voice of the copy can be casual and personal, but the information structure must remain clear and scannable.
+
+2. Icons & Decorations
+   - Icons should be simple and approachable, sometimes placed on small rounded rectangles that echo paper tags.
+   - Decorative elements like tape strips, clips, or pins should follow the same color and shadow language as the rest of the paper pieces.
+
+[Output Requirements]
+- Output a complete HTML5 page using header, main, section, aside, and footer tags.
+- Use TailwindCSS-like utility classes (flex, grid, gap-6, px-6, py-4, rounded-xl, shadow-lg, bg-..., text-...) to describe layout and spacing.
+- Do not output pseudocode or explanations; only output the final HTML structure with class names that clearly express the paper cutout aesthetic.
+- The final layout must clearly read as a sibling of the existing paperCutout demo in terms of density, card size, depth, and overall brightness, even though the textual content and labels are different.
+`
     }
   }
 ];

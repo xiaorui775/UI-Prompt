@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import DOMPurify from 'dompurify';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../../hooks/useLanguage';
@@ -53,7 +53,11 @@ export function StylePreviewPage() {
     : title;
 
   const isReactPreview = !!(variant && variant.reactComponent);
-  const previewsList = Array.isArray(previews) ? previews : [];
+
+  // ✨ 穩定 previewsList 引用（避免無限循環）
+  const previewsList = useMemo(() => {
+    return Array.isArray(previews) ? previews : [];
+  }, [previews]);
 
   // 移除外部資源（避免因無網路或被阻擋導致預覽卡在載入）
   const stripExternalAssets = (html) => {
@@ -92,7 +96,7 @@ export function StylePreviewPage() {
   useEffect(() => {
     setActiveIndex(getDefaultIndex());
     setIsLoading(true);
-  }, [style.id]);
+  }, [style.id, previewsList]);
 
   // 預覽切換時，顯示 Loading 視覺（避免先渲染到回退內容）
   useEffect(() => {
@@ -134,7 +138,7 @@ export function StylePreviewPage() {
       });
 
     return () => { cancelled = true; };
-  }, [activeIndex, previewsList]);
+  }, [activeIndex, previewsList, fullPagePreviewId]);
 
   // 載入逾時後備
   useEffect(() => {
@@ -329,27 +333,57 @@ export function StylePreviewPage() {
 </html>`;
   };
 
-  // 生成 Prompt
-  const currentPreview = previewsList && previewsList.length > 0 ? previewsList[activeIndex] : null;
-  const previewDescription = currentPreview?.description
-    ? (typeof currentPreview.description === 'object'
-        ? currentPreview.description[language]
-        : t(currentPreview.description))
-    : '';
-  const previewFeatures = currentPreview?.features || [];
-  const previewColorScheme = currentPreview?.colorScheme?.[language] || colorScheme?.[language] || '';
+  // ✨ 使用 useMemo 避免無限渲染循環
+  // ⚠️ 只依賴穩定的值 (style, language, activeIndex)，其他值在內部訪問
+  const promptContent = useMemo(() => {
+    // 在 useMemo 內部訪問所有派生值
+    const previewsList = Array.isArray(style.previews) ? style.previews : [];
+    const currentPreview = previewsList && previewsList.length > 0 ? previewsList[activeIndex] : null;
 
-  // ✨ 傳入完整 style 對象以支持自定義 stylePrompt
-  const promptContent = PreviewPromptGenerator.generate(
-    style,
-    description,
-    (previewsList && previewsList.length > 0 ? (previewsList[activeIndex]?.html || previewsList[0]?.html || '') : (fullPageHTML || demoHTML)),
-    language,
-    previewDescription,
-    previewFeatures,
-    previewColorScheme,
-    currentPreview  // ✨ 傳遞當前激活的預覽對象
-  );
+    const previewDescription = currentPreview?.description
+      ? (typeof currentPreview.description === 'object'
+          ? currentPreview.description[language]
+          : t(currentPreview.description))
+      : '';
+    const previewFeatures = currentPreview?.features || [];
+    const previewColorScheme = currentPreview?.colorScheme?.[language] || style.colorScheme?.[language] || '';
+
+    try {
+      console.log('[StylePreviewPage] Generating prompt for style:', {
+        styleId: style?.id,
+        language,
+        hasCustomPrompt: !!style?.customPrompt,
+        hasStylePrompt: !!style?.stylePrompt,
+        currentPreview: currentPreview?.id || currentPreview?.title || null
+      });
+
+      const content = PreviewPromptGenerator.generate(
+        style,
+        style.description || '',
+        (previewsList && previewsList.length > 0 ? (previewsList[activeIndex]?.html || previewsList[0]?.html || '') : (style.fullPageHTML || style.demoHTML || '')),
+        language,
+        previewDescription,
+        previewFeatures,
+        previewColorScheme,
+        currentPreview  // ✨ 傳遞當前激活的預覽對象
+      );
+
+      console.log('[StylePreviewPage] Prompt generated successfully:', {
+        length: content?.length || 0,
+        isEmpty: !content,
+        preview: content?.substring(0, 100) || ''
+      });
+
+      return content;
+    } catch (error) {
+      console.error('[StylePreviewPage] ❌ Error generating prompt:', error);
+      console.error('[StylePreviewPage] Error stack:', error.stack);
+      return '';
+    }
+  }, [style, language, activeIndex]);
+
+  // 獲取當前預覽對象（供其他代碼使用）
+  const currentPreview = previewsList && previewsList.length > 0 ? previewsList[activeIndex] : null;
 
   // 檢查是否為數據可視化類型
   const isDataVisualization = currentPreview?.type === 'data-visualization';
@@ -373,7 +407,16 @@ export function StylePreviewPage() {
             )}
             <div className="flex gap-2">
               <button
-                onClick={() => setShowPrompt(true)}
+                onClick={() => {
+                  console.log('[StylePreviewPage] AI Prompt button clicked:', {
+                    styleId: style?.id,
+                    promptLength: promptContent?.length || 0,
+                    hasPrompt: !!promptContent,
+                    language,
+                    isLoadingPreview
+                  });
+                  setShowPrompt(true);
+                }}
                 className="flex-1 md:flex-none px-4 py-2 text-sm rounded border hover:bg-gray-100 transition-colors"
               >
                 {t('buttons.prompt')}

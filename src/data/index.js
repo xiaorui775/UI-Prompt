@@ -1,6 +1,12 @@
 // 统一数据导出文件
 // 这个文件聚合所有风格和组件数据,提供给新的菜单页面使用
 
+/**
+ * 穩定的空數組引用，用於防止 React useMemo 無限循環
+ * 使用 Object.freeze() 確保引用永遠不變
+ */
+const EMPTY_ARRAY = Object.freeze([]);
+
 // 導入風格數據 (只使用 7 個核心分類)
 import {
   visualTemplateStyles,
@@ -242,7 +248,8 @@ export const getAllStyles = () => {
     category.data.map(item => ({
       ...item,
       category: category.id,
-      categoryKey: category.key
+      categoryKey: category.key,
+      previews: item.previews || EMPTY_ARRAY  // ✨ 統一添加默認值，防止 useMemo 無限循環
     }))
   );
 };
@@ -253,7 +260,8 @@ export const getAllComponents = () => {
     category.data.map(item => ({
       ...item,
       category: category.id,
-      categoryKey: category.key
+      categoryKey: category.key,
+      previews: item.previews || EMPTY_ARRAY  // ✨ 統一添加默認值，保持一致性
     }))
   );
 };

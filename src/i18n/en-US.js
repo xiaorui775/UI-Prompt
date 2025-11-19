@@ -319,10 +319,6 @@ export default {
         "rich-textarea": {
           "description": "Rich text textarea component with formatting capabilities and enhanced editing features",
           "title": "Rich Textarea"
-        },
-        "form-validation": {
-          "description": "Form validation component with real-time error checking and user feedback",
-          "title": "Form Validation"
         }
       },
       "feedback": {
@@ -1178,28 +1174,28 @@ export default {
         "maintenance-mode": {
           "variants": {
             "minimalism": {
-              "description": "",
-              "name": ""
+              "description": "Minimalist maintenance mode design with simple styling",
+              "name": "Minimalism"
             },
             "glassmorphism": {
-              "description": "",
-              "name": ""
+              "description": "Glassmorphism maintenance mode design with frosted glass effects",
+              "name": "Glassmorphism"
             },
             "cyberpunk": {
-              "description": "",
-              "name": ""
+              "description": "Cyberpunk maintenance mode design with futuristic tech aesthetics",
+              "name": "Cyberpunk"
             },
             "neumorphism": {
-              "description": "",
-              "name": ""
+              "description": "Neumorphism maintenance mode design with soft shadows and highlights",
+              "name": "Neumorphism"
             },
             "neobrutalism": {
-              "description": "",
-              "name": ""
+              "description": "Neo-brutalism maintenance mode design with bold borders and colors",
+              "name": "Neo-brutalism"
             }
           },
-          "description": "",
-          "title": ""
+          "description": "Maintenance mode component for displaying maintenance pages during system maintenance",
+          "title": "Maintenance Mode"
         }
       }
     }
@@ -2430,7 +2426,6 @@ export default {
       "characterCount": "Characters: 254",
       "clear": "Clear",
       "save": "Save",
-      "formValidation": "Form Validation",
       "namePlaceholder": "Please enter your name",
       "email": "Email",
       "emailPlaceholder": "Please enter email address",
@@ -2877,6 +2872,106 @@ export default {
       "neonPlaceholder": "Enter command...",
       "waveLabel": "Wave Animation Input",
       "wavePlaceholder": "Focus to see wave effect..."
+    },
+    "card-grid": {
+      "smartWatch": "Smart Watch",
+      "smartWatchDesc": "Premium fitness tracking with heart rate monitor",
+      "wirelessEarbuds": "Wireless Earbuds",
+      "wirelessEarbudsDesc": "High-quality audio with noise cancellation",
+      "portableCharger": "Portable Charger",
+      "portableChargerDesc": "Fast charging power bank for all devices",
+      "addToCart": "Add to Cart",
+      "sarahJohnson": "Sarah Johnson",
+      "productDesigner": "Product Designer",
+      "sarahDesc": "Passionate about creating intuitive user experiences",
+      "michaelChen": "Michael Chen",
+      "frontendDev": "Frontend Developer",
+      "michaelDesc": "Building beautiful and performant web applications",
+      "emmaWilson": "Emma Wilson",
+      "uxResearcher": "UX Researcher",
+      "emmaDesc": "Understanding user needs through data-driven insights",
+      "futureAI": "The Future of AI",
+      "futureAIDesc": "Exploring how artificial intelligence will reshape our world",
+      "readTime5": "5 min read",
+      "jan2024": "Jan 2024",
+      "readMore": "Read More",
+      "web3Revolution": "Web3 Revolution",
+      "web3Desc": "Decentralized technologies changing the internet landscape",
+      "readTime8": "8 min read",
+      "dec2023": "Dec 2023",
+      "quantumComputing": "Quantum Computing",
+      "quantumDesc": "Next-generation computing power solving impossible problems",
+      "readTime12": "12 min read",
+      "nov2023": "Nov 2023",
+      "featured": "FEATURED",
+      "brandIdentity": "Brand Identity",
+      "brandIdentityDesc": "Complete visual identity system for modern startups",
+      "viewProject": "View Project",
+      "trending": "TRENDING",
+      "mobileAppDesign": "Mobile App Design",
+      "mobileAppDesc": "User-centered mobile experience design",
+      "newProject": "NEW",
+      "designSystem": "Design System",
+      "designSystemDesc": "Comprehensive component library and guidelines",
+      "fireMage": "Fire Mage",
+      "elementalCaster": "Elemental Caster",
+      "atk": "ATK",
+      "def": "DEF",
+      "fireMageAbility": "Deals massive fire damage to all enemies",
+      "shadowAssassin": "Shadow Assassin",
+      "darkRogue": "Dark Rogue",
+      "shadowAssassinAbility": "Critical strikes with shadow magic",
+      "holyPaladin": "Holy Paladin",
+      "divineKnight": "Divine Knight",
+      "holyPaladinAbility": "Heals allies and protects with divine shield"
+    },
+    "progressIndicators": {
+      "uploadingFile": "Uploading File",
+      "processingFile": "Processing document.pdf (2.4 MB / 3.3 MB)",
+      "dataSync": "Data Sync",
+      "estimatedTimeRemaining": "Estimated 2 minutes remaining",
+      "syncedItems": "Synced 450 / 1000 items",
+      "installationProgress": "Installation Progress",
+      "downloadingFiles": "Downloading Files",
+      "completed": "Completed",
+      "installingDependencies": "Installing Dependencies",
+      "configuringEnvironment": "Configuring Environment",
+      "waiting": "Waiting",
+      "downloadProgress": "Download Progress",
+      "downloadedSize": "Downloaded 6.5 GB / 10 GB",
+      "timeRemaining": "Time Remaining: 3 min 24 sec",
+      "performanceMetrics": "Performance Metrics",
+      "excellent": "EXCELLENT",
+      "systemRunningNormal": "System Running Normal",
+      "cpuUsage": "▲ CPU 12%",
+      "ramUsage": "▲ RAM 45%",
+      "uploadQueue": "Upload Queue",
+      "overallProgress": "Overall Progress",
+      "tasksCompleted": "Completed 7 / 10 tasks",
+      "dataBackup": "Data Backup",
+      "fileSync": "File Sync",
+      "systemUpdate": "System Update",
+      "installationSteps": "Installation Steps",
+      "downloadPackage": "Download Package",
+      "installing": "Installing...",
+      "inProgress": "In Progress (56%)",
+      "configureSystem": "Configure System",
+      "finishInstallation": "Finish Installation",
+      "processingProgress": "Processing Progress",
+      "processingData": "Processing data...",
+      "estimatedTimeRemaining2": "Estimated 2 min 30 sec remaining",
+      "videoRendering": "Video Rendering",
+      "videoProgress": "1080p · Frame 2760 / 3000",
+      "audioEncoding": "Audio Encoding",
+      "completedWithCheck": "✓ Completed",
+      "mergingOutput": "Merging Output",
+      "processing": "Processing...",
+      "taskQueue": "Task Queue",
+      "downloadMaterials": "Download Materials",
+      "downloadingMaterials": "Download Materials",
+      "aiAnalyzing": "AI Analyzing",
+      "generatingReport": "Generate Report",
+      "pending": "Pending"
     },
     "artGalleryNFT": {
       "aestheticMarketplace": "Ａｅｓｔｈｅｔｉｃ Ｎ信ＦＴ Ｍａｒｋｅｔｐｌａｃｅ",

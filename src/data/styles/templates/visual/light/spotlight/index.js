@@ -1,6 +1,9 @@
 // Single template module: Light — Spotlight Effect
 // 聚光灯 - 聚焦式光束效果
 
+// ✨ 穩定的空數組引用（防止 useMemo 無限循環）
+const EMPTY_PREVIEWS = [];
+
 import { demoHTML, customStyles } from './Demo';
 import { spotlightFullPageHTML, spotlightFullPageStyles } from './spotlightFullPage';
 
@@ -414,6 +417,7 @@ Mood:
   customStyles,
   fullPageHTML: spotlightFullPageHTML,
   fullPageStyles: spotlightFullPageStyles,
+  previews: EMPTY_PREVIEWS,  // ✨ 使用穩定的空數組引用
 };
 
 export default spotlight;

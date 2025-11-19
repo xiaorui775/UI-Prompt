@@ -14,6 +14,28 @@ Many people directly generate websites using AI (such as Claude Code, Codex, Aug
 
 ---
 
+## ✨ Features
+
+### Styles
+Provide UI design style website templates, such as:
+- Flat Design
+- Minimalism
+- Glassmorphism
+- Neumorphism
+- And many more...
+
+### Components (Prompt Incomplete)
+Provide reusable UI component templates, such as:
+- Navigation
+- Modal Dialogs
+- Loading Skeletons
+- And more...
+
+### Layout (Incomplete)
+Provide functionality that allows users to drag and drop components to compose basic web design layout solutions, generating AI prompts about layout arrangements.
+
+---
+
 ## 🚀 Quick Start
 
 ### Install Dependencies

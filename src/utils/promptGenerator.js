@@ -14,58 +14,81 @@ export class PromptGenerator {
    * @returns {string} - 返回 Prompt 內容或空字符串
    */
  static generate(titleOrStyle, descriptionOrOptions = {}, language = DEFAULT_LANGUAGE) {
-    // 解析參數：支持舊格式 (title, description, language) 和新格式 (style, options)
-    let style = null;
-    let options = {};
+    // ✨ Debug logging
+    console.log('[PromptGenerator] Input:', {
+      titleOrStyle: titleOrStyle?.id || titleOrStyle,
+      descriptionOrOptions,
+      language,
+      hasCustomPrompt: !!titleOrStyle?.customPrompt,
+      hasStylePrompt: !!titleOrStyle?.stylePrompt
+    });
 
-    if (typeof titleOrStyle === 'object' && titleOrStyle !== null) {
-      style = titleOrStyle;
-      // 如果第二個參數是對象，視為選項
-      if (typeof descriptionOrOptions === 'object' && descriptionOrOptions !== null) {
-        options = descriptionOrOptions;
+    try {
+      // 解析參數：支持舊格式 (title, description, language) 和新格式 (style, options)
+      let style = null;
+      let options = {};
+
+      if (typeof titleOrStyle === 'object' && titleOrStyle !== null) {
+        style = titleOrStyle;
+        // 如果第二個參數是對象，視為選項
+        if (typeof descriptionOrOptions === 'object' && descriptionOrOptions !== null) {
+          options = descriptionOrOptions;
+        }
       }
-    }
 
-    // Extract options for prompt generation
-    const {
-      currentPreview = null,
-      mode = 'preview', // 'preview' | 'card'
-    } = options;
+      // Extract options for prompt generation
+      const {
+        currentPreview = null,
+        mode = 'preview', // 'preview' | 'card'
+      } = options;
 
-    // Card mode：優先使用模板/家族級 stylePrompt，其次才使用 customPrompt
-    if (mode === 'card') {
-      if (style?.stylePrompt?.[language]) {
-        return style.stylePrompt[language];
+      // Card mode：優先使用模板/家族級 stylePrompt，其次才使用 customPrompt
+      if (mode === 'card') {
+        if (style?.stylePrompt?.[language]) {
+          console.log('[PromptGenerator] ✅ Using style.stylePrompt (card mode)');
+          return style.stylePrompt[language];
+        }
+        if (style?.customPrompt?.[language]) {
+          console.log('[PromptGenerator] ✅ Using style.customPrompt (card mode)');
+          return style.customPrompt[language];
+        }
+        console.warn('[PromptGenerator] ⚠️ No prompt found (card mode)');
+        return '';
       }
+
+      // Default preview mode：
+      // 1. currentPreview.customPrompt（單個預覽專用 Prompt，例如色碼/佈局要求）
+      // 2. style.customPrompt（家族級 / 流派級 Prompt）
+      // 3. currentPreview.stylePrompt（單個預覽風格說明）
+      // 4. style.stylePrompt（模板級風格說明）
+      if (currentPreview?.customPrompt?.[language]) {
+        console.log('[PromptGenerator] ✅ Using currentPreview.customPrompt');
+        return currentPreview.customPrompt[language];
+      }
+
       if (style?.customPrompt?.[language]) {
+        console.log('[PromptGenerator] ✅ Using style.customPrompt');
         return style.customPrompt[language];
       }
+
+      if (currentPreview?.stylePrompt?.[language]) {
+        console.log('[PromptGenerator] ✅ Using currentPreview.stylePrompt');
+        return currentPreview.stylePrompt[language];
+      }
+
+      if (style?.stylePrompt?.[language]) {
+        console.log('[PromptGenerator] ✅ Using style.stylePrompt');
+        return style.stylePrompt[language];
+      }
+
+      // Fallback: no prompt available
+      console.warn('[PromptGenerator] ⚠️ No prompt available for language:', language);
+      return '';
+    } catch (error) {
+      console.error('[PromptGenerator] ❌ Error generating prompt:', error);
+      console.error('[PromptGenerator] Error stack:', error.stack);
       return '';
     }
-
-    // Default preview mode：
-    // 1. currentPreview.customPrompt（單個預覽專用 Prompt，例如色碼/佈局要求）
-    // 2. style.customPrompt（家族級 / 流派級 Prompt）
-    // 3. currentPreview.stylePrompt（單個預覽風格說明）
-    // 4. style.stylePrompt（模板級風格說明）
-    if (currentPreview?.customPrompt?.[language]) {
-      return currentPreview.customPrompt[language];
-    }
-
-    if (style?.customPrompt?.[language]) {
-      return style.customPrompt[language];
-    }
-
-    if (currentPreview?.stylePrompt?.[language]) {
-      return currentPreview.stylePrompt[language];
-    }
-
-    if (style?.stylePrompt?.[language]) {
-      return style.stylePrompt[language];
-    }
-
-    // Fallback: no prompt available
-    return '';
   }
 }
 

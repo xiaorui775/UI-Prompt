@@ -198,12 +198,16 @@ export function ComponentDetailPage() {
 
               {/* 組件標題 */}
               <h1 className="text-3xl md:text-4xl font-light mb-3">
-                {componentData.title}
+                {typeof componentData.title === 'string' && componentData.title.startsWith('data.') 
+                  ? t(componentData.title) 
+                  : componentData.title}
               </h1>
 
               {/* 完整描述 */}
               <p className="text-gray-600 text-base leading-relaxed max-w-3xl mb-2">
-                {componentData.description}
+                {typeof componentData.description === 'string' && componentData.description.startsWith('data.') 
+                  ? t(componentData.description) 
+                  : componentData.description}
               </p>
 
               {/* 變體數量提示 */}

@@ -1,6 +1,9 @@
 // Single template module: Light — Ambient Lighting
 // 环境光 - 柔和的氛围光效
 
+// ✨ 穩定的空數組引用（防止 useMemo 無限循環）
+const EMPTY_PREVIEWS = [];
+
 import { demoHTML, customStyles } from './Demo';
 import { fullPageHTML, fullPageStyles } from './AmbientFullPage';
 
@@ -384,6 +387,7 @@ Final Checklist:
   customStyles,
   fullPageHTML,
   fullPageStyles,
+  previews: EMPTY_PREVIEWS,  // ✨ 使用穩定的空數組引用
 };
 
 export default ambient;

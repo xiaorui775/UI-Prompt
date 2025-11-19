@@ -266,6 +266,16 @@ export const allTags = {
 };
 
 /**
+ * 分類 ID 別名映射
+ * Category ID alias mapping
+ * 處理不同命名約定之間的映射（例如 'visual' -> 'visualDesign'）
+ */
+const categoryAliasMap = {
+  'visual': 'visualDesign',
+  'visualDesign': 'visualDesign'
+};
+
+/**
  * 獲取標籤顏色
  * Get tag color by tag ID
  */
@@ -320,7 +330,9 @@ export const getTagLabel = (tagId, language = 'zh-cn') => {
  * Get primary category configuration
  */
 export const getCategoryConfig = (categoryId) => {
-  return primaryCategories[categoryId] || null;
+  // 處理分類 ID 別名映射
+  const normalizedCategoryId = categoryAliasMap[categoryId] || categoryId;
+  return primaryCategories[normalizedCategoryId] || primaryCategories[categoryId] || null;
 };
 
 /**
@@ -337,16 +349,34 @@ export const getAllPrimaryCategories = () => {
  * 優先從 i18n 檔案獲取翻譯，如果沒有則使用 categoryMetadata.js 的預設值
  */
 export const getCategoryLabel = (categoryId, language = 'zh-cn') => {
-  const category = primaryCategories[categoryId];
-  if (!category) return categoryId;
+  // 處理分類 ID 別名映射
+  const normalizedCategoryId = categoryAliasMap[categoryId] || categoryId;
+  const category = primaryCategories[normalizedCategoryId];
   
-  // 先嘗試從 i18n 檔案的 nav 區塊獲取翻譯
-  const i18nKey = `nav.${categoryId}`;
-  const i18nLabel = getTranslation(i18nKey, language);
+  // 先嘗試從 i18n 檔案的 nav 區塊獲取翻譯（優先使用原始 ID，然後嘗試標準化 ID）
+  let i18nKey = `nav.${categoryId}`;
+  let i18nLabel = getTranslation(i18nKey, language);
+  
+  // 如果原始 ID 沒有找到翻譯，嘗試使用標準化 ID
+  if (!i18nLabel || i18nLabel === i18nKey || typeof i18nLabel !== 'string') {
+    i18nKey = `nav.${normalizedCategoryId}`;
+    i18nLabel = getTranslation(i18nKey, language);
+  }
   
   // 如果 i18n 檔案中有翻譯，使用它
   if (i18nLabel && i18nLabel !== i18nKey && typeof i18nLabel === 'string') {
     return i18nLabel;
+  }
+  
+  // 如果找不到分類，嘗試直接使用原始 ID
+  if (!category) {
+    const fallbackCategory = primaryCategories[categoryId];
+    if (!fallbackCategory) {
+      // 如果還是找不到，返回原始 ID（可能是一個有效的分類但未在 primaryCategories 中定義）
+      return categoryId;
+    }
+    // 使用 fallback category 的預設值
+    return fallbackCategory.label[language] || fallbackCategory.label['zh-cn'];
   }
   
   // 否則使用 categoryMetadata.js 的預設值

@@ -1,6 +1,9 @@
 // Single template module: Nature — Particle System
 // 粒子系统 - 动态浮动的粒子效果
 
+// ✨ 穩定的空數組引用（防止 useMemo 無限循環）
+const EMPTY_PREVIEWS = [];
+
 import { demoHTML, customStyles } from './Demo';
 import { fullPageHTML, fullPageStyles } from './ParticleFullPage';
 
@@ -722,6 +725,7 @@ Mood:
   // Full page preview (Home Office webpage with 90 particles)
   fullPageHTML,
   fullPageStyles,
+  previews: EMPTY_PREVIEWS,  // ✨ 使用穩定的空數組引用
 };
 
 export default particle;

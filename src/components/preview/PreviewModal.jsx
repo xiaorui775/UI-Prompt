@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import DOMPurify from 'dompurify';
 
 import { useLanguage } from '../../hooks/useLanguage';
@@ -110,13 +110,13 @@ export function PreviewModal({
   };
 
   // 找到第一個 full 類型預覽的索引作為默認值
-  const getDefaultIndex = useCallback(() => {
+  const getDefaultIndex = () => {
     if (previewsList && previewsList.length > 0) {
       const firstFullIndex = previewsList.findIndex(p => p.type === 'full');
       return firstFullIndex >= 0 ? firstFullIndex : 0;
     }
     return 0;
-  }, [previewsList]);
+  };
 
   const [activeIndex, setActiveIndex] = useState(getDefaultIndex());
 
@@ -149,7 +149,7 @@ export function PreviewModal({
       setPreviewContent(null);
       setIsLoadingPreview(false);
     }
-  }, [isOpen, activeIndex, fullPagePreviewId, previewsKey, previewsList]);
+  }, [isOpen, activeIndex, fullPagePreviewId, previewsKey]);
 
   // 當打開或預覽內容集合變化時重置索引與載入狀態
   useEffect(() => {
@@ -157,7 +157,7 @@ export function PreviewModal({
       setActiveIndex(getDefaultIndex());
       setIsLoading(true);
     }
-  }, [isOpen, previewsKey, getDefaultIndex]);
+  }, [isOpen, previewsKey]);
 
   // 切換預覽索引時，先顯示 Loading 覆蓋，待 iframe onLoad 再關閉
   useEffect(() => {
@@ -410,7 +410,7 @@ ${customStyles || ''}`.trim();
   // 優先使用 preview 的 colorScheme，如果沒有則使用主風格對象的 colorScheme
   const previewColorScheme = currentPreview?.colorScheme?.[language] || colorScheme?.[language] || '';
 
-  // ✨ 構建 style 對象以支持自定義詳細 Prompt
+  // ✨ 構建 Prompt 內容（生成成本可接受，直接計算以避免 hooks 次數受條件渲染影響）
   const styleObject = {
     title: displayTitle,
     description: displayDescription,
