@@ -4,6 +4,11 @@
 import { demoHTML, customStyles } from './Demo';
 import { glassmorphismFullPageHTML } from './GlassmorphismFullPage';
 import { glassmorphismFullPageStyles } from './GlassmorphismFullPage';
+import { landingFullPage } from './LandingFullPage';
+import { glassmorphismStylePrompt } from './stylePrompt';
+import { glassmorphismCustomPrompt } from './customPrompt';
+import { landingPageCustomPrompt } from './LandingPagePrompt';
+import { musicPlayerCustomPrompt } from './MusicPlayerPrompt';
 
 export const glassmorphism = {
    id: 'visual-translucent-glassmorphism',
@@ -11,9 +16,38 @@ export const glassmorphism = {
    description: 'styles.visual.glassmorphism.description',
    demoHTML: demoHTML,
    customStyles: customStyles,
-   fullPagePreviewId: 'glassmorphism',
-  // ✨ 模板級 customPrompt（長版 Prompt，可直接給 LLM 高精度復刻 UI）
-  customPrompt: {
+
+   // ✨ 两个预览变体：Landing Page (企业网站) + Music Player (音乐播放器)
+   // 每个预览都有各自独特的 customPrompt（符合文档规范）
+   previews: [
+     {
+       id: 'glassmorphism-landing',
+       name: { 'zh-CN': '企业网站', 'en-US': 'Landing Page' },
+       description: { 'zh-CN': '玻璃态企业着陆页，展示专业商业场景应用', 'en-US': 'Glassmorphism corporate landing page showcasing professional business scenarios' },
+       type: 'full',
+       html: landingFullPage.fullPageHTML,
+       styles: landingFullPage.fullPageStyles,
+       customPrompt: landingPageCustomPrompt  // 企业网站专属 Prompt
+     },
+     {
+       id: 'glassmorphism-music',
+       name: { 'zh-CN': '音乐播放器', 'en-US': 'Music Player' },
+       description: { 'zh-CN': '玻璃态音乐播放器，展示丰富交互组件和动画效果', 'en-US': 'Glassmorphism music player showcasing rich interactive components and animations' },
+       type: 'full',
+       html: glassmorphismFullPageHTML,
+       styles: glassmorphismFullPageStyles,
+       customPrompt: musicPlayerCustomPrompt  // 音乐播放器专属 Prompt
+     }
+   ],
+
+  // ✨ 模板級 customPrompt（增強版 4000+ 字詳細指南）
+  customPrompt: glassmorphismCustomPrompt,
+
+  // ✨ 風格 Prompt（場景描述敘事版）
+  stylePrompt: glassmorphismStylePrompt,
+
+  // ⚠️ DEPRECATED: 以下為舊版 customPrompt，已由 customPrompt.js 取代
+  _deprecated_customPrompt_old: {
     'zh-CN': `你现在是一名资深 UI 设计师兼前端工程师，请生成一个与当前「Glassmorphism 玻璃态卡片」示例风格高度接近的界面。
 要求：保持半透明玻璃卡片、背景模糊、柔和圓角与淡阴影，只允许替换文案、圖标与卡片內容，不改变整体「深色/漸变背景 + 浮起玻璃卡片」布局。输出使用语义化 HTML 结构和 TailwindCSS 风格原子类（或等价工具类方案）。
 
@@ -107,42 +141,7 @@ Keep the semi-transparent glass cards, background blur, soft rounded corners and
 - Use semantic HTML to separate background wrapper and the glass card container (e.g. background div + main/section).
 - Use Tailwind-style utilities for layout (flex/grid), spacing, radii and shadows; implement glass effects with custom classes using backdrop-filter and translucent backgrounds.
 - The generated UI must preserve the key structure and feel: “dark/gradient backdrop + semi-transparent blurred glass cards + white text”.`
-  },
-
-  // ✨ 风格 Prompt（用于 PreviewModal 详细场景描述：敘事長版）
-  stylePrompt: {
-    'zh-CN': `角色：你是一名擅长玻璃态（Glassmorphism）与半透明界面的 UI 设计师，需要为系统控制面板、云服务仪表盘或文件管理工具设计一套「漂浮在模糊背景之上」的现代界面。
-
-场景定位：
-这种风格适合需要在保留科技感的前提下保持轻盈、通透的产品：例如云桌面、设置面板、音乐播放器、个人空间主页或多服务总览仪表盘。目标用户往往对视觉敏感、熟悉现代操作系统（如 Windows / macOS / 移动端玻璃态组件），希望界面既有层次感又不压迫。
-
-视觉设计理念：
-Glassmorphism 的核心是「前景半透明卡片 + 背景高斯模糊 + 柔和高光描边」。界面被划分为两层世界：背景层提供丰富但柔和的色彩与渐变，前景层是略带磨砂感的玻璃卡片，悬浮在背景之上；卡片内承载标题、状态和操作按钮。与传统扁平或纯拟物不同，这种风格刻意让背景隐约透出，但不会影响前景文本可读性——内容永远优先，视觉效果为其服务。
-
-材质与质感：
-材质上，卡片被视为一块半透明玻璃：内部颜色偏向白色 / 浅色，透明度在 0.05–0.2 之间，通过 backdrop-filter: blur(10-24px) 模糊背景细节；边缘使用略亮的白色边框或渐变描边，模拟光线在玻璃边缘折射的感觉。阴影柔和而扩散，用来营造悬浮感而不是厚重的体积感。背景则以暗色或高饱和渐变为主（蓝紫、靛青、深蓝等），让玻璃卡片的轮廓和高光更明显，同时可叠加若干圆形光斑或模糊色块，制造「远处光源」的空间感。
-
-交互体验：
-交互反馈应该是轻盈而有质感的。卡片在 hover 时可以略微提亮背景色、增强边缘高光、增加阴影深度并微微上移 2–4px，好像玻璃被轻轻抬起；按钮在悬停时透明度略微提升、边框更亮，按下时轻微缩放（例如 scale 0.98）并收紧阴影，像手指压在玻璃表面。输入框聚焦时可加强边框亮度和外圈光晕，但要避免强烈色块对比，整体仍以透明感为主。动画节奏建议在 150–300ms 之间，使用平滑的 ease-out 曲线，让每一次状态变化显得柔和而自然。
-
-整体氛围：
-Glassmorphism 家族营造的是一种「现代、干净、略带未来感」的数位面板气质，让人联想到操作系统的小组件、云平台控制台或高端车载系统：界面元素像玻璃牌悬浮在彩色雾气与灯光之上。用户进入页面时不会被复杂纹理压迫，而是感到视觉轻盈、层次清楚；在长时间使用下，半透明卡片与柔和背景可以提供足够变化，又不会像纯白界面那样单调。最终目标是让这套玻璃态界面成为产品的「高级皮肤」——既富有质感，又不过度抢戏，让功能与内容在光影之中被温柔承托。`,
-    'en-US': `Role: You are a UI designer who specialises in glassmorphism and translucent interfaces, designing a modern dashboard that feels like floating glass panels above a blurred, colorful backdrop.
-
-Scene Positioning:
-This style fits products that want to feel modern, airy and slightly futuristic: cloud consoles, settings panels, media players, profile hubs or multi-service overview dashboards. Typical users are visually sensitive and familiar with contemporary OS UIs (Windows/macOS/iOS/Android glass surfaces); they expect clear structure and a sense of depth without visual heaviness.
-
-Visual Design Philosophy:
-Glassmorphism revolves around “semi-transparent foreground cards + background blur + soft edge highlights.” The interface is split into two worlds: a rich, softly blurred background that provides color and atmosphere, and a foreground layer of frosted glass cards carrying titles, metrics and actions. Unlike flat or heavy skeuomorphic styles, glassmorphism intentionally lets background colors and shapes shine through—but always in a way that preserves text legibility. Content clarity comes first; the glass effect is there to support it, not to compete with it.
-
-Materials & Textures:
-Cards are treated as translucent glass surfaces. Their fills are light (often white or very pale hues) with opacity around 0.05–0.2, combined with backdrop-filter: blur(10–24px) to soften everything beneath. Edges use slightly brighter strokes or gradient borders to mimic light refracting along glass edges. Shadows are soft and wide, giving a sense of elevation rather than weight. Backgrounds tend to be dark or high‑saturation gradients in blue, purple, indigo or deep navy, occasionally layered with blurred circular blobs or light spots to suggest distant light sources and depth.
-
-Interaction Experience:
-Interactions should feel light yet tactile. On hover, cards can brighten a bit, strengthen their edge highlights, deepen shadows and lift slightly (2–4px), as if glass panels are being raised toward the user. Buttons respond with subtle opacity shifts, crisper borders and a small press‑down scale (e.g. 0.98) on active state, like a fingertip pushing on glass. Focused inputs may gain a brighter border and soft glow while still respecting the transparent visual language—avoid heavy solid fills that break the glass illusion. Animation timings around 150–300ms with smooth ease‑out curves keep motion gentle and calm.
-
-Overall Mood:
-The glassmorphism family should feel like a refined, system-level skin: clean, contemporary and slightly futuristic, reminiscent of OS widgets, cloud control panels or premium in‑car interfaces. Elements appear to float in a mist of color and light, creating depth without chaos. Users should sense that the UI is sophisticated yet non‑intrusive: they can focus on their tasks while enjoying a quiet sense of polish and atmosphere. In the best case, this glass surface becomes the product’s “luxury finish”—visually rich, but always in service of clarity and usability.`}
   }
+}
 
 export default glassmorphism;

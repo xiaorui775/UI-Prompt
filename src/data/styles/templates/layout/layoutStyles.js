@@ -722,33 +722,75 @@ The mood of a split-screen layout is decisive, clear and somewhat ceremonial. It
     layoutMode: 'fullWidth',
     demoHTML: `
       <div class="masonry-container">
+        <!-- 第 1 列 -->
         <div class="masonry-column">
           <div class="masonry-card masonry-card-1">
-            <div class="masonry-label">Creative</div>
+            <svg class="masonry-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+              <line x1="12" y1="18" x2="12" y2="18"></line>
+            </svg>
+            <div class="masonry-title">Mobile App</div>
+            <div class="masonry-subtitle">Interface Design</div>
+            <div class="masonry-tag">UI Design</div>
           </div>
           <div class="masonry-card masonry-card-2">
-            <div class="masonry-label">Photography</div>
+            <svg class="masonry-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="3" y1="9" x2="21" y2="9"></line>
+              <line x1="9" y1="21" x2="9" y2="9"></line>
+            </svg>
+            <div class="masonry-title">Website Redesign</div>
+            <div class="masonry-subtitle">Full Platform Refresh</div>
+            <div class="masonry-tag">Web Design</div>
           </div>
         </div>
+        
+        <!-- 第 2 列 -->
         <div class="masonry-column">
           <div class="masonry-card masonry-card-3">
-            <div class="masonry-label">Gallery</div>
+            <svg class="masonry-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+            <div class="masonry-title">Brand Identity</div>
+            <div class="masonry-subtitle">Visual System</div>
+            <div class="masonry-tag">Branding</div>
           </div>
           <div class="masonry-card masonry-card-4">
-            <div class="masonry-label">Design</div>
+            <svg class="masonry-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+              <circle cx="12" cy="13" r="4"></circle>
+            </svg>
+            <div class="masonry-title">Photography</div>
+            <div class="masonry-subtitle">Visual Storytelling</div>
+            <div class="masonry-tag">Photography</div>
           </div>
         </div>
+        
+        <!-- 第 3 列 -->
         <div class="masonry-column">
           <div class="masonry-card masonry-card-5">
-            <div class="masonry-label">Arts</div>
+            <svg class="masonry-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M12 19l7 2-7-18-7 18 7-2zm0 0v-8"></path>
+            </svg>
+            <div class="masonry-title">Illustration</div>
+            <div class="masonry-subtitle">Custom Artwork</div>
+            <div class="masonry-tag">Digital Art</div>
           </div>
           <div class="masonry-card masonry-card-6">
-            <div class="masonry-label">Colors</div>
+            <svg class="masonry-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <polyline points="4 7 4 4 20 4 20 7"></polyline>
+              <line x1="9" y1="20" x2="15" y2="20"></line>
+              <line x1="12" y1="4" x2="12" y2="20"></line>
+            </svg>
+            <div class="masonry-title">Typography</div>
+            <div class="masonry-subtitle">Type System</div>
+            <div class="masonry-tag">Typography</div>
           </div>
         </div>
       </div>
     `,
     customStyles: `
+      /* 容器與列結構 */
       .masonry-container {
         display: flex;
         gap: 0.5rem;
@@ -761,52 +803,109 @@ The mood of a split-screen layout is decisive, clear and somewhat ceremonial. It
         flex-direction: column;
         gap: 0.5rem;
       }
+      
+      /* 卡片基礎樣式 - 極簡風格 */
       .masonry-card {
-        border-radius: 0.75rem;
-        padding: 1.5rem 1rem;
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 1.5rem;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        transition: transform 0.2s ease;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 0.75rem;
         cursor: pointer;
+        
+        /* 極簡陰影系統 */
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        transition: all 0.25s ease;
       }
+      
+      /* Hover 效果 - 增強深度與輕微放大 */
       .masonry-card:hover {
-        transform: translateY(-4px);
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
       }
-      .masonry-card-1 {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        height: 80px;
+      
+      /* SVG 圖標樣式 */
+      .masonry-icon {
+        width: 32px;
+        height: 32px;
+        color: #1a1a1a;
+        stroke-width: 1.5;
+        margin-bottom: 0.5rem;
       }
-      .masonry-card-2 {
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        height: 120px;
+      
+      /* 文字層次結構 */
+      .masonry-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1a1a1a;
+        line-height: 1.3;
+        margin: 0;
       }
-      .masonry-card-3 {
-        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        height: 100px;
+      
+      .masonry-subtitle {
+        font-size: 12px;
+        font-weight: 400;
+        color: #666666;
+        line-height: 1.4;
+        margin: 0;
       }
-      .masonry-card-4 {
-        background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-        height: 90px;
-      }
-      .masonry-card-5 {
-        background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-        height: 90px;
-      }
-      .masonry-card-6 {
-        background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
-        height: 100px;
-      }
-      .masonry-label {
-        color: white;
-        font-size: 0.875rem;
-        font-weight: 700;
+      
+      .masonry-tag {
+        font-size: 10px;
+        font-weight: 600;
+        color: #3b82f6;
         text-transform: uppercase;
         letter-spacing: 0.05em;
+        margin-top: auto;
+      }
+      
+      /* 極致高度範圍（80-320px，差距 240px）*/
+      .masonry-card-1 {
+        height: 160px; /* 中等 */
+      }
+      .masonry-card-2 {
+        height: 280px; /* 極高 */
+      }
+      .masonry-card-3 {
+        height: 80px; /* 極低 */
+      }
+      .masonry-card-4 {
+        height: 240px; /* 高 */
+      }
+      .masonry-card-5 {
+        height: 200px; /* 較高 */
+      }
+      .masonry-card-6 {
+        height: 120px; /* 較低 */
+      }
+      
+      /* 響應式調整（可選） */
+      @media (max-width: 768px) {
+        .masonry-container {
+          gap: 0.375rem;
+        }
+        .masonry-column {
+          gap: 0.375rem;
+        }
+        .masonry-card {
+          padding: 1rem;
+        }
+        .masonry-icon {
+          width: 24px;
+          height: 24px;
+        }
+        .masonry-title {
+          font-size: 14px;
+        }
+        .masonry-subtitle {
+          font-size: 11px;
+        }
       }
     `,
-    demoBoxClass: 'bg-gray-100 p-4',
+    demoBoxClass: 'bg-gray-50 p-6',
     customPrompt: {
       'zh-CN': `你现在是一名资深 UI 设计师兼前端工程师，请生成一个与当前「Masonry（瀑布流）」示例界面布局风格高度接近的 Masonry 网格区块。
 要求：保留三列不等高度彩色卡片的瀑布流效果，每列自上而下自然堆叠卡片，整体铺满可视宽度，只允许替换卡片文案、图像内容、色板和外围模块，不允许改变「固定列宽 + 不等高度卡片」这一核心布局模式。输出语义化 HTML 与 TailwindCSS 风格原子类（或等价工具类方案）。
