@@ -106,6 +106,10 @@ export const demoHTML = `
   <div class="smoke-container">
     <div class="smoke-layer smoke-layer-1"></div>
     <div class="smoke-layer smoke-layer-2"></div>
+    <div class="smoke-layer smoke-layer-3"></div>
+    <div class="smoke-layer smoke-layer-4"></div>
+    <div class="smoke-layer smoke-layer-5"></div>
+    <div class="smoke-layer smoke-layer-6"></div>
   </div>
   <div class="smoke-title">Smoke</div>
   <div class="smoke-source">

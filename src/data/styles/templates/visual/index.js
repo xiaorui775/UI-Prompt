@@ -45,8 +45,8 @@ import { scrollNarrative } from './scrollNarrative'
 import { kineticTypography } from './kinetic'
 
 // New Styles 2025
-import { glassmorphism2 } from './glassmorphism2'
 import { claymorphism } from './claymorphism'
+import { claymation } from './claymation'  // Claymation (定格動畫玩具風格)
 import { neumorphismDark } from './neumorphismDark'
 import { industrial } from './industrial'
 import { biophilic } from './biophilic'
@@ -86,8 +86,8 @@ export const visualTemplateStyles = [
   scrollNarrative,  // Scroll Narrative (替換 parallaxScrolling)
   kineticTypography,  // Kinetic Typography (動態排版)
   // New Styles 2025
-  glassmorphism2,  // Glassmorphism 2.0 (增强版玻璃态)
   claymorphism,  // Claymorphism (黏土质感)
+  claymation,  // Claymation (定格動畫玩具風格)
   neumorphismDark,  // Neumorphism Dark (新拟态暗色)
   industrial,  // Industrial Design (工业设计)
   biophilic,  // Biophilic Design (亲生物设计)

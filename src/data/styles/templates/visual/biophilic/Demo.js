@@ -10,7 +10,6 @@ export const demoHTML = `
         </svg>
       </div>
       <h3 class="bio-title">Biophilic Design</h3>
-      <p class="bio-text">Nature-inspired, organic shapes, earthy tones, harmonious living</p>
     </div>
   </div>
 `;

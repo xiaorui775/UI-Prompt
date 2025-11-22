@@ -10,7 +10,6 @@ export const demoHTML = `
         </svg>
       </div>
       <h3 class="neudark-title">Neumorphism Dark</h3>
-      <p class="neudark-text">Soft shadows and highlights on dark background for elegant depth</p>
     </div>
   </div>
 `;

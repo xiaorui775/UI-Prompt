@@ -10,7 +10,6 @@ export const demoHTML = `
         </svg>
       </div>
       <h3 class="clay-title">Claymorphism</h3>
-      <p class="clay-text">Soft 3D clay-like UI elements with depth and playful aesthetics</p>
     </div>
   </div>
 `;
