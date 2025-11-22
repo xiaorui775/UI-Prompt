@@ -6,10 +6,10 @@ import { VariantGrid } from '../../components/ui/VariantGrid';
 import { CodeModal } from '../../components/ui/CodeModal';
 import { PromptDrawer } from '../../components/prompt/PromptDrawer';
 import { PreviewModal } from '../../components/preview/PreviewModal';
-import { PromptGenerator } from '../../utils/promptGenerator';
 import { loadComponentCategories } from '../../data/components/loaders';
 import DOMPurify from 'dompurify';
 import { stripTailwindCdn } from '../../utils/previewCss';
+import { promptGenerator } from '../../utils/prompt/PromptGeneratorFacade';
 
 /**
  * ComponentDetailPage - 組件詳情页 (支持多變体瀑布流佈局)
@@ -85,14 +85,19 @@ export function ComponentDetailPage() {
     setShowPreview(true);
   };
 
-  // 生成 Prompt 內容
-  const promptContent = selectedVariant
-    ? PromptGenerator.generate(
-        t(selectedVariant.name),
-        t(selectedVariant.description || ''),
-        language
-      )
-    : '';
+  // 生成 Prompt 內容（使用新的 Facade API）
+  const promptContent = useMemo(() => {
+    if (!selectedVariant) return '';
+
+    // 使用 PromptGeneratorFacade 的便捷方法
+    // 內部自動處理：責任鏈查找 → 5層降級 → 類型驗證
+    return promptGenerator.generateForVariant(
+      selectedVariant,
+      componentId,
+      category,
+      language
+    );
+  }, [selectedVariant, componentId, category, language]);
 
   // 返回按鈕
   const handleBack = () => {

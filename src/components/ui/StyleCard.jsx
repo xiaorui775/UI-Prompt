@@ -11,6 +11,9 @@ import { getDemoHTML } from "../../utils/i18n/demoI18n";
 import { getStylePreviewUrl } from '../../utils/styleHelper';
 import { LANGUAGES } from "../../utils/i18n/languageConstants";
 import appCssUrl from '../../index.css?url';
+// JSX 編譯和 Preact 運行時
+import { containsJSX, compileForIframe } from '../../utils/jsxCompiler';
+import { generatePreactIframeHTML } from '../../utils/preactRuntime';
 
 export function StyleCard({
   title,
@@ -37,7 +40,10 @@ export function StyleCard({
   layoutMode = 'centered', // 'centered' | 'fullWidth' | 'fullPage'
   // ✨ 新增：自定義 Prompt 支持
   customPrompt = null, // 简短 Prompt（用於 StyleCard）
-  stylePrompt = null // 風格 Prompt（用於 PreviewModal）
+  stylePrompt = null, // 風格 Prompt（用於 PreviewModal）
+  // 🆕 新增：JSX/React 預覽支持
+  demoJSX = null, // JSX 代碼字符串（會自動編譯並用 Preact 渲染）
+  renderMode = 'auto' // 'auto' | 'html' | 'jsx' - auto 會自動檢測代碼類型
 }) {
   const [showPrompt, setShowPrompt] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
@@ -49,8 +55,21 @@ export function StyleCard({
   const [isVisible, setIsVisible] = useState(false);
   const [hasLoaded, setHasLoaded] = useState(false);
 
+  // 🆕 JSX 編譯狀態
+  const [jsxCompileError, setJsxCompileError] = useState(null);
+  const [isCompiling, setIsCompiling] = useState(false);
+
   // 語系對應的 demo HTML 須先計算，供 iframe 注入使用
   const currentDemoHTML = getDemoHTML(demoHTML, language);
+
+  // 🆕 判斷是否使用 JSX 渲染模式
+  const shouldUseJSX = useMemo(() => {
+    if (renderMode === 'html') return false;
+    if (renderMode === 'jsx') return true;
+    // auto 模式：優先使用 demoJSX，否則檢測 demoHTML 是否包含 JSX
+    if (demoJSX) return true;
+    return renderMode === 'auto' && currentDemoHTML && containsJSX(currentDemoHTML);
+  }, [renderMode, demoJSX, currentDemoHTML]);
 
   // 🚀 性能优化：IntersectionObserver 監測卡片可見性
   useEffect(() => {
@@ -81,12 +100,74 @@ export function StyleCard({
 
   // 在 iframe 中渲染 demo，避免自定義 CSS 外溢影響全域（如 Header/Menu）
   // 🚀 性能优化：只在卡片可見時才創建和渲染 iframe
+  // 🆕 支持 JSX 編譯和 Preact 渲染
   useEffect(() => {
     if (!isVisible) return; // 关鍵：延遲載入，只有可見時才執行
     const iframe = iframeRef.current;
     if (!iframe) return;
     const doc = iframe.contentDocument || iframe.contentWindow?.document;
     if (!doc) return;
+
+    // 🆕 JSX 渲染路徑
+    if (shouldUseJSX) {
+      const jsxSource = demoJSX || currentDemoHTML;
+      setIsCompiling(true);
+      setJsxCompileError(null);
+
+      compileForIframe(jsxSource, { componentName: 'DemoComponent' })
+        .then((compiledCode) => {
+          const fullHTML = generatePreactIframeHTML({
+            compiledCode,
+            customStyles,
+            title: `JSX Preview - ${id || 'demo'}`,
+            mountId: 'root'
+          });
+
+          try {
+            doc.open();
+            doc.write(fullHTML);
+            doc.close();
+          } catch (e) {
+            console.error('iframe write error:', e);
+          }
+        })
+        .catch((error) => {
+          setJsxCompileError(error.message);
+          // 顯示錯誤信息
+          const errorHTML = `
+            <!doctype html>
+            <html>
+            <head>
+              <style>
+                body { margin: 16px; font-family: monospace; }
+                .error { background: #fee2e2; border: 1px solid #ef4444;
+                         color: #dc2626; padding: 16px; border-radius: 8px; }
+              </style>
+            </head>
+            <body>
+              <div class="error">
+                <strong>JSX 編譯錯誤:</strong><br/>
+                ${error.message}
+              </div>
+            </body>
+            </html>
+          `;
+          try {
+            doc.open();
+            doc.write(errorHTML);
+            doc.close();
+          } catch (e) {
+            console.error('Error display failed:', e);
+          }
+        })
+        .finally(() => {
+          setIsCompiling(false);
+        });
+
+      return; // JSX 路徑處理完畢，不執行後面的 HTML 渲染
+    }
+
+    // 原有的 HTML 渲染路徑
 
     // 對 demoHTML 進行清理与樣式抽取，避免外部資源与 style 樣式被剝除
     const stripExternalAssets = (html) => {
@@ -199,7 +280,7 @@ export function StyleCard({
     } catch {
       // Ignore write errors
     }
-  }, [isVisible, currentDemoHTML, customStyles, layoutMode]);
+  }, [isVisible, currentDemoHTML, customStyles, layoutMode, shouldUseJSX, demoJSX, id]);
 
   const renderText = (value) => {
     let result = '';
@@ -316,6 +397,14 @@ export function StyleCard({
               <div className="flex flex-col items-center gap-2">
                 <div className="w-8 h-8 border-4 border-gray-300 border-t-gray-600 rounded-full animate-spin"></div>
                 <span className="text-sm text-gray-400">{t('common.loading') || 'Loading...'}</span>
+              </div>
+            </div>
+          ) : isCompiling ? (
+            // 🆕 JSX 編譯中的指示器
+            <div className="w-full h-full flex items-center justify-center bg-gray-50">
+              <div className="flex flex-col items-center gap-2">
+                <div className="w-8 h-8 border-4 border-blue-300 border-t-blue-600 rounded-full animate-spin"></div>
+                <span className="text-sm text-blue-500">Compiling JSX...</span>
               </div>
             </div>
           ) : (
