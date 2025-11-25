@@ -81,32 +81,49 @@ jobs:
           script: |
             # ----------------------------------------
             # 1. Login to GitHub Container Registry
-            #    (CRITICAL: Without this, Docker cannot pull private images)
             # ----------------------------------------
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-            # ----------------------------------------
-            # 2. Verify SSH Connection
-            # ----------------------------------------
             echo "✅ Login Successful! Connected to server:"
             hostname -I
             echo "----------------------------------------"
 
             # ----------------------------------------
+            # 2. Clear Server-Side Cache (Critical Fix)
+            # ----------------------------------------
+            echo "🧹 Clearing all Docker image cache..."
+
+            # Stop and remove old container
+            echo "🛑 Stopping old container..."
+            docker rm -f ui-prompt || true
+
+            # Remove all cached ui-prompt images
+            echo "🗑️  Removing all cached images..."
+            docker images ghcr.io/tonnywong1052/ui-prompt -q | xargs -r docker rmi -f || true
+
+            # Clean Docker system cache
+            echo "🧽 Cleaning Docker system cache..."
+            docker system prune -af --volumes || true
+
+            # ----------------------------------------
             # 3. Pull Latest Docker Image
             # ----------------------------------------
-            echo "📦 Pulling image: ${{ env.IMAGE_NAME }}:latest"
+            echo "📦 Pulling fresh image: ${{ env.IMAGE_NAME }}:latest"
             docker pull ${{ env.IMAGE_NAME }}:latest
 
             # ----------------------------------------
-            # 4. Stop and Remove Old Container
+            # 4. Verify New Image
             # ----------------------------------------
-            echo "🛑 Stopping old container (if exists)..."
-            docker rm -f ui-prompt || true
+            echo "🔍 Verifying image build time..."
+            BUILD_TIME=$(docker inspect ${{ env.IMAGE_NAME }}:latest --format='{{.Created}}')
+            echo "📅 Image build time: $BUILD_TIME"
+
+            # Check nginx configuration in image
+            echo "🔧 Checking nginx configuration in image..."
+            docker run --rm ${{ env.IMAGE_NAME }}:latest cat /etc/nginx/conf.d/default.conf | grep -A 3 "location.*js\|css" || true
 
             # ----------------------------------------
             # 5. Start New Container
-            #    Maps Server Port 80 -> Container Port 8080
             # ----------------------------------------
             echo "🚀 Starting new container..."
             docker run -d \
@@ -116,10 +133,18 @@ jobs:
               ${{ env.IMAGE_NAME }}:latest
 
             # ----------------------------------------
-            # 6. Cleanup Old Images (Save Disk Space)
+            # 6. Clear Nginx Internal Cache
             # ----------------------------------------
-            echo "🧹 Cleaning up old images..."
-            docker image prune -af --filter "until=24h" || true
+            echo "🧹 Clearing Nginx internal cache..."
+            sleep 3  # Wait for container to start
+
+            # Clear Nginx cache directory
+            docker exec ui-prompt sh -c "rm -rf /var/cache/nginx/* || true" || true
+
+            # Reload Nginx configuration
+            docker exec ui-prompt sh -c "nginx -s reload" || true
+
+            echo "✅ Nginx cache cleared and configuration reloaded"
 
             # ----------------------------------------
             # 7. Verify Deployment
@@ -128,6 +153,11 @@ jobs:
             echo "✅ Deployment completed successfully!"
             echo "📊 Container Status:"
             docker ps -f name=ui-prompt --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+
+            # Verify nginx configuration inside container
+            echo "----------------------------------------"
+            echo "🔍 Verifying nginx configuration inside container:"
+            docker exec ui-prompt cat /etc/nginx/conf.d/default.conf | grep -B2 -A2 "expires" || true
 
             echo "----------------------------------------"
             echo "🌐 Your app should be available at:"
