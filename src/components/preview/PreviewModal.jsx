@@ -453,9 +453,9 @@ ${customStyles || ''}`.trim();
   return (
     <>
       <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center">
-        <div className="bg-white h-full w-full flex flex-col">
-          <header className="border-b p-4 flex flex-col md:flex-row justify-between items-start md:items-center bg-white gap-3 md:gap-2">
-            <h3 className="text-lg font-semibold">{t('preview.header', { title: displayTitle })}</h3>
+        <div className="bg-white dark:bg-gray-900 h-full w-full flex flex-col">
+          <header className="border-b dark:border-gray-700 p-4 flex flex-col md:flex-row justify-between items-start md:items-center bg-white dark:bg-gray-800 gap-3 md:gap-2">
+            <h3 className="text-lg font-semibold dark:text-gray-100">{t('preview.header', { title: displayTitle })}</h3>
             <div className="flex flex-col md:flex-row gap-3 md:gap-2 items-stretch md:items-center w-full md:w-auto">
               {/* 預覽選擇器 - 使用新的 PreviewSelector 組件 */}
               {hasMultiplePreviews(previewsList) && (
@@ -471,7 +471,7 @@ ${customStyles || ''}`.trim();
               <div className="flex gap-2">
                 <button
                   onClick={() => setShowPrompt(true)}
-                  className="flex-1 md:flex-none px-4 py-2 text-sm rounded border hover:bg-gray-100 transition-colors"
+                  className="flex-1 md:flex-none px-4 py-2 text-sm rounded border dark:border-gray-600 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                 >
                   {t('buttons.prompt')}
                 </button>
@@ -485,7 +485,7 @@ ${customStyles || ''}`.trim();
                   }}
                   role="button"
                   tabIndex={0}
-                  className="cursor-pointer flex items-center justify-center"
+                  className="cursor-pointer flex items-center justify-center dark:text-gray-100"
                   aria-label={t('buttons.close')}
                 >
                   <svg

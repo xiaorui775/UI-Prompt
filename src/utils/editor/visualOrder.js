@@ -91,49 +91,27 @@ export function areSiblings(tree, id1, id2) {
  * @returns {Object|null} 預覽交換信息或 null
  */
 export function calculatePreviewSwap(tree, draggedId, targetId) {
-  console.group('🔎 calculatePreviewSwap');
-  console.log('Input:', { tree: !!tree, draggedId, targetId });
-
   if (!tree || !draggedId || !targetId || draggedId === targetId) {
-    console.log('❌ Early return: invalid input or same component');
-    console.groupEnd();
     return null;
   }
 
   const fromInfo = findParentAndIndex(tree, draggedId);
   const toInfo = findParentAndIndex(tree, targetId);
 
-  console.log('Parent info:', {
-    from: fromInfo,
-    to: toInfo
-  });
-
   // 必須是同級組件
   if (!fromInfo || !toInfo) {
-    console.log('❌ Component not found in tree');
-    console.groupEnd();
     return null;
   }
 
   if (fromInfo.parentId !== toInfo.parentId) {
-    console.log('❌ Not siblings:', {
-      fromParent: fromInfo.parentId,
-      toParent: toInfo.parentId
-    });
-    console.groupEnd();
     return null;
   }
 
-  const result = {
+  return {
     draggedId,
     targetId,
     draggedIndex: fromInfo.index,
     targetIndex: toInfo.index,
     parentId: fromInfo.parentId
   };
-
-  console.log('✅ Preview swap calculated:', result);
-  console.groupEnd();
-
-  return result;
 }

@@ -107,7 +107,7 @@ export function TagGroup({
       ))}
       {remainingCount > 0 && (
         <span
-          className={`${size === 'sm' ? 'text-xs' : 'text-sm'} text-gray-500 self-center`}
+          className={`${size === 'sm' ? 'text-xs' : 'text-sm'} text-gray-500 dark:text-gray-400 self-center`}
         >
           +{remainingCount}
         </span>
@@ -139,7 +139,7 @@ export function CategoryBadge({
     transition-all duration-200
     ${primary
       ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-md'
-      : 'bg-gray-100 text-gray-700 border border-gray-300'
+      : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600'
     }
     ${className}
   `;

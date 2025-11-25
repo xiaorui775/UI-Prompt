@@ -182,7 +182,7 @@ export function ComponentDetailPage() {
         <div className="mb-8">
           <button
             onClick={handleBack}
-            className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors mb-4"
+            className="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors mb-4"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -195,21 +195,21 @@ export function ComponentDetailPage() {
             <div className="flex-1">
               {/* 分类徽章 */}
               <div className="mb-3">
-                <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-purple-100 text-purple-700 rounded-lg text-sm font-medium">
+                <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-lg text-sm font-medium">
                   <span>{componentData.categoryIcon}</span>
                   <span>{componentData.categoryLabel}</span>
                 </span>
               </div>
 
               {/* 組件标題 */}
-              <h1 className="text-3xl md:text-4xl font-light mb-3">
+              <h1 className="text-3xl md:text-4xl font-light mb-3 text-black dark:text-white">
                 {typeof componentData.title === 'string' && componentData.title.startsWith('data.') 
                   ? t(componentData.title) 
                   : componentData.title}
               </h1>
 
               {/* 完整描述 */}
-              <p className="text-gray-600 text-base leading-relaxed max-w-3xl mb-2">
+              <p className="text-gray-600 dark:text-gray-300 text-base leading-relaxed max-w-3xl mb-2">
                 {typeof componentData.description === 'string' && componentData.description.startsWith('data.') 
                   ? t(componentData.description) 
                   : componentData.description}
@@ -217,7 +217,7 @@ export function ComponentDetailPage() {
 
               {/* 變体数量提示 */}
               {hasVariants && (
-                <p className="text-sm text-purple-600 font-medium">
+                <p className="text-sm text-purple-600 dark:text-purple-400 font-medium">
                   {t('common.variantsCount', {
                     count: componentData.variants.length,
                     plural: componentData.variants.length !== 1 ? 's' : ''
@@ -238,15 +238,15 @@ export function ComponentDetailPage() {
           />
         ) : (
           /* 回退: 單一預覽模式 (向後兼容) */
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-            <div className="border-b border-gray-200 px-6 py-3 bg-gray-50">
-              <h3 className="text-sm font-semibold text-gray-700">
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
+            <div className="border-b border-gray-200 dark:border-gray-700 px-6 py-3 bg-gray-50 dark:bg-gray-900">
+              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                 {t('ui.componentPreview')}
               </h3>
             </div>
-            <div className="p-8 bg-gray-50 min-h-[400px] flex items-center justify-center">
+            <div className="p-8 bg-gray-50 dark:bg-gray-900 min-h-[400px] flex items-center justify-center">
               <div
-                className="w-full max-w-4xl bg-white rounded-lg shadow-md p-6"
+                className="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-lg shadow-md p-6"
                 // 安全處理：移除 Tailwind CDN 並做 XSS 清理
                 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(stripTailwindCdn(componentData.demoHTML || '')) }}
               />

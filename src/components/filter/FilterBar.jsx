@@ -97,16 +97,16 @@ export function FilterBar({
   const hasActiveFilters = filters.keyword || filters.categories.length > 0 || filters.tags.length > 0;
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-8">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 mb-8">
       {/* 頂部控制欄 */}
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-800">
+        <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
           {t('filter.title')}
         </h3>
         {hasActiveFilters && (
           <button
             onClick={clearFilters}
-            className="text-sm text-purple-600 hover:text-purple-700 font-medium"
+            className="text-sm text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium"
           >
             {t('filter.clearAll')}
           </button>
@@ -122,10 +122,10 @@ export function FilterBar({
               placeholder={t('filter.searchPlaceholder')}
               value={filters.keyword}
               onChange={handleSearchChange}
-              className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full px-4 py-2 pl-10 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-black dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 focus:border-transparent"
             />
             <svg
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -143,16 +143,16 @@ export function FilterBar({
             onClick={() => toggleSection('categories')}
             className="flex items-center justify-between w-full text-left mb-2"
           >
-            <span className="text-sm font-semibold text-gray-700">
+            <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
               {t('filter.categoriesTitle')}
               {filters.categories.length > 0 && (
-                <span className="ml-2 text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full">
+                <span className="ml-2 text-xs bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 px-2 py-0.5 rounded-full">
                   {filters.categories.length}
                 </span>
               )}
             </span>
             <svg
-              className={`w-5 h-5 text-gray-500 transition-transform ${expandedSection === 'categories' ? 'rotate-180' : ''}`}
+              className={`w-5 h-5 text-gray-500 dark:text-gray-400 transition-transform ${expandedSection === 'categories' ? 'rotate-180' : ''}`}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -170,8 +170,8 @@ export function FilterBar({
                   className={`
                     px-3 py-1.5 rounded-lg text-sm font-medium transition-all
                     ${filters.categories.includes(category.id)
-                      ? 'bg-purple-500 text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      ? 'bg-purple-500 dark:bg-purple-600 text-white shadow-md'
+                      : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                     }
                   `}
                 >
@@ -191,16 +191,16 @@ export function FilterBar({
             onClick={() => toggleSection('tags')}
             className="flex items-center justify-between w-full text-left mb-2"
           >
-            <span className="text-sm font-semibold text-gray-700">
+            <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
               {t('filter.tagsTitle')}
               {filters.tags.length > 0 && (
-                <span className="ml-2 text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full">
+                <span className="ml-2 text-xs bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 px-2 py-0.5 rounded-full">
                   {filters.tags.length}
                 </span>
               )}
             </span>
             <svg
-              className={`w-5 h-5 text-gray-500 transition-transform ${expandedSection === 'tags' ? 'rotate-180' : ''}`}
+              className={`w-5 h-5 text-gray-500 dark:text-gray-400 transition-transform ${expandedSection === 'tags' ? 'rotate-180' : ''}`}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -214,10 +214,10 @@ export function FilterBar({
               {/* 标籤匹配模式切換 */}
               {filters.tags.length > 1 && (
                 <div className="flex items-center gap-2 text-xs">
-                  <span className="text-gray-600">{t('filter.matchMode')}</span>
+                  <span className="text-gray-600 dark:text-gray-400">{t('filter.matchMode')}</span>
                   <button
                     onClick={toggleMatchMode}
-                    className="px-2 py-1 bg-gray-100 rounded hover:bg-gray-200 font-medium"
+                    className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-200 dark:hover:bg-gray-600 font-medium"
                   >
                     {filters.matchMode === 'any'
                       ? t('filter.matchAny')
@@ -228,7 +228,7 @@ export function FilterBar({
 
               {/* 时代特征标签 */}
               <div>
-                <div className="text-xs font-medium text-gray-500 mb-1.5">
+                <div className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">
                   {t('filter.eraTitle')}
                 </div>
                 <div className="flex flex-wrap gap-1.5">
@@ -250,7 +250,7 @@ export function FilterBar({
 
               {/* 视觉特性标签 */}
               <div>
-                <div className="text-xs font-medium text-gray-500 mb-1.5">
+                <div className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">
                   {t('filter.visualTitle')}
                 </div>
                 <div className="flex flex-wrap gap-1.5">
@@ -272,7 +272,7 @@ export function FilterBar({
 
               {/* 技术手法标签 */}
               <div>
-                <div className="text-xs font-medium text-gray-500 mb-1.5">
+                <div className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">
                   {t('filter.technicalTitle')}
                 </div>
                 <div className="flex flex-wrap gap-1.5">
@@ -294,7 +294,7 @@ export function FilterBar({
 
               {/* 使用场景标签 */}
               <div>
-                <div className="text-xs font-medium text-gray-500 mb-1.5">
+                <div className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">
                   {t('filter.useCasesTitle')}
                 </div>
                 <div className="flex flex-wrap gap-1.5">
@@ -320,8 +320,8 @@ export function FilterBar({
 
       {/* 已选择的筛选条件摘要 */}
       {hasActiveFilters && (
-        <div className="mt-4 pt-4 border-t border-gray-200">
-          <div className="text-xs font-medium text-gray-500 mb-2">
+        <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">
             {t('filter.activeFilters')}
           </div>
           <div className="flex flex-wrap gap-2">
@@ -330,12 +330,12 @@ export function FilterBar({
               return (
                 <span
                   key={catId}
-                  className="inline-flex items-center gap-1 px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium"
+                  className="inline-flex items-center gap-1 px-2 py-1 bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 rounded-full text-xs font-medium"
                 >
                   {category?.icon} {getCategoryLabel(catId, language)}
                   <button
                     onClick={() => toggleCategory(catId)}
-                    className="ml-1 hover:text-purple-900"
+                    className="ml-1 hover:text-purple-900 dark:hover:text-purple-100"
                   >
                     ×
                   </button>
@@ -345,12 +345,12 @@ export function FilterBar({
             {filters.tags.map(tagId => (
               <span
                 key={tagId}
-                className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium"
+                className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded-full text-xs font-medium"
               >
                 {getTagLabel(tagId, language)}
                 <button
                   onClick={() => toggleTag(tagId)}
-                  className="ml-1 hover:text-blue-900"
+                  className="ml-1 hover:text-blue-900 dark:hover:text-blue-100"
                 >
                   ×
                 </button>

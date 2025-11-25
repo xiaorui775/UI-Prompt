@@ -54,6 +54,7 @@ export async function loadComponentCategories(forceRefresh = false) {
       inputMod,
       interactiveMod,
       specialMod,
+      visualEffectsMod,
     ] = await Promise.all([
       import('./navigationComponents'),
       import('./formComponents'),
@@ -63,6 +64,7 @@ export async function loadComponentCategories(forceRefresh = false) {
       import('./inputComponents'),
       import('./interactiveComponents'),
       import('./specialComponents'),
+      import('./visualEffectsComponents'),
     ]);
 
     const result = [
@@ -74,6 +76,7 @@ export async function loadComponentCategories(forceRefresh = false) {
       { id: 'input', key: 'inputEnhanced', path: '/components/input', data: inputMod.inputComponents, icon: '' },
       { id: 'interactive', key: 'interactive', path: '/components/interactive', data: interactiveMod.interactiveComponents, icon: '' },
       { id: 'special', key: 'specialViews', path: '/components/special', data: specialMod.specialComponents, icon: '' },
+      { id: 'visualEffects', key: 'visualEffects', path: '/components/visual-effects', data: visualEffectsMod.visualEffectsComponents, icon: '' },
     ];
 
     __componentCategoriesCache = result;

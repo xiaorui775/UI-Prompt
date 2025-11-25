@@ -50,20 +50,20 @@ export function Toast({
       }`}
     >
       <div
-        className={`pointer-events-auto bg-white shadow-2xl rounded-lg px-6 py-4 min-w-[320px] max-w-md flex items-center gap-4 transform transition-all duration-300 ${
+        className={`pointer-events-auto bg-white dark:bg-gray-800 shadow-2xl rounded-lg px-6 py-4 min-w-[320px] max-w-md flex items-center gap-4 transform transition-all duration-300 border border-gray-200 dark:border-gray-700 ${
           isVisible ? 'scale-100' : 'scale-95'
         }`}
       >
         {/* 成功圖标 */}
         <div
-          className="w-5 h-5 flex-shrink-0 flex items-center justify-center text-green-600 font-bold text-xl"
+          className="w-5 h-5 flex-shrink-0 flex items-center justify-center text-green-600 dark:text-green-400 font-bold text-xl"
           aria-hidden="true"
         >
           ✓
         </div>
 
         {/* 文字訊息 */}
-        <p className="flex-1 text-gray-800 text-sm font-medium leading-tight">
+        <p className="flex-1 text-gray-800 dark:text-gray-200 text-sm font-medium leading-tight">
           {message || t(translationKey)}
         </p>
 
@@ -71,7 +71,7 @@ export function Toast({
         <button
           type="button"
           onClick={handleClose}
-          className="w-5 h-5 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 rounded"
+          className="w-5 h-5 flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600 rounded"
           aria-label={t('common.close')}
         >
           <svg

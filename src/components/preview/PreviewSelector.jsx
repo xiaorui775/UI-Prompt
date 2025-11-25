@@ -94,10 +94,10 @@ export function PreviewSelector({
               text-sm font-medium
               border
               transition-colors duration-200
-              focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2
+              focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-gray-400 focus:ring-offset-2
               ${idx === safeActiveIndex
-                ? 'border-black bg-black text-white'
-                : 'border-gray-200 text-gray-600 hover:border-gray-400 hover:text-gray-900'
+                ? 'border-black bg-black text-white dark:border-gray-400 dark:bg-gray-700 dark:text-gray-100'
+                : 'border-gray-200 text-gray-600 hover:border-gray-400 hover:text-gray-900 dark:border-gray-600 dark:text-gray-300 dark:hover:border-gray-400 dark:hover:text-gray-100'
               }
             `.trim().replace(/\s+/g, ' ')}
             title={getPreviewName(preview, idx)}
@@ -121,10 +121,10 @@ export function PreviewSelector({
         onChange={handleSelectChange}
         className="
           w-full px-3 py-2.5
-          text-sm font-medium text-gray-900
-          bg-white
-          border border-gray-200
-          focus:border-black focus:outline-none focus:ring-1 focus:ring-black
+          text-sm font-medium text-gray-900 dark:text-gray-100
+          bg-white dark:bg-gray-800
+          border border-gray-200 dark:border-gray-600
+          focus:border-black dark:focus:border-gray-400 focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-gray-400
           transition-colors duration-200
         "
         style={{ minHeight: '44px' }}

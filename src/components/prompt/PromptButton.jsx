@@ -6,7 +6,7 @@ export function PromptButton({ onClick }) {
   return (
     <button
       onClick={onClick}
-      className="px-6 py-2 text-sm font-normal tracking-wide border border-black bg-transparent text-black hover:bg-black hover:text-white transition-colors duration-200 rounded-sm"
+      className="px-6 py-2 text-sm font-normal tracking-wide border border-black dark:border-white bg-transparent text-black dark:text-white hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-colors duration-200 rounded-sm"
     >
       {t('buttons.getPrompt')}
     </button>

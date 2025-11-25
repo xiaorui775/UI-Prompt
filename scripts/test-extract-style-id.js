@@ -6,7 +6,6 @@
  * 驗證從模板文件中正確提取 styleId
  */
 
-import { execSync } from 'child_process';
 import fs from 'fs';
 
 // 顏色輸出

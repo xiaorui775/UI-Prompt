@@ -1,145 +1,143 @@
 import { useLanguage } from '../../hooks/useLanguage';
+import { HandDrawnIcon } from '../icons/HandDrawnIcons';
 
 /**
- * FeaturesSection - 功能特色区（严格极简主义设计）
- * 展示网站的 6 个核心功能
- * 使用纯 CSS 几何图形，无 emoji，无过度动画
+ * FeaturesSection - 功能特色区（Paper/Cutout 紙張剪貼風格）
+ * 展示網站的 6 個核心功能
+ * 使用手繪風格 SVG 圖標、便利貼卡片、CSS 伪元素图钉装饰
  */
 export function FeaturesSection() {
   const { t } = useLanguage();
 
   const features = [
     {
-      shape: 'grid',      // 3x3 网格代表多种风格
+      icon: 'styles',         // 手繪九宮格圖標
+      color: 'yellow',        // 便利貼顏色
+      rotation: 'paper-rotate-1',  // 旋轉 -5deg
+      pinColor: 'red',        // CSS 图钉顏色
       titleKey: 'styles',
       descKey: 'stylesDesc'
     },
     {
-      shape: 'lines',     // 横线代表文档/Prompt
+      icon: 'prompts',
+      color: 'pink',
+      rotation: 'paper-rotate-2',  // 旋轉 3deg
+      pinColor: 'blue',
       titleKey: 'prompts',
       descKey: 'promptsDesc'
     },
     {
-      shape: 'circle',    // 圆圈代表预览
+      icon: 'preview',
+      color: 'blue',
+      rotation: 'paper-rotate-3',  // 旋轉 -7deg
+      pinColor: 'yellow',
       titleKey: 'preview',
       descKey: 'previewDesc'
     },
     {
-      shape: 'squares',   // 重叠正方形代表复制
+      icon: 'copy',
+      color: 'yellow',
+      rotation: 'paper-rotate-4',  // 旋轉 4deg
+      pinColor: 'green',
       titleKey: 'copy',
       descKey: 'copyDesc'
     },
     {
-      shape: 'check',     // 对勾代表可访问性
+      icon: 'accessibility',
+      color: 'pink',
+      rotation: 'paper-rotate-5',  // 旋轉 -3deg
+      pinColor: 'orange',
       titleKey: 'accessibility',
       descKey: 'accessibilityDesc'
     },
     {
-      shape: 'layers',    // 多层矩形代表响应式
+      icon: 'responsive',
+      color: 'blue',
+      rotation: 'paper-rotate-6',  // 旋轉 6deg
+      pinColor: 'purple',
       titleKey: 'responsive',
       descKey: 'responsiveDesc'
     }
   ];
 
-  // 渲染几何图形
-  const renderShape = (shape) => {
-    const baseClasses = "w-16 h-16 mx-auto mb-6";
-
-    switch(shape) {
-      case 'grid':
-        // 3x3 网格
-        return (
-          <div className={`${baseClasses} grid grid-cols-3 gap-1`}>
-            {[...Array(9)].map((_, i) => (
-              <div key={i} className="border border-gray-400"></div>
-            ))}
-          </div>
-        );
-
-      case 'lines':
-        // 三条横线
-        return (
-          <div className={`${baseClasses} flex flex-col justify-center gap-2`}>
-            <div className="h-0.5 bg-gray-400"></div>
-            <div className="h-0.5 bg-gray-400"></div>
-            <div className="h-0.5 bg-gray-400"></div>
-          </div>
-        );
-
-      case 'circle':
-        // 空心圆圈
-        return (
-          <div className={`${baseClasses} rounded-full border-2 border-gray-400`}></div>
-        );
-
-      case 'squares':
-        // 两个重叠的正方形
-        return (
-          <div className={`${baseClasses} relative`}>
-            <div className="absolute top-0 left-0 w-12 h-12 border-2 border-gray-400"></div>
-            <div className="absolute bottom-0 right-0 w-12 h-12 border-2 border-gray-400"></div>
-          </div>
-        );
-
-      case 'check':
-        // 圆圈+对勾
-        return (
-          <div className={`${baseClasses} rounded-full border-2 border-gray-400 flex items-center justify-center`}>
-            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-              <path strokeLinecap="square" strokeLinejoin="miter" d="M5 13l4 4L19 7" className="stroke-gray-400"/>
-            </svg>
-          </div>
-        );
-
-      case 'layers':
-        // 多层矩形（大中小）
-        return (
-          <div className={`${baseClasses} flex items-center justify-center gap-1`}>
-            <div className="w-3 h-12 border border-gray-400"></div>
-            <div className="w-4 h-10 border border-gray-400"></div>
-            <div className="w-5 h-8 border border-gray-400"></div>
-          </div>
-        );
-
-      default:
-        return <div className={`${baseClasses} border-2 border-gray-400`}></div>;
-    }
-  };
-
   return (
-    <section className="w-full py-20 px-6 bg-white">
-      <div className="max-w-7xl mx-auto">
-        {/* 标题区域 */}
+    <section className="w-full py-20 px-6 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 relative overflow-hidden">
+      {/* 背景紋理 - 模擬軟木板 */}
+      <div
+        className="absolute inset-0 opacity-30 dark:opacity-20 pointer-events-none"
+        style={{
+          backgroundImage: `
+            radial-gradient(circle at 20% 30%, rgba(139, 69, 19, 0.05) 0%, transparent 50%),
+            radial-gradient(circle at 80% 70%, rgba(139, 69, 19, 0.05) 0%, transparent 50%),
+            repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139, 69, 19, 0.02) 2px, rgba(139, 69, 19, 0.02) 4px)
+          `
+        }}
+      />
+
+      <div className="max-w-7xl mx-auto relative z-10">
+        {/* 標題區域 */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-4">
+          <h2 className="text-4xl md:text-5xl font-light text-gray-900 dark:text-gray-100 mb-4">
             {t('home.features.title')}
           </h2>
-          <p className="text-lg text-gray-500 font-light max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 dark:text-gray-300 font-light max-w-2xl mx-auto">
             {t('home.features.subtitle')}
           </p>
         </div>
 
-        {/* 功能网格 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* 功能卡片 - 便利貼風格 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-16">
           {features.map((feature, index) => (
             <article
               key={index}
-              className="bg-white border border-gray-200 p-8 transition-colors duration-200 hover:border-gray-900"
+              className={`
+                paper-card-${feature.color}
+                paper-pin-${feature.pinColor}
+                ${feature.rotation}
+                rounded-sm
+                p-8 pt-12
+                relative
+                cursor-default
+                group
+              `}
+              style={{
+                minHeight: '280px'
+              }}
             >
-              {/* 几何图形 */}
-              {renderShape(feature.shape)}
+              {/* 手繪圖標 */}
+              <div className="flex justify-center mb-6 transform group-hover:scale-110 transition-transform duration-200">
+                <HandDrawnIcon
+                  type={feature.icon}
+                  size={72}
+                  className="opacity-80"
+                />
+              </div>
 
-              {/* 标题 */}
-              <h3 className="text-xl font-medium text-gray-900 mb-3 text-center">
+              {/* 標題 */}
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3 text-center">
                 {t(`home.features.${feature.titleKey}`)}
               </h3>
 
               {/* 描述 */}
-              <p className="text-gray-600 font-light leading-relaxed text-center">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-center text-sm">
                 {t(`home.features.${feature.descKey}`)}
               </p>
             </article>
           ))}
+        </div>
+
+        {/* 底部註解（無 emoji）*/}
+        <div className="mt-16 text-center">
+          <p
+            className="text-gray-500 dark:text-gray-400 text-sm paper-handwritten"
+            style={{
+              fontFamily: '"Comic Sans MS", "Marker Felt", cursive',
+              transform: 'rotate(-1deg)',
+              display: 'inline-block'
+            }}
+          >
+            {t('home.features.note') || '點擊卡片探索更多功能細節'}
+          </p>
         </div>
       </div>
     </section>

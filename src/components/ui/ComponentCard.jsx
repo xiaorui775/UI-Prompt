@@ -166,8 +166,8 @@ export function ComponentCard({
   return (
     <div
       className={`
-        group bg-white rounded-lg border border-gray-200 overflow-hidden cursor-pointer
-        transition-all duration-300 hover:shadow-lg hover:border-gray-300
+        group bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden cursor-pointer
+        transition-all duration-300 hover:shadow-lg dark:hover:shadow-gray-900/50 hover:border-gray-300 dark:hover:border-gray-600
         ${isHovered ? 'scale-[1.02]' : 'scale-100'}
       `}
       onClick={handleCardClick}
@@ -175,7 +175,7 @@ export function ComponentCard({
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* 迷你 iframe 預覽区域 */}
-      <div ref={containerRef} className="relative w-full h-44 bg-gray-50 border-b border-gray-200 overflow-hidden">
+      <div ref={containerRef} className="relative w-full h-44 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 overflow-hidden">
         {/* 變体数量徽章 (右上角) */}
         {hasVariants && (
           <div className="absolute top-2 right-2 z-10">
@@ -203,15 +203,15 @@ export function ComponentCard({
           />
         ) : (
           // 加載佔位符
-          <div className="w-full h-full flex items-center justify-center bg-gray-100">
+          <div className="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-800">
             {isIntersecting && !hasContent ? (
               <div className="text-center px-4">
                 <div className="mb-2 text-2xl">🧪</div>
-                <p className="text-xs text-gray-600">{t('ui.noInlineDemo')}</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400">{t('ui.noInlineDemo')}</p>
               </div>
             ) : (
               <div className="animate-pulse">
-                <div className="w-16 h-16 bg-gray-300 rounded-lg" />
+                <div className="w-16 h-16 bg-gray-300 dark:bg-gray-600 rounded-lg" />
               </div>
             )}
           </div>
@@ -220,14 +220,14 @@ export function ComponentCard({
         {/* Hover 遮罩提示 */}
         <div
           className={`
-            absolute inset-0 bg-black/0 group-hover:bg-black/10
+            absolute inset-0 bg-black/0 dark:bg-white/0 group-hover:bg-black/10 dark:group-hover:bg-white/10
             flex items-center justify-center
             transition-all duration-300
             ${isHovered ? 'opacity-100' : 'opacity-0'}
           `}
         >
-          <div className="bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
-            <span className="text-sm font-medium text-gray-900">
+          <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
+            <span className="text-sm font-medium text-gray-900 dark:text-white">
               {t('ui.clickForDetails')}
             </span>
           </div>
@@ -239,19 +239,19 @@ export function ComponentCard({
         {/* 分类徽章 */}
         <button
           onClick={handleCategoryClick}
-          className="category-badge inline-flex items-center gap-1 px-2 py-1 bg-purple-100 text-purple-700 rounded-md text-xs font-medium hover:bg-purple-200 transition-colors"
+          className="category-badge inline-flex items-center gap-1 px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-md text-xs font-medium hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-colors"
         >
           <span>{categoryIcon}</span>
           <span>{categoryLabel}</span>
         </button>
 
         {/* 組件标題 */}
-        <h3 className="text-base font-semibold text-gray-900 line-clamp-1">
+        <h3 className="text-base font-semibold text-gray-900 dark:text-white line-clamp-1">
           {title}
         </h3>
 
         {/* 简短描述 */}
-        <p className="text-xs text-gray-600 line-clamp-2 leading-relaxed">
+        <p className="text-xs text-gray-600 dark:text-gray-300 line-clamp-2 leading-relaxed">
           {briefDescription}
         </p>
       </div>

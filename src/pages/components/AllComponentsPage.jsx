@@ -80,10 +80,10 @@ export function AllComponentsPage() {
     <section className="mb-24">
       {/* 页面标題 */}
       <div className="mb-8">
-        <h2 className="text-3xl md:text-4xl font-light mb-2">
+        <h2 className="text-3xl md:text-4xl font-light mb-2 text-black dark:text-white">
           {t('common.components')}
         </h2>
-        <p className="text-sm text-gray-600 font-light">
+        <p className="text-sm text-gray-600 dark:text-gray-300 font-light">
           {t('common.componentsDescription')}
         </p>
       </div>
@@ -108,7 +108,7 @@ export function AllComponentsPage() {
 
       {/* 結果統計 */}
       <div className="mb-6 flex items-center justify-between">
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-gray-500 dark:text-gray-400">
           {searchQuery || activeCategory !== 'all' ? (
             <>
               {language === 'zh-CN'
@@ -148,10 +148,10 @@ export function AllComponentsPage() {
         // 無結果提示
         <div className="text-center py-16">
           <div className="text-6xl mb-4">🔍</div>
-          <h3 className="text-xl font-medium text-gray-900 mb-2">
+          <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-2">
             {t('common.noResults')}
           </h3>
-          <p className="text-sm text-gray-500 mb-6">
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
             {t('common.noResultsHint')}
           </p>
           <button
@@ -159,7 +159,7 @@ export function AllComponentsPage() {
               setSearchQuery('');
               setActiveCategory('all');
             }}
-            className="px-4 py-2 bg-black text-white rounded-lg text-sm hover:bg-gray-800 transition-colors"
+            className="px-4 py-2 bg-black dark:bg-gray-700 text-white rounded-lg text-sm hover:bg-gray-800 dark:hover:bg-gray-600 transition-colors"
           >
             {t('common.clearFilters')}
           </button>

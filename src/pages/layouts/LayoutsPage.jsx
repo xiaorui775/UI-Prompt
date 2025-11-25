@@ -38,7 +38,8 @@ export function LayoutsPage() {
             colorScheme={style.colorScheme}
             tags={style.tags || []}
             onTagClick={(tagId) => {
-              console.log('Tag clicked:', tagId);
+              // TODO: Implement tag filtering
+              void tagId;
             }}
           />
         ))}

@@ -28,6 +28,7 @@ export function AllStylesPage() {
   });
 
   // 🆕 元數據篩選模式：'all' | 'new' | 'updated'
+  // eslint-disable-next-line no-unused-vars
   const [filterMode, setFilterMode] = useState('all');
 
 
@@ -118,10 +119,10 @@ export function AllStylesPage() {
     <section className="styles-page mb-24" aria-busy={isLoading}>
       {/* 页面标题 */}
       <div className="mb-8">
-        <h2 className="text-3xl md:text-4xl font-light mb-2">
+        <h2 className="text-3xl md:text-4xl font-light mb-2 text-black dark:text-white">
           {t('common.styles')}
         </h2>
-        <p className="text-sm text-gray-600 font-light">
+        <p className="text-sm text-gray-600 dark:text-gray-400 font-light">
           {t('common.stylesDescription')}
         </p>
       </div>
@@ -149,7 +150,7 @@ export function AllStylesPage() {
         {isLoading ? (
           <div className="h-4 w-40 rounded bg-slate-200 dark:bg-slate-700 animate-pulse motion-reduce:animate-none" />
         ) : (
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
             {filters.keyword || filters.categories.length > 0 || filters.tags.length > 0 ? (
               <>
                 {t('common.foundResults', { count: filteredStyles.length })}
@@ -165,7 +166,7 @@ export function AllStylesPage() {
         {/* 右側：總数 */}
         <div className="flex items-center gap-3">
           {!isLoading && (
-            <div className="text-xs text-gray-500">
+            <div className="text-xs text-gray-500 dark:text-gray-400">
               {filteredStyles.length > 0 && t('common.totalStyles', { count: allStyles.length })}
             </div>
           )}
@@ -250,10 +251,10 @@ export function AllStylesPage() {
         // 空狀態（仅在非載入且確定 0 筆時显示）
         <div className="text-center py-16 opacity-0 transition-opacity duration-300 ease-out" style={{ opacity: isLoading ? 0 : 1 }}>
           <div className="text-6xl mb-4">🔍</div>
-          <h3 className="text-xl font-medium text-gray-900 mb-2">
+          <h3 className="text-xl font-medium text-gray-900 dark:text-gray-100 mb-2">
             {t('common.noResults')}
           </h3>
-          <p className="text-sm text-gray-500 mb-6">
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
             {t('common.noResultsHint')}
           </p>
           <button
@@ -265,7 +266,7 @@ export function AllStylesPage() {
                 matchMode: 'any'
               });
             }}
-            className="inline-flex items-center justify-center px-4 py-2 rounded border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-sky-600"
+            className="inline-flex items-center justify-center px-4 py-2 rounded border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-sky-600 dark:focus-visible:ring-sky-400"
           >
             {t('common.clearFilters')}
           </button>

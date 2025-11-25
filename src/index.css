@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Tailwind v4 Dark Mode 配置 */
+@variant dark (&:where(.dark, .dark *));
+
 /* 极简主义核心样式 */
 html {
   scroll-behavior: smooth;
@@ -1664,4 +1667,827 @@ body {
     opacity: 0.8;
     transform: scale(1.1);
   }
+}
+
+/* ==================== Paper/Cutout 紙張剪貼風格 ==================== */
+
+/* 紙張基礎卡片 - 便利貼風格 */
+.paper-card-yellow {
+  background: linear-gradient(135deg, #FFF9C4 0%, #FFF59D 100%);
+  border: 1px solid rgba(255, 235, 59, 0.3);
+  box-shadow:
+    2px 2px 8px rgba(0, 0, 0, 0.12),
+    4px 4px 16px rgba(0, 0, 0, 0.08);
+  transition: all 220ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.paper-card-yellow:hover {
+  box-shadow:
+    3px 3px 12px rgba(0, 0, 0, 0.18),
+    6px 6px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px) scale(1.02);
+}
+
+.paper-card-pink {
+  background: linear-gradient(135deg, #FFE0E6 0%, #FFCDD2 100%);
+  border: 1px solid rgba(244, 143, 177, 0.3);
+  box-shadow:
+    2px 2px 8px rgba(0, 0, 0, 0.12),
+    4px 4px 16px rgba(0, 0, 0, 0.08);
+  transition: all 220ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.paper-card-pink:hover {
+  box-shadow:
+    3px 3px 12px rgba(0, 0, 0, 0.18),
+    6px 6px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px) scale(1.02);
+}
+
+.paper-card-blue {
+  background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+  border: 1px solid rgba(100, 181, 246, 0.3);
+  box-shadow:
+    2px 2px 8px rgba(0, 0, 0, 0.12),
+    4px 4px 16px rgba(0, 0, 0, 0.08);
+  transition: all 220ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.paper-card-blue:hover {
+  box-shadow:
+    3px 3px 12px rgba(0, 0, 0, 0.18),
+    6px 6px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px) scale(1.02);
+}
+
+.paper-card-kraft {
+  background: linear-gradient(135deg, #D7CCC8 0%, #BCAAA4 100%);
+  border: 1px solid rgba(161, 136, 127, 0.3);
+  box-shadow:
+    2px 2px 8px rgba(0, 0, 0, 0.12),
+    4px 4px 16px rgba(0, 0, 0, 0.08);
+  transition: all 220ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.paper-card-kraft:hover {
+  box-shadow:
+    3px 3px 12px rgba(0, 0, 0, 0.18),
+    6px 6px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px) scale(1.02);
+}
+
+/* 旋轉效果類 - 隨機旋轉角度 */
+.paper-rotate-1 { transform: rotate(-5deg); }
+.paper-rotate-2 { transform: rotate(3deg); }
+.paper-rotate-3 { transform: rotate(-7deg); }
+.paper-rotate-4 { transform: rotate(4deg); }
+.paper-rotate-5 { transform: rotate(-3deg); }
+.paper-rotate-6 { transform: rotate(6deg); }
+
+/* 懸停時保持旋轉 + 上浮 */
+.paper-rotate-1:hover { transform: rotate(-5deg) translateY(-4px) scale(1.02); }
+.paper-rotate-2:hover { transform: rotate(3deg) translateY(-4px) scale(1.02); }
+.paper-rotate-3:hover { transform: rotate(-7deg) translateY(-4px) scale(1.02); }
+.paper-rotate-4:hover { transform: rotate(4deg) translateY(-4px) scale(1.02); }
+.paper-rotate-5:hover { transform: rotate(-3deg) translateY(-4px) scale(1.02); }
+.paper-rotate-6:hover { transform: rotate(6deg) translateY(-4px) scale(1.02); }
+
+/* 索引卡片樣式 - 虛線頂部標題欄 */
+.paper-index-card {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.95) 40px,
+    rgba(250, 250, 250, 1) 40px,
+    rgba(250, 250, 250, 1) 100%
+  );
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow:
+    2px 3px 10px rgba(0, 0, 0, 0.15),
+    4px 6px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.paper-index-card::before {
+  content: '';
+  position: absolute;
+  top: 40px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-image: repeating-linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.15) 0px,
+    rgba(0, 0, 0, 0.15) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+}
+
+/* 橫線紙紋理 */
+.paper-lined-texture {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 31px,
+    rgba(0, 0, 0, 0.05) 31px,
+    rgba(0, 0, 0, 0.05) 32px
+  );
+}
+
+/* 手寫字體效果 */
+.paper-handwritten {
+  font-family: 'Comic Sans MS', 'Marker Felt', 'Apple Chancery', cursive;
+  transform: rotate(-1deg);
+  letter-spacing: 0.02em;
+}
+
+/* 備忘錄紙樣式 */
+.paper-memo-card {
+  background:
+    linear-gradient(to right, rgba(255, 0, 0, 0.1) 0px, transparent 2px),
+    linear-gradient(to bottom, transparent 0%, rgba(250, 250, 250, 1) 100%);
+  background-size: 100% 100%, 100% 100%;
+  background-position: 24px 0, 0 0;
+  background-repeat: no-repeat;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow:
+    1px 2px 6px rgba(0, 0, 0, 0.1),
+    2px 4px 12px rgba(0, 0, 0, 0.08);
+  padding-left: 32px;
+}
+
+/* 問題/解決方案卡片（淺色） */
+.paper-problem-card {
+  background: linear-gradient(135deg, #FFF9C4 0%, #FFF59D 100%);
+  border: 1px solid rgba(255, 235, 59, 0.4);
+  border-left: 4px solid #FDD835;
+  box-shadow:
+    -2px 2px 8px rgba(0, 0, 0, 0.12),
+    -4px 4px 16px rgba(0, 0, 0, 0.08);
+  transition: all 220ms ease;
+}
+
+.paper-problem-card:hover {
+  box-shadow:
+    -3px 3px 12px rgba(0, 0, 0, 0.18),
+    -6px 6px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-3px) rotate(-2deg);
+}
+
+/* 解決方案卡片（牛皮紙或深色） */
+.paper-solution-card {
+  background: linear-gradient(135deg, #D7CCC8 0%, #BCAAA4 100%);
+  border: 1px solid rgba(161, 136, 127, 0.4);
+  border-right: 4px solid #8D6E63;
+  box-shadow:
+    2px 2px 8px rgba(0, 0, 0, 0.12),
+    4px 4px 16px rgba(0, 0, 0, 0.08);
+  transition: all 220ms ease;
+}
+
+.paper-solution-card:hover {
+  box-shadow:
+    3px 3px 12px rgba(0, 0, 0, 0.18),
+    6px 6px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-3px) rotate(2deg);
+}
+
+/* 手繪箭頭容器 */
+.paper-arrow-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9E9E9E;
+  transition: all 200ms ease;
+}
+
+.paper-arrow-container:hover {
+  color: #616161;
+  transform: scale(1.1);
+}
+
+/* 響應式調整 - 移動端減少旋轉和特效 */
+@media (max-width: 768px) {
+  .paper-rotate-1 { transform: rotate(-2deg); }
+  .paper-rotate-2 { transform: rotate(2deg); }
+  .paper-rotate-3 { transform: rotate(-3deg); }
+  .paper-rotate-4 { transform: rotate(2deg); }
+  .paper-rotate-5 { transform: rotate(-2deg); }
+  .paper-rotate-6 { transform: rotate(3deg); }
+
+  .paper-rotate-1:hover { transform: rotate(-2deg) translateY(-2px) scale(1.01); }
+  .paper-rotate-2:hover { transform: rotate(2deg) translateY(-2px) scale(1.01); }
+  .paper-rotate-3:hover { transform: rotate(-3deg) translateY(-2px) scale(1.01); }
+  .paper-rotate-4:hover { transform: rotate(2deg) translateY(-2px) scale(1.01); }
+  .paper-rotate-5:hover { transform: rotate(-2deg) translateY(-2px) scale(1.01); }
+  .paper-rotate-6:hover { transform: rotate(3deg) translateY(-2px) scale(1.01); }
+
+  .paper-card-yellow:hover,
+  .paper-card-pink:hover,
+  .paper-card-blue:hover,
+  .paper-card-kraft:hover {
+    transform: translateY(-2px) scale(1.01);
+  }
+}
+
+/* 無障礙支援 - 減少動作偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .paper-card-yellow,
+  .paper-card-pink,
+  .paper-card-blue,
+  .paper-card-kraft,
+  .paper-problem-card,
+  .paper-solution-card,
+  .paper-arrow-container {
+    transition: none;
+  }
+
+  .paper-rotate-1,
+  .paper-rotate-2,
+  .paper-rotate-3,
+  .paper-rotate-4,
+  .paper-rotate-5,
+  .paper-rotate-6 {
+    transform: none;
+  }
+
+  .paper-card-yellow:hover,
+  .paper-card-pink:hover,
+  .paper-card-blue:hover,
+  .paper-card-kraft:hover,
+  .paper-problem-card:hover,
+  .paper-solution-card:hover {
+    transform: none;
+  }
+}
+
+/* ==================== CSS 伪元素装饰（替代 SVG 组件）==================== */
+
+/* 图钉装饰 - 6 种颜色变体 */
+.paper-pin-red::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle at 30% 30%, #EF5350, #D32F2F);
+  border-radius: 50%;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  z-index: 10;
+}
+
+.paper-pin-blue::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle at 30% 30%, #42A5F5, #1976D2);
+  border-radius: 50%;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  z-index: 10;
+}
+
+.paper-pin-yellow::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle at 30% 30%, #FFCA28, #F9A825);
+  border-radius: 50%;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  z-index: 10;
+}
+
+.paper-pin-green::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle at 30% 30%, #66BB6A, #388E3C);
+  border-radius: 50%;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  z-index: 10;
+}
+
+.paper-pin-orange::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle at 30% 30%, #FFA726, #F57C00);
+  border-radius: 50%;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  z-index: 10;
+}
+
+.paper-pin-purple::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle at 30% 30%, #AB47BC, #7B1FA2);
+  border-radius: 50%;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  z-index: 10;
+}
+
+/* 膠帶条装饰 - 4 个方向 */
+.paper-tape-right::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -12px;
+  width: 80px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(2px);
+  transform: translateY(-50%) rotate(90deg);
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.5),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+.paper-tape-left::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -12px;
+  width: 80px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(2px);
+  transform: translateY(-50%) rotate(-90deg);
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.5),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+.paper-tape-top::after {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  width: 100px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(2px);
+  transform: translateX(-50%);
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.5),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+/* 纸夹装饰 - 右上角 */
+.paper-clip-top::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 24px;
+  height: 32px;
+  border: 2px solid #B0BEC5;
+  border-radius: 8px 8px 0 0;
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.5),
+    2px 2px 4px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(to right, #CFD8DC 0%, #B0BEC5 100%);
+  clip-path: polygon(
+    0% 40%, 20% 40%, 20% 0%, 80% 0%, 80% 40%, 100% 40%,
+    100% 100%, 60% 100%, 60% 60%, 40% 60%, 40% 100%, 0% 100%
+  );
+  z-index: 10;
+}
+
+/* 贴纸徽章 - 步骤编号用 */
+.paper-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #FFB74D 0%, #FFA726 100%);
+  border: 3px solid #F57C00;
+  border-radius: 50%;
+  box-shadow:
+    0 4px 8px rgba(255, 152, 0, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.15);
+  font-weight: bold;
+  font-size: 1.25rem;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  transition: transform 200ms ease;
+}
+
+.paper-badge:hover {
+  transform: scale(1.1);
+}
+
+.paper-badge-orange {
+  background: linear-gradient(135deg, #FFB74D 0%, #FFA726 100%);
+  border-color: #F57C00;
+  box-shadow:
+    0 4px 8px rgba(255, 152, 0, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.15);
+}
+
+.paper-badge-yellow {
+  background: linear-gradient(135deg, #FFF176 0%, #FFEB3B 100%);
+  border-color: #F9A825;
+  box-shadow:
+    0 4px 8px rgba(253, 216, 53, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.15);
+}
+
+.paper-badge-pink {
+  background: linear-gradient(135deg, #F48FB1 0%, #EC407A 100%);
+  border-color: #C2185B;
+  box-shadow:
+    0 4px 8px rgba(236, 64, 122, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.15);
+}
+
+.paper-badge-green {
+  background: linear-gradient(135deg, #81C784 0%, #66BB6A 100%);
+  border-color: #388E3C;
+  box-shadow:
+    0 4px 8px rgba(102, 187, 106, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.15);
+}
+
+/* 状态图标（替代 emoji）*/
+.status-error::before {
+  content: '×';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  background: #EF5350;
+  color: white;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 16px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.status-success::before {
+  content: '✓';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  background: #66BB6A;
+  color: white;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 14px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/* 移动端简化装饰 */
+@media (max-width: 768px) {
+  .paper-pin-red::before,
+  .paper-pin-blue::before,
+  .paper-pin-yellow::before,
+  .paper-pin-green::before,
+  .paper-pin-orange::before,
+  .paper-pin-purple::before {
+    width: 12px;
+    height: 12px;
+    top: -6px;
+  }
+
+  .paper-tape-right::after,
+  .paper-tape-left::after {
+    width: 60px;
+    height: 20px;
+  }
+
+  .paper-clip-top::before {
+    width: 20px;
+    height: 28px;
+  }
+
+  .paper-badge {
+    width: 56px;
+    height: 56px;
+    font-size: 1.1rem;
+  }
+}
+
+/* ==================== 暗色模式（Dark Mode）Paper/Cutout 样式 ==================== */
+
+/* 便利贴卡片暗色变体 - 降低饱和度 + 提高明度 */
+.dark .paper-card-yellow {
+  background: linear-gradient(135deg, #92400E 0%, #78350F 100%);
+  border: 1px solid rgba(217, 119, 6, 0.4);
+  box-shadow:
+    2px 2px 8px rgba(0, 0, 0, 0.4),
+    4px 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.dark .paper-card-yellow:hover {
+  box-shadow:
+    3px 3px 12px rgba(0, 0, 0, 0.5),
+    6px 6px 24px rgba(0, 0, 0, 0.3);
+  transform: translateY(-4px) scale(1.02);
+}
+
+.dark .paper-card-pink {
+  background: linear-gradient(135deg, #881337 0%, #701A33 100%);
+  border: 1px solid rgba(219, 39, 119, 0.4);
+  box-shadow:
+    2px 2px 8px rgba(0, 0, 0, 0.4),
+    4px 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.dark .paper-card-pink:hover {
+  box-shadow:
+    3px 3px 12px rgba(0, 0, 0, 0.5),
+    6px 6px 24px rgba(0, 0, 0, 0.3);
+  transform: translateY(-4px) scale(1.02);
+}
+
+.dark .paper-card-blue {
+  background: linear-gradient(135deg, #1E3A8A 0%, #1E40AF 100%);
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  box-shadow:
+    2px 2px 8px rgba(0, 0, 0, 0.4),
+    4px 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.dark .paper-card-blue:hover {
+  box-shadow:
+    3px 3px 12px rgba(0, 0, 0, 0.5),
+    6px 6px 24px rgba(0, 0, 0, 0.3);
+  transform: translateY(-4px) scale(1.02);
+}
+
+.dark .paper-card-kraft {
+  background: linear-gradient(135deg, #57534E 0%, #44403C 100%);
+  border: 1px solid rgba(120, 113, 108, 0.4);
+  box-shadow:
+    2px 2px 8px rgba(0, 0, 0, 0.4),
+    4px 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.dark .paper-card-kraft:hover {
+  box-shadow:
+    3px 3px 12px rgba(0, 0, 0, 0.5),
+    6px 6px 24px rgba(0, 0, 0, 0.3);
+  transform: translateY(-4px) scale(1.02);
+}
+
+/* 图钉暗色模式 - 增加发光效果 */
+.dark .paper-pin-red::before {
+  background: radial-gradient(circle at 30% 30%, #F87171, #DC2626);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.5),
+    0 0 8px rgba(239, 83, 80, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.dark .paper-pin-blue::before {
+  background: radial-gradient(circle at 30% 30%, #60A5FA, #2563EB);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.5),
+    0 0 8px rgba(66, 165, 245, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.dark .paper-pin-yellow::before {
+  background: radial-gradient(circle at 30% 30%, #FDE047, #EAB308);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.5),
+    0 0 8px rgba(250, 204, 21, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.dark .paper-pin-green::before {
+  background: radial-gradient(circle at 30% 30%, #4ADE80, #16A34A);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.5),
+    0 0 8px rgba(74, 222, 128, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.dark .paper-pin-orange::before {
+  background: radial-gradient(circle at 30% 30%, #FB923C, #EA580C);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.5),
+    0 0 8px rgba(251, 146, 60, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.dark .paper-pin-purple::before {
+  background: radial-gradient(circle at 30% 30%, #C084FC, #9333EA);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.5),
+    0 0 8px rgba(192, 132, 252, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+/* 膠帶条暗色模式 */
+.dark .paper-tape-right::after {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(2px);
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.2),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.2),
+    0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.dark .paper-tape-left::after {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(2px);
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.2),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.2),
+    0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.dark .paper-tape-top::after {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(2px);
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.2),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.2),
+    0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* 纸夹暗色模式 */
+.dark .paper-clip-top::before {
+  border: 2px solid #9CA3AF;
+  background: linear-gradient(to right, #6B7280 0%, #4B5563 100%);
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.2),
+    2px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* 贴纸徽章暗色模式 - 增强对比度 */
+.dark .paper-badge-orange {
+  background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
+  border-color: #C2410C;
+  box-shadow:
+    0 4px 8px rgba(249, 115, 22, 0.5),
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.dark .paper-badge-yellow {
+  background: linear-gradient(135deg, #FACC15 0%, #EAB308 100%);
+  border-color: #CA8A04;
+  box-shadow:
+    0 4px 8px rgba(250, 204, 21, 0.5),
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.dark .paper-badge-pink {
+  background: linear-gradient(135deg, #F472B6 0%, #EC4899 100%);
+  border-color: #BE185D;
+  box-shadow:
+    0 4px 8px rgba(244, 114, 182, 0.5),
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.dark .paper-badge-green {
+  background: linear-gradient(135deg, #4ADE80 0%, #22C55E 100%);
+  border-color: #15803D;
+  box-shadow:
+    0 4px 8px rgba(74, 222, 128, 0.5),
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* 索引卡片暗色模式 */
+.dark .paper-index-card {
+  background: linear-gradient(
+    to bottom,
+    rgba(55, 65, 81, 0.9) 0%,
+    rgba(55, 65, 81, 0.95) 40px,
+    rgba(31, 41, 55, 1) 40px,
+    rgba(31, 41, 55, 1) 100%
+  );
+  border: 1px solid rgba(75, 85, 99, 0.5);
+  box-shadow:
+    2px 3px 10px rgba(0, 0, 0, 0.4),
+    4px 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.dark .paper-index-card::before {
+  background-image: repeating-linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.1) 0px,
+    rgba(255, 255, 255, 0.1) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+}
+
+/* 问题/解决方案卡片暗色模式 */
+.dark .paper-problem-card {
+  background: linear-gradient(135deg, #92400E 0%, #78350F 100%);
+  border: 1px solid rgba(217, 119, 6, 0.5);
+  border-left: 4px solid #F59E0B;
+  box-shadow:
+    -2px 2px 8px rgba(0, 0, 0, 0.4),
+    -4px 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.dark .paper-problem-card:hover {
+  box-shadow:
+    -3px 3px 12px rgba(0, 0, 0, 0.5),
+    -6px 6px 24px rgba(0, 0, 0, 0.3);
+  transform: translateY(-3px) rotate(-2deg);
+}
+
+.dark .paper-solution-card {
+  background: linear-gradient(135deg, #1E3A8A 0%, #1E40AF 100%);
+  border: 1px solid rgba(59, 130, 246, 0.5);
+  border-right: 4px solid #3B82F6;
+  box-shadow:
+    2px 2px 8px rgba(0, 0, 0, 0.4),
+    4px 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.dark .paper-solution-card:hover {
+  box-shadow:
+    3px 3px 12px rgba(0, 0, 0, 0.5),
+    6px 6px 24px rgba(0, 0, 0, 0.3);
+  transform: translateY(-3px) rotate(2deg);
+}
+
+/* 状态图标暗色模式 - 增加发光效果 */
+.dark .status-error::before {
+  background: #DC2626;
+  box-shadow: 0 0 8px rgba(220, 38, 38, 0.6);
+}
+
+.dark .status-success::before {
+  background: #16A34A;
+  box-shadow: 0 0 8px rgba(22, 163, 74, 0.6);
+}
+
+/* 手绘箭头暗色模式 */
+.dark .paper-arrow-container {
+  color: #6B7280;
+}
+
+.dark .paper-arrow-container:hover {
+  color: #9CA3AF;
 }

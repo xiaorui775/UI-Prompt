@@ -55,25 +55,25 @@ export function PromptDrawer({ isOpen, onClose, title, content }) {
       />
 
       {/* Drawer */}
-      <div className="fixed top-0 right-0 w-[min(38rem,100%)] h-full bg-white shadow-2xl z-[85] transform transition-transform duration-300">
-        <div className="p-4 border-b flex items-center justify-between">
-          <h4 className="font-semibold">{title}</h4>
+      <div className="fixed top-0 right-0 w-[min(38rem,100%)] h-full bg-white dark:bg-gray-900 shadow-2xl z-[85] transform transition-transform duration-300">
+        <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+          <h4 className="font-semibold text-black dark:text-white">{title}</h4>
           <div className="flex gap-2">
             <button
               onClick={handleCopy}
-              className="px-3 py-1 text-sm rounded border hover:bg-gray-100 transition-colors"
+              className="px-3 py-1 text-sm rounded border border-gray-300 dark:border-gray-600 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
             >
               {t('buttons.copy')}
             </button>
             <button
               onClick={onClose}
-              className="px-3 py-1 text-sm rounded border hover:bg-gray-100 transition-colors"
+              className="px-3 py-1 text-sm rounded border border-gray-300 dark:border-gray-600 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
             >
               {t('buttons.close')}
             </button>
           </div>
         </div>
-        <div className="px-4 pt-1 pb-0 text-[11px] text-gray-500 flex justify-end">
+        <div className="px-4 pt-1 pb-0 text-[11px] text-gray-500 dark:text-gray-400 flex justify-end">
           {t('prompt.lengthLabel', {
             words: wordCount,
             chars: charCount,
@@ -84,14 +84,14 @@ export function PromptDrawer({ isOpen, onClose, title, content }) {
             <textarea
               value={content}
               readOnly
-              className="w-full h-[70vh] text-sm border rounded p-3 leading-6 font-mono resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full h-[70vh] text-sm border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-black dark:text-white rounded p-3 leading-6 font-mono resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
             />
           ) : (
-            <div className="w-full h-[70vh] flex items-center justify-center text-gray-400 border rounded">
+            <div className="w-full h-[70vh] flex items-center justify-center text-gray-400 dark:text-gray-500 border border-gray-300 dark:border-gray-700 rounded">
               <div className="text-center">
                 <p className="text-lg mb-2">🎨</p>
                 <p className="text-sm">{t('prompt.notDefined')}</p>
-                <p className="text-xs mt-2 text-gray-300">{t('prompt.notDefinedHint')}</p>
+                <p className="text-xs mt-2 text-gray-300 dark:text-gray-600">{t('prompt.notDefinedHint')}</p>
               </div>
             </div>
           )}

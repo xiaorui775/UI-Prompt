@@ -17,8 +17,8 @@ export function FilterTabs({ categories, activeCategory, onCategoryChange }) {
             onClick={() => onCategoryChange('all')}
             className={`flex-shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
               activeCategory === 'all'
-                ? 'bg-black text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                ? 'bg-black dark:bg-white text-white dark:text-black'
+                : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
             }`}
           >
             {t('common.all')} ({categories.reduce((sum, cat) => sum + cat.data.length, 0)})
@@ -31,13 +31,13 @@ export function FilterTabs({ categories, activeCategory, onCategoryChange }) {
               onClick={() => onCategoryChange(category.id)}
               className={`flex-shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                 activeCategory === category.id
-                  ? 'bg-black text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  ? 'bg-black dark:bg-white text-white dark:text-black'
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
               }`}
             >
               <span>{category.icon}</span>
               <span>{t(`nav.${category.key}`)}</span>
-              <span className={`text-xs ${activeCategory === category.id ? 'text-gray-300' : 'text-gray-400'}`}>
+              <span className={`text-xs ${activeCategory === category.id ? 'text-gray-300 dark:text-gray-600' : 'text-gray-400 dark:text-gray-500'}`}>
                 ({category.data.length})
               </span>
             </button>

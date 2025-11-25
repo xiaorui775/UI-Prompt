@@ -43,8 +43,8 @@ export function HomePage() {
       <BenefitsSection />
 
       {/* 底部统计信息 */}
-      <div className="mt-12 pt-8 border-t border-gray-200 text-center">
-        <p className="text-sm text-gray-500 font-light">
+      <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 text-center">
+        <p className="text-sm text-gray-500 dark:text-gray-400 font-light">
           {t('common.totalCount', {
             styles: stylesStats.total,
             components: componentsStats.total,

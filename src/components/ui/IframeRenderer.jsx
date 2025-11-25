@@ -1,0 +1,222 @@
+import { useEffect, useRef } from 'react';
+import DOMPurify from 'dompurify';
+import appCssUrl from '../../index.css?url';
+
+/**
+ * IframeRenderer - iframe HTML 渲染組件
+ *
+ * 職責：
+ * - 清理和消毒 HTML/CSS
+ * - 渲染內容到隔離的 iframe
+ * - 支持多種佈局模式
+ * - 初始化基本交互功能
+ * - 支持延遲加載
+ *
+ * @param {Object} props
+ * @param {string} props.demoHTML - 必需：演示 HTML 內容
+ * @param {string} props.customStyles - 必需：自定義 CSS 樣式
+ * @param {string} props.id - 必需：風格 ID（用於 iframe title）
+ * @param {string} props.language - 必需：當前語言（zh-CN | en-US）
+ * @param {string} props.layoutMode - 可選：佈局模式（'centered' | 'fullWidth' | 'fullPage'）
+ * @param {string} props.demoBoxClass - 可選：demo 容器的 CSS class
+ * @param {object} props.demoBoxStyle - 可選：demo 容器的內聯樣式
+ * @param {boolean} props.isVisible - 可選：是否可見（用於延遲加載）
+ * @param {function} props.onIframeLoad - 可選：iframe 加載完成回調
+ * @param {boolean} props.enableInteractivity - 可選：是否啟用交互（默認 true）
+ */
+export function IframeRenderer({
+  demoHTML,
+  customStyles = '',
+  id,
+  language,
+  layoutMode = 'centered',
+  demoBoxClass = 'bg-gray-50 dark:bg-gray-900',
+  demoBoxStyle = {},
+  isVisible = true,
+  onIframeLoad,
+  enableInteractivity = true
+}) {
+  const iframeRef = useRef(null);
+
+  /**
+   * 移除外部資源（script src 和 link href）
+   * 防止從外部加載潛在的惡意內容
+   */
+  const stripExternalAssets = (html) => {
+    if (!html) return html;
+    try {
+      return html
+        .replace(/<script[^>]+src=["']https?:\/\/[^"']+["'][^>]*>\s*<\/script>/gi, '')
+        .replace(/<link[^>]+href=["']https?:\/\/[^"']+["'][^>]*>/gi, '');
+    } catch {
+      return html;
+    }
+  };
+
+  /**
+   * 提取 <body> 標籤內的內容
+   * 如果沒有 body 標籤，則清理 doctype/html/head 標籤
+   */
+  const extractBodyInner = (html) => {
+    if (!html) return '';
+    const match = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+    if (match) return match[1];
+    return html
+      .replace(/<!doctype[^>]*>/i, '')
+      .replace(/<\/?html[^>]*>/gi, '')
+      .replace(/<\/?head[^>]*>[\s\S]*?<\/?head>/gi, '')
+      .replace(/<\/?body[^>]*>/gi, '');
+  };
+
+  /**
+   * 提取內聯 <style> 標籤中的 CSS
+   * 返回：{ html: 去除 style 標籤的 HTML, styles: 提取的 CSS }
+   */
+  const extractInlineStyles = (html) => {
+    if (!html) return { html: '', styles: '' };
+    const styles = [];
+    const without = html.replace(/<style[^>]*>([\s\S]*?)<\/style>/gi, (_, css) => {
+      styles.push(css || '');
+      return '';
+    });
+    return { html: without, styles: styles.join('\n') };
+  };
+
+  /**
+   * 消毒 CSS，移除潛在的安全風險
+   * - 移除 @import 外部資源
+   * - 移除 url(javascript:...) 注入
+   */
+  const sanitizeCss = (css) => {
+    if (!css) return '';
+    return css
+      .replace(/@import[^;]*https?:[^;]*;/gi, '')
+      .replace(/url\(("|')?javascript:[^)]*\)/gi, '');
+  };
+
+  /**
+   * 初始化 iframe 內的基本交互功能
+   * 目前支持：
+   * - .paint-toolbox 內的 .tool-button 單選 active 狀態
+   */
+  const initInteractivity = (iframe) => {
+    if (!enableInteractivity) return;
+
+    try {
+      const doc = iframe.contentDocument || iframe.contentWindow?.document;
+      if (!doc) return;
+
+      // 工具箱切換：.paint-toolbox 內 .tool-button 單選 active
+      doc.addEventListener('click', (e) => {
+        const btn = e.target.closest?.('.tool-button');
+        if (!btn) return;
+        const container = btn.closest?.('.paint-toolbox');
+        if (!container) return;
+        container.querySelectorAll?.('.tool-button.active')?.forEach((el) => el.classList.remove('active'));
+        btn.classList.add('active');
+      }, true);
+    } catch {
+      // 忽略 iframe 內初始互動失敗，不影響主要渲染
+    }
+  };
+
+  /**
+   * 渲染 HTML 到 iframe
+   */
+  useEffect(() => {
+    if (!isVisible) return; // 延遲加載：只有可見時才執行
+
+    const iframe = iframeRef.current;
+    if (!iframe) return;
+
+    const doc = iframe.contentDocument || iframe.contentWindow?.document;
+    if (!doc) return;
+
+    // 步驟 1: 清理 HTML
+    const noExternal = stripExternalAssets(demoHTML || '');
+    const { html: noStyleHtml, styles: inlineStyles } = extractInlineStyles(noExternal);
+    const bodyInner = extractBodyInner(noStyleHtml);
+    const sanitizedHTML = DOMPurify.sanitize(bodyInner || '');
+    const combinedStyles = sanitizeCss(`${inlineStyles || ''}\n${customStyles || ''}`);
+
+    // 步驟 2: 檢測佈局模式
+    const isFullWidthLayout =
+      layoutMode === 'fullWidth' ||
+      layoutMode === 'fullPage' ||
+      customStyles.includes('grid-container') ||
+      customStyles.includes('masonry-container');
+
+    // 步驟 3: 生成完整 HTML 文檔
+    const html = `<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="${appCssUrl}" />
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; }
+  *, *::before, *::after { box-sizing: border-box; }
+  /* demo 容器，根據 layoutMode 調整顯示方式 */
+  .demo-root {
+    height: 100%;
+    ${isFullWidthLayout
+      ? 'display: block; width: 100%; padding: 0;'
+      : 'display: flex; align-items: center; justify-content: center; padding: 24px;'
+    }
+  }
+  ${combinedStyles}
+</style>
+</head>
+<body>
+  <div class="demo-root">${sanitizedHTML}</div>
+</body>
+</html>`;
+
+    // 步驟 4: 注入 iframe
+    try {
+      doc.open();
+      doc.write(html);
+      doc.close();
+
+      // 步驟 5: 初始化交互
+      if (doc.readyState === 'complete' || doc.readyState === 'interactive') {
+        initInteractivity(iframe);
+      } else {
+        doc.addEventListener('DOMContentLoaded', () => initInteractivity(iframe), { once: true });
+      }
+
+      // 步驟 6: 觸發加載完成回調
+      if (onIframeLoad) {
+        onIframeLoad(iframe);
+      }
+    } catch (error) {
+      console.error('IframeRenderer: Failed to write iframe document', error);
+    }
+  }, [isVisible, demoHTML, customStyles, layoutMode, enableInteractivity, onIframeLoad]);
+
+  // 如果不可見，顯示佔位符
+  if (!isVisible) {
+    return (
+      <div className={`demo-box ${demoBoxClass}`} style={demoBoxStyle}>
+        <div className="w-full h-full flex items-center justify-center">
+          <div className="flex flex-col items-center gap-2">
+            <div className="w-8 h-8 border-4 border-gray-300 dark:border-gray-600 border-t-gray-600 dark:border-t-gray-400 rounded-full animate-spin"></div>
+            <span className="text-sm text-gray-400 dark:text-gray-500">Loading...</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // 渲染 iframe
+  return (
+    <div className={`demo-box ${demoBoxClass}`} style={demoBoxStyle}>
+      <iframe
+        ref={iframeRef}
+        title={`style-demo-${id}`}
+        className="w-full h-full border-0"
+        sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
+      />
+    </div>
+  );
+}
