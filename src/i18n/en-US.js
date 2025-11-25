@@ -100,7 +100,7 @@ export default {
       "manualClose": "Manual Close Toast",
       "features": "Features",
       "feature1": "Minimalist design - Pure white background, generous whitespace, single functional icon",
-      "feature2": "Full i18n support - Supports Traditional Chinese and English switching",
+      "feature2": "Full i18n support - Supports Simplified Chinese and English switching",
       "feature3": "Auto dismiss - Automatically closes after 2.5 seconds by default",
       "feature4": "Manual close - Provides close button, users can close at any time",
       "feature5": "Smooth animation - Fade in/out + scale effect (300ms)",
@@ -223,11 +223,19 @@ export default {
     "clickForDetails": "Click for Details",
     "openMenu": "Open Menu",
     "closeMenu": "Close Menu",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "systemMode": "Follow System",
+    "darkModeOption": "Dark",
+    "lightModeOption": "Light",
+    "systemModeOption": "Auto",
+    "toggleDarkMode": "Toggle Theme",
+    "currentTheme": "Current Theme",
     "foundComponents": "Found {count} components",
     "showingAllComponents": "Showing all {count} components",
     "componentsTotal": "Total {count} components",
     "mobileNavigationMenu": "Mobile Navigation Menu",
-    "switchLanguageLabel": "Traditional Chinese",
+    "switchLanguageLabel": "Simplified Chinese",
     "messageBox": {
       "defaultTitle": "Notice",
       "defaultDescription": "This is a minimalist message box with keyboard and accessibility support."
@@ -317,6 +325,18 @@ export default {
   },
   "data": {
     "components": {
+      "forms": {
+        "coming-soon": {
+          "title": "Form Components",
+          "description": "Form components are under development, stay tuned",
+          "variants": {
+            "placeholder": {
+              "name": "Coming Soon",
+              "description": "Form components will be available soon"
+            }
+          }
+        }
+      },
       "input": {
         "autocomplete-search": {
           "description": "Autocomplete search component with intelligent suggestions and keyboard navigation support",
@@ -2348,6 +2368,12 @@ export default {
       "message": "Message",
       "messagePlaceholder": "Please enter your message..."
     },
+    "forms": {
+      "comingSoon": {
+        "title": "Form Components Coming Soon",
+        "description": "We are working hard to develop more beautiful form components, stay tuned!"
+      }
+    },
     "interactive": {
       "hoverEffectsTitle": "Hover Effects Showcase",
       "scaleEffect": "Scale Effect",
@@ -3493,7 +3519,8 @@ export default {
       "accessibility": "Accessibility",
       "accessibilityDesc": "All components follow WCAG standards, supports keyboard navigation and screen readers",
       "responsive": "Responsive Design",
-      "responsiveDesc": "Mobile-first design, perfectly adapted to mobile, tablet, and desktop devices"
+      "responsiveDesc": "Mobile-first design, perfectly adapted to mobile, tablet, and desktop devices",
+      "note": "Click cards to explore more feature details"
     },
     "howItWorks": {
       "title": "How It Works",
@@ -3505,7 +3532,8 @@ export default {
       "step3Title": "Copy Prompt",
       "step3Desc": "One-click copy Prompt to clipboard",
       "step4Title": "Paste to AI",
-      "step4Desc": "Paste Prompt into Claude Code or other AI tools to generate high-quality UI"
+      "step4Desc": "Paste Prompt into Claude Code or other AI tools to generate high-quality UI",
+      "note": "Just four steps to easily generate professional UI design"
     },
     "benefits": {
       "title": "Core Benefits",
@@ -3520,7 +3548,8 @@ export default {
       "solution2": "Complete design system - Provides structured Prompt templates and design specifications",
       "solution3": "Battle-tested templates - Each template has been verified in real projects",
       "solution4": "Structured Prompt - Generated code follows best practices, easy to maintain",
-      "cta": "Start Exploring Styles"
+      "cta": "Start Exploring Styles",
+      "note": "Experience professional UI design tools now"
     }
   },
   "artGalleryNFT": {}

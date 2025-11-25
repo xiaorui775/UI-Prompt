@@ -223,7 +223,14 @@ export default {
     "clickForDetails": "点击查看详情",
     "openMenu": "打开菜单",
     "closeMenu": "关闭菜单",
-    "foundComponents": "找到 {count} 个组件",
+    "darkMode": "深色模式",
+    "lightMode": "浅色模式",
+    "systemMode": "跟随系统",
+    "darkModeOption": "深色",
+    "lightModeOption": "浅色",
+    "systemModeOption": "自动",
+    "toggleDarkMode": "切换主题模式",
+    "currentTheme": "当前主题",
     "showingAllComponents": "显示全部 {count} 个组件",
     "componentsTotal": "共 {count} 个组件",
     "mobileNavigationMenu": "移动端导航菜单",
@@ -317,6 +324,18 @@ export default {
   },
   "data": {
     "components": {
+      "forms": {
+        "coming-soon": {
+          "title": "表单组件",
+          "description": "表单组件正在开发中，敬请期待",
+          "variants": {
+            "placeholder": {
+              "name": "敬请期待",
+              "description": "表单组件即将上线"
+            }
+          }
+        }
+      },
       "input": {
         "autocomplete-search": {
           "description": "自动完成搜索组件，支持智能建议和键盘导航",
@@ -2372,6 +2391,12 @@ export default {
       "message": "留言",
       "messagePlaceholder": "请输入您的留言..."
     },
+    "forms": {
+      "comingSoon": {
+        "title": "表单组件即将上线",
+        "description": "我们正在努力开发更多精美的表单组件，敬请期待！"
+      }
+    },
     "interactive": {
       "hoverEffectsTitle": "悬停效果展示",
       "scaleEffect": "缩放效果",
@@ -3517,7 +3542,8 @@ export default {
       "accessibility": "可访问性",
       "accessibilityDesc": "所有组件遵循 WCAG 标准，支持键盘导航和屏幕阅读器",
       "responsive": "响应式设计",
-      "responsiveDesc": "Mobile-first 设计，完美适配手机、平板、桌面设备"
+      "responsiveDesc": "Mobile-first 设计，完美适配手机、平板、桌面设备",
+      "note": "点击卡片探索更多功能细节"
     },
     "howItWorks": {
       "title": "使用流程",
@@ -3529,7 +3555,8 @@ export default {
       "step3Title": "复制 Prompt",
       "step3Desc": "一键复制 Prompt 到剪贴板",
       "step4Title": "粘贴到 AI",
-      "step4Desc": "将 Prompt 粘贴到 Claude Code 或其他 AI 工具，生成高质量 UI"
+      "step4Desc": "将 Prompt 粘贴到 Claude Code 或其他 AI 工具，生成高质量 UI",
+      "note": "只需四步，轻松生成专业 UI 设计"
     },
     "benefits": {
       "title": "核心优势",
@@ -3544,7 +3571,8 @@ export default {
       "solution2": "完整设计系统 - 提供结构化的 Prompt 模板和设计规范",
       "solution3": "实战验证模板 - 每个模板都经过实际项目验证",
       "solution4": "结构化 Prompt - 生成的代码遵循最佳实践，易于维护",
-      "cta": "开始探索风格"
+      "cta": "开始探索风格",
+      "note": "立即体验专业级 UI 设计工具"
     }
   },
   "artGalleryNFT": {}

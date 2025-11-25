@@ -359,14 +359,6 @@ export function StylePreviewPage() {
     const previewColorScheme = currentPreview?.colorScheme?.[language] || style.colorScheme?.[language] || '';
 
     try {
-      console.log('[StylePreviewPage] Generating prompt for style:', {
-        styleId: style?.id,
-        language,
-        hasCustomPrompt: !!style?.customPrompt,
-        hasStylePrompt: !!style?.stylePrompt,
-        currentPreview: currentPreview?.id || currentPreview?.title || null
-      });
-
       const content = PreviewPromptGenerator.generate(
         style,
         style.description || '',
@@ -377,12 +369,6 @@ export function StylePreviewPage() {
         previewColorScheme,
         currentPreview  // ✨ 傳遞當前激活的預覽對象
       );
-
-      console.log('[StylePreviewPage] Prompt generated successfully:', {
-        length: content?.length || 0,
-        isEmpty: !content,
-        preview: content?.substring(0, 100) || ''
-      });
 
       return content;
     } catch (error) {
@@ -421,25 +407,25 @@ export function StylePreviewPage() {
 
   return (
     <>
-      <div className="fixed inset-0 z-50 bg-white flex flex-col">
+      <div className="fixed inset-0 z-50 bg-white dark:bg-gray-900 flex flex-col">
         {!isFullPageMode && (
-          <header className="border-b p-4 flex flex-col md:flex-row justify-between items-start md:items-center bg-white gap-3 md:gap-2">
+          <header className="border-b dark:border-gray-700 p-4 flex flex-col md:flex-row justify-between items-start md:items-center bg-white dark:bg-gray-800 gap-3 md:gap-2">
             {/* 移動版：標題和關閉按鈕在同一行 */}
             <div className="flex items-center justify-between w-full md:w-auto">
-              <h3 className="text-lg font-semibold flex items-center gap-2">
+              <h3 className="text-lg font-semibold dark:text-gray-100 flex items-center gap-2">
                 {t('preview.header', { title: displayTitle })}
                 {/* 右側僅顯示圖示的「新頁面預覽」入口 */}
                 {!isReactPreview && (
                   <button
                     type="button"
                     onClick={handleOpenFullPageWindow}
-                    className="inline-flex items-center justify-center text-gray-400 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                    className="inline-flex items-center justify-center p-1.5 text-gray-400 hover:text-gray-900 dark:text-gray-500 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:focus:ring-gray-400 transition-colors"
                     title={t('ui.openInNewPage')}
                     aria-label={t('ui.openInNewPage')}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4"
+                      className="h-6 w-6"
                       viewBox="0 0 20 20"
                       fill="currentColor"
                     >
@@ -460,7 +446,7 @@ export function StylePreviewPage() {
                 }}
                 role="button"
                 tabIndex={0}
-                className="md:hidden cursor-pointer flex items-center justify-center"
+                className="md:hidden cursor-pointer flex items-center justify-center dark:text-gray-100"
                 aria-label={t('buttons.close')}
               >
                 <svg
@@ -497,7 +483,7 @@ export function StylePreviewPage() {
                       const codeUrl = `/styles/code/${encodeURIComponent(style.id)}${activeIndex > 0 ? `?previewIndex=${activeIndex}` : ''}`;
                       window.open(codeUrl, '_blank');
                     }}
-                    className="flex-1 md:flex-none px-4 py-2 text-sm rounded border hover:bg-gray-100 transition-colors"
+                    className="flex-1 md:flex-none px-4 py-2 text-sm rounded border dark:border-gray-600 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                   >
                     {t('buttons.editCode') || 'Edit Code'}
                   </button>
@@ -513,7 +499,7 @@ export function StylePreviewPage() {
                     });
                     setShowPrompt(true);
                   }}
-                  className="flex-1 md:flex-none px-4 py-2 text-sm rounded border hover:bg-gray-100 transition-colors"
+                  className="flex-1 md:flex-none px-4 py-2 text-sm rounded border dark:border-gray-600 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                 >
                   {t('buttons.prompt')}
                 </button>
@@ -528,7 +514,7 @@ export function StylePreviewPage() {
                   }}
                   role="button"
                   tabIndex={0}
-                  className="hidden md:flex cursor-pointer items-center justify-center"
+                  className="hidden md:flex cursor-pointer items-center justify-center dark:text-gray-100"
                   aria-label={t('buttons.close')}
                 >
                   <svg

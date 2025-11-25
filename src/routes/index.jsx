@@ -8,7 +8,7 @@ export const router = createBrowserRouter([
   // 獨立的布局編輯器路由 (不使用主 Layout)
   {
     path: '/layout',
-    lazy: async () => ({ Component: (await import('../pages/layouts/LayoutEditorPage')).LayoutEditorPage, ErrorBoundary: (await import('../components/RouteError')).RouteError }),
+    lazy: async () => ({ Component: (await import('../pages/layouts/LayoutEditorPage.jsx')).LayoutEditorPage, ErrorBoundary: (await import('../components/RouteError.jsx')).RouteError }),
   },
 
   // 風格預覽页面路由 (不使用主 Layout)
@@ -16,15 +16,15 @@ export const router = createBrowserRouter([
     path: '/styles/preview/:styleId',
     lazy: async () => {
       const [{ StylePreviewPage }, { RouteError }] = await Promise.all([
-        import('../pages/styles/StylePreviewPage'),
-        import('../components/RouteError')
+        import('../pages/styles/StylePreviewPage.jsx'),
+        import('../components/RouteError.jsx')
       ]);
 
       return {
         Component: StylePreviewPage,
         ErrorBoundary: RouteError,
         loader: async ({ params }) => {
-          const { decodeStyleId, findStyleById } = await import('../utils/styleHelper');
+          const { decodeStyleId, findStyleById } = await import('../utils/styleHelper.js');
           const styleId = decodeStyleId(params.styleId);
           const style = findStyleById(styleId);
 
@@ -46,15 +46,15 @@ export const router = createBrowserRouter([
     path: '/styles/code/:styleId',
     lazy: async () => {
       const [{ CodeEditorPage }, { RouteError }] = await Promise.all([
-        import('../pages/styles/CodeEditorPage'),
-        import('../components/RouteError')
+        import('../pages/styles/CodeEditorPage.jsx'),
+        import('../components/RouteError.jsx')
       ]);
 
       return {
         Component: CodeEditorPage,
         ErrorBoundary: RouteError,
         loader: async ({ params }) => {
-          const { decodeStyleId, findStyleById } = await import('../utils/styleHelper');
+          const { decodeStyleId, findStyleById } = await import('../utils/styleHelper.js');
           const styleId = decodeStyleId(params.styleId);
           const style = findStyleById(styleId);
 
@@ -75,8 +75,8 @@ export const router = createBrowserRouter([
   {
     path: '/',
     lazy: async () => {
-      const mod = await import('../components/layout/Layout')
-      const err = await import('../components/RouteError')
+      const mod = await import('../components/layout/Layout.jsx')
+      const err = await import('../components/RouteError.jsx')
       return { Component: mod.Layout, ErrorBoundary: err.RouteError }
     },
     // React Router v7：在根路由提供 Hydration Fallback
@@ -85,33 +85,33 @@ export const router = createBrowserRouter([
       // 新的首页
       {
         index: true,
-        lazy: async () => ({ Component: (await import('../pages/home/HomePage')).HomePage, ErrorBoundary: (await import('../components/RouteError')).RouteError }),
+        lazy: async () => ({ Component: (await import('../pages/home/HomePage.jsx')).HomePage, ErrorBoundary: (await import('../components/RouteError.jsx')).RouteError }),
       },
       // Home 路由 (指向相同的首页组件)
       {
         path: 'home',
-        lazy: async () => ({ Component: (await import('../pages/home/HomePage')).HomePage, ErrorBoundary: (await import('../components/RouteError')).RouteError }),
+        lazy: async () => ({ Component: (await import('../pages/home/HomePage.jsx')).HomePage, ErrorBoundary: (await import('../components/RouteError.jsx')).RouteError }),
       },
       // 新的统一风格页面
       {
         path: 'styles',
         // 显式附上副档名以避免個別環境的副档名解析問題
-        lazy: async () => ({ Component: (await import('../pages/styles/AllStylesPage.jsx')).AllStylesPage, ErrorBoundary: (await import('../components/RouteError')).RouteError }),
+        lazy: async () => ({ Component: (await import('../pages/styles/AllStylesPage.jsx')).AllStylesPage, ErrorBoundary: (await import('../components/RouteError.jsx')).RouteError }),
       },
       // 新的统一组件页面
       {
         path: 'components',
-        lazy: async () => ({ Component: (await import('../pages/components/AllComponentsPage')).AllComponentsPage, ErrorBoundary: (await import('../components/RouteError')).RouteError }),
+        lazy: async () => ({ Component: (await import('../pages/components/AllComponentsPage.jsx')).AllComponentsPage, ErrorBoundary: (await import('../components/RouteError.jsx')).RouteError }),
       },
       // 布局样式展示页面
       {
         path: 'layouts',
-        lazy: async () => ({ Component: (await import('../pages/layouts/LayoutsPage')).LayoutsPage, ErrorBoundary: (await import('../components/RouteError')).RouteError }),
+        lazy: async () => ({ Component: (await import('../pages/layouts/LayoutsPage.jsx')).LayoutsPage, ErrorBoundary: (await import('../components/RouteError.jsx')).RouteError }),
       },
       // 新增: 組件詳情页 (動態路由)
-      { path: 'components/:category/:componentId', lazy: async () => ({ Component: (await import('../pages/components/ComponentDetailPage')).ComponentDetailPage, ErrorBoundary: (await import('../components/RouteError')).RouteError }) },
+      { path: 'components/:category/:componentId', lazy: async () => ({ Component: (await import('../pages/components/ComponentDetailPage.jsx')).ComponentDetailPage, ErrorBoundary: (await import('../components/RouteError.jsx')).RouteError }) },
       // 404 通配符路由 - 必須放在最後
-      { path: '*', lazy: async () => ({ Component: (await import('../pages/special/NotFoundPage')).NotFoundPage, ErrorBoundary: (await import('../components/RouteError')).RouteError }) },
+      { path: '*', lazy: async () => ({ Component: (await import('../pages/special/NotFoundPage.jsx')).NotFoundPage, ErrorBoundary: (await import('../components/RouteError.jsx')).RouteError }) },
     ],
   },
 ], {
