@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
+import { storeLogger as logger } from '../utils/logger';
 
 /**
  * 項目管理 Store
@@ -184,7 +185,7 @@ export const useProjectStore = create(
         // 切換前需要先保存當前項目
         if (get().isDirty) {
           // 觸發保存確認
-          console.log('Project has unsaved changes');
+          logger.warn('Project has unsaved changes');
           return false;
         }
 
@@ -249,14 +250,14 @@ export const useProjectStore = create(
     // eslint-disable-next-line no-unused-vars
     startAutoSave: (interval = 60000) => {
       // 這需要 localStorage 或後端支持
-      console.log('Auto-save not yet implemented');
+      logger.debug('Auto-save not yet implemented');
     },
 
     /**
      * 停止自動保存
      */
     stopAutoSave: () => {
-      console.log('Auto-save stopped');
+      logger.debug('Auto-save stopped');
     }
   }))
 );

@@ -2,7 +2,6 @@
 import { techCorpHomepage } from './techCorpHomepage'
 import { homeOfficeDashboard } from './homeOfficeDashboard'
 import { vintageLibraryLanding } from './vintageLibraryLanding'
-import { leatherTexture } from './leatherTexture'
 import { vintageAudioPanel } from './Demo'
 
 export const name = 'styles.core.skeuomorphism.title'
@@ -244,8 +243,7 @@ Overall mood: The Skeuomorphism family creates the sensation of sitting in front
 export const skeuomorphismTemplates = [
   techCorpHomepage,
   homeOfficeDashboard,
-  vintageLibraryLanding,
-  leatherTexture,
+  vintageLibraryLanding
 ]
 
 export default skeuomorphismTemplates

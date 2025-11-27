@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import { compileForIframe } from '../../utils/jsxCompiler';
 import { generatePreactIframeHTML } from '../../utils/preactRuntime';
 
@@ -234,7 +235,7 @@ export function JSXCompiler({
         ref={iframeRef}
         title={`jsx-demo-${id}`}
         className="w-full h-full border-0"
-        sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
+        sandbox="allow-same-origin allow-scripts allow-forms"
       />
       {/* 編譯錯誤提示（iframe 外部顯示） */}
       {compileError && (
@@ -255,3 +256,29 @@ export function JSXCompiler({
     </div>
   );
 }
+
+// PropTypes 定義
+JSXCompiler.propTypes = {
+  /** JSX 代碼字符串 */
+  jsxCode: PropTypes.string.isRequired,
+  /** 自定義 CSS 樣式 */
+  customStyles: PropTypes.string,
+  /** 組件 ID（用於 iframe title） */
+  id: PropTypes.string.isRequired,
+  /** 是否可見（用於延遲編譯） */
+  isVisible: PropTypes.bool,
+  /** 組件名稱 */
+  componentName: PropTypes.string,
+  /** 掛載點 ID */
+  mountId: PropTypes.string,
+  /** 編譯開始回調 */
+  onCompileStart: PropTypes.func,
+  /** 編譯成功回調 */
+  onCompileSuccess: PropTypes.func,
+  /** 編譯錯誤回調 */
+  onCompileError: PropTypes.func,
+  /** demo 容器的 CSS class */
+  demoBoxClass: PropTypes.string,
+  /** demo 容器的內聯樣式 */
+  demoBoxStyle: PropTypes.object
+};

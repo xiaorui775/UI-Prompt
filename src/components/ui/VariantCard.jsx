@@ -196,7 +196,7 @@ export function VariantCard({
               title={`variant-${variant?.id || index}`}
               className="w-full h-full border-0 pointer-events-none"
               loading="lazy"
-              sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
+              sandbox="allow-same-origin allow-scripts allow-forms"
               style={{ minHeight: '200px', maxHeight: '600px' }}
             />
           ) : (

@@ -1,4 +1,7 @@
 import { DEFAULT_LANGUAGE } from './i18n/languageConstants';
+import { createLogger } from './logger';
+
+const logger = createLogger('PromptGenerator');
 
 /**
  * 統一的 Prompt 生成器
@@ -14,7 +17,7 @@ export class PromptGenerator {
    */
  static generate(titleOrStyle, descriptionOrOptions = {}, language = DEFAULT_LANGUAGE) {
     // ✨ Debug logging
-    console.log('[PromptGenerator] Input:', {
+    logger.debug('Input:', {
       titleOrStyle: titleOrStyle?.id || titleOrStyle,
       descriptionOrOptions,
       language,
@@ -44,14 +47,14 @@ export class PromptGenerator {
       // Card mode：优先使用模板/家族級 stylePrompt，其次才使用 customPrompt
       if (mode === 'card') {
         if (style?.stylePrompt?.[language]) {
-          console.log('[PromptGenerator] ✅ Using style.stylePrompt (card mode)');
+          logger.debug('Using style.stylePrompt (card mode)');
           return style.stylePrompt[language];
         }
         if (style?.customPrompt?.[language]) {
-          console.log('[PromptGenerator] ✅ Using style.customPrompt (card mode)');
+          logger.debug('Using style.customPrompt (card mode)');
           return style.customPrompt[language];
         }
-        console.warn('[PromptGenerator] ⚠️ No prompt found (card mode)');
+        logger.warn('No prompt found (card mode)');
         return '';
       }
 
@@ -61,31 +64,30 @@ export class PromptGenerator {
       // 3. currentPreview.stylePrompt（單個預覽風格說明）
       // 4. style.stylePrompt（模板級風格說明）
       if (currentPreview?.customPrompt?.[language]) {
-        console.log('[PromptGenerator] ✅ Using currentPreview.customPrompt');
+        logger.debug('Using currentPreview.customPrompt');
         return currentPreview.customPrompt[language];
       }
 
       if (style?.customPrompt?.[language]) {
-        console.log('[PromptGenerator] ✅ Using style.customPrompt');
+        logger.debug('Using style.customPrompt');
         return style.customPrompt[language];
       }
 
       if (currentPreview?.stylePrompt?.[language]) {
-        console.log('[PromptGenerator] ✅ Using currentPreview.stylePrompt');
+        logger.debug('Using currentPreview.stylePrompt');
         return currentPreview.stylePrompt[language];
       }
 
       if (style?.stylePrompt?.[language]) {
-        console.log('[PromptGenerator] ✅ Using style.stylePrompt');
+        logger.debug('Using style.stylePrompt');
         return style.stylePrompt[language];
       }
 
       // Fallback: no prompt available
-      console.warn('[PromptGenerator] ⚠️ No prompt available for language:', language);
+      logger.warn('No prompt available for language:', language);
       return '';
     } catch (error) {
-      console.error('[PromptGenerator] ❌ Error generating prompt:', error);
-      console.error('[PromptGenerator] Error stack:', error.stack);
+      logger.error('Error generating prompt:', error);
       return '';
     }
   }

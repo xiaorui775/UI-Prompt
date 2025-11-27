@@ -1,6 +1,10 @@
 import { useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import DOMPurify from 'dompurify';
 import appCssUrl from '../../index.css?url';
+import { createLogger } from '../../utils/logger';
+
+const logger = createLogger('IframeRenderer');
 
 /**
  * IframeRenderer - iframe HTML 渲染組件
@@ -28,7 +32,7 @@ export function IframeRenderer({
   demoHTML,
   customStyles = '',
   id,
-  language,
+  language,  // eslint-disable-line no-unused-vars -- Reserved for future i18n in iframe
   layoutMode = 'centered',
   demoBoxClass = 'bg-gray-50 dark:bg-gray-900',
   demoBoxStyle = {},
@@ -190,7 +194,7 @@ export function IframeRenderer({
         onIframeLoad(iframe);
       }
     } catch (error) {
-      console.error('IframeRenderer: Failed to write iframe document', error);
+      logger.error('Failed to write iframe document', error);
     }
   }, [isVisible, demoHTML, customStyles, layoutMode, enableInteractivity, onIframeLoad]);
 
@@ -215,8 +219,32 @@ export function IframeRenderer({
         ref={iframeRef}
         title={`style-demo-${id}`}
         className="w-full h-full border-0"
-        sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
+        sandbox="allow-same-origin allow-scripts allow-forms"
       />
     </div>
   );
 }
+
+// PropTypes 定義
+IframeRenderer.propTypes = {
+  /** 演示 HTML 內容 */
+  demoHTML: PropTypes.string.isRequired,
+  /** 自定義 CSS 樣式 */
+  customStyles: PropTypes.string,
+  /** 風格 ID（用於 iframe title） */
+  id: PropTypes.string.isRequired,
+  /** 當前語言 */
+  language: PropTypes.oneOf(['zh-CN', 'en-US']).isRequired,
+  /** 佈局模式 */
+  layoutMode: PropTypes.oneOf(['centered', 'fullWidth', 'fullPage']),
+  /** demo 容器的 CSS class */
+  demoBoxClass: PropTypes.string,
+  /** demo 容器的內聯樣式 */
+  demoBoxStyle: PropTypes.object,
+  /** 是否可見（用於延遲加載） */
+  isVisible: PropTypes.bool,
+  /** iframe 加載完成回調 */
+  onIframeLoad: PropTypes.func,
+  /** 是否啟用交互 */
+  enableInteractivity: PropTypes.bool
+};

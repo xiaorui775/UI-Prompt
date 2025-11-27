@@ -33,6 +33,7 @@ import {
   previewConfig as preview4Config,
   previewHTML as preview4HTML,
   previewStyles as preview4Styles,
+  previewJSX as preview4JSX,
   previewCustomPrompt as preview4CustomPrompt
 } from './previews/preview4VisionLaunch';
 
@@ -53,6 +54,14 @@ export const scrollNarrative = {
   // Additional Preview Templates (4 variants)
   previews: [
     {
+      ...preview4Config,
+      html: preview4HTML,
+      styles: preview4Styles,
+      demoJSX: preview4JSX,              // ✨ JSX 代碼
+      renderMode: 'jsx',                  // ✨ JSX 渲染模式
+      customPrompt: preview4CustomPrompt  // Template-specific prompt
+    },
+    {
       ...preview1Config,
       html: preview1HTML,
       styles: preview1Styles,
@@ -69,12 +78,6 @@ export const scrollNarrative = {
       html: preview3HTML,
       styles: preview3Styles,
       customPrompt: preview3CustomPrompt  // Template-specific prompt
-    },
-    {
-      ...preview4Config,
-      html: preview4HTML,
-      styles: preview4Styles,
-      customPrompt: preview4CustomPrompt  // Template-specific prompt
     }
   ],
 

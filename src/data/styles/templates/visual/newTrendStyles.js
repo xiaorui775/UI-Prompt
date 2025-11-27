@@ -2,6 +2,14 @@
 // ✅ 階段 3.2 优化: 移除所有静態 import，改用動態加載
 // 預期減少構建体積：55 KB
 
+// Import Maximalism Previews
+import {
+  previewConfig as hyperMuseumConfig,
+  demoJSX as hyperMuseumJSX,
+  previewStyles as hyperMuseumStyles,
+  previewCustomPrompt as hyperMuseumCustomPrompt
+} from './newTrend/previews/preview1HyperMuseum'
+
 export const newTrendStyles = [
   {
     id: 'maximalism',
@@ -643,7 +651,16 @@ Mood:
         }
       }
 
-    `
+    `,
+    // JSX Previews for Maximalism
+    previews: [
+      {
+        ...hyperMuseumConfig,
+        demoJSX: hyperMuseumJSX,
+        styles: hyperMuseumStyles,
+        customPrompt: hyperMuseumCustomPrompt
+      }
+    ]
   },
   {
     id: 'scandi',

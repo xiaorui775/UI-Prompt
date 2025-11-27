@@ -289,7 +289,7 @@ export function DataVisualizationPreview({
             srcDoc={getEnhancedHTML(currentScenario)}
             className="w-full min-h-[600px] border-0"
             onLoad={handleIframeLoad}
-            sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+            sandbox="allow-scripts allow-same-origin allow-forms"
             title={`Data Visualization Preview - ${pickI18n(currentScenario.name)}`}
           />
         </div>

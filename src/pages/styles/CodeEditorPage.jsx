@@ -23,12 +23,13 @@ export function CodeEditorPage() {
   // 編輯器狀態
   const [htmlCode, setHtmlCode] = useState('');
   const [cssCode, setCssCode] = useState('');
+  const [jsxCode, setJsxCode] = useState('');  // ✨ 新增：JSX 代碼狀態
   const [activeTab, setActiveTab] = useState('html');
   const [theme, setTheme] = useState('vs-dark');
   const [splitRatio, setSplitRatio] = useState(50);
   const [isVertical, setIsVertical] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [originalCode, setOriginalCode] = useState({ html: '', css: '' });
+  const [originalCode, setOriginalCode] = useState({ html: '', css: '', jsx: '' });  // ✨ 新增 jsx
 
   // 預覽索引
   const [activeIndex, setActiveIndex] = useState(0);
@@ -42,7 +43,9 @@ export function CodeEditorPage() {
     fullPageHTML = '',
     fullPageStyles = '',
     fullPagePreviewId = '',
-    previews = []
+    previews = [],
+    demoJSX = '',      // ✨ 新增：JSX 代碼
+    renderMode = ''    // ✨ 新增：渲染模式
   } = style;
 
   const displayTitle = typeof title === 'string' && title.includes('.')
@@ -161,14 +164,33 @@ export function CodeEditorPage() {
       // 應用語言處理
       html = getDemoHTML(html, language);
 
+      // ✨ 新增：處理 JSX 代碼
+      let jsx = '';
+      if (current && current.demoJSX) {
+        jsx = current.demoJSX;
+      } else if (demoJSX) {
+        jsx = demoJSX;
+      }
+
+      // 調試日誌
+      console.warn('[CodeEditor loadCode]', {
+        activeIndex,
+        currentId: current?.id,
+        currentRenderMode: current?.renderMode,
+        jsxLength: jsx?.length || 0,
+        hasCurrentDemoJSX: !!current?.demoJSX,
+        hasStyleDemoJSX: !!demoJSX
+      });
+
       setHtmlCode(html);
       setCssCode(css);
-      setOriginalCode({ html, css });
+      setJsxCode(jsx);  // ✨ 新增
+      setOriginalCode({ html, css, jsx });  // ✨ 新增 jsx
       setIsLoading(false);
     };
 
     loadCode();
-  }, [activeIndex, previewsList, fullPagePreviewId, fullPageHTML, fullPageStyles, demoHTML, customStyles, language]);
+  }, [activeIndex, previewsList, fullPagePreviewId, fullPageHTML, fullPageStyles, demoHTML, customStyles, demoJSX, language]);
 
   // 構建完整預覽 HTML
   const buildFullHTML = useCallback(() => {
@@ -225,6 +247,8 @@ ${htmlCode}
       setHtmlCode(value);
     } else if (activeTab === 'css') {
       setCssCode(value);
+    } else if (activeTab === 'jsx') {  // ✨ 新增：JSX 處理
+      setJsxCode(value);
     } else if (activeTab === 'full') {
       // 從完整代碼中提取 HTML 和 CSS
       const styleMatch = value.match(/<style[^>]*>([\s\S]*?)<\/style>/i);
@@ -246,12 +270,14 @@ ${htmlCode}
         return htmlCode;
       case 'css':
         return cssCode;
+      case 'jsx':  // ✨ 新增
+        return jsxCode;
       case 'full':
         return buildFullHTML();
       default:
         return htmlCode;
     }
-  }, [activeTab, htmlCode, cssCode, buildFullHTML]);
+  }, [activeTab, htmlCode, cssCode, jsxCode, buildFullHTML]);
 
   // 獲取當前語言
   const currentLanguage = useMemo(() => {
@@ -261,6 +287,8 @@ ${htmlCode}
         return 'html';
       case 'css':
         return 'css';
+      case 'jsx':  // ✨ 新增：JSX 使用 javascript 語言模式
+        return 'javascript';
       default:
         return 'html';
     }
@@ -270,6 +298,7 @@ ${htmlCode}
   const handleReset = useCallback(() => {
     setHtmlCode(originalCode.html);
     setCssCode(originalCode.css);
+    setJsxCode(originalCode.jsx);  // ✨ 新增
   }, [originalCode]);
 
   // 複製代碼
@@ -307,12 +336,55 @@ ${htmlCode}
     return () => document.removeEventListener('keydown', handleEscape);
   }, [navigate]);
 
-  // Tab 選項
-  const tabs = [
-    { id: 'html', label: 'HTML' },
-    { id: 'css', label: 'CSS' },
-    { id: 'full', label: t('codeEditor.fullCode') || 'Full Code' }
-  ];
+  // ✨ 動態 Tab 選項（根據是否有 JSX 代碼）
+  const tabs = useMemo(() => {
+    // 檢查當前預覽或風格是否有 JSX 代碼
+    const current = previewsList && previewsList.length > 0
+      ? previewsList[Math.min(activeIndex, previewsList.length - 1)]
+      : null;
+
+    // 調試日誌
+    console.warn('[CodeEditor Tabs Debug]', {
+      activeIndex,
+      previewsLength: previewsList?.length,
+      currentId: current?.id,
+      currentName: current?.name,
+      currentRenderMode: current?.renderMode,
+      currentDemoJSXLength: current?.demoJSX?.length || 0,
+      styleRenderMode: renderMode,
+      styleDemoJSX: !!demoJSX,
+      allPreviewIds: previewsList?.map(p => p.id)
+    });
+
+    const isJSXMode = (current && current.renderMode === 'jsx') || (current && current.demoJSX) || renderMode === 'jsx';
+
+    // ✨ 如果是 JSX 模式，只顯示 JSX 標籤
+    if (isJSXMode) {
+      return [{ id: 'jsx', label: 'JSX' }];
+    }
+
+    // 非 JSX 模式：顯示 HTML, CSS, Full Code
+    return [
+      { id: 'html', label: 'HTML' },
+      { id: 'css', label: 'CSS' },
+      { id: 'full', label: t('codeEditor.fullCode') || 'Full Code' }
+    ];
+  }, [previewsList, activeIndex, demoJSX, renderMode, t]);
+
+  // ✨ 當進入 JSX 模式時，自動切換到 JSX 標籤
+  useEffect(() => {
+    const current = previewsList && previewsList.length > 0
+      ? previewsList[Math.min(activeIndex, previewsList.length - 1)]
+      : null;
+    const isJSXMode = (current && current.renderMode === 'jsx') || (current && current.demoJSX) || renderMode === 'jsx';
+
+    if (isJSXMode && activeTab !== 'jsx') {
+      setActiveTab('jsx');
+    } else if (!isJSXMode && activeTab === 'jsx') {
+      // 如果不是 JSX 模式但當前是 jsx 標籤，切換到 html
+      setActiveTab('html');
+    }
+  }, [previewsList, activeIndex, renderMode, activeTab]);
 
   return (
     <div className="fixed inset-0 z-50 bg-gray-900 flex flex-col">
@@ -400,6 +472,8 @@ ${htmlCode}
           <LivePreview
             html={htmlCode}
             css={cssCode}
+            jsx={jsxCode}                                     // ✨ 新增
+            renderMode={renderMode || (jsxCode ? 'jsx' : 'html')}  // ✨ 新增
             language={language}
             title={displayTitle}
             appCssUrl={appCssUrl}

@@ -2,6 +2,8 @@
 // 按需加載完整页面 HTML/CSS，避免首屏打包
 // 作者: UI Style 架構优化階段 3.1
 
+import { previewLogger as logger } from './logger';
+
 /**
  * 預覽加載器映射表
  * 將預覽 ID 映射到對應的動態 import 函数
@@ -263,7 +265,7 @@ export async function loadPreview(previewId) {
   // 检查加載器是否存在
   const loader = previewLoaders[previewId];
   if (!loader) {
-    console.warn(`Preview loader not found: ${previewId}`);
+    logger.warn(`Preview loader not found: ${previewId}`);
     return { html: '', styles: '' };
   }
 
@@ -280,10 +282,10 @@ export async function loadPreview(previewId) {
     // 緩存結果
     previewCache.set(previewId, result);
 
-    console.log(`✅ Preview loaded: ${previewId} (${result.html.length} chars)`);
+    logger.success(`Preview loaded: ${previewId} (${result.html.length} chars)`);
     return result;
   } catch (error) {
-    console.error(`❌ Failed to load preview ${previewId}:`, error);
+    logger.error(`Failed to load preview ${previewId}:`, error);
     return { html: '', styles: '' };
   }
 }
@@ -306,9 +308,9 @@ export function preloadPreview(previewId) {
         html: content.html || '',
         styles: content.styles || ''
       });
-      console.log(`🚀 Preview preloaded: ${previewId}`);
+      logger.debug(`Preview preloaded: ${previewId}`);
     }).catch(error => {
-      console.warn(`⚠️ Preload failed for ${previewId}:`, error);
+      logger.warn(`Preload failed for ${previewId}:`, error);
     });
   }
 }
@@ -332,7 +334,7 @@ export function batchPreloadPreviews(previewIds, delay = 100) {
  */
 export function clearPreviewCache() {
   previewCache.clear();
-  console.log('🗑️ Preview cache cleared');
+  logger.debug('Preview cache cleared');
 }
 
 /**

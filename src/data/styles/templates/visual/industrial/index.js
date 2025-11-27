@@ -1,6 +1,19 @@
 // Industrial Design Style
 
 import { demoHTML, customStyles } from './Demo'
+// Import Preview Templates
+import {
+  previewConfig as strataOSConfig,
+  demoJSX as strataOSJSX,
+  previewStyles as strataOSStyles,
+  previewCustomPrompt as strataOSCustomPrompt
+} from './previews/preview1StrataOSDashboard'
+import {
+  previewConfig as nexusOSConfig,
+  demoJSX as nexusOSJSX,
+  previewStyles as nexusOSStyles,
+  previewCustomPrompt as nexusOSCustomPrompt
+} from './previews/preview2NexusOSControl'
 
 export const industrial = {
   id: 'visual-industrial',
@@ -43,10 +56,16 @@ export const industrial = {
 
   previews: [
     {
-      id: 'industrial',
-      name: 'Industrial',
-      type: 'full',
-      previewId: 'industrial'
+      ...strataOSConfig,
+      demoJSX: strataOSJSX,
+      styles: strataOSStyles,
+      customPrompt: strataOSCustomPrompt
+    },
+    {
+      ...nexusOSConfig,
+      demoJSX: nexusOSJSX,
+      styles: nexusOSStyles,
+      customPrompt: nexusOSCustomPrompt
     }
   ],
 

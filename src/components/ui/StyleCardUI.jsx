@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { PromptButton } from '../prompt/PromptButton';
 import { PreviewButton } from '../preview/PreviewButton';
 import { TagGroup, CategoryBadge } from './TagChip';
@@ -28,7 +29,7 @@ import { TagGroup, CategoryBadge } from './TagChip';
 export function StyleCardUI({
   title,
   description,
-  isNew = false,
+  isNew = false,  // eslint-disable-line no-unused-vars -- Reserved for future NEW badge feature
   primaryCategoryLabel = null,
   secondaryCategories = [],
   tags = [],
@@ -147,3 +148,49 @@ export function StyleCardContainer({
     </div>
   );
 }
+
+// PropTypes 定義
+StyleCardUI.propTypes = {
+  /** 標題 */
+  title: PropTypes.string.isRequired,
+  /** 描述 */
+  description: PropTypes.string.isRequired,
+  /** 是否顯示 NEW 徽章 */
+  isNew: PropTypes.bool,
+  /** 主分類標籤文本 */
+  primaryCategoryLabel: PropTypes.string,
+  /** 次級分類 ID 數組 */
+  secondaryCategories: PropTypes.arrayOf(PropTypes.string),
+  /** 標籤數組 */
+  tags: PropTypes.arrayOf(PropTypes.string),
+  /** 標籤點擊處理函數 */
+  onTagClick: PropTypes.func,
+  /** 格式化後的更新時間 */
+  updatedAt: PropTypes.string,
+  /** Get Prompt 按鈕點擊處理 */
+  onGetPrompt: PropTypes.func.isRequired,
+  /** Preview 按鈕點擊處理 */
+  onPreview: PropTypes.func.isRequired,
+  /** 當前語言 */
+  language: PropTypes.oneOf(['zh-CN', 'en-US']).isRequired,
+  /** 翻譯函數 */
+  t: PropTypes.func.isRequired,
+  /** 獲取分類標籤的函數 */
+  getCategoryLabel: PropTypes.func.isRequired
+};
+
+StyleCardContainer.propTypes = {
+  /** demo 區域內容 */
+  demoContent: PropTypes.node.isRequired,
+  /** UI 內容 */
+  uiContent: PropTypes.node.isRequired,
+  /** 是否顯示 NEW 徽章 */
+  isNew: PropTypes.bool,
+  /** 翻譯函數 */
+  t: PropTypes.func.isRequired,
+  /** 卡片容器的 ref */
+  cardRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+  ])
+};

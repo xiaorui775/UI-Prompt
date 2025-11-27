@@ -6,6 +6,9 @@ import { CyberHero } from '../cyberpunk/CyberHero';
 import { CyberCards, CyberTerminal, CyberFooter } from '../cyberpunk/ContentSections';
 import { GlobalStyles } from '../cyberpunk/GlobalStyles';
 import { BrowserFrame } from '../ui/BrowserFrame';
+import { createLogger } from '../../utils/logger';
+
+const logger = createLogger('LivePreview');
 
 /**
  * LivePreview - 生成預覽組件
@@ -31,7 +34,7 @@ export function LivePreview({ progress = 0 }) {
   // 調試日誌 - 显示進度映射
   useEffect(() => {
     if (displayProgress >= 50 && displayProgress < 100) {
-      console.log(`[Progress] Display: ${displayProgress.toFixed(1)}%, Actual: ${actualProgress.toFixed(1)}%, Stage: ${currentStage}`);
+      logger.debug(`Progress - Display: ${displayProgress.toFixed(1)}%, Actual: ${actualProgress.toFixed(1)}%, Stage: ${currentStage}`);
     }
   }, [displayProgress, actualProgress, currentStage]);
 
@@ -51,10 +54,7 @@ export function LivePreview({ progress = 0 }) {
         const target = container.querySelector(`[data-stage="${currentStage}"]`);
 
         if (target) {
-          console.log(`[Scroll Debug]`);
-          console.log(`  Stage: ${currentStage}`);
-          console.log(`  Display: ${displayProgress.toFixed(1)}%`);
-          console.log(`  Actual: ${actualProgress.toFixed(1)}%`);
+          logger.debug(`Scroll Debug - Stage: ${currentStage}, Display: ${displayProgress.toFixed(1)}%, Actual: ${actualProgress.toFixed(1)}%`);
 
           // 計算目标元素相對於容器的實際位置
           // 使用 getBoundingClientRect 獲取元素在視窗中的位置
@@ -64,18 +64,15 @@ export function LivePreview({ progress = 0 }) {
           // 計算目标元素相對於容器頂部的偏移量
           const relativeTop = targetRect.top - containerRect.top + container.scrollTop;
 
-          console.log(`  Target relative position: ${relativeTop}px`);
-          console.log(`  Scrolling container to: ${relativeTop}px`);
+          logger.debug(`Scrolling to position: ${relativeTop}px for stage: ${currentStage}`);
 
           // 只滾動容器,不影響页面滾動
           container.scrollTo({
             top: relativeTop - 20, // 向上偏移 20px 留出間距
             behavior: 'smooth'
           });
-
-          console.log(`  Scrolled to stage: ${currentStage}`);
         } else {
-          console.log(`[Scroll Error] Target element [data-stage="${currentStage}"] not found!`);
+          logger.warn(`Target element [data-stage="${currentStage}"] not found!`);
         }
       }, 200);
     }
@@ -87,7 +84,7 @@ export function LivePreview({ progress = 0 }) {
       const container = document.querySelector('.cyberpunk-container');
       if (container) {
         setTimeout(() => {
-          console.log('[Scroll] 100% Complete - Scrolling to top');
+          logger.debug('100% Complete - Scrolling to top');
           container.scrollTo({
             top: 0,
             behavior: 'smooth'

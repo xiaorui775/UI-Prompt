@@ -7,6 +7,8 @@
  * - Store 協調工具
  */
 
+import { storeLogger as logger } from '../utils/logger';
+
 // ========== Stores ==========
 // 本档案內需直接使用各個 store，因此必須显式引入（仅重新导出不會产生本地綁定）
 import { useViewportStore } from './useViewportStore';
@@ -236,10 +238,10 @@ if (typeof window !== 'undefined') {
       devStores.import = importCompleteProject;
 
       window.__EDITOR_STORES__ = devStores;
-      console.log('[DevTools] Editor stores available at window.__EDITOR_STORES__');
+      logger.debug('Editor stores available at window.__EDITOR_STORES__');
     } catch (e) {
       // 任何初始化時的引用错誤都不應阻止應用啟動
-      console.warn('[DevTools] Failed to init editor stores devtools:', e);
+      logger.warn('Failed to init editor stores devtools:', e);
     }
   }
 
@@ -247,11 +249,11 @@ if (typeof window !== 'undefined') {
   window.projectStoreCallbacks = {
     onNewProject: (project) => {
       resetAllStores();
-      console.log('[Project] New project created:', project.name);
+      logger.info('New project created:', project.name);
     },
     onImportProject: (projectData) => {
       importCompleteProject(projectData);
-      console.log('[Project] Project imported');
+      logger.info('Project imported');
     }
   };
 }

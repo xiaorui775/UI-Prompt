@@ -46,3 +46,10 @@ coverage/
 
 # OS/Editor backups (Windows)
 Thumbs.db
+
+# Backup files
+*.backup
+*.bak
+
+# macOS system files (recursive)
+**/.DS_Store

@@ -11,6 +11,9 @@ import { DataVisualizationPreview } from '../../components/preview/DataVisualiza
 import appCssUrl from '../../index.css?url';
 // 新增：動態預覽加載器，与 PreviewModal 保持一致
 import { loadPreview } from '../../utils/previewLoader';
+import { previewLogger as logger } from '../../utils/logger';
+// ✨ 新增：Preact 運行時 HTML 生成器（用於 JSX 預覽模式）
+import { generatePreactIframeHTML } from '../../utils/preactRuntime';
 
 /**
  * 獨立風格預覽页面
@@ -139,7 +142,7 @@ export function StylePreviewPage() {
         setAsyncPreview({ html: html || '', styles: styles || '' });
       })
       .catch((err) => {
-        console.error(`預覽載入失敗: ${previewId}`, err);
+        logger.error(`預覽載入失敗: ${previewId}`, err);
         // 标記已嘗試但失敗，使用空內容以觸發後續回退邏輯
         if (!cancelled) setAsyncPreview({ html: '', styles: '' });
       })
@@ -215,6 +218,38 @@ export function StylePreviewPage() {
 </html>`;
         }
         // 已有 async 預覽，前面頂部路徑會 return；理論上不會走到這里
+      }
+
+      // ✨ 新增：JSX 預覽模式支援
+      // 當 renderMode 為 'jsx' 且有 demoJSX 時，使用 Preact 運行時渲染
+      if (current.renderMode === 'jsx' && current.demoJSX) {
+        const jsxCode = current.demoJSX;
+        const jsxStyles = current.styles || '';
+
+        // 包裝 JSX 代碼（假設已經是 h() 格式，不需要編譯）
+        const wrappedCode = `
+(function() {
+  const { h, render, Fragment, useState, useEffect, useRef, useMemo, useCallback, useReducer, useContext, createContext, Component } = window.preact;
+
+  ${jsxCode}
+
+  // 渲染組件
+  const container = document.getElementById('root');
+  if (container && typeof DemoComponent !== 'undefined') {
+    render(h(DemoComponent, null), container);
+  } else if (container) {
+    container.innerHTML = '<div style="padding:20px;color:#888;">No DemoComponent found</div>';
+  }
+})();
+`;
+
+        // 使用 Preact 運行時生成完整 HTML
+        return generatePreactIframeHTML({
+          compiledCode: wrappedCode,
+          customStyles: jsxStyles,
+          title: displayTitle,
+          mountId: 'root'
+        });
       }
 
       let previewHTML = current.html || '';
@@ -372,8 +407,7 @@ export function StylePreviewPage() {
 
       return content;
     } catch (error) {
-      console.error('[StylePreviewPage] ❌ Error generating prompt:', error);
-      console.error('[StylePreviewPage] Error stack:', error.stack);
+      logger.error('Error generating prompt:', error);
       return '';
     }
   }, [style, language, activeIndex, t]);
@@ -398,10 +432,10 @@ export function StylePreviewPage() {
       const targetUrl = `${window.location.href}${separator}full=1&previewIndex=${activeIndex}`;
       const win = window.open(targetUrl, '_blank', 'noopener');
       if (!win) {
-        console.warn('[StylePreviewPage] Failed to open full-page preview window (popup blocked)');
+        logger.warn('Failed to open full-page preview window (popup blocked)');
       }
     } catch (error) {
-      console.error('[StylePreviewPage] Failed to open full-page HTML preview', error);
+      logger.error('Failed to open full-page HTML preview', error);
     }
   };
 
@@ -490,7 +524,7 @@ export function StylePreviewPage() {
                 )}
                 <button
                   onClick={() => {
-                    console.log('[StylePreviewPage] AI Prompt button clicked:', {
+                    logger.debug('AI Prompt button clicked:', {
                       styleId: style?.id,
                       promptLength: promptContent?.length || 0,
                       hasPrompt: !!promptContent,
@@ -572,7 +606,7 @@ export function StylePreviewPage() {
               srcDoc={buildPreviewHTML()}
               className="w-full h-full border-0"
               onLoad={() => setIsLoading(false)}
-              sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+              sandbox="allow-same-origin allow-scripts allow-forms"
             />
           )}
         </div>
