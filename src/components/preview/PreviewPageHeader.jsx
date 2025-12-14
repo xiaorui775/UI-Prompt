@@ -7,7 +7,7 @@ import { previewLogger as logger } from '../../utils/logger';
 /**
  * PreviewPageHeader - Preview page header component
  *
- * Provides the header UI for style preview pages including:
+ * Provides the header UI for style/component preview pages including:
  * - Title with optional "open in new tab" button
  * - Preview selector (when multiple previews exist)
  * - Edit Code button (opens code editor)
@@ -18,10 +18,14 @@ import { previewLogger as logger } from '../../utils/logger';
  * - Mobile: Title and close button on same row, controls below
  * - Desktop: Title left, controls right in horizontal layout
  *
+ * Component Mode:
+ * - When isComponent=true, uses custom handlers for Edit Code and Close
+ * - Shows category label instead of "Style Preview"
+ *
  * @component
  * @param {Object} props - Component props
  * @param {string} props.displayTitle - Resolved title to display
- * @param {string} props.styleId - Style ID for building URLs
+ * @param {string} props.styleId - Style ID for building URLs (style mode only)
  * @param {number} props.activeIndex - Current preview index
  * @param {Function} props.setActiveIndex - Index setter callback
  * @param {Array} props.previewsList - Array of preview configurations
@@ -30,6 +34,10 @@ import { previewLogger as logger } from '../../utils/logger';
  * @param {Function} props.setShowPrompt - Opens prompt drawer callback
  * @param {Function} props.onOpenFullPage - Opens full page in new window callback
  * @param {string} props.promptContent - Prompt content (for logging)
+ * @param {boolean} props.isComponent - Whether this is a component preview (component mode)
+ * @param {Function} props.onEditCode - Custom edit code handler (component mode)
+ * @param {Function} props.onClose - Custom close handler (component mode)
+ * @param {string} props.categoryLabel - Category label to display (component mode)
  */
 export function PreviewPageHeader({
   displayTitle,
@@ -41,13 +49,23 @@ export function PreviewPageHeader({
   isLoadingPreview,
   setShowPrompt,
   onOpenFullPage,
-  promptContent
+  promptContent,
+  // Component mode props
+  isComponent = false,
+  onEditCode: customOnEditCode,
+  onClose: customOnClose,
+  categoryLabel
 }) {
   /**
    * Handle Edit Code button click
-   * Opens code editor in new tab with current preview index
+   * In component mode: uses custom handler
+   * In style mode: opens code editor in new tab with current preview index
    */
   const handleEditCode = () => {
+    if (customOnEditCode) {
+      customOnEditCode();
+      return;
+    }
     const codeUrl = `/styles/code/${encodeURIComponent(styleId)}${
       activeIndex > 0 ? `?previewIndex=${activeIndex}` : ''
     }`;
@@ -70,9 +88,14 @@ export function PreviewPageHeader({
 
   /**
    * Handle close button click
-   * Closes the current window/tab
+   * In component mode: uses custom handler (navigate back)
+   * In style mode: closes the current window/tab
    */
   const handleClose = () => {
+    if (customOnClose) {
+      customOnClose();
+      return;
+    }
     window.close();
   };
 
@@ -104,7 +127,9 @@ export function PreviewPageHeader({
               {displayTitle}
             </h3>
             <div className="flex items-center gap-2 mt-1">
-              <span className="text-xs text-gray-500 dark:text-gray-400">Style Preview</span>
+              <span className="text-xs text-gray-500 dark:text-gray-400">
+                {isComponent ? (categoryLabel || 'Component Preview') : 'Style Preview'}
+              </span>
             </div>
           </div>
         </div>
@@ -239,7 +264,7 @@ export function PreviewPageHeader({
 
 PreviewPageHeader.propTypes = {
   displayTitle: PropTypes.string.isRequired,
-  styleId: PropTypes.string.isRequired,
+  styleId: PropTypes.string,
   activeIndex: PropTypes.number.isRequired,
   setActiveIndex: PropTypes.func.isRequired,
   previewsList: PropTypes.array.isRequired,
@@ -247,9 +272,19 @@ PreviewPageHeader.propTypes = {
   isLoadingPreview: PropTypes.bool.isRequired,
   setShowPrompt: PropTypes.func.isRequired,
   onOpenFullPage: PropTypes.func.isRequired,
-  promptContent: PropTypes.string
+  promptContent: PropTypes.string,
+  // Component mode props
+  isComponent: PropTypes.bool,
+  onEditCode: PropTypes.func,
+  onClose: PropTypes.func,
+  categoryLabel: PropTypes.string
 };
 
 PreviewPageHeader.defaultProps = {
-  promptContent: ''
+  promptContent: '',
+  styleId: '',
+  isComponent: false,
+  onEditCode: null,
+  onClose: null,
+  categoryLabel: ''
 };

@@ -208,6 +208,71 @@ function writeOutput(data) {
 }
 
 /**
+ * Write category-level sharded indexes for progressive loading
+ * Outputs: /public/data/styles-index/{category}.json
+ */
+function writeCategoryShards(data) {
+  const shardsDir = path.join(projectRoot, 'public/data/styles-index');
+
+  // Ensure directory exists
+  if (!fs.existsSync(shardsDir)) {
+    fs.mkdirSync(shardsDir, { recursive: true });
+  }
+
+  const shardPaths = [];
+  let totalSize = 0;
+
+  for (const [categoryId, categoryData] of Object.entries(data.categories)) {
+    const shardPath = path.join(shardsDir, `${categoryId}.json`);
+    const shard = {
+      version: data.version,
+      category: categoryId,
+      name: categoryData.name,
+      families: categoryData.families,
+      generatedAt: data.generatedAt
+    };
+
+    fs.writeFileSync(shardPath, JSON.stringify(shard, null, 2), 'utf-8');
+    const size = fs.statSync(shardPath).size / 1024;
+    totalSize += size;
+    shardPaths.push({ path: shardPath, category: categoryId, size: size.toFixed(2) });
+  }
+
+  return { shardPaths, totalSize };
+}
+
+/**
+ * Write lightweight metadata-only index for fast stats
+ * Outputs: /public/data/styles-index-meta.json
+ */
+function writeMetadataIndex(data) {
+  const metadataPath = path.join(projectRoot, 'public/data/styles-index-meta.json');
+
+  const metadata = {
+    version: data.version,
+    generatedAt: data.generatedAt,
+    categories: {}
+  };
+
+  let totalFamilies = 0;
+
+  for (const [categoryId, categoryData] of Object.entries(data.categories)) {
+    const count = categoryData.families.length;
+    totalFamilies += count;
+
+    metadata.categories[categoryId] = {
+      name: categoryData.name,
+      count: count
+    };
+  }
+
+  fs.writeFileSync(metadataPath, JSON.stringify(metadata, null, 2), 'utf-8');
+  const size = fs.statSync(metadataPath).size / 1024;
+
+  return { path: metadataPath, size: size.toFixed(2), totalFamilies };
+}
+
+/**
  * Main execution
  */
 function main() {
@@ -217,9 +282,15 @@ function main() {
     // Build the index
     const { output, stats } = buildIndex();
 
-    // Write to file
+    // Write main consolidated index file
     const outputPath = writeOutput(output);
     const fileSize = (fs.statSync(outputPath).size / 1024).toFixed(2);
+
+    // Write category-level sharded indexes for progressive loading
+    const { shardPaths, totalSize: shardsTotalSize } = writeCategoryShards(output);
+
+    // Write lightweight metadata-only index for fast stats
+    const { path: metadataPath, size: metadataSize, totalFamilies } = writeMetadataIndex(output);
 
     // Print summary
     const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
@@ -229,9 +300,17 @@ function main() {
     console.log(`   Total families: ${stats.totalFamilies}`);
     console.log(`   Success: ${stats.successCount}`);
     console.log(`   Failed: ${stats.failedCount}`);
-    console.log(`   File size: ${fileSize} KB`);
-    console.log(`   Time: ${elapsed}s`);
-    console.log(`\n📝 Output: ${outputPath}`);
+    console.log('\n📁 Output files:');
+    console.log(`   Main index: ${outputPath}`);
+    console.log(`      Size: ${fileSize} KB`);
+    console.log(`   Metadata index (for fast stats): ${metadataPath}`);
+    console.log(`      Size: ${metadataSize} KB`);
+    console.log(`   Category shards (for progressive loading):`);
+    for (const shard of shardPaths) {
+      console.log(`      ${shard.category}: ${shard.size} KB`);
+    }
+    console.log(`      Total: ${shardsTotalSize.toFixed(2)} KB`);
+    console.log(`\n⏱️  Time: ${elapsed}s`);
 
     if (stats.failedCount > 0) {
       console.warn(`\n⚠️  ${stats.failedCount} families failed to load. These families may not have manifest.json files yet.`);

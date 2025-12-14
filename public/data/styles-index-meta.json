@@ -1,0 +1,26 @@
+{
+  "version": "1.0.0",
+  "generatedAt": "2025-12-14T14:37:48.555Z",
+  "categories": {
+    "core": {
+      "name": "Core Design Systems",
+      "count": 6
+    },
+    "visual": {
+      "name": "Visual Design Families",
+      "count": 47
+    },
+    "retro": {
+      "name": "Retro & Vintage",
+      "count": 9
+    },
+    "interaction": {
+      "name": "Interaction Patterns",
+      "count": 1
+    },
+    "layout": {
+      "name": "Layout Systems",
+      "count": 0
+    }
+  }
+}

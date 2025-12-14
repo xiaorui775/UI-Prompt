@@ -6,6 +6,14 @@ import { FilterBar } from '../../components/filter/FilterBar';
 import { useLanguage } from '../../hooks/useLanguage';
 import { applyFilters, applyTranslationsToCategories, getTagStatistics } from '../../utils/categoryHelper';
 import { loadStyleMetadataOnly } from '../../data/components/loaders';
+import { createLogger } from '../../utils/logger';
+
+// Configuration constants
+const VIRTUAL_SCROLL_THRESHOLD = 12;  // Use virtual scroll when items exceed this count
+const SKELETON_COUNT = 6;             // Number of skeleton cards to show during loading
+
+// Module logger
+const logger = createLogger('AllStylesPage');
 
 
 /**
@@ -39,7 +47,7 @@ export function AllStylesPage() {
       })
       .catch((error) => {
         if (!active) return;
-        console.error('[AllStylesPage] Failed to load style categories', error);
+        logger.error('Failed to load style categories', error);
         setIsError(true);
       })
       .finally(() => {
@@ -150,7 +158,7 @@ export function AllStylesPage() {
       {isLoading ? (
         <section role="status" aria-live="polite" className="space-y-4" id="loading">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {Array.from({ length: 6 }).map((_, i) => (
+            {Array.from({ length: SKELETON_COUNT }).map((_, i) => (
               <div key={i} className="animate-pulse motion-reduce:animate-none rounded-lg border border-slate-200 dark:border-slate-700 p-4">
                 <div className="h-5 w-32 rounded bg-slate-200 dark:bg-slate-700 mb-3"></div>
                 <div className="h-28 w-full rounded bg-slate-200 dark:bg-slate-700"></div>
@@ -161,7 +169,7 @@ export function AllStylesPage() {
         </section>
       ) : filteredStyles.length > 0 ? (
         <div className="opacity-0 transition-opacity duration-300 ease-out" style={{ opacity: isLoading ? 0 : 1 }}>
-          {filteredStyles.length > 12 ? (
+          {filteredStyles.length > VIRTUAL_SCROLL_THRESHOLD ? (
             <VirtualMasonryVariable
               items={filteredStyles}
               itemHeight={400}

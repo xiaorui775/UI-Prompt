@@ -71,6 +71,38 @@ export const router = createBrowserRouter([
     }
   },
 
+  // 組件全頁預覽路由 (不使用主 Layout - Style Preview UI 模式)
+  {
+    path: '/components/preview/:category/:componentId',
+    lazy: async () => {
+      const [{ ComponentPreviewPage }, { RouteError }] = await Promise.all([
+        import('../pages/components/ComponentPreviewPage.jsx'),
+        import('../components/RouteError.jsx')
+      ]);
+
+      return {
+        Component: ComponentPreviewPage,
+        ErrorBoundary: RouteError,
+        loader: async ({ params }) => {
+          const { loadComponentFromJSON } = await import('../data/loaders/jsonComponentLoader.js');
+          const { category, componentId } = params;
+
+          // 從 JSON 加載組件
+          const component = await loadComponentFromJSON(`${category}/${componentId}`);
+
+          if (!component) {
+            throw new Response('組件不存在', {
+              status: 404,
+              statusText: 'Not Found'
+            });
+          }
+
+          return { component };
+        }
+      };
+    }
+  },
+
   // 主應用路由
   {
     path: '/',
@@ -103,12 +135,7 @@ export const router = createBrowserRouter([
         path: 'components',
         lazy: async () => ({ Component: (await import('../pages/components/AllComponentsPage.jsx')).AllComponentsPage, ErrorBoundary: (await import('../components/RouteError.jsx')).RouteError }),
       },
-      // 布局样式展示页面
-      {
-        path: 'layouts',
-        lazy: async () => ({ Component: (await import('../pages/layouts/LayoutsPage.jsx')).LayoutsPage, ErrorBoundary: (await import('../components/RouteError.jsx')).RouteError }),
-      },
-      // 新增: 組件詳情页 (動態路由) - 使用 Route Loader 預加載
+      // 組件詳情页 (masonry grid 瀑布流佈局)
       {
         path: 'components/:category/:componentId',
         lazy: async () => {
@@ -116,28 +143,25 @@ export const router = createBrowserRouter([
             import('../pages/components/ComponentDetailPage.jsx'),
             import('../components/RouteError.jsx')
           ]);
-
           return {
             Component: ComponentDetailPage,
             ErrorBoundary: RouteError,
             loader: async ({ params }) => {
               const { loadComponentFromJSON } = await import('../data/loaders/jsonComponentLoader.js');
               const { category, componentId } = params;
-
-              // 從 JSON 加載組件
               const component = await loadComponentFromJSON(`${category}/${componentId}`);
-
               if (!component) {
-                throw new Response('組件不存在', {
-                  status: 404,
-                  statusText: 'Not Found'
-                });
+                throw new Response('組件不存在', { status: 404, statusText: 'Not Found' });
               }
-
               return { component };
             }
           };
         }
+      },
+      // 布局样式展示页面
+      {
+        path: 'layouts',
+        lazy: async () => ({ Component: (await import('../pages/layouts/LayoutsPage.jsx')).LayoutsPage, ErrorBoundary: (await import('../components/RouteError.jsx')).RouteError }),
       },
       // About 页面
       { path: 'about', lazy: async () => ({ Component: (await import('../pages/about/AboutPage.jsx')).AboutPage, ErrorBoundary: (await import('../components/RouteError.jsx')).RouteError }) },

@@ -166,7 +166,7 @@ export function VariantCard({
             min-h-[200px] max-h-[600px] flex items-center justify-center
             ${onPreview ? 'cursor-pointer hover:border-purple-400 dark:hover:border-purple-500 hover:shadow-md transition-all duration-200 relative group' : ''}
           `}
-          onClick={onPreview ? () => onPreview(variant) : undefined}
+          onClick={onPreview ? () => onPreview(variant, index) : undefined}
           title={onPreview ? t('ui.clickToPreview') : undefined}
         >
           {/* 懸停遮罩层（仅在有預覽功能時显示） */}

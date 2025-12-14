@@ -9,6 +9,10 @@
 import { loadFullFamily } from '../loaders/jsonStyleLoader';
 import { loadComponentRegistry, loadCategoryComponents } from '../loaders/jsonComponentLoader';
 import { enhanceStyles } from '../metadata/styleTagsMapping';
+import { createLogger } from '../../utils/logger';
+
+// 創建模組專用日誌器
+const logger = createLogger('loaders');
 
 // 新增：元數據快取（用於 loadStyleMetadataOnly）
 let __styleMetadataCache = null;
@@ -58,7 +62,7 @@ export async function loadStyleCategories(forceRefresh = false) {
         const response = await fetch('/data/styles-index.json');
         if (response.ok) {
           const index = await response.json();
-          console.log('✅ [Performance] Using prebuilt styles index (fast path)');
+          logger.success('Using prebuilt styles index (fast path)');
 
           // ⚡ 新策略：索引只做元數據快取，仍然為每個 family 補全完整內容
           const result = await Promise.all(
@@ -88,7 +92,7 @@ export async function loadStyleCategories(forceRefresh = false) {
                         }
                       : null;
                   } catch (err) {
-                    console.warn(`[loadStyleCategories] 索引快取加載 family 失敗: ${categoryId}/${familyId}`, err);
+                    logger.warn(`索引快取加載 family 失敗: ${categoryId}/${familyId}`, err);
                     return null;
                   }
                 })
@@ -111,11 +115,11 @@ export async function loadStyleCategories(forceRefresh = false) {
           return result;
         }
       } catch (indexError) {
-        console.warn('⚠️ Prebuilt index not available, falling back to dynamic loading:', indexError.message);
+        logger.warn('Prebuilt index not available, falling back to dynamic loading:', indexError.message);
       }
 
       // ⏱️ Fallback: 動態加載（dev mode 或構建索引未生成時）
-      console.log('🔄 [Dev Mode] Loading styles dynamically...');
+      logger.info('Loading styles dynamically (dev mode)...');
 
       // 載入 registry
       const registryMod = await import('../styles/_registry.json');
@@ -132,7 +136,7 @@ export async function loadStyleCategories(forceRefresh = false) {
             const family = await loadFullFamily(categoryId, familyId);
             return family;
           } catch (error) {
-            console.warn(`載入 family 失敗: ${categoryId}/${familyId}`, error);
+            logger.warn(`載入 family 失敗: ${categoryId}/${familyId}`, error);
             return null;
           }
         });
@@ -154,7 +158,7 @@ export async function loadStyleCategories(forceRefresh = false) {
       return result;
     } catch (error) {
       // Propagate error to caller instead of swallowing it
-      console.error('載入 styleCategories 失敗:', error);
+      logger.error('載入 styleCategories 失敗:', error);
       throw error;
     } finally {
       // Clear promise reference after settlement (success or failure)
@@ -190,7 +194,7 @@ export async function loadStyleMetadataOnly(forceRefresh = false) {
       }
 
       const index = await response.json();
-      console.log('⚡ [Performance] Using metadata-only loading (ultra-fast path)');
+      logger.success('Using metadata-only loading (ultra-fast path)');
 
       const result = Object.entries(index.categories).map(([categoryId, cat]) => {
         const families = Array.isArray(cat.families) ? cat.families : [];
@@ -256,9 +260,9 @@ export async function loadStyleMetadataOnly(forceRefresh = false) {
       __styleMetadataCache = enhancedResult;
       return enhancedResult;
     } catch (error) {
-      console.error('[loadStyleMetadataOnly] Failed:', error);
+      logger.error('loadStyleMetadataOnly failed:', error);
       // Fallback to full loading
-      console.warn('⚠️ Falling back to loadStyleCategories...');
+      logger.warn('Falling back to loadStyleCategories...');
       return loadStyleCategories(forceRefresh);
     } finally {
       __styleMetadataPromise = null;
@@ -296,7 +300,7 @@ export async function loadComponentCategories(forceRefresh = false) {
             icon: ''
           };
         } catch (error) {
-          console.warn(`載入組件分類失敗: ${categoryId}`, error);
+          logger.warn(`載入組件分類失敗: ${categoryId}`, error);
           return {
             id: categoryId,
             key: config.key,
@@ -314,7 +318,7 @@ export async function loadComponentCategories(forceRefresh = false) {
       return result;
     } catch (error) {
       // Propagate error to caller instead of swallowing it
-      console.error('載入 componentCategories 失敗:', error);
+      logger.error('載入 componentCategories 失敗:', error);
       throw error;
     } finally {
       // Clear promise reference after settlement (success or failure)
@@ -327,6 +331,53 @@ export async function loadComponentCategories(forceRefresh = false) {
 }
 
 // 統計：動態載入後計算数量与分类
+/**
+ * 🚀 getStylesStatsFromMetadata - 輕量統計（從 styles-index.json 直接計算）
+ *
+ * 與 getStylesStatsAsync 的區別：
+ * - getStylesStatsAsync: 加載完整內容，觸發 loadFullFamily → 200+ HTTP 請求
+ * - getStylesStatsFromMetadata: 從 styles-index.json 直接計算 → 1 個 HTTP 請求
+ *
+ * 用於 HomePage 首屏，無需完整內容，僅展示統計數字
+ */
+export async function getStylesStatsFromMetadata() {
+  try {
+    const response = await fetch('/data/styles-index.json');
+    if (!response.ok) {
+      throw new Error(`Failed to fetch styles-index.json: ${response.status}`);
+    }
+
+    const index = await response.json();
+    logger.success('Using metadata-only stats (ultra-fast path)');
+
+    // 從索引中直接計算統計
+    let total = 0;
+    const categories = [];
+
+    for (const [categoryId, cat] of Object.entries(index.categories)) {
+      const families = Array.isArray(cat.families) ? cat.families : [];
+      const count = families.length;
+      total += count;
+
+      categories.push({
+        id: categoryId,
+        key: categoryId,
+        count,
+        icon: ''
+      });
+    }
+
+    return {
+      total,
+      categories
+    };
+  } catch (error) {
+    logger.warn('getStylesStatsFromMetadata failed, falling back to loadStyleCategories:', error.message);
+    // Fallback: 使用完整加載
+    return getStylesStatsAsync();
+  }
+}
+
 export async function getStylesStatsAsync() {
   const cats = await loadStyleCategories();
   return {
@@ -348,6 +399,7 @@ export default {
   loadStyleMetadataOnly,
   loadComponentCategories,
   getStylesStatsAsync,
+  getStylesStatsFromMetadata,
   getComponentsStatsAsync,
 };
 

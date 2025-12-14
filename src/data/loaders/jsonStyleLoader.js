@@ -5,6 +5,13 @@
 
 import registry from '../styles/_registry.json';
 import { isValidPreactJSX, detectJSXMode, validateJSX } from '../../utils/jsxPreprocessor';
+import { createLogger } from '../../utils/logger';
+
+// 創建模組專用日誌器
+const logger = createLogger('jsonStyleLoader');
+
+// Configuration constants
+const MIN_PREVIEW_CONTENT_LENGTH = 100;  // Minimum chars for valid preview content
 
 /**
  * ID 映射表：URL 簡稱 → 實際資料夾名
@@ -220,7 +227,7 @@ export async function loadFamilyManifest(category, familyId) {
     const manifest = await import(`../styles/generated/${category}/${familyId}/manifest.json`);
     return manifest.default || manifest;
   } catch (error) {
-    console.warn(`無法加載 Family manifest: ${category}/${familyId}`, error);
+    logger.warn(`無法加載 Family manifest: ${category}/${familyId}`, error);
     return null;
   }
 }
@@ -289,20 +296,20 @@ export async function loadTemplateContent(category, familyId, templateId) {
       if (isValidPreactJSX(fullPageJsx)) {
         renderMode = 'jsx';
       } else {
-        console.warn(`[loadTemplateContent] Preact JSX 驗證失敗，改用 HTML 模式: ${basePath}`);
+        logger.warn(`Preact JSX 驗證失敗，改用 HTML 模式: ${basePath}`);
         fullPageJsx = '';
       }
     } else if (jsxMode === 'react') {
       const validation = validateJSX(fullPageJsx, 'react');
       if (validation.valid) {
         renderMode = 'react-jsx';
-        console.log(`[loadTemplateContent] 檢測到 React JSX 模式: ${basePath}`);
+        logger.debug(`檢測到 React JSX 模式: ${basePath}`);
       } else {
-        console.warn(`[loadTemplateContent] React JSX 驗證失敗: ${basePath}`, validation.errors);
+        logger.warn(`React JSX 驗證失敗: ${basePath}`, validation.errors);
         fullPageJsx = '';
       }
     } else {
-      console.debug(`[loadTemplateContent] 無法識別 JSX 模式，改用 HTML: ${basePath}`);
+      logger.debug(`無法識別 JSX 模式，改用 HTML: ${basePath}`);
       fullPageJsx = '';
     }
   }
@@ -317,18 +324,18 @@ export async function loadTemplateContent(category, familyId, templateId) {
       if (jsxMode === 'preact-h') {
         if (isValidPreactJSX(demoJsx)) {
           renderMode = 'jsx';
-          console.log(`[loadTemplateContent] 使用 demo.jsx (Preact): ${basePath}`);
+          logger.debug(`使用 demo.jsx (Preact): ${basePath}`);
         } else {
-          console.warn(`[loadTemplateContent] demo.jsx Preact 驗證失敗: ${basePath}`);
+          logger.warn(`demo.jsx Preact 驗證失敗: ${basePath}`);
           demoJsx = '';
         }
       } else if (jsxMode === 'react') {
         const validation = validateJSX(demoJsx, 'react');
         if (validation.valid) {
           renderMode = 'react-jsx';
-          console.log(`[loadTemplateContent] 使用 demo.jsx (React): ${basePath}`);
+          logger.debug(`使用 demo.jsx (React): ${basePath}`);
         } else {
-          console.warn(`[loadTemplateContent] demo.jsx React 驗證失敗: ${basePath}`, validation.errors);
+          logger.warn(`demo.jsx React 驗證失敗: ${basePath}`, validation.errors);
           demoJsx = '';
         }
       } else {
@@ -416,13 +423,13 @@ export async function loadPreviewContent(category, familyId, previewId) {
     if (jsxMode === 'preact-h' && isValidPreactJSX(demoJsxRaw)) {
       fullPageJsx = demoJsxRaw;
       renderMode = 'jsx';
-      console.log(`[loadPreviewContent] 使用 demo.jsx (Preact): ${basePath}`);
+      logger.debug(`使用 demo.jsx (Preact): ${basePath}`);
     } else if (jsxMode === 'react') {
       const validation = validateJSX(demoJsxRaw, 'react');
       if (validation.valid) {
         fullPageJsx = demoJsxRaw;
         renderMode = 'react-jsx';
-        console.log(`[loadPreviewContent] 使用 demo.jsx (React): ${basePath}`);
+        logger.debug(`使用 demo.jsx (React): ${basePath}`);
       }
     }
   }
@@ -594,7 +601,7 @@ function parsePromptMd(md) {
  * - 適用: manifest 定義了 preview 結構，但內容來自文件系統
  *
  * **Level 3: 自動生成 preview（無 manifest.previews）**
- * - 條件: 沒有 manifest.previews，但 templateContent.fullPageHTML > 100 chars
+ * - 條件: 沒有 manifest.previews，但 templateContent.fullPageHTML > MIN_PREVIEW_CONTENT_LENGTH chars
  * - 來源: 動態生成的 preview 對象，使用 fullPageHTML 作為內容
  * - 適用: 大多數標準模板，無需特殊 preview 配置
  *
@@ -615,27 +622,27 @@ function parsePromptMd(md) {
  * console.log(family.previews.length);  // 可預覽的數量
  */
 export async function loadFullFamily(category, familyId) {
-  console.log(`[loadFullFamily] 開始加載: ${category}/${familyId}`);
+  logger.debug(`開始加載: ${category}/${familyId}`);
 
   // 1. 加載 Family Manifest
   const manifest = await loadFamilyManifest(category, familyId);
   if (!manifest) {
-    console.warn(`[loadFullFamily] Manifest 加載失敗: ${category}/${familyId}`);
+    logger.warn(`Manifest 加載失敗: ${category}/${familyId}`);
     return null;
   }
-  console.log(`[loadFullFamily] Manifest 已加載:`, manifest.id, '模板數:', manifest.templates?.length || 0);
+  logger.debug(`Manifest 已加載:`, manifest.id, '模板數:', manifest.templates?.length || 0);
 
   // 2. 加載 Family 級別內容
   let familyContent = await loadFamilyContent(category, familyId);
-  console.log(`[loadFullFamily] Family 內容:`, familyContent.demoHTML ? `${familyContent.demoHTML.length} chars` : '(empty)');
+  logger.debug(`Family 內容:`, familyContent.demoHTML ? `${familyContent.demoHTML.length} chars` : '(empty)');
 
   const familyPrompts = await loadTemplatePrompts(category, familyId, null);
-  console.log(`[loadFullFamily] Family Prompts 已加載`);
+  logger.debug(`Family Prompts 已加載`);
 
   // 3. 加載所有 Templates
   // ⚠️ 修復：優先使用 manifest.templates，降級到 manifest.styles
   const templateIds = manifest.templates || manifest.styles || [];
-  console.log(`[loadFullFamily] 開始加載 ${templateIds.length} 個模板...`);
+  logger.debug(`開始加載 ${templateIds.length} 個模板...`);
   const templates = await Promise.all(
     templateIds.map(async (styleEntry) => {
       // styleEntry 可能是字符串或對象 {id, title, type}
@@ -643,12 +650,12 @@ export async function loadFullFamily(category, familyId) {
       // ⭐ 從 manifest.templates 中的對象獲取 title（優先）
       const entryTitle = typeof styleEntry === 'object' ? styleEntry.title : null;
 
-      console.log(`[loadFullFamily] 加載模板: ${templateId}`);
+      logger.debug(`加載模板: ${templateId}`);
       const templateManifest = await loadTemplateManifest(category, familyId, templateId);
       const templateContent = await loadTemplateContent(category, familyId, templateId);
       const templatePrompts = await loadTemplatePrompts(category, familyId, templateId);
 
-      console.log(`[loadFullFamily] 模板 ${templateId} 內容:`,
+      logger.debug(`模板 ${templateId} 內容:`,
         templateContent.demoHTML ? `${templateContent.demoHTML.length} chars` : '(empty)',
         'fullPageHTML:', templateContent.fullPageHTML ? `${templateContent.fullPageHTML.length} chars` : '(empty)',
         'fullPageJSX:', templateContent.fullPageJSX ? `${templateContent.fullPageJSX.length} chars` : '(empty)');
@@ -736,10 +743,10 @@ export async function loadFullFamily(category, familyId) {
         const firstPreview = processedPreviews[0];
         const contentType = firstPreview?.renderMode === 'jsx' ? 'JSX' : 'HTML';
         const contentLength = firstPreview?.renderMode === 'jsx' ? firstPreview?.demoJSX?.length : firstPreview?.html?.length;
-        console.log(`[loadFullFamily] 模板 ${templateId} 從 manifest 處理了 ${processedPreviews.length} 個 previews, ${contentType}: ${contentLength || 0} chars`);
+        logger.debug(`模板 ${templateId} 從 manifest 處理了 ${processedPreviews.length} 個 previews, ${contentType}: ${contentLength || 0} chars`);
       }
       // Level 3A: 自動生成 JSX preview
-      else if (templateContent.fullPageJSX && templateContent.fullPageJSX.length > 100) {
+      else if (templateContent.fullPageJSX && templateContent.fullPageJSX.length > MIN_PREVIEW_CONTENT_LENGTH) {
         processedPreviews = [{
           id: templateId.replace(/^.*-/, ''),  // 從 template ID 提取簡短 ID
           name: resolvedTitle,  // ⭐ 使用 resolvedTitle 而非 templateManifest?.title
@@ -750,10 +757,10 @@ export async function loadFullFamily(category, familyId) {
           styles: templateContent.fullPageStyles || templateContent.customStyles || '',
           previewId: templateId
         }];
-        console.log(`[loadFullFamily] 模板 ${templateId} 自動生成 preview, JSX: ${templateContent.fullPageJSX.length} chars, mode: ${templateContent.renderMode || 'jsx'}`);
+        logger.debug(`模板 ${templateId} 自動生成 preview, JSX: ${templateContent.fullPageJSX.length} chars, mode: ${templateContent.renderMode || 'jsx'}`);
       }
       // Level 3B: 自動生成 preview（無 manifest.previews 但有 fullPageHTML）
-      else if (templateContent.fullPageHTML && templateContent.fullPageHTML.length > 100) {
+      else if (templateContent.fullPageHTML && templateContent.fullPageHTML.length > MIN_PREVIEW_CONTENT_LENGTH) {
         processedPreviews = [{
           id: templateId.replace(/^.*-/, ''),  // 從 template ID 提取簡短 ID
           name: resolvedTitle,  // ⭐ 使用 resolvedTitle 而非 templateManifest?.title
@@ -762,7 +769,7 @@ export async function loadFullFamily(category, familyId) {
           styles: templateContent.fullPageStyles || templateContent.customStyles || '',
           previewId: templateId
         }];
-        console.log(`[loadFullFamily] 模板 ${templateId} 自動生成 preview, HTML: ${templateContent.fullPageHTML.length} chars`);
+        logger.debug(`模板 ${templateId} 自動生成 preview, HTML: ${templateContent.fullPageHTML.length} chars`);
       }
       // ✅ Level 3C: 回退到 demoHTML（當沒有 fullPageHTML 或長度不足時）
       else if (templateContent.demoHTML && templateContent.demoHTML.length > 0) {
@@ -775,7 +782,7 @@ export async function loadFullFamily(category, familyId) {
           previewId: templateId,
           isIncomplete: true  // 標記為不完整內容
         }];
-        console.log(`[loadFullFamily] 模板 ${templateId} 回退到 demoHTML: ${templateContent.demoHTML.length} chars（標記為不完整）`);
+        logger.debug(`模板 ${templateId} 回退到 demoHTML: ${templateContent.demoHTML.length} chars（標記為不完整）`);
       }
       // Level 4: 無 preview 數據：processedPreviews 保持為空數組
 
@@ -790,7 +797,7 @@ export async function loadFullFamily(category, familyId) {
       };
     })
   );
-  console.log(`[loadFullFamily] 所有模板加載完成`);
+  logger.debug(`所有模板加載完成`);
 
   // 4. 如果 Family 級別沒有 demoHTML，使用第一個 Template 的內容
   if (!familyContent.demoHTML && templates.length > 0) {
@@ -799,7 +806,7 @@ export async function loadFullFamily(category, familyId) {
       demoHTML: firstTemplate.demoHTML || firstTemplate.fullPageHTML || '',
       customStyles: firstTemplate.customStyles || firstTemplate.fullPageStyles || ''
     };
-    console.log(`[loadFullFamily] 使用第一個模板的內容作為 Family 內容`);
+    logger.debug(`使用第一個模板的內容作為 Family 內容`);
   }
 
   // ⚠️ 修復：manifest.family 現在是對象 { name: {...}, description: {...} }
@@ -835,7 +842,7 @@ export async function loadFullFamily(category, familyId) {
       if (t.previews && t.previews.length > 0) {
         t.previews.forEach(preview => {
           // 支持 HTML 和 JSX 兩種格式
-          const hasContent = preview.html?.length > 100 || preview.demoJSX?.length > 100;
+          const hasContent = preview.html?.length > MIN_PREVIEW_CONTENT_LENGTH || preview.demoJSX?.length > MIN_PREVIEW_CONTENT_LENGTH;
           if (hasContent) {
             allPreviews.push({
               ...preview,
@@ -870,13 +877,13 @@ export async function loadFullFamily(category, familyId) {
         result.fullPageHTML = firstPreview.html;
         result.fullPageStyles = firstPreview.styles || '';
       }
-      console.log(`[loadFullFamily] 合併了 ${allPreviews.length} 個 previews 來自 ${templates.length} 個模板`);
+      logger.debug(`合併了 ${allPreviews.length} 個 previews 來自 ${templates.length} 個模板`);
     }
   }
 
-  console.log(`[loadFullFamily] 加載完成: ${result.id}, demoHTML: ${result.demoHTML?.length || 0} chars, fullPageHTML: ${result.fullPageHTML?.length || 0} chars, previews: ${result.previews?.length || 0}, 模板: ${templates.length}`);
+  logger.debug(`加載完成: ${result.id}, demoHTML: ${result.demoHTML?.length || 0} chars, fullPageHTML: ${result.fullPageHTML?.length || 0} chars, previews: ${result.previews?.length || 0}, 模板: ${templates.length}`);
   // ⭐ DEBUG: 驗證 ID 完整性
-  console.log(`[loadFullFamily] Final ID: "${result.id}" (${result.id?.length} chars)`);
+  logger.debug(`Final ID: "${result.id}" (${result.id?.length} chars)`);
   return result;
 }
 
@@ -888,7 +895,7 @@ export async function loadFullFamily(category, familyId) {
 export async function loadCategory(category) {
   // 這需要一個 category 索引文件來知道有哪些 families
   // 暫時返回空數組，需要另外實現
-  console.warn(`loadCategory(${category}) 尚未完整實現`);
+  logger.warn(`loadCategory(${category}) 尚未完整實現`);
   return [];
 }
 
@@ -978,7 +985,7 @@ export function parseStyleId(styleId) {
 
   const templateId = (familyId && styleId !== `${category}-${familyId}`) ? styleId : '';
 
-  console.log(`[parseStyleId] ${styleId} → category=${category || '(none)'}, familyId=${familyId || '(none)'}, templateId=${templateId || '(none)'}`);
+  logger.debug(`parseStyleId: ${styleId} → category=${category || '(none)'}, familyId=${familyId || '(none)'}, templateId=${templateId || '(none)'}`);
 
   return { category, familyId, templateId };
 }

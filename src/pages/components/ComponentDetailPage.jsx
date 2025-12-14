@@ -4,7 +4,6 @@ import { useLanguage } from '../../hooks/useLanguage';
 import { VariantGrid } from '../../components/ui/VariantGrid';
 import { CodeModal } from '../../components/ui/CodeModal';
 import { PromptDrawer } from '../../components/prompt/PromptDrawer';
-import { PreviewModal } from '../../components/preview/PreviewModal';
 import DOMPurify from 'dompurify';
 import { promptGenerator } from '../../utils/prompt/PromptGeneratorFacade';
 
@@ -30,14 +29,12 @@ export function ComponentDetailPage() {
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [showCodeModal, setShowCodeModal] = useState(false);
   const [showPrompt, setShowPrompt] = useState(false);
-  const [showPreview, setShowPreview] = useState(false);
 
   // 路由參數變更時重置 UI 狀態（避免舊數據殘留）
   useEffect(() => {
     setSelectedVariant(null);
     setShowCodeModal(false);
     setShowPrompt(false);
-    setShowPreview(false);
   }, [category, componentId]);
 
   // 解析組件數據，處理 i18n 鍵
@@ -107,10 +104,12 @@ export function ComponentDetailPage() {
     setShowPrompt(true);
   };
 
-  // 處理預覽
-  const handlePreview = (variant) => {
-    setSelectedVariant(variant);
-    setShowPreview(true);
+  // 處理預覽 - 導航到全頁預覽頁面
+  const handlePreview = (variant, variantIndex) => {
+    // 導航到 ComponentPreviewPage (Style Preview UI)
+    const variantIdx = variantIndex ?? componentData.variants.findIndex(v => v.id === variant.id);
+    const url = `/components/preview/${category}/${componentId}${variantIdx > 0 ? `?variantIndex=${variantIdx}` : ''}`;
+    navigate(url);
   };
 
   // 生成 Prompt 內容（使用新的 Facade API）
@@ -249,17 +248,6 @@ export function ComponentDetailPage() {
         onClose={() => setShowPrompt(false)}
         title={selectedVariant ? selectedVariant.name : ''}
         content={promptContent}
-      />
-
-      {/* Preview Modal */}
-      <PreviewModal
-        isOpen={showPreview}
-        onClose={() => setShowPreview(false)}
-        title={selectedVariant ? selectedVariant.name : ''}
-        description={selectedVariant?.description || ''}
-        htmlContent={selectedVariant?.demoHTML || ''}
-        customStyles={selectedVariant?.customStyles || ''}
-        variant={selectedVariant}
       />
     </>
   );
