@@ -6,12 +6,10 @@
 import registry from '../styles/_registry.json';
 import { isValidPreactJSX, detectJSXMode, validateJSX } from '../../utils/jsxPreprocessor';
 import { createLogger } from '../../utils/logger';
+import { MIN_PREVIEW_CONTENT_LENGTH } from '../../utils/constants';
 
 // 創建模組專用日誌器
 const logger = createLogger('jsonStyleLoader');
-
-// Configuration constants
-const MIN_PREVIEW_CONTENT_LENGTH = 100;  // Minimum chars for valid preview content
 
 /**
  * ID 映射表：URL 簡稱 → 實際資料夾名

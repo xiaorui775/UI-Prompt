@@ -13,9 +13,9 @@
  */
 
 import DOMPurify from 'dompurify';
+import { CACHE_SIZES } from './constants';
 
 // Cache configuration
-const MAX_CACHE_SIZE = 200; // Max number of entries
 const cache = new Map();
 
 /**
@@ -51,7 +51,7 @@ export function cachedSanitize(input, type = 'html', config = {}) {
   const result = DOMPurify.sanitize(input, config);
 
   // LRU-style cache management
-  if (cache.size >= MAX_CACHE_SIZE) {
+  if (cache.size >= CACHE_SIZES.SANITIZE) {
     // Delete oldest entry (first entry in Map)
     const firstKey = cache.keys().next().value;
     cache.delete(firstKey);
@@ -77,7 +77,7 @@ export function clearSanitizeCache() {
 export function getSanitizeCacheStats() {
   return {
     size: cache.size,
-    maxSize: MAX_CACHE_SIZE,
-    utilizationPercent: ((cache.size / MAX_CACHE_SIZE) * 100).toFixed(1)
+    maxSize: CACHE_SIZES.SANITIZE,
+    utilizationPercent: ((cache.size / CACHE_SIZES.SANITIZE) * 100).toFixed(1)
   };
 }

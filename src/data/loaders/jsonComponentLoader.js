@@ -8,6 +8,11 @@
  * - 並行加載優化
  */
 
+import { createLogger } from '../../utils/logger';
+import { MIN_PREVIEW_CONTENT_LENGTH } from '../../utils/constants';
+
+const logger = createLogger('jsonComponentLoader');
+
 // ========== 常量與快取 ==========
 
 // 獲取 BASE_URL（支持子路徑部署）
@@ -81,7 +86,7 @@ export async function loadComponentRegistry() {
       registryCache = module.default || module;
       return registryCache;
     } catch (error) {
-      console.error('載入組件 registry 失敗:', error);
+      logger.error('載入組件 registry 失敗:', error);
       throw error;
     } finally {
       registryPromise = null;
@@ -163,8 +168,8 @@ export async function loadVariantContent(category, componentId, variantId) {
     fetchText(`${basePath}/${variantId}/demo.css`)
   ]);
 
-  // 使用更寬鬆的檢查（有內容即可，不限制長度）
-  if (variantHtml && variantHtml.trim().length > 0) {
+  // 使用 MIN_PREVIEW_CONTENT_LENGTH 檢查有效內容
+  if (variantHtml && variantHtml.trim().length >= MIN_PREVIEW_CONTENT_LENGTH) {
     return {
       demoHTML: variantHtml,
       customStyles: variantCss
@@ -177,7 +182,7 @@ export async function loadVariantContent(category, componentId, variantId) {
     fetchText(`${basePath}/default/demo.css`)
   ]);
 
-  if (defaultHtml && defaultHtml.trim().length > 0) {
+  if (defaultHtml && defaultHtml.trim().length >= MIN_PREVIEW_CONTENT_LENGTH) {
     return {
       demoHTML: defaultHtml,
       customStyles: defaultCss
@@ -191,7 +196,7 @@ export async function loadVariantContent(category, componentId, variantId) {
     fetchText(`${categoryBasePath}/default/demo.css`)
   ]);
 
-  if (categoryHtml && categoryHtml.trim().length > 0) {
+  if (categoryHtml && categoryHtml.trim().length >= MIN_PREVIEW_CONTENT_LENGTH) {
     return {
       demoHTML: categoryHtml,
       customStyles: categoryCss
@@ -279,7 +284,7 @@ export async function loadFullComponent(category, componentId) {
   // 加載 manifest
   const manifest = await loadComponentManifest(category, componentId);
   if (!manifest) {
-    console.warn(`組件 manifest 不存在: ${category}/${componentId}`);
+    logger.warn(`組件 manifest 不存在: ${category}/${componentId}`);
     return null;
   }
 
@@ -330,7 +335,7 @@ export async function loadComponentFromJSON(componentPath) {
   const parts = componentPath.split('/').filter(Boolean);
 
   if (parts.length < 2) {
-    console.error('無效的組件路徑:', componentPath);
+    logger.error('無效的組件路徑:', componentPath);
     return null;
   }
 
@@ -377,7 +382,7 @@ export async function loadCategoryComponents(categoryId) {
   const categoryConfig = registry.categories[categoryId];
 
   if (!categoryConfig) {
-    console.warn(`分類不存在: ${categoryId}`);
+    logger.warn(`分類不存在: ${categoryId}`);
     return [];
   }
 
