@@ -13,5 +13,13 @@
     "tags": [],
     "relatedStyles": []
   },
-  "templates": []
+  "templates": [
+    {
+      "id": "neural-nexus",
+      "title": {
+        "zh-CN": "神经网络节点",
+        "en-US": "Neural Nexus"
+      }
+    }
+  ]
 }

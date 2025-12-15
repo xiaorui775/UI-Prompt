@@ -1,11 +1,14 @@
 import { useMemo, useState, useEffect } from 'react';
 import { useParams, useNavigate, useLoaderData } from 'react-router-dom';
 import { useLanguage } from '../../hooks/useLanguage';
+import { usePromptContent } from '../../hooks/usePromptContent';
 import { VariantGrid } from '../../components/ui/VariantGrid';
 import { CodeModal } from '../../components/ui/CodeModal';
 import { PromptDrawer } from '../../components/prompt/PromptDrawer';
 import DOMPurify from 'dompurify';
 import { promptGenerator } from '../../utils/prompt/PromptGeneratorFacade';
+import { getCategoryNavKey } from '../../utils/componentHelper';
+import { createI18nResolver } from '../../utils/i18n/resolveI18nValue';
 
 /**
  * ComponentDetailPage - 組件詳情页 (支持多變体瀑布流佈局)
@@ -41,39 +44,13 @@ export function ComponentDetailPage() {
   const componentData = useMemo(() => {
     if (!componentFromLoader) return null;
 
-    // 解析 i18n 標題 - 處理對象和字符串兩種情況
-    const resolveI18n = (value) => {
-      if (!value) return '';
-      // 如果是對象，優先使用當前語言
-      if (typeof value === 'object' && value !== null) {
-        const resolved = value[language] || value['en-US'] || value['zh-CN'] || '';
-        // 如果解析出的值仍是 i18n 鍵，繼續翻譯
-        if (typeof resolved === 'string' && resolved.startsWith('data.')) {
-          return t(resolved);
-        }
-        return resolved;
-      }
-      // 如果是 i18n 鍵，翻譯它
-      if (typeof value === 'string' && value.startsWith('data.')) {
-        return t(value);
-      }
-      return value;
-    };
+    // 使用共享的 i18n 解析器
+    const resolveI18n = createI18nResolver(language, t);
 
-    // 獲取分類配置 - 使用 registry key 映射
+    // 獲取分類配置 - 使用 componentHelper 統一管理
     const categoryId = componentFromLoader.category || category;
-    // 分類 ID 到 nav key 的映射（與 _registry.json 中的 key 對應）
-    const categoryKeyMap = {
-      navigation: 'navigation',
-      dataDisplay: 'dataDisplay',
-      feedback: 'feedback',
-      advanced: 'advanced',
-      input: 'inputEnhanced',
-      interactive: 'interactive',
-      special: 'specialViews',
-      visualEffects: 'visualEffects'
-    };
-    const navKey = categoryKeyMap[categoryId] || categoryId;
+    // 從 registry 動態獲取 nav key，避免硬編碼
+    const navKey = getCategoryNavKey(categoryId);
 
     return {
       ...componentFromLoader,
@@ -112,19 +89,22 @@ export function ComponentDetailPage() {
     navigate(url);
   };
 
-  // 生成 Prompt 內容（使用新的 Facade API）
-  const promptContent = useMemo(() => {
-    if (!selectedVariant) return '';
-
-    // 使用 PromptGeneratorFacade 的便捷方法
-    // 內部自動處理：責任鏈查找 → 5層降級 → 類型驗證
-    return promptGenerator.generateForVariant(
-      selectedVariant,
-      componentId,
-      category,
-      language
-    );
-  }, [selectedVariant, componentId, category, language]);
+  // 生成 Prompt 內容（使用共享的 hook）
+  const promptContent = usePromptContent(
+    () => {
+      if (!selectedVariant) return '';
+      // 使用 PromptGeneratorFacade 的便捷方法
+      // 內部自動處理：責任鏈查找 → 5層降級 → 類型驗證
+      return promptGenerator.generateForVariant(
+        selectedVariant,
+        componentId,
+        category,
+        language
+      );
+    },
+    [selectedVariant, componentId, category, language],
+    { loggerName: 'ComponentDetailPage' }
+  );
 
   // 返回按鈕
   const handleBack = () => {

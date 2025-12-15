@@ -106,20 +106,31 @@ export async function compileJSX(jsxCode, options = {}) {
     // React JSX 模式 (新)
     // ========================================
     if (detectedMode === 'react') {
+      // 提取 lucide-react 圖標列表（在移除 import 之前）
+      const lucideIconsMatch = jsxCode.match(/import\s+\{([\s\S]+?)\}\s+from\s+['"]lucide-react['"]/);
+      const lucideIcons = lucideIconsMatch
+        ? lucideIconsMatch[1]
+            .split(',')
+            .map(name => name.trim())
+            .filter(name => name && !/^(type|typeof)\s/.test(name))
+        : [];
+
       // 預處理：移除 React imports（運行時會提供）
+      // 使用 [\s\S] 替代 [^}] 以支持多行 import 語句
       let processedCode = jsxCode
-        .replace(/import\s+React\s*,?\s*\{[^}]*\}\s*from\s+['"]react['"];?\n?/g, '')
+        .replace(/import\s+React\s*,?\s*\{[\s\S]*?\}\s*from\s+['"]react['"];?\n?/g, '')
         .replace(/import\s+React\s+from\s+['"]react['"];?\n?/g, '')
-        .replace(/import\s+\{[^}]+\}\s+from\s+['"]react['"];?\n?/g, '');
+        .replace(/import\s+\{[\s\S]+?\}\s+from\s+['"]react['"];?\n?/g, '');
 
       // 預處理：移除 lucide-react imports（運行時會提供）
+      // 使用 [\s\S] 替代 [^}] 以支持多行 import 語句
       processedCode = processedCode
-        .replace(/import\s+\{[^}]+\}\s+from\s+['"]lucide-react['"];?\n?/g, '');
+        .replace(/import\s+\{[\s\S]+?\}\s+from\s+['"]lucide-react['"];?\n?/g, '');
 
       // 預處理：移除其他常用庫的 imports（如果運行時提供）
       // 支持的庫列表可以在這裡擴展
       processedCode = processedCode
-        .replace(/import\s+\{[^}]+\}\s+from\s+['"]@lucide\/react['"];?\n?/g, '');
+        .replace(/import\s+\{[\s\S]+?\}\s+from\s+['"]@lucide\/react['"];?\n?/g, '');
 
       // 提取組件名稱（從 export default function）
       const exportMatch = processedCode.match(/export\s+default\s+function\s+(\w+)/);
@@ -139,7 +150,8 @@ export async function compileJSX(jsxCode, options = {}) {
       const compiledResult = {
         code: result.code,
         componentName: extractedName,
-        mode: 'react'
+        mode: 'react',
+        lucideIcons  // 新增：包含圖標列表
       };
 
       // 緩存結果
@@ -213,20 +225,65 @@ export async function compileForIframe(jsxCode, options = {}) {
     mountId = 'root'
   } = options;
 
-  const compiledCode = await compileJSX(jsxCode, { ...options, componentName });
+  const compiled = await compileJSX(jsxCode, { ...options, componentName });
 
-  // 包裝為完整的可執行模塊
+  // 處理返回值類型：可能是字串（舊版 Preact 模式）或對象（新版 React 模式）
+  const { code, componentName: nameFromResult, mode, lucideIcons = [] } =
+    typeof compiled === 'string'
+      ? { code: compiled, componentName, mode: 'preact', lucideIcons: [] }
+      : compiled;
+
+  const finalComponentName = nameFromResult || componentName;
+
+  // React 模式：使用 React/Preact 兼容包裝
+  // React.createElement 編譯的代碼可以在 Preact runtime 中運行
+  if (mode === 'react') {
+    // 生成 Lucide icons 的解構語句
+    const lucideDestructure = lucideIcons.length > 0
+      ? `const { ${lucideIcons.join(', ')} } = window.LucideReact || {};`
+      : '';
+
+    return `
+(function() {
+  // React hooks 從 window.preact 中解構（Preact runtime 已設置好映射）
+  const {
+    useState, useEffect, useRef, useMemo, useCallback, useReducer,
+    useContext, useLayoutEffect, useImperativeHandle, useDebugValue,
+    useId, useDeferredValue, useTransition, useSyncExternalStore,
+    useInsertionEffect, createContext, memo, forwardRef, lazy,
+    Suspense, Fragment, createElement, cloneElement, createRef,
+    Component, PureComponent, Children, isValidElement
+  } = window.preact || {};
+
+  // Lucide React icons - 只解構實際使用的圖標
+  ${lucideDestructure}
+
+  ${code}
+
+  // 渲染組件（使用 Preact 的 render 和 h）
+  const container = document.getElementById('${mountId}');
+  if (container && typeof ${finalComponentName} !== 'undefined') {
+    const { h, render } = window.preact || {};
+    if (h && render) {
+      render(h(${finalComponentName}, null), container);
+    }
+  }
+})();
+`;
+  }
+
+  // Preact 模式：包裝為完整的可執行模塊
   return `
 (function() {
   const { h, render, Fragment, useState, useEffect, useRef, useMemo, useCallback, useReducer, useContext, createContext } = window.preact;
   const { useSignal } = window.preactSignals || {};
 
-  ${compiledCode}
+  ${code}
 
   // 渲染組件
   const container = document.getElementById('${mountId}');
   if (container) {
-    render(h(${componentName}, null), container);
+    render(h(${finalComponentName}, null), container);
   }
 })();
 `;

@@ -8,23 +8,6 @@
  */
 const EMPTY_ARRAY = Object.freeze([]);
 
-// ❌ 移除：不再從 templates/ 直接導入風格數據
-// import { visualTemplateStyles } from './styles/templates/visual';
-// import { layoutTemplateStyles } from './styles/templates/layout';
-// import { interactionTemplateStyles } from './styles/templates/interaction';
-// import { coreTemplateConfigs } from './styles/templates/core';
-// import { retroTemplateStyles, arcadeCRTConfig } from './styles/templates/retro';
-
-// ❌ 移除：組件數據改用 JSON 動態加載（見 components/loaders.js）
-// import { navigationComponents } from './components/navigationComponents';
-// import { dataDisplayComponents } from './components/dataDisplayComponents';
-// import { feedbackComponents } from './components/feedbackComponents';
-// import { advancedComponents } from './components/advancedComponents';
-// import { inputComponents } from './components/inputComponents';
-// import { interactiveComponents } from './components/interactiveComponents';
-// import { specialComponents } from './components/specialComponents';
-// import { visualEffectsComponents } from './components/visualEffectsComponents';
-
 // 导入 JSON 數據加載器
 import {
   loadFamilyManifest,
@@ -35,14 +18,6 @@ import {
   loadFullFamily,
   parseStyleId
 } from './loaders/jsonStyleLoader';
-
-// ============================================
-// ⚡ 風格數據現在通過 JSON 異步加載
-// 使用 loadStyleCategories() 從 components/loaders.js 獲取
-// ============================================
-
-// ❌ 移除：createFamilyCard 和 coreTemplateFamilies（不再需要）
-// 這些邏輯已經移到 jsonStyleLoader.js 中處理
 
 // ⚠️ styleCategories 現在是空數組
 // 請使用 loadStyleCategories() 異步獲取數據

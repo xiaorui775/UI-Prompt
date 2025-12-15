@@ -44,6 +44,9 @@ export function generatePreactIframeHTML(options = {}) {
   <script>${PREACT_UMD_INLINE}</script>
   <script>${PREACT_HOOKS_UMD_INLINE}</script>
 
+  <!-- Lucide React Icons -->
+  <script src="https://unpkg.com/lucide-react@0.459.0/dist/umd/lucide-react.min.js"></script>
+
   <!-- 設置全局變量 -->
   <script>
     // 將 Preact 暴露為全局變量
@@ -55,6 +58,8 @@ export function generatePreactIframeHTML(options = {}) {
       createContext: preact.createContext,
       createRef: preact.createRef,
       cloneElement: preact.cloneElement,
+      // React 兼容 API
+      createElement: preact.h,  // React.createElement = Preact.h
       // Hooks
       useState: preactHooks.useState,
       useEffect: preactHooks.useEffect,
@@ -67,7 +72,19 @@ export function generatePreactIframeHTML(options = {}) {
       useImperativeHandle: preactHooks.useImperativeHandle,
       useDebugValue: preactHooks.useDebugValue,
       useErrorBoundary: preactHooks.useErrorBoundary,
-      useId: preactHooks.useId
+      useId: preactHooks.useId,
+      useDeferredValue: preactHooks.useDeferredValue || ((v) => v),
+      useTransition: preactHooks.useTransition || (() => [false, (f) => f()]),
+      useSyncExternalStore: preactHooks.useSyncExternalStore || ((s, g) => g()),
+      useInsertionEffect: preactHooks.useInsertionEffect || preactHooks.useLayoutEffect,
+      // React 18+ APIs (fallback implementations)
+      memo: preact.memo || ((c) => c),
+      forwardRef: preact.forwardRef || ((c) => c),
+      lazy: preact.lazy || ((c) => c),
+      Suspense: preact.Suspense || preact.Fragment,
+      PureComponent: preact.PureComponent || preact.Component,
+      Children: preact.toChildArray ? { toArray: preact.toChildArray } : {},
+      isValidElement: preact.isValidElement || (() => false)
     };
 
     // 為了與 React 代碼兼容，也暴露為 React

@@ -49,28 +49,5 @@ export function injectAppStylesIntoIframe(iframe) {
     }
   } catch {
     // 静默失敗，保底不影響主流程
-    // console.debug('injectAppStylesIntoIframe failed');
   }
 }
-
-/**
- * @deprecated This function is deprecated. Use stripExternalAssets() from buildPreviewHTML.js instead.
- * Tailwind CDN is now allowlisted and preserved for demo fidelity.
- *
- * For backward compatibility, this function now returns HTML unchanged.
- * If you need to strip external assets, use stripExternalAssets() which has proper allowlist support.
- *
- * Migration guide:
- * - Replace: stripTailwindCdn(html)
- * - With: html (no stripping needed, handled by stripExternalAssets in preview pipeline)
- * - Or use: stripExternalAssets(html) if explicit filtering needed
- *
- * @param {string} html
- * @returns {string} - Returns input unchanged
- */
-export function stripTailwindCdn(html) {
-  // No-op for backward compatibility
-  // Tailwind CDN is now preserved (allowlisted in stripExternalAssets)
-  return html;
-}
-

@@ -6,6 +6,7 @@ import { PromptDrawer } from '../../components/prompt/PromptDrawer';
 import { PreviewPromptGenerator } from '../../utils/promptGenerator';
 import { DataVisualizationPreview } from '../../components/preview/DataVisualizationPreview';
 import { previewLogger as logger } from '../../utils/logger';
+import { resolveI18nValue } from '../../utils/i18n/resolveI18nValue';
 
 // Extracted hooks
 import { usePreviewPageState } from '../../components/preview/hooks/usePreviewPageState';
@@ -39,7 +40,7 @@ export function StylePreviewPage() {
   // ========== 1. Data from loader ==========
   const { style } = useLoaderData();
   const [searchParams] = useSearchParams();
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
 
   // ========== 2. Extract style properties ==========
   const {
@@ -57,15 +58,9 @@ export function StylePreviewPage() {
 
   // ========== 3. Resolve display title ==========
   const displayTitle = useMemo(() => {
-    if (!title) return '';
-    if (typeof title === 'string') {
-      return title;
-    }
-    if (typeof title === 'object') {
-      return title['en-US'] || title['zh-CN'] || '';
-    }
-    return String(title);
-  }, [title]);
+    // 使用共享的 i18n 解析器
+    return resolveI18nValue(title, language, t);
+  }, [title, language, t]);
 
   // ========== 4. Stabilize previews list ==========
   const previewsList = useMemo(

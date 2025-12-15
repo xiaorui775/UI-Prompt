@@ -32,6 +32,8 @@ let __styleCategoriesCache = null;
 let __styleCategoriesPromise = null;
 let __componentCategoriesCache = null;
 let __componentCategoriesPromise = null;
+let __componentMetadataCache = null;
+let __componentMetadataPromise = null;
 
 /**
  * 清理所有快取（仅限記憶体、页面生命週期內）
@@ -43,6 +45,8 @@ export function clearLoadersCache() {
   __styleMetadataPromise = null;
   __componentCategoriesCache = null;
   __componentCategoriesPromise = null;
+  __componentMetadataCache = null;
+  __componentMetadataPromise = null;
 }
 
 // 風格类別載入器
@@ -330,6 +334,78 @@ export async function loadComponentCategories(forceRefresh = false) {
   return __componentCategoriesPromise;
 }
 
+/**
+ * 🚀 loadComponentMetadataOnly - 僅載入元數據（高效能首屏渲染）
+ *
+ * 與 loadComponentCategories 的區別：
+ * - loadComponentCategories: 載入完整內容（demoHTML, CSS, Prompts）→ 50+ HTTP 請求
+ * - loadComponentMetadataOnly: 僅載入 components-index.json → 1 個 HTTP 請求
+ *
+ * 用於 AllComponentsPage 首次渲染，demo 內容將延遲載入
+ */
+export async function loadComponentMetadataOnly(forceRefresh = false) {
+  // Fast path: return cached result if available
+  if (!forceRefresh && __componentMetadataCache) return __componentMetadataCache;
+
+  // Race condition fix: reuse existing in-flight promise
+  if (!forceRefresh && __componentMetadataPromise) return __componentMetadataPromise;
+
+  __componentMetadataPromise = (async () => {
+    try {
+      const response = await fetch('/data/components-index.json');
+      if (!response.ok) {
+        throw new Error(`Failed to fetch components-index.json: ${response.status}`);
+      }
+
+      const index = await response.json();
+      logger.success('Using metadata-only component loading (ultra-fast path)');
+
+      const result = Object.entries(index.categories).map(([categoryId, cat]) => {
+        const components = Array.isArray(cat.components) ? cat.components : [];
+
+        return {
+          id: categoryId,
+          key: cat.key || categoryId,
+          path: `/components/${categoryId}`,
+          data: components.map(compMeta => ({
+            // 元數據（來自 components-index.json）
+            id: compMeta.id,
+            category: categoryId,
+            title: compMeta.title,
+            description: compMeta.description,
+            tags: compMeta.tags || [],
+            relatedComponents: compMeta.relatedComponents || [],
+            variantsCount: compMeta.variantsCount || 0,
+
+            // Demo 內容設為 null，將延遲載入
+            demoHTML: null,
+            customStyles: null,
+            variants: [],
+
+            // 標記需要延遲載入
+            _needsContentLoad: true,
+            _categoryId: categoryId,
+            _categoryKey: cat.key || categoryId
+          })),
+          icon: ''
+        };
+      });
+
+      // Cache successful result
+      __componentMetadataCache = result;
+      return result;
+    } catch (error) {
+      logger.warn('loadComponentMetadataOnly failed, falling back to loadComponentCategories:', error.message);
+      // Fallback to full loading
+      return loadComponentCategories(forceRefresh);
+    } finally {
+      __componentMetadataPromise = null;
+    }
+  })();
+
+  return __componentMetadataPromise;
+}
+
 // 統計：動態載入後計算数量与分类
 /**
  * 🚀 getStylesStatsFromMetadata - 輕量統計（從 styles-index.json 直接計算）
@@ -398,6 +474,7 @@ export default {
   loadStyleCategories,
   loadStyleMetadataOnly,
   loadComponentCategories,
+  loadComponentMetadataOnly,
   getStylesStatsAsync,
   getStylesStatsFromMetadata,
   getComponentsStatsAsync,
