@@ -650,6 +650,12 @@ export const styleEnhancements = {
     tags: ['retro', 'classic', 'depth', 'creative', 'travel'],
     relatedStyles: ['visual-texture-leather', 'core-skeuomorphism', 'retro-vintage-newspaper']
   },
+  'visual-texture-leather-premium-wallet': {
+    primaryCategory: 'visual',
+    categories: ['visual', 'texture', 'finance'],
+    tags: ['contemporary', 'classic', 'depth', 'enterprise', 'luxury', 'finance'],
+    relatedStyles: ['visual-texture-leather', 'visual-texture-leather-vintage-journal', 'core-skeuomorphism']
+  },
   'visual-texture-grain': {
     primaryCategory: 'visual',
     categories: ['visual', 'texture'],

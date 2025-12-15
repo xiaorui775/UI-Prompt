@@ -1,21 +1,6 @@
 {
   "version": "1.0.0",
   "categories": {
-    "navigation": {
-      "name": {
-        "zh-CN": "导航组件",
-        "en-US": "Navigation"
-      },
-      "key": "navigation",
-      "path": "/components/navigation",
-      "components": [
-        "breadcrumbs",
-        "tabs",
-        "pagination",
-        "sidebar",
-        "stepper"
-      ]
-    },
     "dataDisplay": {
       "name": {
         "zh-CN": "数据展示",
@@ -39,7 +24,6 @@
       "key": "feedback",
       "path": "/components/feedback",
       "components": [
-        "alert-messages",
         "toast-notifications",
         "modal-dialog",
         "reaction-picker"
@@ -77,20 +61,6 @@
         "autocomplete-search",
         "tags-input",
         "rich-textarea"
-      ]
-    },
-    "interactive": {
-      "name": {
-        "zh-CN": "交互组件",
-        "en-US": "Interactive"
-      },
-      "key": "interactive",
-      "path": "/components/interactive",
-      "components": [
-        "hover-effects",
-        "loading-animations",
-        "tour-guide",
-        "drag-drop"
       ]
     },
     "special": {

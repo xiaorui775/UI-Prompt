@@ -6,7 +6,7 @@
 //
 // ⚡ 重要變更：全部改用 JSON 加載，不再從 JS 文件 import
 
-import { loadFullFamily } from '../loaders/jsonStyleLoader';
+import { loadFullFamily } from '../loaders';
 import { loadComponentRegistry, loadCategoryComponents } from '../loaders/jsonComponentLoader';
 import { enhanceStyles } from '../metadata/styleTagsMapping';
 import { createLogger } from '../../utils/logger';
@@ -265,9 +265,27 @@ export async function loadStyleMetadataOnly(forceRefresh = false) {
       return enhancedResult;
     } catch (error) {
       logger.error('loadStyleMetadataOnly failed:', error);
-      // Fallback to full loading
-      logger.warn('Falling back to loadStyleCategories...');
-      return loadStyleCategories(forceRefresh);
+
+      // Priority 1: Use stale metadata cache if available
+      if (__styleMetadataCache) {
+        logger.warn('Using stale metadata cache');
+        return __styleMetadataCache;
+      }
+
+      // Priority 2: Use full categories cache if available
+      if (__styleCategoriesCache) {
+        logger.warn('Using full categories cache as metadata fallback');
+        return __styleCategoriesCache;
+      }
+
+      // Priority 3: Fall back to full loading but CACHE the result
+      logger.warn('Falling back to loadStyleCategories (expensive)...');
+      const fullData = await loadStyleCategories(forceRefresh);
+
+      // Cache the fallback result to prevent repeated expensive loads
+      __styleMetadataCache = fullData;
+
+      return fullData;
     } finally {
       __styleMetadataPromise = null;
     }
@@ -377,13 +395,13 @@ export async function loadComponentMetadataOnly(forceRefresh = false) {
             relatedComponents: compMeta.relatedComponents || [],
             variantsCount: compMeta.variantsCount || 0,
 
-            // Demo 內容設為 null，將延遲載入
-            demoHTML: null,
-            customStyles: null,
+            // Preview 內容（從索引中獲取第一個變體的 demo）
+            demoHTML: compMeta.demoHTML || null,
+            customStyles: compMeta.customStyles || null,
             variants: [],
 
-            // 標記需要延遲載入
-            _needsContentLoad: true,
+            // 標記是否需要完整內容載入（詳情頁需要）
+            _needsContentLoad: !compMeta.demoHTML,
             _categoryId: categoryId,
             _categoryKey: cat.key || categoryId
           })),
@@ -470,6 +488,53 @@ export async function getComponentsStatsAsync() {
   };
 }
 
+/**
+ * 🚀 getComponentsStatsFromMetadata - 輕量統計（從 components-index.json 直接計算）
+ *
+ * 與 getComponentsStatsAsync 的區別：
+ * - getComponentsStatsAsync: 加載完整內容，觸發 loadComponentCategories → 30+ HTTP 請求
+ * - getComponentsStatsFromMetadata: 從 components-index.json 直接計算 → 1 個 HTTP 請求
+ *
+ * 用於 HomePage 首屏，無需完整內容，僅展示統計數字
+ */
+export async function getComponentsStatsFromMetadata() {
+  try {
+    const response = await fetch('/data/components-index.json');
+    if (!response.ok) {
+      throw new Error(`Failed to fetch components-index.json: ${response.status}`);
+    }
+
+    const index = await response.json();
+    logger.success('Using metadata-only component stats (ultra-fast path)');
+
+    // 從索引中直接計算統計
+    let total = 0;
+    const categories = [];
+
+    for (const [categoryId, cat] of Object.entries(index.categories)) {
+      const components = Array.isArray(cat.components) ? cat.components : [];
+      const count = components.length;
+      total += count;
+
+      categories.push({
+        id: categoryId,
+        key: cat.key || categoryId,
+        count,
+        icon: ''
+      });
+    }
+
+    return {
+      total,
+      categories
+    };
+  } catch (error) {
+    logger.warn('getComponentsStatsFromMetadata failed, falling back to getComponentsStatsAsync:', error.message);
+    // Fallback: 使用完整加載
+    return getComponentsStatsAsync();
+  }
+}
+
 export default {
   loadStyleCategories,
   loadStyleMetadataOnly,
@@ -478,5 +543,6 @@ export default {
   getStylesStatsAsync,
   getStylesStatsFromMetadata,
   getComponentsStatsAsync,
+  getComponentsStatsFromMetadata,
 };
 

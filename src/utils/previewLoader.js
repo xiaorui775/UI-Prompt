@@ -253,6 +253,7 @@ const previewIdMapping = {
 
   // Leather
   'visual-texture-leather-vintage-journal': { category: 'visual', familyId: 'leather', templateId: 'visual-texture-leather-vintage-journal' },
+  'visual-texture-leather-premium-wallet': { category: 'visual', familyId: 'leather', templateId: 'visual-texture-leather-premium-wallet' },
 
   // Light
   'Ambient': { category: 'visual', familyId: 'light', templateId: 'Ambient' },
@@ -409,6 +410,7 @@ const previewIdMapping = {
   'retroOS95': { category: 'retro', familyId: 'retroOS', templateId: 'retroOS95' },
 
   // SwissDesign
+  'retro-swissDesign-helvetica': { category: 'retro', familyId: 'swissDesign', templateId: 'retro-swissDesign-helvetica' },
   'retro-swiss-design': { category: 'retro', familyId: 'swissDesign', templateId: 'retro-swiss-design' },
   'swissDesign': { category: 'retro', familyId: 'swissDesign', templateId: 'swissDesign' },
 

@@ -1,6 +1,10 @@
-import { useState, useMemo } from 'react';
-import { PromptDrawer } from '../prompt/PromptDrawer';
-import { PreviewModal } from '../preview/PreviewModal';
+import { useState, useMemo, useCallback, memo, lazy, Suspense } from 'react';
+const PromptDrawer = lazy(() =>
+  import('../prompt/PromptDrawer').then(m => ({ default: m.PromptDrawer }))
+);
+const PreviewModal = lazy(() =>
+  import('../preview/PreviewModal').then(m => ({ default: m.PreviewModal }))
+);
 import { PromptGenerator } from '../../utils/promptGenerator';
 import { useLanguage } from '../../hooks/useLanguage';
 import { getDemoHTML } from "../../utils/i18n/demoI18n";
@@ -31,7 +35,7 @@ import { DemoSkeleton, DemoPlaceholder } from './DemoSkeleton';
  * - JSX 編譯邏輯 → JSXCompiler
  * - UI 展示邏輯 → StyleCardUI
  */
-export function StyleCard({
+function StyleCardComponent({
   title,
   description,
   demoHTML,
@@ -193,11 +197,15 @@ export function StyleCard({
   const demoBoxInlineStyle = useMemo(() => parseStyleString(demoBoxStyle), [demoBoxStyle]);
 
   // ===== 事件處理 =====
-  const handleGetPrompt = () => {
+  const handleGetPrompt = useCallback(() => {
     setShowPrompt(true);
-  };
+  }, []);
 
-  const handlePreview = () => {
+  const handleClosePrompt = useCallback(() => {
+    setShowPrompt(false);
+  }, []);
+
+  const handlePreview = useCallback(() => {
     // ⭐ DEBUG: 驗證傳入的 ID
     console.log(`[StyleCard handlePreview] id prop: "${id}" (${id?.length} chars)`);
 
@@ -255,7 +263,11 @@ export function StyleCard({
       console.warn('[StyleCard] Missing previewId, fallback to modal');
       setShowPreview(true);
     }
-  };
+  }, [id, previews]);
+
+  const handleClosePreview = useCallback(() => {
+    setShowPreview(false);
+  }, []);
 
   // ===== 渲染 Demo 區域（根據模式選擇子組件） =====
   const renderDemo = () => {
@@ -334,29 +346,67 @@ export function StyleCard({
       />
 
       {/* Prompt 抽屜 */}
-      <PromptDrawer
-        isOpen={showPrompt}
-        onClose={() => setShowPrompt(false)}
-        title={displayTitle}
-        content={promptContent}
-      />
+      {showPrompt && (
+        <Suspense fallback={<div className="fixed inset-0 bg-black/20 animate-pulse" />}>
+          <PromptDrawer
+            isOpen={showPrompt}
+            onClose={handleClosePrompt}
+            title={displayTitle}
+            content={promptContent}
+          />
+        </Suspense>
+      )}
 
       {/* Preview 模態框 */}
-      <PreviewModal
-        isOpen={showPreview}
-        onClose={() => setShowPreview(false)}
-        title={displayTitle}
-        description={displayDescription}
-        htmlContent={demoHTML}
-        customStyles={customStyles}
-        fullPageHTML={fullPageHTML}
-        fullPageStyles={fullPageStyles}
-        fullPagePreviewId={fullPagePreviewId}
-        previews={previews}
-        colorScheme={colorScheme}
-        variant={variant}
-        stylePrompt={stylePrompt}
-      />
+      {showPreview && (
+        <Suspense fallback={<div className="fixed inset-0 bg-black/20 animate-pulse" />}>
+          <PreviewModal
+            isOpen={showPreview}
+            onClose={handleClosePreview}
+            title={displayTitle}
+            description={displayDescription}
+            htmlContent={demoHTML}
+            customStyles={customStyles}
+            fullPageHTML={fullPageHTML}
+            fullPageStyles={fullPageStyles}
+            fullPagePreviewId={fullPagePreviewId}
+            previews={previews}
+            colorScheme={colorScheme}
+            variant={variant}
+            stylePrompt={stylePrompt}
+          />
+        </Suspense>
+      )}
     </>
   );
 }
+
+// Custom prop comparison for React.memo
+function arePropsEqual(prev, next) {
+  // Primitive props fast check
+  const primitiveKeys = [
+    'id', 'title', 'description', 'demoHTML', 'customStyles',
+    'fullPageHTML', 'fullPageStyles', 'fullPagePreviewId',
+    'demoBoxClass', 'demoBoxStyle', 'colorScheme', 'variant',
+    'primaryCategory', 'layoutMode', 'customPrompt', 'stylePrompt',
+    'demoJSX', 'renderMode', 'categoryId', 'familyId'
+  ];
+
+  for (const key of primitiveKeys) {
+    if (prev[key] !== next[key]) return false;
+  }
+
+  // Shallow array compare for tags
+  if (prev.tags?.length !== next.tags?.length) return false;
+  if (prev.tags?.some((t, i) => t !== next.tags?.[i])) return false;
+
+  // Shallow array compare for previews
+  if (prev.previews?.length !== next.previews?.length) return false;
+
+  // Function reference comparison
+  if (prev.onTagClick !== next.onTagClick) return false;
+
+  return true;
+}
+
+export const StyleCard = memo(StyleCardComponent, arePropsEqual);

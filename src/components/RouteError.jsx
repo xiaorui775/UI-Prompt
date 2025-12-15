@@ -8,13 +8,13 @@ export function RouteError() {
   const error = useRouteError();
 
   const status = error?.status || error?.statusCode || 'Error';
-  const message = error?.message || error?.statusText || 'Unexpected Application Error';
+  const message = error?.message || errosr?.statusText || 'Unexpected Application Error';
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-gray-50 p-6">
       <section className="w-full max-w-xl bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
         <header className="mb-4">
-          <h1 className="text-lg font-semibold text-gray-900">发生错误</h1>
+          <h1 className="text-lg font-semibold text-gray-900">Something Get Error</h1>
           <p className="text-sm text-gray-500 mt-1">{String(status)}</p>
         </header>
         <p className="text-sm text-gray-700 mb-4">{String(message)}</p>

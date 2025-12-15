@@ -14,7 +14,6 @@ import { immer } from 'zustand/middleware/immer';
 import { initialComponentTree, initialComponentProps } from './canvas/state';
 
 // Middleware
-import { createSnapshotHelper } from './canvas/middleware/snapshotMiddleware';
 import { createRafBatcher } from './canvas/middleware/rafBatcher';
 
 // Actions
@@ -31,20 +30,18 @@ import { createIOActions } from './canvas/actions/ioActions';
  * - Manage component properties mapping (flat structure)
  * - Provide component CRUD operations
  * - Handle component movement and nesting
- * - Support undo/redo via snapshot middleware
  * - Provide RAF-batched throttled updates for performance
  */
 export const useCanvasStore = create(
   immer((set, get) => {
     // Initialize middleware
-    const snapshotHelper = createSnapshotHelper(get);
-    const rafBatcher = createRafBatcher(set, get, snapshotHelper);
+    const rafBatcher = createRafBatcher(set);
 
     // Create action modules
-    const treeActions = createTreeActions(set, get, snapshotHelper);
-    const propsActions = createPropsActions(set, get, snapshotHelper);
+    const treeActions = createTreeActions(set);
+    const propsActions = createPropsActions(set);
     const getterActions = createGetterActions(get);
-    const ioActions = createIOActions(set, get, snapshotHelper, {
+    const ioActions = createIOActions(set, get, {
       initialComponentTree,
       initialComponentProps
     });

@@ -1,17 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../../hooks/useLanguage';
-import { PromptButton } from '../prompt/PromptButton';
 import { LANGUAGES } from "../../utils/i18n/languageConstants";
 
 /**
  * PreviewLayout - 預覽页面专用佈局
  * 特點:
  * - 無側边欄的極简设計
- * - 頂部工具列：返回按鈕 + 标題 + AI Prompt 按鈕
+ * - 頂部工具列：返回按鈕 + 标題
  * - 全屏內容区域用於 iframe 預覽
  * - 支持響應式设計和無障礙访問
  */
-export function PreviewLayout({ children, styleData, onPromptGenerate }) {
+export function PreviewLayout({ children, styleData }) {
   const navigate = useNavigate();
   const { t, language } = useLanguage();
 
@@ -81,17 +80,8 @@ export function PreviewLayout({ children, styleData, onPromptGenerate }) {
             </span>
           </h1>
 
-          {/* 右側：AI Prompt 按鈕 */}
+          {/* 右側：操作按鈕 */}
           <div className="flex items-center gap-2">
-            {styleData && onPromptGenerate && (
-              <PromptButton
-                style={styleData}
-                variant="header"
-                size="sm"
-                onPromptGenerate={onPromptGenerate}
-              />
-            )}
-
             {/* 語言切換按鈕 (移動端隱藏) */}
             <button
               onClick={() => window.location.reload()}

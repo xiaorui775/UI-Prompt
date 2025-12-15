@@ -7,19 +7,15 @@ import { findComponentById } from '../../utils/componentHelpers';
 /**
  * Creates props actions for the canvas store
  * @param {Function} set - Zustand set function
- * @param {Function} get - Zustand get function
- * @param {Object} snapshotHelper - Snapshot helper with takeSnapshot method
  * @returns {Object} Props action methods
  */
-export const createPropsActions = (set, get, snapshotHelper) => ({
+export const createPropsActions = (set) => ({
   /**
    * Update base props (deep merge for style and content)
    * @param {string} componentId - Component ID
    * @param {Object} newProps - New props to merge
    */
   updateBaseProps: (componentId, newProps) => {
-    snapshotHelper.takeSnapshot('canvas:updateBaseProps');
-
     return set((state) => {
       const props = state.componentProps[componentId];
       if (!props) return;
@@ -39,8 +35,6 @@ export const createPropsActions = (set, get, snapshotHelper) => ({
    * @param {Object} newLayoutProps - New layout props to merge
    */
   updateLayoutProps: (componentId, newLayoutProps) => {
-    snapshotHelper.takeSnapshot('canvas:updateLayoutProps');
-
     return set((state) => {
       const props = state.componentProps[componentId];
       if (!props) return;
@@ -58,8 +52,6 @@ export const createPropsActions = (set, get, snapshotHelper) => ({
    * @param {number} weight - flex-grow value
    */
   updateChildrenFlexGrow: (parentId, weight) => {
-    snapshotHelper.takeSnapshot('canvas:updateChildrenFlexGrow');
-
     return set((state) => {
       const parent = findComponentById(state.componentTree, parentId);
       if (!parent || !parent.children || parent.children.length === 0) return;
@@ -84,8 +76,6 @@ export const createPropsActions = (set, get, snapshotHelper) => ({
    * @param {Object} overrideProps - Override props to merge
    */
   updateResponsiveOverride: (componentId, breakpoint, overrideProps) => {
-    snapshotHelper.takeSnapshot('canvas:updateResponsiveOverride');
-
     return set((state) => {
       const props = state.componentProps[componentId];
       if (!props) return;
@@ -108,8 +98,6 @@ export const createPropsActions = (set, get, snapshotHelper) => ({
    * @param {Object} overrideLayoutProps - Override layout props to merge
    */
   updateResponsiveLayoutOverride: (componentId, breakpoint, overrideLayoutProps) => {
-    snapshotHelper.takeSnapshot('canvas:updateResponsiveLayoutOverride');
-
     return set((state) => {
       const props = state.componentProps[componentId];
       if (!props) return;

@@ -17,7 +17,7 @@ import {
   loadTemplatePrompts,
   loadFullFamily,
   parseStyleId
-} from './loaders/jsonStyleLoader';
+} from './loaders';
 
 // ⚠️ styleCategories 現在是空數組
 // 請使用 loadStyleCategories() 異步獲取數據

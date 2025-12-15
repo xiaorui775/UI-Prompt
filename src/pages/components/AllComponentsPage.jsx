@@ -5,7 +5,7 @@ import { FilterTabs } from '../../components/ui/FilterTabs';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useRemoteCategories } from '../../hooks/useRemoteCategories';
 import { applyTranslationsToCategories } from '../../utils/categoryHelper';
-import { loadComponentCategories } from '../../data/components/loaders';
+import { loadComponentMetadataOnly } from '../../data/components/loaders';
 import { createI18nResolver } from '../../utils/i18n/resolveI18nValue';
 import { SKELETON_COUNTS } from '../../utils/constants';
 import { ListPageScaffold } from '../../components/scaffold';
@@ -27,7 +27,7 @@ export function AllComponentsPage() {
     isLoading,
     isError,
     retry: handleRetry
-  } = useRemoteCategories(loadComponentCategories, {
+  } = useRemoteCategories(loadComponentMetadataOnly, {
     loggerName: 'AllComponentsPage'
   });
 

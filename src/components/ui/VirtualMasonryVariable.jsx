@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState, useCallback } from 'react'
+import React, { useEffect, useMemo, useRef, useState, useCallback, memo } from 'react'
 
 /**
  * VirtualMasonryVariable - 每欄虛擬化（可變項高）PoC
@@ -81,7 +81,20 @@ export function VirtualMasonryVariable({
   )
 }
 
-function ColumnVariable({ items, renderItem, defaultItemHeight, listHeight, gap }) {
+// Extracted Row component for stable react-window reference
+const Row = memo(function Row({ data, index, style }) {
+  const { items, renderItem, gap, setSize } = data;
+  return (
+    <div style={{ ...style, paddingBottom: gap }}>
+      <Measured onSize={(h) => setSize(index, h)}>
+        {renderItem(items[index], index)}
+      </Measured>
+    </div>
+  );
+});
+
+// eslint-disable-next-line no-unused-vars
+function ColumnVariable({ items, renderItem, defaultItemHeight, listHeight, gap, VarList }) {
   const sizeMapRef = useRef(new Map())
   const listRef = useRef(null)
 
@@ -100,15 +113,24 @@ function ColumnVariable({ items, renderItem, defaultItemHeight, listHeight, gap 
     }
   }, [])
 
-  const Row = ({ index, style }) => {
-    return (
-      <div style={{ ...style, paddingBottom: gap }}>
-        <Measured onSize={(h) => setSize(index, h)}>
-          {renderItem(items[index], index)}
-        </Measured>
-      </div>
-    )
-  }
+  // Memory cleanup: clear stale entries when items shrink
+  const prevLengthRef = useRef(items.length);
+  useEffect(() => {
+    if (items.length < prevLengthRef.current) {
+      for (let i = items.length; i < prevLengthRef.current; i++) {
+        sizeMapRef.current.delete(i);
+      }
+    }
+    prevLengthRef.current = items.length;
+  }, [items.length]);
+
+  // Memoize itemData for stable Row props
+  const itemData = useMemo(() => ({
+    items,
+    renderItem,
+    gap,
+    setSize
+  }), [items, renderItem, gap, setSize]);
 
   return (
     <VarList
@@ -118,6 +140,7 @@ function ColumnVariable({ items, renderItem, defaultItemHeight, listHeight, gap 
       itemSize={getSize}
       width={'100%'}
       overscanCount={3}
+      itemData={itemData}
     >
       {Row}
     </VarList>

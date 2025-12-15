@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { TerminalDemo } from './TerminalDemo';
-import { LivePreview } from './LivePreview';
+import { CyberpunkPreview } from './CyberpunkPreview';
 // useLanguage 未使用
 
 export function AIPromptDemo() {
@@ -60,7 +60,7 @@ export function AIPromptDemo() {
 
         {/* Right: Preview (70%) */}
         <div className="md:col-span-7 h-full min-h-[400px]">
-          <LivePreview progress={totalProgress} />
+          <CyberpunkPreview progress={totalProgress} />
         </div>
       </div>
 

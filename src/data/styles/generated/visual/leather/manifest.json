@@ -15,6 +15,13 @@
   },
   "templates": [
     {
+      "id": "visual-texture-leather-premium-wallet",
+      "title": {
+        "zh-CN": "高级钱包",
+        "en-US": "Premium Wallet"
+      }
+    },
+    {
       "id": "visual-texture-leather-vintage-journal",
       "title": {
         "zh-CN": "复古旅行日志",

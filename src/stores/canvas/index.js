@@ -11,7 +11,6 @@
 export { initialComponentTree, initialComponentProps } from './state';
 
 // Middleware
-export { createSnapshotHelper } from './middleware/snapshotMiddleware';
 export { createRafBatcher } from './middleware/rafBatcher';
 
 // Actions

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heritage Capital Management - Premium Leather Wallet</title>
+  <link rel="stylesheet" href="fullpage.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <!-- Leather Background Container -->
+  <div class="leather-surface">
+
+    <!-- SVG Texture Definitions -->
+    <svg width="0" height="0" class="texture-defs">
+      <defs>
+        <!-- Leather Grain Filter -->
+        <filter id="leather-grain" x="0%" y="0%" width="100%" height="100%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.2" numOctaves="4" result="noise" />
+          <feDiffuseLighting in="noise" lightingColor="#bfa68a" surfaceScale="1">
+            <feDistantLight azimuth="45" elevation="60" />
+          </feDiffuseLighting>
+          <feComposite operator="in" in2="SourceGraphic" />
+        </filter>
+
+        <!-- Deep Shadow Filter -->
+        <filter id="inset-shadow">
+          <feOffset dx="0" dy="2" />
+          <feGaussianBlur stdDeviation="2" result="offset-blur" />
+          <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse" />
+          <feFlood floodColor="black" floodOpacity="0.7" result="color" />
+          <feComposite operator="in" in="color" in2="inverse" result="shadow" />
+          <feComposite operator="over" in="shadow" in2="SourceGraphic" />
+        </filter>
+      </defs>
+    </svg>
+
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+      <div class="mobile-header-content">
+        <div class="logo-badge">H</div>
+        <span class="logo-text">Heritage</span>
+      </div>
+      <button class="menu-toggle" id="menuToggle">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <!-- Logo Area -->
+      <div class="sidebar-header">
+        <div class="logo-badge-large">H</div>
+        <div class="logo-info">
+          <h2 class="logo-title">Heritage</h2>
+          <p class="logo-subtitle">Capital Management</p>
+        </div>
+      </div>
+
+      <!-- Navigation Items -->
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-tab="dashboard">
+          <i data-lucide="wallet"></i>
+          <span>Dashboard</span>
+          <span class="active-indicator"></span>
+        </button>
+        <button class="nav-item" data-tab="holdings">
+          <i data-lucide="credit-card"></i>
+          <span>Holdings</span>
+        </button>
+        <button class="nav-item" data-tab="analytics">
+          <i data-lucide="trending-up"></i>
+          <span>Analytics</span>
+        </button>
+        <button class="nav-item" data-tab="history">
+          <i data-lucide="history"></i>
+          <span>History</span>
+        </button>
+      </nav>
+
+      <!-- User Profile -->
+      <div class="sidebar-footer">
+        <div class="user-avatar">
+          <i data-lucide="settings"></i>
+        </div>
+        <div class="user-info">
+          <p class="user-label">Signed in as</p>
+          <p class="user-name">James Sterling</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-wrapper">
+
+        <!-- Header Section -->
+        <header class="page-header">
+          <div>
+            <p class="page-subtitle">Portfolio Overview</p>
+            <h1 class="page-title">Global Assets</h1>
+          </div>
+          <div class="header-actions">
+            <div class="last-sync">
+              <span class="sync-label">Last Sync</span>
+              <span class="sync-date">14 DEC 2024</span>
+            </div>
+            <button class="metal-button">
+              <i data-lucide="activity"></i>
+              <span>Generate Report</span>
+            </button>
+          </div>
+        </header>
+
+        <div class="stitched-divider"></div>
+
+        <!-- Metrics Cards -->
+        <section class="metrics-grid">
+          <!-- Total Valuation Card -->
+          <div class="stitched-panel">
+            <div class="panel-header">
+              <div class="metric-icon">
+                <i data-lucide="wallet"></i>
+              </div>
+              <div class="toggle-switch active">
+                <div class="toggle-knob"></div>
+              </div>
+            </div>
+            <div class="panel-body">
+              <h3 class="metric-label">Total Valuation</h3>
+              <div class="inset-display">
+                <div class="display-content">
+                  <div>
+                    <p class="display-label">USD</p>
+                    <p class="display-value">$1,842,500</p>
+                  </div>
+                  <div class="trend-badge positive">+12.5%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Monthly Yield Card -->
+          <div class="stitched-panel">
+            <div class="panel-header">
+              <div class="metric-icon">
+                <i data-lucide="trending-up"></i>
+              </div>
+            </div>
+            <div class="panel-body">
+              <h3 class="metric-label">Monthly Yield</h3>
+              <div class="inset-display">
+                <div class="display-content">
+                  <div>
+                    <p class="display-label">ROI</p>
+                    <p class="display-value">$24,150</p>
+                  </div>
+                  <div class="trend-badge positive">+4.2%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Market Sentiment Card -->
+          <div class="stitched-panel">
+            <div class="panel-body">
+              <h3 class="metric-label">Market Sentiment</h3>
+              <div class="gauge-meter">
+                <div class="gauge-track"></div>
+                <div class="gauge-needle"></div>
+                <div class="gauge-labels">
+                  <span>Bearish</span>
+                  <span class="bullish">Bullish</span>
+                </div>
+              </div>
+              <div class="volatility-info">
+                <span>Volatility Index</span>
+                <span class="volatility-value">14.2 VIX</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Portfolio List -->
+        <section class="portfolio-section">
+          <div class="section-header">
+            <h2 class="section-title">Active Portfolios</h2>
+            <button class="settings-button">
+              <i data-lucide="settings"></i>
+            </button>
+          </div>
+
+          <div class="portfolio-list">
+            <!-- Portfolio Item 1 -->
+            <div class="portfolio-item">
+              <div class="portfolio-content">
+                <div class="portfolio-icon">
+                  <i data-lucide="shield-check"></i>
+                </div>
+                <div class="portfolio-info">
+                  <h4 class="portfolio-name">Vintage 1974 Bonds</h4>
+                  <p class="portfolio-type">Fixed</p>
+                </div>
+                <div class="portfolio-graph">
+                  <div class="graph-bar" style="height: 40%"></div>
+                  <div class="graph-bar" style="height: 60%"></div>
+                  <div class="graph-bar" style="height: 35%"></div>
+                  <div class="graph-bar" style="height: 70%"></div>
+                  <div class="graph-bar" style="height: 50%"></div>
+                  <div class="graph-bar" style="height: 80%"></div>
+                  <div class="graph-bar" style="height: 65%"></div>
+                </div>
+                <div class="portfolio-value">
+                  <p class="value-amount">$42,500.00</p>
+                  <p class="value-status">
+                    <i data-lucide="trending-up"></i>
+                    Performing
+                  </p>
+                </div>
+                <i data-lucide="chevron-right" class="portfolio-arrow"></i>
+              </div>
+            </div>
+
+            <!-- Portfolio Item 2 -->
+            <div class="portfolio-item">
+              <div class="portfolio-content">
+                <div class="portfolio-icon">
+                  <i data-lucide="dollar-sign"></i>
+                </div>
+                <div class="portfolio-info">
+                  <h4 class="portfolio-name">Gold Reserve ETF</h4>
+                  <p class="portfolio-type">Commodity</p>
+                </div>
+                <div class="portfolio-graph">
+                  <div class="graph-bar" style="height: 45%"></div>
+                  <div class="graph-bar" style="height: 55%"></div>
+                  <div class="graph-bar" style="height: 40%"></div>
+                  <div class="graph-bar" style="height: 75%"></div>
+                  <div class="graph-bar" style="height: 60%"></div>
+                  <div class="graph-bar" style="height: 85%"></div>
+                  <div class="graph-bar" style="height: 70%"></div>
+                </div>
+                <div class="portfolio-value">
+                  <p class="value-amount">$18,240.50</p>
+                  <p class="value-status">
+                    <i data-lucide="trending-up"></i>
+                    Performing
+                  </p>
+                </div>
+                <i data-lucide="chevron-right" class="portfolio-arrow"></i>
+              </div>
+            </div>
+
+            <!-- Portfolio Item 3 -->
+            <div class="portfolio-item">
+              <div class="portfolio-content">
+                <div class="portfolio-icon">
+                  <i data-lucide="lock"></i>
+                </div>
+                <div class="portfolio-info">
+                  <h4 class="portfolio-name">Estate Trust Fund</h4>
+                  <p class="portfolio-type">Trust</p>
+                </div>
+                <div class="portfolio-graph">
+                  <div class="graph-bar" style="height: 50%"></div>
+                  <div class="graph-bar" style="height: 65%"></div>
+                  <div class="graph-bar" style="height: 45%"></div>
+                  <div class="graph-bar" style="height: 80%"></div>
+                  <div class="graph-bar" style="height: 55%"></div>
+                  <div class="graph-bar" style="height: 90%"></div>
+                  <div class="graph-bar" style="height: 75%"></div>
+                </div>
+                <div class="portfolio-value">
+                  <p class="value-amount">$125,000.00</p>
+                  <p class="value-status">
+                    <i data-lucide="trending-up"></i>
+                    Performing
+                  </p>
+                </div>
+                <i data-lucide="chevron-right" class="portfolio-arrow"></i>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Footer Info -->
+        <div class="page-footer">
+          <div class="status-indicators">
+            <div class="status-item">
+              <div class="status-dot online"></div>
+              <span class="status-label">System OK</span>
+            </div>
+            <div class="status-item">
+              <div class="status-dot"></div>
+              <span class="status-label">Encrypted</span>
+            </div>
+          </div>
+          <div class="version-info">
+            <p class="version-text">Heritage Financial OS v4.2</p>
+            <p class="authorized-text">Authorized Personnel Only</p>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const sidebar = document.getElementById('sidebar');
+
+    menuToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+      const icon = menuToggle.querySelector('[data-lucide]');
+      const isOpen = sidebar.classList.contains('open');
+      icon.setAttribute('data-lucide', isOpen ? 'x' : 'menu');
+      lucide.createIcons();
+    });
+
+    // Tab navigation
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+      item.addEventListener('click', () => {
+        // Remove active class from all items
+        navItems.forEach(nav => nav.classList.remove('active'));
+        // Add active class to clicked item
+        item.classList.add('active');
+        // Close mobile sidebar
+        sidebar.classList.remove('open');
+      });
+    });
+
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth < 768) {
+        if (!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+          sidebar.classList.remove('open');
+        }
+      }
+    });
+  </script>
+</body>
+</html>

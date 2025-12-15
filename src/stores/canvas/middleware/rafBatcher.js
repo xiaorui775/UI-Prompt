@@ -7,11 +7,9 @@
 /**
  * Creates a RAF batcher for throttled canvas updates
  * @param {Function} set - Zustand set function
- * @param {Function} get - Zustand get function
- * @param {Object} snapshotHelper - Snapshot helper with takeSnapshot method
  * @returns {Object} Batcher API with enqueue methods
  */
-export const createRafBatcher = (set, get, snapshotHelper) => {
+export const createRafBatcher = (set) => {
   let rafScheduled = false;
   const batched = {
     base: new Map(),      // id -> partialBaseProps
@@ -24,9 +22,6 @@ export const createRafBatcher = (set, get, snapshotHelper) => {
     const haveUpdates = batched.base.size || batched.layout.size ||
                         batched.styleResp.size || batched.layoutResp.size;
     if (!haveUpdates) return;
-
-    // Take snapshot before flush
-    snapshotHelper.takeSnapshot('canvas:batchedUpdates');
 
     set((state) => {
       // Base props

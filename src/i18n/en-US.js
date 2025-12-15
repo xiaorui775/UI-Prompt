@@ -364,32 +364,6 @@ export default {
         }
       },
       "feedback": {
-        "alert-messages": {
-          "variants": {
-            "minimalism": {
-              "name": "Minimalism",
-              "description": ""
-            },
-            "glassmorphism": {
-              "description": "",
-              "name": ""
-            },
-            "neo-brutalism": {
-              "description": "",
-              "name": ""
-            },
-            "neumorphism": {
-              "description": "",
-              "name": ""
-            },
-            "material": {
-              "description": "",
-              "name": ""
-            }
-          },
-          "description": "Alert message component for displaying success, warning, error, and info notifications to users",
-          "title": "Alert Messages"
-        },
         "toast-notifications": {
           "variants": {
             "minimalism": {

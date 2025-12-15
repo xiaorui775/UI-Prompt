@@ -15,6 +15,13 @@
   },
   "templates": [
     {
+      "id": "retro-swissDesign-helvetica",
+      "title": {
+        "zh-CN": "国际字体风格",
+        "en-US": "International Typographic Style"
+      }
+    },
+    {
       "id": "retro-swiss-design",
       "title": {
         "zh-CN": "瑞士设计",

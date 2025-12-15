@@ -363,32 +363,6 @@ export default {
         }
       },
       "feedback": {
-        "alert-messages": {
-          "variants": {
-            "minimalism": {
-              "name": "极简主义",
-              "description": "简洁极简的警告消息设计，带有简单的边框和间距"
-            },
-            "glassmorphism": {
-              "description": "玻璃态警告消息设计，具有毛玻璃效果",
-              "name": "玻璃态"
-            },
-            "neo-brutalism": {
-              "description": "新粗野主义警告消息设计，带有粗边框和颜色",
-              "name": "新粗野主义"
-            },
-            "neumorphism": {
-              "description": "新拟态警告消息设计，带有柔和的阴影和高光",
-              "name": "新拟态"
-            },
-            "material": {
-              "description": "Material Design 警告消息设计，带有提升效果和Material原则",
-              "name": "Material"
-            }
-          },
-          "description": "警告消息组件，用于向用户显示成功、警告、错误和信息通知",
-          "title": "警告消息"
-        },
         "toast-notifications": {
           "variants": {
             "minimalism": {

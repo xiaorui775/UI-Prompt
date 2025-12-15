@@ -1,3 +1,3 @@
 export { TerminalDemo } from './TerminalDemo';
-export { LivePreview } from './LivePreview';
+export { CyberpunkPreview } from './CyberpunkPreview';
 export { AIPromptDemo } from './AIPromptDemo';

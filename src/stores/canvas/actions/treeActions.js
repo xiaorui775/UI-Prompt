@@ -13,11 +13,9 @@ import { createDefaultProps } from '../../utils/defaultProps';
 /**
  * Creates tree actions for the canvas store
  * @param {Function} set - Zustand set function
- * @param {Function} get - Zustand get function
- * @param {Object} snapshotHelper - Snapshot helper with takeSnapshot method
  * @returns {Object} Tree action methods
  */
-export const createTreeActions = (set, get, snapshotHelper) => ({
+export const createTreeActions = (set) => ({
   /**
    * Add component to parent container
    * @param {string} parentId - Parent component ID
@@ -26,8 +24,6 @@ export const createTreeActions = (set, get, snapshotHelper) => ({
    * @returns {string|null} New component ID or null
    */
   addComponent: (parentId, componentType, position = null) => {
-    snapshotHelper.takeSnapshot('canvas:addComponent');
-
     let newComponentId = null;
 
     set((state) => {
@@ -64,8 +60,6 @@ export const createTreeActions = (set, get, snapshotHelper) => ({
    * @param {number} newPosition - New position index
    */
   moveComponent: (componentId, newParentId, newPosition) => {
-    snapshotHelper.takeSnapshot('canvas:moveComponent');
-
     return set((state) => {
       // Prevent moving component into its own descendant
       const descendantIds = collectAllComponentIds(
@@ -103,8 +97,6 @@ export const createTreeActions = (set, get, snapshotHelper) => ({
       return false;
     }
 
-    snapshotHelper.takeSnapshot('canvas:deleteComponent');
-
     let success = false;
 
     set((state) => {
@@ -136,8 +128,6 @@ export const createTreeActions = (set, get, snapshotHelper) => ({
    * @returns {string|null} New component ID or null
    */
   duplicateComponent: (componentId, targetParentId) => {
-    snapshotHelper.takeSnapshot('canvas:duplicateComponent');
-
     let newComponentId = null;
 
     set((state) => {

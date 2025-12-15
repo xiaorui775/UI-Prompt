@@ -7,16 +7,14 @@
  * Creates IO actions for the canvas store
  * @param {Function} set - Zustand set function
  * @param {Function} get - Zustand get function
- * @param {Object} snapshotHelper - Snapshot helper with takeSnapshot method
  * @param {Object} initialState - Initial state { initialComponentTree, initialComponentProps }
  * @returns {Object} IO action methods
  */
-export const createIOActions = (set, get, snapshotHelper, initialState) => ({
+export const createIOActions = (set, get, initialState) => ({
   /**
    * Reset canvas to initial state
    */
   reset: () => {
-    snapshotHelper.takeSnapshot('canvas:reset');
     return set({
       componentTree: JSON.parse(JSON.stringify(initialState.initialComponentTree)),
       componentProps: JSON.parse(JSON.stringify(initialState.initialComponentProps))
