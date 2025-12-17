@@ -13,5 +13,20 @@
     "tags": [],
     "relatedStyles": []
   },
-  "templates": []
+  "templates": [
+    {
+      "id": "Ambient",
+      "title": {
+        "zh-CN": "Ambient",
+        "en-US": "Ambient"
+      }
+    },
+    {
+      "id": "spotlight",
+      "title": {
+        "zh-CN": "Spot明亮",
+        "en-US": "Spotlight"
+      }
+    }
+  ]
 }

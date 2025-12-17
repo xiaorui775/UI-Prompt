@@ -10,13 +10,9 @@
  * @module data/loaders/BaseLoader
  */
 
-/**
- * Get BASE_URL for deployment compatibility
- * Supports subdirectory deployments (e.g., /app/)
- */
-export const BASE_URL = (typeof import !== 'undefined' && import.meta?.env?.BASE_URL)
-  ? import.meta.env.BASE_URL.replace(/\/$/, '')
-  : '';
+// Re-export BASE_URL from central location for backward compatibility
+export { BASE_URL } from './config/pathHelper.js';
+import { BASE_URL } from './config/pathHelper.js';
 
 /**
  * Abstract base class for catalog data loaders

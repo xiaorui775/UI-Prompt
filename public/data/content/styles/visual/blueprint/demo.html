@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blueprint Engineering UI Style</title>
+    <style>
+        :root {
+            /* Color System */
+            --bg-deep: #0a1628;
+            --bg-navy: #1a365d;
+            --line-primary: rgba(255, 255, 255, 0.9);
+            --line-secondary: rgba(96, 165, 250, 0.4);
+            --accent-cyan: #22d3ee;
+            --accent-glow: rgba(34, 211, 238, 0.3);
+            --warning-orange: #f97316;
+            
+            /* Typography */
+            --font-mono: "IBM Plex Mono", "Courier New", Courier, monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #050b14; /* Darker backdrop to make the blueprint pop */
+            font-family: var(--font-mono);
+            color: var(--line-primary);
+            overflow: hidden;
+        }
+
+        /* Main Container 
+           - Enforces Square Shape 
+           - scalable width
+        */
+        .blueprint-card {
+            position: relative;
+            width: 90vmin;
+            max-width: 500px;
+            aspect-ratio: 1 / 1;
+            background-color: var(--bg-deep);
+            border: 2px solid var(--line-primary);
+            box-shadow: 0 0 20px rgba(34, 211, 238, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            /* Base font size scaling for the card context */
+            font-size: clamp(10px, 2vmin, 14px); 
+        }
+
+        /* =========================================
+           BACKGROUND LAYERS (Grid & Noise)
+           Fixed Z-Index to prevent blocking clicks
+           ========================================= */
+        .grid-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            
+            /* Major Grid (50px approx) and Minor Grid (10px approx) simulation */
+            background-image: 
+                linear-gradient(var(--line-secondary) 1px, transparent 1px),
+                linear-gradient(90deg, var(--line-secondary) 1px, transparent 1px),
+                linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px);
+            
+            background-size: 
+                25% 25%, /* Major grid */
+                25% 25%,
+                5% 5%,   /* Minor grid */
+                5% 5%;
+        }
+
+        /* Vignette effect for depth */
+        .vignette {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 40%, rgba(5, 11, 20, 0.6) 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* =========================================
+           UI CONTENT LAYERS
+           Z-Index > 1 for interaction
+           ========================================= */
+        .ui-layer {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+            padding: 5%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Header Data */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 1px solid var(--line-secondary);
+            padding-bottom: 0.5em;
+            margin-bottom: 1em;
+        }
+
+        .project-code {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            letter-spacing: 1px;
+        }
+
+        .status-badge {
+            font-size: 0.8em;
+            padding: 2px 6px;
+            border: 1px solid var(--warning-orange);
+            color: var(--warning-orange);
+            text-transform: uppercase;
+            animation: blink 2s infinite;
+        }
+
+        /* Central Schematic Visualization */
+        .schematic-view {
+            flex-grow: 1;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px dashed var(--line-secondary);
+            margin: 0.5em 0;
+            background: rgba(10, 22, 40, 0.5);
+        }
+
+        /* The "Part" (Interactive Element) */
+        .mechanical-part {
+            position: relative;
+            width: 40%;
+            aspect-ratio: 1/1;
+            border: 2px solid var(--line-primary);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        /* Inner detail of the part */
+        .mechanical-part::after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 60%;
+            border: 1px solid var(--line-primary);
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--line-secondary) 10%, transparent 10%);
+            background-size: 10px 10px;
+        }
+
+        .mechanical-part::before {
+            content: '';
+            position: absolute;
+            width: 120%;
+            height: 2px;
+            background: var(--line-secondary);
+        }
+        
+        .part-vertical-line {
+            position: absolute;
+            height: 120%;
+            width: 2px;
+            background: var(--line-secondary);
+        }
+
+        /* Interaction: Hover State */
+        .mechanical-part:hover {
+            box-shadow: 0 0 15px var(--accent-glow);
+            border-color: var(--accent-cyan);
+        }
+        
+        .mechanical-part:hover::after {
+            border-color: var(--accent-cyan);
+        }
+
+        /* Dimension Annotations (Hidden by default, shown on hover/click) */
+        .dimension-line {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+
+        .mechanical-part:hover + .dimensions .dimension-line,
+        .schematic-view.active .dimension-line {
+            opacity: 1;
+        }
+
+        .dim-width {
+            top: 10%;
+            width: 40%;
+            height: 1px;
+            background: var(--line-primary);
+            border-left: 1px solid var(--line-primary);
+            border-right: 1px solid var(--line-primary);
+        }
+        
+        .dim-text {
+            background: var(--bg-deep);
+            padding: 0 4px;
+            color: var(--accent-cyan);
+            font-size: 0.8em;
+            position: absolute;
+            top: -0.6em;
+        }
+
+        /* Coordinate Markers (Corners) */
+        .corner-marker {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-color: var(--line-primary);
+            border-style: solid;
+            opacity: 0.7;
+        }
+        .tl { top: 10px; left: 10px; border-width: 2px 0 0 2px; }
+        .tr { top: 10px; right: 10px; border-width: 2px 2px 0 0; }
+        .bl { bottom: 10px; left: 10px; border-width: 0 0 2px 2px; }
+        .br { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; }
+
+        /* Bottom Info Panel (Title Block) */
+        .title-block {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            border: 2px solid var(--line-primary);
+            margin-top: 0.5em;
+        }
+
+        .tb-cell {
+            padding: 0.4em 0.8em;
+            border-right: 1px solid var(--line-primary);
+            border-bottom: 1px solid var(--line-primary);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .tb-cell:last-child {
+            border-right: none;
+        }
+
+        .tb-full {
+            grid-column: span 2;
+            border-bottom: none;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .label {
+            font-size: 0.6em;
+            color: var(--line-secondary);
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .value {
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        /* Animations */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        .scan-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 45%, rgba(34, 211, 238, 0.1) 50%, transparent 55%);
+            animation: scanline 4s linear infinite;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Responsive/Compact Adjustments */
+        @media (max-width: 350px) {
+            .title-block {
+                grid-template-columns: 1fr;
+            }
+            .tb-cell {
+                border-right: none;
+            }
+            .tb-full {
+                grid-column: span 1;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Main Square Container -->
+    <div class="blueprint-card">
+        
+        <!-- Layer 1: Grids & Visuals (Non-interactive) -->
+        <div class="grid-layer"></div>
+        <div class="vignette"></div>
+        <div class="scan-overlay"></div>
+
+        <!-- Layer 2: Content (Interactive) -->
+        <div class="ui-layer">
+            
+            <!-- Corners -->
+            <div class="corner-marker tl"></div>
+            <div class="corner-marker tr"></div>
+            <div class="corner-marker bl"></div>
+            <div class="corner-marker br"></div>
+
+            <!-- Top Header -->
+            <div class="top-bar">
+                <div>
+                    <div class="label">SYS.REF</div>
+                    <div class="project-code">BLUEPRINT-V1</div>
+                </div>
+                <div class="status-badge">DEMO MODE</div>
+            </div>
+
+            <!-- Main Diagram Area -->
+            <div class="schematic-view" id="schematicArea">
+                <!-- Interactive Part -->
+                <div class="mechanical-part" onclick="toggleAnalysis()">
+                    <div class="part-vertical-line"></div>
+                </div>
+                
+                <!-- Dimensions (Absolute relative to schematic-view) -->
+                <div class="dimensions">
+                    <div class="dimension-line dim-width" style="top: 15%;">
+                        <span class="dim-text">Ø 45.00mm</span>
+                    </div>
+                    <div class="dimension-line" style="right: 10%; height: 50%; width: 1px; background: var(--line-secondary); border-top: 1px solid white; border-bottom: 1px solid white;">
+                         <span class="dim-text" style="top: 50%; left: 5px; transform: translateY(-50%); background: transparent;">H 120</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Panel / Title Block -->
+            <div class="title-block">
+                <div class="tb-cell">
+                    <span class="label">COMPONENT</span>
+                    <span class="value">SERVO-GEAR-A7</span>
+                </div>
+                <div class="tb-cell">
+                    <span class="label">REV</span>
+                    <span class="value">2.4</span>
+                </div>
+                <div class="tb-cell">
+                    <span class="label">SCALE</span>
+                    <span class="value">1:1</span>
+                </div>
+                <div class="tb-cell">
+                    <span class="label">DATE</span>
+                    <span class="value" id="dateDisplay">2023-10-24</span>
+                </div>
+                <div class="tb-cell tb-full">
+                    <span class="label">COORDINATES</span>
+                    <span class="value" id="coords">X: 0.00 Y: 0.00</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Update Date
+        const dateEl = document.getElementById('dateDisplay');
+        const now = new Date();
+        dateEl.textContent = now.toISOString().split('T')[0];
+
+        // Coordinate Simulation
+        const schematic = document.getElementById('schematicArea');
+        const coordsEl = document.getElementById('coords');
+
+        // Mouse tracking for coordinate effect
+        schematic.addEventListener('mousemove', (e) => {
+            const rect = schematic.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width * 100).toFixed(2);
+            const y = ((e.clientY - rect.top) / rect.height * 100).toFixed(2);
+            coordsEl.textContent = `X: ${x} Y: ${y}`;
+            coordsEl.style.color = 'var(--accent-cyan)';
+        });
+
+        schematic.addEventListener('mouseleave', () => {
+            coordsEl.textContent = `X: 0.00 Y: 0.00`;
+            coordsEl.style.color = 'var(--line-primary)';
+        });
+
+        // Toggle Active State
+        function toggleAnalysis() {
+            schematic.classList.toggle('active');
+            const part = document.querySelector('.mechanical-part');
+            
+            if(schematic.classList.contains('active')) {
+                part.style.borderColor = 'var(--accent-cyan)';
+                part.style.boxShadow = '0 0 20px var(--accent-glow)';
+            } else {
+                part.style.borderColor = 'var(--line-primary)';
+                part.style.boxShadow = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

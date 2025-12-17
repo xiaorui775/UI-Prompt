@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bauhaus Style Demo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #f0f0f0;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .demo-wrapper {
+      width: clamp(300px, 90vw, 600px);
+      aspect-ratio: 1 / 1;
+      max-width: 600px;
+      position: relative;
+      overflow: hidden;
+      background: #fafafa;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+    }
+
+    .demo-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: clamp(12px, 5%, 30px);
+      position: relative;
+    }
+
+    /* Background grid - subtle */
+    .demo-container::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(#e0e0e0 1px, transparent 1px),
+        linear-gradient(90deg, #e0e0e0 1px, transparent 1px);
+      background-size: clamp(30px, 10%, 50px) clamp(30px, 10%, 50px);
+      opacity: 0.3;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Style badge */
+    .style-badge {
+      position: absolute;
+      top: clamp(8px, 3%, 15px);
+      left: clamp(8px, 3%, 15px);
+      background: #1a1a1a;
+      color: #fafafa;
+      padding: clamp(4px, 1.5%, 8px) clamp(8px, 2%, 12px);
+      font-size: clamp(10px, 2.5vw, 12px);
+      font-weight: 700;
+      letter-spacing: 1px;
+      z-index: 10;
+    }
+
+    /* Geometric shapes background */
+    .geo-shapes {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .shape {
+      position: absolute;
+      opacity: 0.75;
+    }
+
+    .circle-red {
+      width: clamp(80px, 25%, 120px);
+      height: clamp(80px, 25%, 120px);
+      background: #d32f2f;
+      border-radius: 50%;
+      top: clamp(5%, 5%, 15%);
+      right: clamp(5%, 5%, 15%);
+      animation: float-rotate 6s ease-in-out infinite;
+    }
+
+    .square-blue {
+      width: clamp(60px, 18%, 90px);
+      height: clamp(60px, 18%, 90px);
+      background: #1976d2;
+      bottom: clamp(10%, 10%, 20%);
+      left: clamp(5%, 5%, 15%);
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    .triangle-yellow {
+      width: 0;
+      height: 0;
+      border-left: clamp(30px, 8%, 50px) solid transparent;
+      border-right: clamp(30px, 8%, 50px) solid transparent;
+      border-bottom: clamp(50px, 14%, 85px) solid #fbc02d;
+      top: 50%;
+      right: clamp(15%, 15%, 25%);
+      transform: translateY(-50%);
+      animation: swing 5s ease-in-out infinite;
+    }
+
+    /* Main content */
+    .content {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      text-align: center;
+    }
+
+    .title {
+      font-size: clamp(24px, 6vw, 42px);
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: clamp(8px, 2%, 15px);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .title-accent {
+      color: #d32f2f;
+      display: block;
+      font-style: italic;
+    }
+
+    .principles {
+      display: flex;
+      justify-content: center;
+      gap: clamp(8px, 2%, 15px);
+      margin-bottom: clamp(12px, 3%, 20px);
+      flex-wrap: wrap;
+    }
+
+    .principle-tag {
+      background: #1a1a1a;
+      color: #fafafa;
+      padding: clamp(3px, 1%, 6px) clamp(6px, 1.5%, 10px);
+      font-size: clamp(8px, 2vw, 10px);
+      font-weight: 600;
+      border: 2px solid #1a1a1a;
+      letter-spacing: 0.5px;
+    }
+
+    .principle-tag:nth-child(2) {
+      background: transparent;
+      color: #1a1a1a;
+    }
+
+    .divider {
+      width: clamp(40px, 15%, 70px);
+      height: 3px;
+      background: #d32f2f;
+      margin: clamp(8px, 2%, 15px) auto;
+    }
+
+    .tagline {
+      font-size: clamp(10px, 2.2vw, 13px);
+      color: #666;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      max-width: 90%;
+      line-height: 1.4;
+    }
+
+    /* Animations */
+    @keyframes float-rotate {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-clamp(5px, 2%, 10px)) rotate(5deg); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    @keyframes swing {
+      0%, 100% { transform: translateY(-50%) rotate(-3deg); }
+      50% { transform: translateY(-50%) rotate(3deg); }
+    }
+
+    /* Interaction */
+    .demo-wrapper:hover .circle-red {
+      animation: float-rotate 4s ease-in-out infinite;
+    }
+
+    @media (max-width: 480px) {
+      .demo-wrapper {
+        width: 95vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-wrapper">
+    <div class="demo-container">
+      <div class="style-badge">BAUHAUS</div>
+      
+      <div class="geo-shapes">
+        <div class="shape circle-red"></div>
+        <div class="shape square-blue"></div>
+        <div class="shape triangle-yellow"></div>
+      </div>
+
+      <div class="content">
+        <h1 class="title">
+          FORM <span class="title-accent">FOLLOWS</span> FUNCTION
+        </h1>
+        
+        <div class="principles">
+          <span class="principle-tag">GEOMETRIC</span>
+          <span class="principle-tag">BOLD</span>
+          <span class="principle-tag">MINIMAL</span>
+        </div>
+
+        <div class="divider"></div>
+
+        <p class="tagline">
+          Pure design, timeless elegance. Since 1919.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Add subtle hover effect to shapes
+    const wrapper = document.querySelector('.demo-wrapper');
+    
+    wrapper.addEventListener('mouseenter', () => {
+      const shapes = document.querySelectorAll('.shape');
+      shapes.forEach((shape, index) => {
+        shape.style.animation = 'none';
+        setTimeout(() => {
+          shape.style.animation = '';
+        }, 10);
+      });
+    });
+  </script>
+</body>
+</html>

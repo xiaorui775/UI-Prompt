@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { loadFullFamily } from '../src/data/loaders/jsonStyleLoader.js';
+import { loadFullFamily } from '../src/data/loaders';
 
-describe('jsonStyleLoader - ID Preservation Tests', () => {
+describe('FamilyLoader - ID Preservation Tests', () => {
   it('should preserve full retro-digitalRetro ID (18 chars)', async () => {
     const family = await loadFullFamily('retro', 'digitalRetro');
 

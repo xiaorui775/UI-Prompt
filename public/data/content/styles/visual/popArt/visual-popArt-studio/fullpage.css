@@ -1,0 +1,24 @@
+/* Pop Art Studio - Base Styles */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Selection color override for pop art theme */
+::selection {
+  background-color: #000000;
+  color: #FFFF00;
+}
+
+::-moz-selection {
+  background-color: #000000;
+  color: #FFFF00;
+}

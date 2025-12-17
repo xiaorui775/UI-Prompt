@@ -25,24 +25,22 @@
     {
       "id": "industrial-strataos-dashboard",
       "title": {
-        "zh-CN": "StrataOS 工业仪表板",
-        "en-US": "StrataOS Industrial Dashboard"
-      },
-      "previewId": "industrial-strataos-dashboard"
+        "zh-CN": "Strata OS 仪表板",
+        "en-US": "Strata OS Dashboard"
+      }
     },
     {
       "id": "industrial-nexus-control",
       "title": {
         "zh-CN": "Nexus 控制中心",
-        "en-US": "Nexus Control Center"
-      },
-      "previewId": "industrial-nexus-control"
+        "en-US": "Nexus Control"
+      }
     },
     {
       "id": "visual-industrial-analog-synth",
       "title": {
-        "zh-CN": "模擬合成器介面",
-        "en-US": "Analog Synth Interface"
+        "zh-CN": "模拟合成器",
+        "en-US": "Analog Synth"
       }
     }
   ]

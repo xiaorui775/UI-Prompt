@@ -5,9 +5,36 @@
     <link rel="icon" type="image/png" href="/src/assets/icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>UI Style Prompt</title>
+
+    <!-- OPTIMIZATION Phase 3: Resource Hints for Faster Loading -->
+    <!-- Preconnect to critical origins (saves DNS + TCP + TLS time) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+
+    <!-- DNS Prefetch for secondary resources -->
+    <link rel="dns-prefetch" href="https://unpkg.com" />
+
+    <!-- Prefetch critical data for faster navigation -->
+    <link rel="prefetch" href="/data/preview-id-map.json" as="fetch" crossorigin />
+    <link rel="prefetch" href="/data/styles-index.json" as="fetch" crossorigin />
+    <link rel="prefetch" href="/data/compiled-jsx-index.json" as="fetch" crossorigin />
+
+    <!-- Preload critical assets (high priority) -->
+    <link rel="modulepreload" href="/src/main.jsx" />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+
+    <!-- OPTIMIZATION: Register Service Worker for offline caching -->
+    <script>
+      if ('serviceWorker' in navigator && location.hostname !== 'localhost') {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+      }
+    </script>
   </body>
 </html>

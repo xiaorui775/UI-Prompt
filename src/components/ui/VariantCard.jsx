@@ -3,6 +3,7 @@ import { useLanguage } from '../../hooks/useLanguage'
 import { translateHTML } from "../../utils/i18n/translations"
 import DOMPurify from 'dompurify'
 import { injectAppStylesIntoIframe } from '../../utils/previewCss'
+import { useSharedIntersectionObserver } from '../../hooks/useSharedIntersectionObserver'
 import appCssUrl from '../../index.css?url'
 
 /**
@@ -18,24 +19,25 @@ export function VariantCard({
   const { language, t } = useLanguage()
   const iframeRef = useRef(null)
   const containerRef = useRef(null)
-  const [isIntersecting, setIsIntersecting] = useState(true)
+  const [isIntersecting, setIsIntersecting] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
   const [cardSize] = useState('normal') // 'small' | 'normal' | 'large'
   const [readyToInject, setReadyToInject] = useState(false)
   const [hasInjected, setHasInjected] = useState(false)
 
-  // 觀察出現在視窗中（延後渲染）
+  // Use shared IntersectionObserver for efficient visibility detection
+  const sharedObserverRef = useSharedIntersectionObserver(
+    () => setIsIntersecting(true),
+    { threshold: 0.01, rootMargin: '300px' }
+  )
+
+  // Since containerRef is only used for intersection, directly use sharedObserverRef
+  // Update: keep containerRef for potential future use, but use sharedObserverRef for DOM
   useEffect(() => {
-    if (!containerRef.current) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setIsIntersecting(true)
-      },
-      { threshold: 0.01, rootMargin: '300px' }
-    )
-    observer.observe(containerRef.current)
-    return () => observer.disconnect()
-  }, [])
+    if (sharedObserverRef.current) {
+      containerRef.current = sharedObserverRef.current
+    }
+  }, [sharedObserverRef])
 
   // 空閒時允許注入，降低主线阻塞
   useEffect(() => {
@@ -127,7 +129,7 @@ export function VariantCard({
 
   return (
     <div
-      ref={containerRef}
+      ref={sharedObserverRef}
       className={`
         variant-card-${cardSize}
         bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden

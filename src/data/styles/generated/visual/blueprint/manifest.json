@@ -1,0 +1,25 @@
+{
+  "id": "visual-blueprint",
+  "category": "visual",
+  "family": {
+    "name": {
+      "zh-CN": "Blueprint（蓝图风格）",
+      "en-US": "Blueprint"
+    },
+    "description": {
+      "zh-CN": "技术蓝图风格的界面设计，采用工程图纸美学，展现严谨的结构化布局和专业的技术氛围",
+      "en-US": "Technical blueprint-style interface design with engineering drawing aesthetics, showcasing rigorous structured layouts and professional technical atmosphere"
+    },
+    "tags": ["technical", "engineering", "grid", "professional"],
+    "relatedStyles": ["visual-sciFiHud", "visual-industrial"]
+  },
+  "templates": [
+    {
+      "id": "visual-blueprint",
+      "title": {
+        "zh-CN": "结构完整性监控仪表板",
+        "en-US": "Structural Integrity Dashboard"
+      }
+    }
+  ]
+}

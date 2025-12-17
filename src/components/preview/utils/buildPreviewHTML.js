@@ -448,6 +448,7 @@ function buildHTMLDocument({
 
 /**
  * 構建加載中骨架頁面
+ * 使用與 PreviewModal 一致的 minimalism-loader 樣式
  * @param {string} loadingText - 加載提示文字
  * @returns {string} 骨架頁面 HTML
  */
@@ -461,9 +462,52 @@ function buildLoadingHTML(loadingText = 'Loading...', language = 'en-US') {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${loadingText}</title>
   <link rel="stylesheet" href="${appCssUrl}">
-  <style>body{font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto;} .center{display:flex;align-items:center;justify-content:center;height:60vh;color:#666}</style>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: white;
+    }
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: #111827;
+      }
+    }
+    .minimalism-loader {
+      display: flex;
+      gap: 10px;
+    }
+    .minimalism-loader-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      background: #d1d5db;
+      animation: pulse 1s ease-in-out infinite;
+    }
+    @media (prefers-color-scheme: dark) {
+      .minimalism-loader-dot {
+        background: #4b5563;
+      }
+    }
+    .minimalism-loader-dot:nth-child(2) { animation-delay: 0.15s; }
+    .minimalism-loader-dot:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.3; transform: translateY(0); }
+      50% { opacity: 1; transform: translateY(-6px); }
+    }
+  </style>
 </head>
-<body><div class="center">${loadingText}</div>
+<body>
+  <div class="minimalism-loader" aria-label="${loadingText}">
+    <div class="minimalism-loader-dot"></div>
+    <div class="minimalism-loader-dot"></div>
+    <div class="minimalism-loader-dot"></div>
+  </div>
   <script>${INTERACTIVE_SCRIPT}</script>
 </body>
 </html>`;

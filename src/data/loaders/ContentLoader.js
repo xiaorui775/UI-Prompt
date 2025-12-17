@@ -5,6 +5,7 @@
 
 import { isValidPreactJSX, detectJSXMode, validateJSX } from '../../utils/jsxPreprocessor';
 import { createLogger } from '../../utils/logger';
+import { buildContentPath } from './config/pathHelper.js';
 
 const logger = createLogger('ContentLoader');
 
@@ -17,7 +18,24 @@ export async function fetchText(url) {
   try {
     const response = await fetch(url);
     if (response.ok) {
-      return await response.text();
+      const text = await response.text();
+
+      // Guard against Vite SPA fallback returning index.html for missing files
+      // When a requested file doesn't exist, Vite dev server may return index.html (200 OK)
+      // instead of 404. Detect this by checking if the response looks like HTML
+      // when we're expecting CSS, JSX, or JS content.
+      const isHtmlContent = text.trim().toLowerCase().startsWith('<!doctype') ||
+                           text.trim().toLowerCase().startsWith('<html');
+      const expectsNonHtml = url.endsWith('.css') ||
+                            url.endsWith('.jsx') ||
+                            url.endsWith('.js');
+
+      if (isHtmlContent && expectsNonHtml) {
+        logger.warn(`SPA fallback detected for ${url}, returning empty string`);
+        return '';
+      }
+
+      return text;
     }
     return '';
   } catch {
@@ -62,28 +80,31 @@ function processJSX(jsxContent, basePath) {
 
 /**
  * 動態加載 Template 的 HTML/CSS/JSX 內容
+ * OPTIMIZATION: All files now loaded in parallel to eliminate waterfall delays
  * @param {string} category - 分類 ID
  * @param {string} familyId - Family ID
  * @param {string} templateId - Template ID
  * @returns {Promise<Object>} 內容對象 { demoHTML, customStyles, fullPageHTML, fullPageStyles, fullPageJSX, ... }
  */
 export async function loadTemplateContent(category, familyId, templateId) {
-  // 使用 public 資料夾路徑（Vite 會正確服務這些靜態文件）
-  const basePath = `/data/content/styles/${category}/${familyId}/${templateId}`;
+  // 使用 buildContentPath 支持子路徑部署
+  const basePath = buildContentPath(`styles/${category}/${familyId}/${templateId}`);
 
-  const [demoHtml, demoCss, fullPageHtml, fullPageCss] = await Promise.all([
+  // OPTIMIZATION: Fetch ALL files in parallel (HTML, CSS, JSX)
+  // This eliminates sequential waterfall for JSX files (saves 100-200ms)
+  const [demoHtml, demoCss, fullPageHtml, fullPageCss, fullPageJsxRaw, demoJsxRaw] = await Promise.all([
     fetchText(`${basePath}/demo.html`),
     fetchText(`${basePath}/demo.css`),
     fetchText(`${basePath}/fullpage.html`),
-    fetchText(`${basePath}/fullpage.css`)
+    fetchText(`${basePath}/fullpage.css`),
+    fetchText(`${basePath}/fullpage.jsx`),
+    fetchText(`${basePath}/demo.jsx`)
   ]);
 
   // ========================================
-  // JSX 文件加載（優先級：fullpage.jsx > demo.jsx）
+  // JSX 文件處理（優先級：fullpage.jsx > demo.jsx）
   // 支持 Preact h() 和 React JSX 兩種模式
   // ========================================
-  let fullPageJsxRaw = await fetchText(`${basePath}/fullpage.jsx`);
-  let demoJsxRaw = '';
   let effectiveJsx = '';
   let renderMode = undefined;
   let jsxMode = null;
@@ -99,16 +120,13 @@ export async function loadTemplateContent(category, familyId, templateId) {
   }
 
   // 如果 fullpage.jsx 不存在或無效，嘗試 demo.jsx
-  if (!effectiveJsx) {
-    demoJsxRaw = await fetchText(`${basePath}/demo.jsx`);
-    if (demoJsxRaw) {
-      const result = processJSX(demoJsxRaw, basePath);
-      if (result.jsx) {
-        effectiveJsx = result.jsx;
-        renderMode = result.renderMode;
-        jsxMode = result.jsxMode;
-        logger.debug(`使用 demo.jsx: ${basePath}`);
-      }
+  if (!effectiveJsx && demoJsxRaw) {
+    const result = processJSX(demoJsxRaw, basePath);
+    if (result.jsx) {
+      effectiveJsx = result.jsx;
+      renderMode = result.renderMode;
+      jsxMode = result.jsxMode;
+      logger.debug(`使用 demo.jsx: ${basePath}`);
     }
   }
 
@@ -133,8 +151,8 @@ export async function loadTemplateContent(category, familyId, templateId) {
  * @returns {Promise<Object>} 內容對象 { fullPageHTML, fullPageStyles, fullPageScript, fullPageJSX, ... }
  */
 export async function loadPreviewContent(category, familyId, previewId) {
-  // 使用 public 資料夾路徑
-  const basePath = `/data/content/styles/${category}/${familyId}/${previewId}`;
+  // 使用 buildContentPath 支持子路徑部署
+  const basePath = buildContentPath(`styles/${category}/${familyId}/${previewId}`);
 
   // 先嘗試 JSX，再回退 HTML
   const [fullPageHtml, fullPageCss, fullPageJs, fullPageJsxRaw, demoJsxRaw] = await Promise.all([
@@ -189,8 +207,8 @@ export async function loadPreviewContent(category, familyId, previewId) {
  * @returns {Promise<Object>} Family 內容對象 { demoHTML, customStyles }
  */
 export async function loadFamilyContent(category, familyId) {
-  // 使用 public 資料夾路徑
-  const basePath = `/data/content/styles/${category}/${familyId}`;
+  // 使用 buildContentPath 支持子路徑部署
+  const basePath = buildContentPath(`styles/${category}/${familyId}`);
 
   const [demoHtml, demoCss] = await Promise.all([
     fetchText(`${basePath}/demo.html`),

@@ -1,7 +1,8 @@
 import { useMemo, useState, useEffect } from 'react';
 import DOMPurify from 'dompurify';
-import { compileForIframe, containsJSX } from '../../utils/jsxCompiler';
+import { compileForIframe, containsJSX, compileJSX } from '../../utils/jsxCompiler';
 import { generatePreactIframeHTML } from '../../utils/preactRuntime';
+import { generateReactIframeHTML } from '../../utils/reactRuntime';
 
 /**
  * 實時預覽組件
@@ -24,6 +25,7 @@ export function LivePreview({
   const [debouncedJsx, setDebouncedJsx] = useState(jsx);
   const [compileError, setCompileError] = useState(null);
   const [compiledJsxDoc, setCompiledJsxDoc] = useState('');
+  const [compiledReactJsxDoc, setCompiledReactJsxDoc] = useState('');  // ✨ React JSX 專用
 
   // 防抖更新 HTML/CSS（500ms）
   useEffect(() => {
@@ -156,6 +158,115 @@ export function LivePreview({
     };
   }, [debouncedJsx, debouncedCss, renderMode, title]);
 
+  // ✨ React JSX 編譯效果（新增）
+  useEffect(() => {
+    // 如果不是 react-jsx 模式或沒有 JSX 代碼，跳過
+    if (renderMode !== 'react-jsx' || !debouncedJsx) {
+      setCompiledReactJsxDoc('');
+      return;
+    }
+
+    let cancelled = false;
+
+    const compileReactJsx = async () => {
+      try {
+        setCompileError(null);
+
+        // 使用 compileJSX 編譯 React JSX（mode: 'react'）
+        const result = await compileJSX(debouncedJsx, {
+          componentName: 'App',
+          mode: 'react'
+        });
+
+        if (cancelled) return;
+
+        // result 是對象：{ code, componentName, mode, lucideIcons }
+        const { code, componentName: extractedName } = result;
+
+        // 使用 generateReactIframeHTML 生成 React 運行時 HTML
+        const fullHTML = generateReactIframeHTML({
+          compiledCode: code,
+          componentName: extractedName || 'App',
+          customStyles: debouncedCss,
+          title: title,
+          mountId: 'root',
+          theme: 'light'
+        });
+
+        setCompiledReactJsxDoc(fullHTML);
+      } catch (error) {
+        if (cancelled) return;
+
+        console.error('React JSX compilation error:', error);
+        setCompileError(error.message || '編譯錯誤');
+
+        // 顯示錯誤頁面
+        setCompiledReactJsxDoc(`
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+      background: #1e1e1e;
+      color: #f48771;
+    }
+    .error-container {
+      background: #2d2020;
+      border: 1px solid #f48771;
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .error-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .error-message {
+      font-size: 14px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .error-hint {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid #444;
+      color: #888;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="error-container">
+    <div class="error-title">
+      <span>⚠️</span>
+      <span>React JSX 編譯錯誤</span>
+    </div>
+    <div class="error-message">${escapeHtml(error.message || '未知錯誤')}</div>
+    <div class="error-hint">
+      💡 提示：檢查 React JSX 語法是否正確，確保組件函數已正確定義
+    </div>
+  </div>
+</body>
+</html>
+        `);
+      }
+    };
+
+    compileReactJsx();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [debouncedJsx, debouncedCss, renderMode, title]);
+
   // 構建 HTML 預覽文檔
   const htmlPreviewDoc = useMemo(() => {
     // 檢測是否為完整 HTML 文檔
@@ -221,16 +332,21 @@ export function LivePreview({
 
   // 決定使用哪個預覽文檔
   const previewDoc = useMemo(() => {
+    // ✨ React JSX 模式優先
+    if (renderMode === 'react-jsx' && debouncedJsx && compiledReactJsxDoc) {
+      return compiledReactJsxDoc;
+    }
+    // Preact JSX 模式
     if (renderMode === 'jsx' && debouncedJsx && compiledJsxDoc) {
       return compiledJsxDoc;
     }
     return htmlPreviewDoc;
-  }, [renderMode, debouncedJsx, compiledJsxDoc, htmlPreviewDoc]);
+  }, [renderMode, debouncedJsx, compiledJsxDoc, compiledReactJsxDoc, htmlPreviewDoc]);
 
   return (
     <div className="h-full w-full relative">
-      {/* 編譯錯誤提示條 */}
-      {compileError && renderMode === 'jsx' && (
+      {/* 編譯錯誤提示條 - 支援 jsx 和 react-jsx 模式 */}
+      {compileError && (renderMode === 'jsx' || renderMode === 'react-jsx') && (
         <div className="absolute top-0 left-0 right-0 z-10 bg-red-900 text-white text-xs px-3 py-2 flex items-center gap-2">
           <span>⚠️</span>
           <span className="truncate">編譯錯誤：{compileError}</span>

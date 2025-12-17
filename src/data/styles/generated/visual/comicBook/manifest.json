@@ -1,0 +1,28 @@
+{
+  "id": "visual-comicBook",
+  "category": "visual",
+  "family": {
+    "name": {
+      "zh-CN": "Comic Book（漫画书）",
+      "en-US": "Comic Book"
+    },
+    "description": {
+      "zh-CN": "经典美式漫画书风格，分格布局、动作线条、对话气泡、半色调点阵与超级英雄视觉元素",
+      "en-US": "Classic American comic book style featuring panel layouts, action lines, speech bubbles, halftone dots, and superhero visual elements"
+    },
+    "tags": [
+      "comic",
+      "action",
+      "superhero",
+      "panels",
+      "dynamic",
+      "bold"
+    ],
+    "relatedStyles": [
+      "popArt",
+      "neoBrutalism",
+      "handDrawnSketch"
+    ]
+  },
+  "templates": []
+}

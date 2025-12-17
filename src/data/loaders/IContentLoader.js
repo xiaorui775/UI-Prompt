@@ -276,7 +276,7 @@ export async function createStyleLoaderAdapter() {
     loadCategory,
     getAvailableCategories,
     parseStyleId
-  } = await import('./jsonStyleLoader.js');
+  } = await import('./index.js');
 
   const registry = await import('../styles/_registry.json');
 

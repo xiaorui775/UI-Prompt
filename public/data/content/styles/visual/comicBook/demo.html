@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comic Book UI Demo</title>
+    <!-- Google Fonts for Authentic Comic Style -->
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:ital,wght@0,400;0,700;1,700&display=swap" rel="stylesheet">
+    <style>
+        /* --- VARIABLES & RESET --- */
+        :root {
+            --comic-red: #E23636;
+            --comic-blue: #1E90FF;
+            --comic-yellow: #FFD700;
+            --comic-green: #2ecc71;
+            --comic-paper: #FFFEF0;
+            --comic-black: #000000;
+            --border-thick: 3px solid var(--comic-black);
+            --border-thin: 2px solid var(--comic-black);
+            --shadow-hard: 4px 4px 0px var(--comic-black);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: #2C2C2C;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Comic Neue', cursive;
+            padding: 1rem;
+        }
+
+        /* --- MAIN CONTAINER (Square Shape Demo) --- */
+        .comic-wrapper {
+            width: 100%;
+            max-width: 500px; /* Limits size for demo */
+            aspect-ratio: 1 / 1; /* Forces Square Shape */
+            background-color: var(--comic-paper);
+            border: 4px solid var(--comic-black);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+        }
+
+        /* --- BACKGROUND NOISE (Non-intrusive) --- */
+        .halftone-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* CSS Radial Gradient Halftone Pattern */
+            background-image: radial-gradient(var(--comic-blue) 15%, transparent 16%),
+                              radial-gradient(var(--comic-red) 15%, transparent 16%);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            opacity: 0.1;
+            z-index: 0; /* Strictly background */
+            pointer-events: none; /* No interaction interference */
+        }
+
+        /* --- LAYOUT GRID --- */
+        .comic-layout {
+            position: relative;
+            z-index: 1; /* Above background */
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-rows: 15% 50% 35%;
+            padding: 2%;
+            gap: 2%;
+        }
+
+        /* --- HEADER SECTION --- */
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2%;
+        }
+
+        .brand-badge {
+            background: var(--comic-yellow);
+            border: var(--border-thin);
+            padding: 0.2rem 0.5rem;
+            transform: rotate(-2deg);
+            box-shadow: 2px 2px 0 var(--comic-black);
+        }
+        
+        .brand-badge span {
+            font-family: 'Bangers', cursive;
+            font-size: clamp(1rem, 4vw, 1.5rem); /* Responsive Font */
+            letter-spacing: 1px;
+        }
+
+        .issue-number {
+            font-weight: bold;
+            font-size: 0.8rem;
+            border-bottom: 2px solid var(--comic-black);
+        }
+
+        /* --- ACTION PANEL (Hero Area) --- */
+        .hero-panel {
+            background: var(--comic-blue);
+            border: var(--border-thick);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-hard);
+            /* Dynamic Angle */
+            clip-path: polygon(0% 0%, 100% 2%, 98% 100%, 2% 95%);
+            transition: transform 0.2s ease;
+        }
+
+        .hero-panel:hover {
+            transform: scale(1.02) rotate(1deg);
+        }
+
+        /* Speed lines created with CSS */
+        .speed-lines {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: repeating-conic-gradient(
+                from 0deg,
+                rgba(255,255,255,0.2) 0deg 5deg,
+                transparent 5deg 15deg
+            );
+            animation: spin 10s linear infinite;
+        }
+
+        .hero-text {
+            font-family: 'Bangers', cursive;
+            color: var(--comic-yellow);
+            font-size: clamp(2.5rem, 10vw, 4rem);
+            text-transform: uppercase;
+            text-shadow: 
+                3px 3px 0 var(--comic-black),
+                -1px -1px 0 var(--comic-black),  
+                1px -1px 0 var(--comic-black),
+                -1px 1px 0 var(--comic-black),
+                1px 1px 0 var(--comic-black);
+            z-index: 2;
+            transform: rotate(-5deg);
+            pointer-events: none;
+        }
+
+        /* --- BOTTOM ROW (Interactions) --- */
+        .bottom-row {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 3%;
+        }
+
+        /* Dialogue Box */
+        .dialogue-panel {
+            border: var(--border-thick);
+            background: white;
+            padding: 5%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-hard);
+        }
+
+        .speech-bubble {
+            font-size: clamp(0.7rem, 2.5vw, 1rem);
+            line-height: 1.2;
+            text-align: center;
+        }
+
+        .speech-tail {
+            position: absolute;
+            bottom: -15px;
+            left: 20px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-left: 3px solid black;
+            border-bottom: 3px solid black;
+            transform: skew(30deg);
+        }
+
+        /* Action Button Container */
+        .action-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* The Explosion Button */
+        .boom-btn {
+            background: var(--comic-red);
+            color: var(--comic-yellow);
+            border: none;
+            font-family: 'Bangers', cursive;
+            font-size: clamp(1.2rem, 5vw, 2rem);
+            padding: 1rem;
+            cursor: pointer;
+            position: relative;
+            /* Jagged Star Shape */
+            clip-path: polygon(
+                20% 0%, 40% 20%, 60% 0%, 75% 30%, 
+                100% 20%, 85% 50%, 100% 80%, 
+                70% 75%, 60% 100%, 40% 75%, 
+                20% 100%, 25% 60%, 0% 80%, 15% 45%, 0% 20%
+            );
+            width: 100%;
+            height: 100%;
+            transition: transform 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 2px 2px 0 var(--comic-black);
+            /* Fake border via drop-shadow since border doesn't work well with clip-path */
+            filter: drop-shadow(4px 4px 0px var(--comic-black));
+        }
+
+        .boom-btn:active {
+            transform: scale(0.95);
+            filter: drop-shadow(1px 1px 0px var(--comic-black));
+        }
+
+        /* --- DYNAMIC SOUND EFFECT (JS) --- */
+        .sound-effect {
+            position: absolute;
+            font-family: 'Bangers', cursive;
+            font-size: 2rem;
+            color: var(--comic-white);
+            background: transparent;
+            pointer-events: none;
+            z-index: 100;
+            text-shadow: 2px 2px 0px black;
+            animation: popOut 0.6s forwards;
+            white-space: nowrap;
+        }
+        
+        /* Styles for specific words */
+        .fx-pow { color: var(--comic-red); transform: rotate(-15deg); }
+        .fx-bam { color: var(--comic-blue); transform: rotate(15deg); }
+        .fx-zap { color: var(--comic-yellow); color: #000; -webkit-text-stroke: 1px var(--comic-yellow); }
+
+        @keyframes popOut {
+            0% { transform: scale(0) translate(-50%, -50%); opacity: 1; }
+            50% { transform: scale(1.5) translate(-50%, -50%); }
+            100% { transform: scale(2) translate(-50%, -100%); opacity: 0; }
+        }
+
+        @keyframes spin {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* --- RESPONSIVE TWEAKS --- */
+        /* If screen is extremely small */
+        @media (max-width: 300px) {
+            .comic-layout { grid-template-rows: 15% 40% 45%; }
+            .bottom-row { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Square Container -->
+    <div class="comic-wrapper" id="comicWrapper">
+        
+        <!-- Background Layer (Strictly Background) -->
+        <div class="halftone-bg"></div>
+
+        <!-- Layout Grid -->
+        <div class="comic-layout">
+            
+            <!-- Header -->
+            <div class="header-section">
+                <div class="brand-badge">
+                    <span>MARVELOUS UI</span>
+                </div>
+                <div class="issue-number">VOL. 1</div>
+            </div>
+
+            <!-- Panel 1: Hero Image/Action -->
+            <div class="hero-panel" id="heroPanel">
+                <div class="speed-lines"></div>
+                <div class="hero-text">COMIC STYLE!</div>
+            </div>
+
+            <!-- Panel 2: Bottom Row -->
+            <div class="bottom-row">
+                <!-- Dialogue -->
+                <div class="dialogue-panel">
+                    <div class="speech-bubble">
+                        <b>DESIGNER:</b> "This style uses bold lines and vibrant colors to pop!"
+                    </div>
+                    <div class="speech-tail"></div>
+                </div>
+
+                <!-- CTA Button -->
+                <div class="action-area">
+                    <button class="boom-btn" onclick="createExplosion(event)">
+                        CLICK<br>ME!
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const wrapper = document.getElementById('comicWrapper');
+        const words = ['POW!', 'BAM!', 'ZAP!', 'CRASH!', 'BOOM!'];
+        const classes = ['fx-pow', 'fx-bam', 'fx-zap'];
+
+        // Function to create comic book sound effects on click
+        function createExplosion(e) {
+            // Get coordinates relative to the wrapper
+            const rect = wrapper.getBoundingClientRect();
+            let x, y;
+
+            // If triggered by button click (event might be on button, not wrapper)
+            if(e.type === 'click') {
+                x = e.clientX - rect.left;
+                y = e.clientY - rect.top;
+            }
+
+            // Create FX Element
+            const fx = document.createElement('div');
+            const randomWord = words[Math.floor(Math.random() * words.length)];
+            const randomClass = classes[Math.floor(Math.random() * classes.length)];
+
+            fx.classList.add('sound-effect', randomClass);
+            fx.innerText = randomWord;
+            
+            // Position
+            fx.style.left = x + 'px';
+            fx.style.top = y + 'px';
+
+            wrapper.appendChild(fx);
+
+            // Cleanup after animation
+            setTimeout(() => {
+                fx.remove();
+            }, 600);
+        }
+
+        // Add click listener to whole wrapper for interactive fun
+        wrapper.addEventListener('click', (e) => {
+            // Only trigger if not clicking the button (button has its own trigger)
+            if (!e.target.closest('.boom-btn')) {
+                createExplosion(e);
+            }
+        });
+
+        // Slight 3D Tilt Effect on Mouse Move
+        wrapper.addEventListener('mousemove', (e) => {
+            const rect = wrapper.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const xPct = x / rect.width;
+            const yPct = y / rect.height;
+
+            const rotateX = (0.5 - yPct) * 10; // Max 5 deg
+            const rotateY = (xPct - 0.5) * 10;
+
+            document.getElementById('heroPanel').style.transform = 
+                `perspective(500px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+
+        // Reset tilt on mouse leave
+        wrapper.addEventListener('mouseleave', () => {
+            document.getElementById('heroPanel').style.transform = 
+                `perspective(500px) rotateX(0deg) rotateY(0deg)`;
+        });
+    </script>
+</body>
+</html>

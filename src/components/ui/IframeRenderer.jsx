@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, memo } from 'react';
 import PropTypes from 'prop-types';
 import { cachedSanitize } from '../../utils/sanitizeCache';
 import appCssUrl from '../../index.css?url';
@@ -32,7 +32,7 @@ export function IframeRenderer({
   demoHTML,
   customStyles = '',
   id,
-  language,  // eslint-disable-line no-unused-vars -- Reserved for future i18n in iframe
+  language,
   layoutMode = 'centered',
   demoBoxClass = 'bg-gray-50 dark:bg-gray-900',
   demoBoxStyle = {},
@@ -139,32 +139,6 @@ export function IframeRenderer({
   };
 
   /**
-   * 初始化 iframe 內的基本交互功能
-   * 目前支持：
-   * - .paint-toolbox 內的 .tool-button 單選 active 狀態
-   */
-  const initInteractivity = (iframe) => {
-    if (!enableInteractivity) return;
-
-    try {
-      const doc = iframe.contentDocument || iframe.contentWindow?.document;
-      if (!doc) return;
-
-      // 工具箱切換：.paint-toolbox 內 .tool-button 單選 active
-      doc.addEventListener('click', (e) => {
-        const btn = e.target.closest?.('.tool-button');
-        if (!btn) return;
-        const container = btn.closest?.('.paint-toolbox');
-        if (!container) return;
-        container.querySelectorAll?.('.tool-button.active')?.forEach((el) => el.classList.remove('active'));
-        btn.classList.add('active');
-      }, true);
-    } catch {
-      // 忽略 iframe 內初始互動失敗，不影響主要渲染
-    }
-  };
-
-  /**
    * 渲染 HTML 到 iframe
    */
   useEffect(() => {
@@ -175,6 +149,9 @@ export function IframeRenderer({
 
     const doc = iframe.contentDocument || iframe.contentWindow?.document;
     if (!doc) return;
+
+    // Track cleanup function for event listeners
+    let cleanupFn = null;
 
     // 步驟 1: 清理 HTML
     const { scripts: externalScripts, links: externalLinks } = extractAllowedExternalAssets(demoHTML);
@@ -241,11 +218,43 @@ ${externalAssetsHTML}
       doc.write(html);
       doc.close();
 
-      // 步驟 5: 初始化交互
-      if (doc.readyState === 'complete' || doc.readyState === 'interactive') {
-        initInteractivity(iframe);
-      } else {
-        doc.addEventListener('DOMContentLoaded', () => initInteractivity(iframe), { once: true });
+      // 步驟 5: 初始化交互 (inline with cleanup tracking)
+      if (enableInteractivity) {
+        try {
+          const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+          if (iframeDoc) {
+            // 工具箱切換：.paint-toolbox 內 .tool-button 單選 active
+            // 使用 bubble phase (false) 而非 capture phase 以提升性能
+            const handleToolClick = (e) => {
+              const btn = e.target.closest?.('.tool-button');
+              if (!btn) return;
+              const container = btn.closest?.('.paint-toolbox');
+              if (!container) return;
+
+              // 使用 requestAnimationFrame 批次處理 DOM 更新
+              requestAnimationFrame(() => {
+                container.querySelectorAll?.('.tool-button.active')?.forEach((el) => el.classList.remove('active'));
+                btn.classList.add('active');
+              });
+            };
+
+            const initInteractivity = () => {
+              iframeDoc.addEventListener('click', handleToolClick, false);
+              // Store cleanup function
+              cleanupFn = () => {
+                iframeDoc.removeEventListener('click', handleToolClick, false);
+              };
+            };
+
+            if (iframeDoc.readyState === 'complete' || iframeDoc.readyState === 'interactive') {
+              initInteractivity();
+            } else {
+              iframeDoc.addEventListener('DOMContentLoaded', initInteractivity, { once: true });
+            }
+          }
+        } catch {
+          // 忽略 iframe 內初始互動失敗，不影響主要渲染
+        }
       }
 
       // 步驟 6: 觸發加載完成回調
@@ -255,6 +264,13 @@ ${externalAssetsHTML}
     } catch (error) {
       logger.error('Failed to write iframe document', error);
     }
+
+    // Cleanup: remove event listeners when component unmounts or deps change
+    return () => {
+      if (cleanupFn) {
+        cleanupFn();
+      }
+    };
   }, [isVisible, demoHTML, customStyles, layoutMode, enableInteractivity, onIframeLoad]);
 
   // 如果不可見，顯示佔位符
@@ -307,3 +323,7 @@ IframeRenderer.propTypes = {
   /** 是否啟用交互 */
   enableInteractivity: PropTypes.bool
 };
+
+// OPTIMIZATION Phase 4: Memoize IframeRenderer to prevent re-renders
+// Component only updates when demoHTML, customStyles, or key props change
+export default memo(IframeRenderer);

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef } from 'react';
 
 // Shared observer instance across all components
 let sharedObserver = null;
@@ -62,7 +62,8 @@ export function useSharedIntersectionObserver(onVisible, options = {}) {
         observerRegistry.delete(element);
       }
     };
-  }, []); // Empty deps - setup once per component
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty deps - setup once per component, options used only on first observer creation
 
   return elementRef;
 }

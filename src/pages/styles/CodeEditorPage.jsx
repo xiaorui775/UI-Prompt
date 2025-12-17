@@ -30,6 +30,7 @@ export function CodeEditorPage() {
   const [isVertical, setIsVertical] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [originalCode, setOriginalCode] = useState({ html: '', css: '', jsx: '' });  // ✨ 新增 jsx
+  const [actualRenderMode, setActualRenderMode] = useState('');  // ✨ 新增：從 loadPreview 獲取的實際 renderMode
 
   // 預覽索引
   const [activeIndex, setActiveIndex] = useState(0);
@@ -97,6 +98,7 @@ export function CodeEditorPage() {
 
       let html = '';
       let css = '';
+      let jsx = '';  // ✨ 新增：JSX 代碼
 
       // 優先從 previewId 異步加載，添加安全邊界檢查
       const current = (previewsList && previewsList.length > 0)
@@ -106,30 +108,46 @@ export function CodeEditorPage() {
 
       if (previewId) {
         try {
-          const { html: asyncHtml, styles: asyncStyles } = await loadPreview(previewId);
-          html = asyncHtml || '';
+          // ✨ 修復：同時獲取 renderMode 和 jsx
+          const previewResult = await loadPreview(previewId);
+          const { html: asyncHtml, styles: asyncStyles, renderMode: asyncRenderMode, jsx: asyncJsx } = previewResult;
 
-          // 檢測是否為完整 HTML 文檔
-          const isCompleteDoc = html.trim().startsWith('<!DOCTYPE') ||
-                                /^<html[\s>]/i.test(html.trim());
+          // ✨ 設置實際的 renderMode（從 loadPreview 獲取）
+          if (asyncRenderMode) {
+            setActualRenderMode(asyncRenderMode);
+          }
 
-          if (isCompleteDoc) {
-            // 完整文檔：保持 HTML 原樣，CSS 使用外部加載的 styles
-            // 不要從 HTML 中提取/移除 <style> 標籤，因為文檔可能包含 Tailwind 配置等重要腳本
+          // ✨ 如果有 JSX 代碼（React 或 Preact），優先使用
+          if (asyncJsx && (asyncRenderMode === 'react-jsx' || asyncRenderMode === 'jsx')) {
+            jsx = asyncJsx;
             css = asyncStyles || '';
+            // JSX 模式不需要 HTML
+            html = '';
           } else {
-            // HTML 片段：如果 styles 為空，嘗試從 HTML 中提取 <style> 內容
-            if (!asyncStyles && asyncHtml) {
-              const styleMatch = asyncHtml.match(/<style[^>]*>([\s\S]*?)<\/style>/i);
-              if (styleMatch) {
-                css = styleMatch[1].trim();
-                // 從 HTML 中移除 <style> 標籤，避免重複
-                html = asyncHtml.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '').trim();
+            html = asyncHtml || '';
+
+            // 檢測是否為完整 HTML 文檔
+            const isCompleteDoc = html.trim().startsWith('<!DOCTYPE') ||
+                                  /^<html[\s>]/i.test(html.trim());
+
+            if (isCompleteDoc) {
+              // 完整文檔：保持 HTML 原樣，CSS 使用外部加載的 styles
+              // 不要從 HTML 中提取/移除 <style> 標籤，因為文檔可能包含 Tailwind 配置等重要腳本
+              css = asyncStyles || '';
+            } else {
+              // HTML 片段：如果 styles 為空，嘗試從 HTML 中提取 <style> 內容
+              if (!asyncStyles && asyncHtml) {
+                const styleMatch = asyncHtml.match(/<style[^>]*>([\s\S]*?)<\/style>/i);
+                if (styleMatch) {
+                  css = styleMatch[1].trim();
+                  // 從 HTML 中移除 <style> 標籤，避免重複
+                  html = asyncHtml.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '').trim();
+                } else {
+                  css = asyncStyles || '';
+                }
               } else {
                 css = asyncStyles || '';
               }
-            } else {
-              css = asyncStyles || '';
             }
           }
         } catch (err) {
@@ -176,18 +194,20 @@ export function CodeEditorPage() {
       // 應用語言處理
       html = getDemoHTML(html, language);
 
-      // ✨ 新增：處理 JSX 代碼
-      let jsx = '';
-      if (current && current.demoJSX) {
-        jsx = current.demoJSX;
-      } else if (demoJSX) {
-        jsx = demoJSX;
+      // ✨ 修改：JSX 處理邏輯（優先使用從 loadPreview 獲取的 jsx）
+      // 如果 loadPreview 沒有返回 jsx，則回退到靜態數據
+      if (!jsx) {
+        if (current && current.demoJSX) {
+          jsx = current.demoJSX;
+        } else if (demoJSX) {
+          jsx = demoJSX;
+        }
       }
 
       setHtmlCode(html);
       setCssCode(css);
-      setJsxCode(jsx);  // ✨ 新增
-      setOriginalCode({ html, css, jsx });  // ✨ 新增 jsx
+      setJsxCode(jsx);
+      setOriginalCode({ html, css, jsx });
       setIsLoading(false);
     };
 
@@ -480,8 +500,8 @@ ${htmlCode}
           <LivePreview
             html={htmlCode}
             css={cssCode}
-            jsx={jsxCode}                                     // ✨ 新增
-            renderMode={renderMode || (jsxCode ? 'jsx' : 'html')}  // ✨ 新增
+            jsx={jsxCode}
+            renderMode={actualRenderMode || renderMode || (jsxCode ? 'jsx' : 'html')}  // ✨ 修復：優先使用 actualRenderMode
             language={language}
             title={displayTitle}
             appCssUrl={appCssUrl}

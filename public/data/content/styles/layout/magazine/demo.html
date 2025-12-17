@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magazine UI Demo</title>
+    <!-- Importing Premium Magazine Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- RESET & BASE --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Montserrat', sans-serif;
+            padding: 20px;
+        }
+
+        /* --- DEMO WRAPPER (The Square Context) --- */
+        /* This represents the "Card" or "Thumbnail" in your showcase */
+        .demo-wrapper {
+            width: 100%;
+            max-width: 500px; /* Max size, but scalable down */
+            aspect-ratio: 1 / 1; /* Forces Square Shape */
+            position: relative;
+            background: #fff;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            overflow: hidden; /* Clips content to square */
+
+            /* The ID for JS scaling */
+            font-size: 16px; /* Fallback */
+        }
+
+        /* --- PAPER TEXTURE OVERLAY (Non-intrusive) --- */
+        .texture-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+            opacity: 0.6;
+            pointer-events: none; /* KEY FIX: Clicks pass through */
+            z-index: 10;
+            mix-blend-mode: multiply;
+        }
+
+        /* --- LAYOUT GRID --- */
+        .magazine-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: auto 1fr auto;
+            height: 100%;
+            padding: 2em; /* Uses em so it scales with JS font-size */
+            color: #1a1a1a;
+            position: relative;
+            z-index: 1;
+            background-color: #fcfbf9; /* Warm paper tone */
+        }
+
+        /* --- UI LABEL (Meta Info) --- */
+        .ui-label {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #000;
+            color: #fff;
+            font-size: 0.7em;
+            padding: 0.4em 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+            z-index: 20;
+        }
+
+        /* --- MASTHEAD --- */
+        header.masthead {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 2px solid #1a1a1a;
+            padding-bottom: 1em;
+            margin-bottom: 1.5em;
+        }
+
+        .brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5em;
+            line-height: 0.8;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+        }
+
+        .meta-info {
+            text-align: right;
+            font-size: 0.65em;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #666;
+            padding-bottom: 4px;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero-section {
+            grid-column: 1 / 3; /* Spans 2 columns */
+            padding-right: 1.5em;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hero-image-container {
+            width: 100%;
+            height: 12em; /* Scalable height */
+            background-color: #ddd;
+            overflow: hidden;
+            margin-bottom: 1em;
+            position: relative;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(20%) contrast(110%); /* Editorial look */
+            transition: transform 0.5s ease;
+        }
+
+        .hero-image-container:hover .hero-image {
+            transform: scale(1.05);
+        }
+
+        .article-category {
+            font-size: 0.6em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: #888;
+            margin-bottom: 0.5em;
+            display: block;
+        }
+
+        h2.headline {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2em;
+            line-height: 0.95;
+            font-weight: 400;
+            margin-bottom: 0.5em;
+            font-style: italic;
+        }
+
+        .headline span {
+            font-style: normal;
+            font-weight: 600;
+            display: block;
+        }
+
+        p.lead {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.9em;
+            line-height: 1.4;
+            color: #333;
+        }
+
+        /* Drop cap */
+        p.lead::first-letter {
+            float: left;
+            font-size: 3.5em;
+            line-height: 0.75;
+            padding-right: 0.1em;
+            padding-top: 0.05em;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            grid-column: 3 / 4;
+            border-left: 1px solid #ddd;
+            padding-left: 1.5em;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .sidebar-item {
+            margin-bottom: 1.5em;
+        }
+
+        h3.sub-head {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.6em;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 700;
+            margin-bottom: 0.8em;
+            border-bottom: 1px solid #1a1a1a;
+            padding-bottom: 0.3em;
+            display: inline-block;
+        }
+
+        p.micro-text {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.65em;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 1em;
+        }
+
+        .pull-quote {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1em;
+            line-height: 1.2;
+            font-style: italic;
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            padding: 0.8em 0;
+            margin: 1em 0;
+            text-align: center;
+        }
+
+        /* --- FOOTER --- */
+        .mag-footer {
+            grid-column: 1 / -1;
+            border-top: 4px double #eee;
+            margin-top: auto;
+            padding-top: 1em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.6em;
+            font-family: 'Montserrat', sans-serif;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .dots {
+            flex-grow: 1;
+            border-bottom: 1px dotted #ccc;
+            margin: 0 1em;
+            height: 1px;
+        }
+
+        /* --- BUTTON (Call to Action) --- */
+        .read-more-btn {
+            background: none;
+            border: 1px solid #1a1a1a;
+            padding: 0.5em 1.2em;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.6em;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            margin-top: 1em;
+            transition: all 0.2s ease;
+            width: fit-content;
+        }
+
+        .read-more-btn:hover {
+            background: #1a1a1a;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!--
+        MAIN DEMO CONTAINER
+        Uses JS to scale font-size based on width,
+        simulating container queries without compatibility issues.
+    -->
+    <div id="demoContainer" class="demo-wrapper">
+
+        <!-- Texture Overlay (Fixed: non-interactive) -->
+        <div class="texture-overlay"></div>
+
+        <!-- Style Label -->
+        <div class="ui-label">Magazine Layout</div>
+
+        <div class="magazine-layout">
+
+            <!-- Header -->
+            <header class="masthead">
+                <div class="brand">LUMIÈRE</div>
+                <div class="meta-info">
+                    Vol. 14<br>
+                    Est. 2024
+                </div>
+            </header>
+
+            <!-- Main Content Area -->
+            <div class="hero-section">
+                <span class="article-category">Architecture & Design</span>
+
+                <div class="hero-image-container">
+                    <!-- Placeholder image with high-end aesthetic -->
+                    <img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=80&w=800&auto=format&fit=crop" alt="Modern Interior" class="hero-image">
+                </div>
+
+                <h2 class="headline">The Silence of <span>Modern Space</span></h2>
+
+                <p class="lead">
+                    Minimalism is not about absence, but the perfect amount of something. In the heart of Copenhagen, we explore a home that breathes.
+                </p>
+
+                <button class="read-more-btn">Read Article</button>
+            </div>
+
+            <!-- Right Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-item">
+                    <h3 class="sub-head">Contributors</h3>
+                    <p class="micro-text">
+                        <strong>Text:</strong> Sarah Jenkins<br>
+                        <strong>Photos:</strong> M. Anders
+                    </p>
+                </div>
+
+                <div class="sidebar-item">
+                    <div class="pull-quote">
+                        "Design is intelligence made visible."
+                    </div>
+                </div>
+
+                <div class="sidebar-item">
+                    <h3 class="sub-head">In This Issue</h3>
+                    <p class="micro-text">
+                        The art of ceramics<br>
+                        Coffee culture<br>
+                        Slow living
+                    </p>
+                </div>
+            </aside>
+
+            <!-- Footer -->
+            <footer class="mag-footer">
+                <span>Page 04</span>
+                <span class="dots"></span>
+                <span>The Design Issue</span>
+            </footer>
+
+        </div>
+    </div>
+
+    <script>
+        /**
+         * ROBUST SCALING SCRIPT
+         * This solves the "CQW" (Container Query Width) support issue.
+         * It observes the width of the .demo-wrapper and sets a base font-size in pixels.
+         * Since all CSS inside uses 'em' units, the entire layout scales perfectly
+         * like an SVG, maintaining the square aspect ratio and layout integrity.
+         */
+
+        function scaleLayout() {
+            const container = document.getElementById('demoContainer');
+            if (!container) return;
+
+            const width = container.offsetWidth;
+
+            // Logic: At 500px width, we want 16px base font size.
+            // Ratio = 500 / 16 = 31.25
+            const scalingFactor = 31.25;
+
+            const newFontSize = width / scalingFactor;
+
+            // Apply the new font size to the container
+            container.style.fontSize = `${newFontSize}px`;
+        }
+
+        // Initialize Observer to watch for resize events on the container
+        // This works even if the container is resized by CSS or flexbox
+        const resizeObserver = new ResizeObserver(entries => {
+            for (let entry of entries) {
+                scaleLayout();
+            }
+        });
+
+        // Start observing
+        const demoEl = document.getElementById('demoContainer');
+        if (demoEl) {
+            resizeObserver.observe(demoEl);
+            scaleLayout(); // Initial call
+        }
+
+        // Fallback for window resize just in case
+        window.addEventListener('resize', scaleLayout);
+
+    </script>
+</body>
+</html>

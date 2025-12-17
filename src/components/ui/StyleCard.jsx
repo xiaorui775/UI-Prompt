@@ -381,26 +381,19 @@ function StyleCardComponent({
   );
 }
 
-// Custom prop comparison for React.memo
+// Custom prop comparison for React.memo - optimized for critical render-affecting props
 function arePropsEqual(prev, next) {
-  // Primitive props fast check
-  const primitiveKeys = [
-    'id', 'title', 'description', 'demoHTML', 'customStyles',
-    'fullPageHTML', 'fullPageStyles', 'fullPagePreviewId',
-    'demoBoxClass', 'demoBoxStyle', 'colorScheme', 'variant',
-    'primaryCategory', 'layoutMode', 'customPrompt', 'stylePrompt',
-    'demoJSX', 'renderMode', 'categoryId', 'familyId'
-  ];
+  // Quick identity check
+  if (prev === next) return true;
 
-  for (const key of primitiveKeys) {
+  // Critical render-affecting props only (reduced from 18 to 6 for faster comparison)
+  const criticalKeys = ['id', 'demoHTML', 'customStyles', 'title', 'description', 'renderMode'];
+  for (const key of criticalKeys) {
     if (prev[key] !== next[key]) return false;
   }
 
-  // Shallow array compare for tags
+  // Array length fast-fail checks
   if (prev.tags?.length !== next.tags?.length) return false;
-  if (prev.tags?.some((t, i) => t !== next.tags?.[i])) return false;
-
-  // Shallow array compare for previews
   if (prev.previews?.length !== next.previews?.length) return false;
 
   // Function reference comparison

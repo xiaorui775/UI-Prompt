@@ -13,13 +13,5 @@
     "tags": [],
     "relatedStyles": []
   },
-  "templates": [
-    {
-      "id": "visual-soft-ui",
-      "title": {
-        "zh-CN": "Soft UI 柔和界面",
-        "en-US": "Soft UI"
-      }
-    }
-  ]
+  "templates": []
 }

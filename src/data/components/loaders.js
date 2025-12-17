@@ -10,6 +10,7 @@ import { loadFullFamily } from '../loaders';
 import { loadComponentRegistry, loadCategoryComponents } from '../loaders/jsonComponentLoader';
 import { enhanceStyles } from '../metadata/styleTagsMapping';
 import { createLogger } from '../../utils/logger';
+import { buildPublicPath } from '../loaders/config/pathHelper.js';
 
 // 創建模組專用日誌器
 const logger = createLogger('loaders');
@@ -63,7 +64,7 @@ export async function loadStyleCategories(forceRefresh = false) {
     try {
       // 🚀 優先使用預構建索引（build-time optimization）
       try {
-        const response = await fetch('/data/styles-index.json');
+        const response = await fetch(buildPublicPath('data/styles-index.json'));
         if (response.ok) {
           const index = await response.json();
           logger.success('Using prebuilt styles index (fast path)');
@@ -192,7 +193,7 @@ export async function loadStyleMetadataOnly(forceRefresh = false) {
 
   __styleMetadataPromise = (async () => {
     try {
-      const response = await fetch('/data/styles-index.json');
+      const response = await fetch(buildPublicPath('data/styles-index.json'));
       if (!response.ok) {
         throw new Error(`Failed to fetch styles-index.json: ${response.status}`);
       }
@@ -370,7 +371,7 @@ export async function loadComponentMetadataOnly(forceRefresh = false) {
 
   __componentMetadataPromise = (async () => {
     try {
-      const response = await fetch('/data/components-index.json');
+      const response = await fetch(buildPublicPath('data/components-index.json'));
       if (!response.ok) {
         throw new Error(`Failed to fetch components-index.json: ${response.status}`);
       }
@@ -436,7 +437,7 @@ export async function loadComponentMetadataOnly(forceRefresh = false) {
  */
 export async function getStylesStatsFromMetadata() {
   try {
-    const response = await fetch('/data/styles-index.json');
+    const response = await fetch(buildPublicPath('data/styles-index.json'));
     if (!response.ok) {
       throw new Error(`Failed to fetch styles-index.json: ${response.status}`);
     }
@@ -499,7 +500,7 @@ export async function getComponentsStatsAsync() {
  */
 export async function getComponentsStatsFromMetadata() {
   try {
-    const response = await fetch('/data/components-index.json');
+    const response = await fetch(buildPublicPath('data/components-index.json'));
     if (!response.ok) {
       throw new Error(`Failed to fetch components-index.json: ${response.status}`);
     }

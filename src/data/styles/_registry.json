@@ -21,7 +21,9 @@
         "antiDesign",
         "auroraGlass",
         "biophilic",
+        "blueprint",
         "claymorphism",
+        "comicBook",
         "darkMode",
         "duotone",
         "fabric",
@@ -34,11 +36,12 @@
         "holographic",
         "holographicFoil",
         "industrial",
+        "inkWash",
         "kawaiiMinimal",
         "leather",
         "light",
         "liminalSpace",
-        "liquid",
+
         "memphis",
         "monochrome",
         "natural",
@@ -51,6 +54,7 @@
         "outlineStyle",
         "paperCutout",
         "particle",
+        "popArt",
         "scandi",
         "sciFiHud",
         "scrollNarrative",
@@ -69,13 +73,19 @@
       "families": [
         "arcadeCRT",
         "artDeco",
+        "bauhaus",
         "darkAcademia",
         "digitalRetro",
+        "filmNoir",
         "frutigerAero",
+        "midCenturyModern",
         "newspaper",
         "retroFuturism",
         "retroOS",
-        "swissDesign"
+        "steampunk",
+        "swissDesign",
+        "synthwave",
+        "vhsAesthetic"
       ]
     },
     "interaction": {
@@ -84,7 +94,7 @@
     },
     "layout": {
       "name": "Layout Systems",
-      "families": ["layoutStyles"]
+      "families": ["layoutStyles", "magazine"]
     }
   }
 }

@@ -20,6 +20,13 @@
         "zh-CN": "Windows 95",
         "en-US": "Windows 95"
       }
+    },
+    {
+      "id": "retroOS95",
+      "title": {
+        "zh-CN": "复古OS95",
+        "en-US": "RetroOS95"
+      }
     }
   ]
 }

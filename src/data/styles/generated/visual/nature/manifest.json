@@ -13,5 +13,14 @@
     "tags": [],
     "relatedStyles": []
   },
-  "templates": []
+  "templates": [
+
+    {
+      "id": "Particle",
+      "title": {
+        "zh-CN": "P艺术icle",
+        "en-US": "Particle"
+      }
+    }
+  ]
 }

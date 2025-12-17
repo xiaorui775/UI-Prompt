@@ -1,0 +1,343 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Josefin Sans', sans-serif;
+  background: #FAFAFA;
+  min-height: 100vh;
+  color: #212121;
+  overflow-x: hidden;
+}
+
+.bauhaus-container {
+  position: relative;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+/* Geometric decorations */
+.geo-circle {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.geo-circle.red {
+  background: #E53935;
+  top: 10%;
+  right: 5%;
+  opacity: 0.9;
+}
+
+.geo-triangle {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 80px solid transparent;
+  border-right: 80px solid transparent;
+  border-bottom: 140px solid #FDD835;
+  bottom: 15%;
+  left: 8%;
+  z-index: 0;
+}
+
+.geo-square {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  background: #1E88E5;
+  bottom: 30%;
+  right: 15%;
+  z-index: 0;
+}
+
+.geo-circle-outline {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border: 3px solid #212121;
+  border-radius: 50%;
+  top: 50%;
+  left: -100px;
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+/* Header */
+.bauhaus-header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 3px solid #212121;
+  z-index: 10;
+}
+
+.logo-mark {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo-circle {
+  width: 24px;
+  height: 24px;
+  background: #E53935;
+  border-radius: 50%;
+}
+
+.logo-triangle {
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 20px solid #FDD835;
+}
+
+.logo-square {
+  width: 20px;
+  height: 20px;
+  background: #1E88E5;
+}
+
+.bauhaus-nav {
+  display: flex;
+  gap: 2.5rem;
+}
+
+.bauhaus-nav a {
+  color: #212121;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  position: relative;
+}
+
+.bauhaus-nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: #E53935;
+  transition: width 0.3s ease;
+}
+
+.bauhaus-nav a:hover::after {
+  width: 100%;
+}
+
+/* Main content */
+.bauhaus-main {
+  position: relative;
+  z-index: 5;
+  padding: 4rem 0;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  margin-bottom: 4rem;
+}
+
+/* Title section */
+.title-section {
+  padding-right: 2rem;
+}
+
+.main-title {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+
+.title-line {
+  font-size: 3.5rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1.1;
+}
+
+.title-line.accent {
+  color: #E53935;
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  color: #9E9E9E;
+  border-left: 4px solid #FDD835;
+  padding-left: 1rem;
+}
+
+/* Composition section */
+.composition-section {
+  display: flex;
+  justify-content: center;
+}
+
+.composition {
+  position: relative;
+  width: 280px;
+  height: 280px;
+}
+
+.comp-circle {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  background: #FDD835;
+  border-radius: 50%;
+  top: 0;
+  right: 20px;
+}
+
+.comp-rect-v {
+  position: absolute;
+  width: 40px;
+  height: 180px;
+  background: #1E88E5;
+  bottom: 20px;
+  left: 30px;
+}
+
+.comp-rect-h {
+  position: absolute;
+  width: 140px;
+  height: 40px;
+  background: #E53935;
+  bottom: 60px;
+  right: 0;
+}
+
+.comp-triangle {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-bottom: 86px solid #212121;
+  top: 100px;
+  left: 80px;
+}
+
+.comp-line {
+  position: absolute;
+  width: 200px;
+  height: 4px;
+  background: #212121;
+  bottom: 40px;
+  left: 20px;
+  transform: rotate(-15deg);
+}
+
+/* Features */
+.features-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  border-top: 3px solid #212121;
+  border-bottom: 3px solid #212121;
+}
+
+.feature-card {
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.feature-shape {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 1rem;
+}
+
+.feature-shape.circle {
+  background: #E53935;
+  border-radius: 50%;
+}
+
+.feature-shape.triangle {
+  width: 0;
+  height: 0;
+  border-left: 25px solid transparent;
+  border-right: 25px solid transparent;
+  border-bottom: 43px solid #FDD835;
+}
+
+.feature-shape.square {
+  background: #1E88E5;
+}
+
+.feature-card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  margin-bottom: 0.5rem;
+}
+
+.feature-card p {
+  font-size: 0.85rem;
+  color: #9E9E9E;
+}
+
+/* CTA */
+.cta-section {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.bauhaus-btn {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  padding: 1rem 2.5rem;
+  border: 3px solid #212121;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.bauhaus-btn.primary {
+  background: #212121;
+  color: #FAFAFA;
+}
+
+.bauhaus-btn.primary:hover {
+  background: #E53935;
+  border-color: #E53935;
+}
+
+.bauhaus-btn.secondary {
+  background: transparent;
+  color: #212121;
+}
+
+.bauhaus-btn.secondary:hover {
+  background: #FDD835;
+  border-color: #FDD835;
+}
+
+/* Vertical text */
+.vertical-text {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  color: #9E9E9E;
+  white-space: nowrap;
+}

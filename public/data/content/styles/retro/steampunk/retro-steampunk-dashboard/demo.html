@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steampunk UI Demo</title>
+    <!-- Import a Victorian-style font -->
+    <link href="https://fonts.googleapis.com/css2?family=Rye&family=Cinzel:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CORE RESET & LAYOUT 
+           Ensuring the demo stays centered and robust 
+        */
+        * {
+            box-sizing: border-box;
+            user-select: none; /* Prevents text selection ruining the immersion */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #1a1a1a;
+            font-family: 'Courier New', Courier, monospace;
+            overflow: hidden;
+        }
+
+        /* MAIN CONTAINER - THE "SQUARE" 
+           Using max-width/height + aspect-ratio for modern robustness,
+           with a fallback logic if needed.
+        */
+        .demo-wrapper {
+            width: 90vw;
+            max-width: 400px; /* Kept small for demo purposes */
+            aspect-ratio: 1 / 1;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* STEAMPUNK CARD DESIGN 
+           The actual UI component 
+        */
+        .steampunk-card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: 
+                radial-gradient(circle at center, #2e261f 0%, #1a1510 100%);
+            border: 12px solid #5c4033; /* Dark wood/leather tone */
+            border-radius: 20px;
+            box-shadow: 
+                inset 0 0 40px #000,
+                0 10px 30px rgba(0,0,0,0.7),
+                0 0 0 4px #1a1510; /* Outer dark rim */
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10%; /* Responsive padding based on container width */
+            color: #d4c5a3;
+            z-index: 1;
+        }
+
+        /* BRASS BORDER OVERLAY (Inner metallic rim) */
+        .steampunk-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border: 6px solid transparent;
+            border-image: linear-gradient(45deg, #b8860b, #ffd700, #8b4500, #b8860b) 1;
+            border-radius: 14px; /* Matches parent mostly */
+            pointer-events: none;
+            z-index: 2;
+            mix-blend-mode: overlay;
+        }
+
+        /* CORNER RIVETS */
+        .rivet {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: radial-gradient(circle at 30% 30%, #ffd700, #8b4500);
+            border-radius: 50%;
+            box-shadow: 1px 1px 2px black;
+            z-index: 3;
+        }
+        .rivet.tl { top: 10px; left: 10px; }
+        .rivet.tr { top: 10px; right: 10px; }
+        .rivet.bl { bottom: 10px; left: 10px; }
+        .rivet.br { bottom: 10px; right: 10px; }
+
+        /* BACKGROUND NOISE & TEXTURE 
+           Strictly background, no pointer events 
+        */
+        .texture-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E");
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* GEARS ANIMATION 
+           Placed in background layer but visible 
+        */
+        .gear-system {
+            position: absolute;
+            top: 10%;
+            right: -10%;
+            width: 150px;
+            height: 150px;
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .gear {
+            position: absolute;
+            background: #5c4033; /* Dark copper */
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.8);
+        }
+
+        .gear::after {
+            content: '';
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            border-radius: 50%;
+            border: 2px dashed #a0522d;
+            box-sizing: border-box;
+        }
+        
+        /* Simple tooth simulation via dashed border */
+        .gear-large {
+            width: 100px;
+            height: 100px;
+            border: 8px dashed #8b4500;
+            top: 0;
+            left: 0;
+            animation: spin 10s linear infinite;
+        }
+
+        .gear-small {
+            width: 60px;
+            height: 60px;
+            border: 6px dashed #cd853f;
+            bottom: -20px;
+            right: 20px;
+            animation: spin 6s linear infinite reverse;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* UI CONTENT ELEMENTS 
+           Using standard % and em/rem for safe scaling
+        */
+        .header-plate {
+            text-align: center;
+            border-bottom: 2px solid #8b4500;
+            padding-bottom: 5px;
+            width: 100%;
+            z-index: 10;
+        }
+
+        h1 {
+            font-family: 'Rye', serif;
+            color: #eebb66; /* Brass gold */
+            margin: 0;
+            font-size: clamp(1.2rem, 5vw, 1.8rem); /* Responsive clamp */
+            text-shadow: 2px 2px 0px #000;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .sub-text {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(0.6rem, 2.5vw, 0.8rem);
+            color: #a67c52;
+            margin-top: 4px;
+        }
+
+        /* THE GAUGE (Centerpiece) */
+        .gauge-container {
+            position: relative;
+            width: 50%;
+            padding-bottom: 25%; /* Half circle aspect ratio hack */
+            height: 0;
+            background: radial-gradient(at center bottom, #e8dcc5 0%, #c2a77a 70%, #5c4033 100%);
+            border-top-left-radius: 100px;
+            border-top-right-radius: 100px;
+            border: 4px solid #4a3c31;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .gauge-marks {
+            position: absolute;
+            bottom: 0;
+            width: 90%;
+            height: 90%;
+            border-top-left-radius: 100px;
+            border-top-right-radius: 100px;
+            border-top: 2px dashed #333;
+            opacity: 0.5;
+        }
+
+        .needle {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 4px;
+            height: 85%;
+            background: #8b0000; /* Dark red needle */
+            transform-origin: bottom center;
+            transform: rotate(-90deg); /* Start position */
+            transition: transform 0.5s cubic-bezier(0.4, 2.5, 0.6, 0.8); /* Bouncy physics */
+            z-index: 11;
+            border-radius: 2px;
+        }
+        
+        .needle-pivot {
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 14px;
+            background: #333;
+            border-radius: 50%;
+            z-index: 12;
+            border: 2px solid #d4af37;
+        }
+
+        .status-display {
+            font-size: clamp(0.7rem, 3vw, 0.9rem);
+            color: #eebb66;
+            background: #000;
+            padding: 4px 12px;
+            border: 1px solid #8b4500;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            box-shadow: inset 0 0 5px #d4af37;
+            text-align: center;
+            min-width: 80px;
+            z-index: 10;
+        }
+
+        /* CONTROL BUTTON */
+        .steam-btn {
+            position: relative;
+            background: linear-gradient(to bottom, #d4af37, #8b6c00);
+            border: none;
+            border-radius: 50px;
+            padding: 10px 24px;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            color: #2b1d0e;
+            font-size: clamp(0.8rem, 3vw, 1rem);
+            cursor: pointer;
+            box-shadow: 
+                inset 0 2px 0 rgba(255,255,255,0.4),
+                0 4px 0 #5c4033,
+                0 5px 5px rgba(0,0,0,0.5);
+            transition: all 0.1s;
+            text-transform: uppercase;
+            z-index: 10;
+            margin-bottom: 10%;
+        }
+
+        .steam-btn:active {
+            transform: translateY(4px);
+            box-shadow: 
+                inset 0 2px 0 rgba(255,255,255,0.0),
+                0 0 0 #5c4033,
+                inset 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        /* STEAM EFFECT */
+        .steam-particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: floatUp 2s linear forwards;
+            filter: blur(4px);
+            z-index: 5;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 0.6; }
+            100% { transform: translateY(-100px) scale(2); opacity: 0; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="demo-wrapper">
+        <div class="steampunk-card" id="card">
+            <!-- Decorative Rivets -->
+            <div class="rivet tl"></div>
+            <div class="rivet tr"></div>
+            <div class="rivet bl"></div>
+            <div class="rivet br"></div>
+
+            <!-- Background Texture (Strictly BG) -->
+            <div class="texture-overlay"></div>
+            
+            <!-- Animated Gears -->
+            <div class="gear-system">
+                <div class="gear gear-large"></div>
+                <div class="gear gear-small"></div>
+            </div>
+
+            <!-- Header -->
+            <div class="header-plate">
+                <h1>Steampunk</h1>
+                <div class="sub-text">EST. 1890</div>
+            </div>
+
+            <!-- Gauge Component -->
+            <div class="gauge-container">
+                <div class="gauge-marks"></div>
+                <div class="needle" id="gaugeNeedle"></div>
+                <div class="needle-pivot"></div>
+            </div>
+
+            <!-- Status Screen -->
+            <div class="status-display" id="statusText">PRESSURE: 0%</div>
+
+            <!-- Interactive Button -->
+            <button class="steam-btn" onclick="activateSteam()">
+                Engage
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Simple logic to make the demo interactive without complex dependencies
+        const needle = document.getElementById('gaugeNeedle');
+        const statusText = document.getElementById('statusText');
+        const card = document.getElementById('card');
+        let isPressurized = false;
+
+        function activateSteam() {
+            if (isPressurized) {
+                // Reset
+                needle.style.transform = 'rotate(-90deg)';
+                statusText.innerText = "PRESSURE: 0%";
+                statusText.style.boxShadow = "inset 0 0 5px #d4af37";
+                statusText.style.color = "#eebb66";
+                isPressurized = false;
+            } else {
+                // Activate
+                // Randomize needle position between 45deg and 90deg (high pressure)
+                const randomAngle = Math.floor(Math.random() * 45) + 45; 
+                needle.style.transform = `rotate(${randomAngle}deg)`;
+                
+                statusText.innerText = "PRESSURE: MAX";
+                statusText.style.boxShadow = "inset 0 0 15px #ff4500";
+                statusText.style.color = "#ff4500"; // Red warning color
+                
+                createSteam();
+                isPressurized = true;
+            }
+        }
+
+        function createSteam() {
+            // Create a few steam particles
+            for(let i=0; i<8; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.classList.add('steam-particle');
+                    
+                    // Random size and position near the button
+                    const size = Math.random() * 20 + 10;
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.left = `${50 + (Math.random() * 40 - 20)}%`;
+                    particle.style.bottom = '20%';
+                    
+                    card.appendChild(particle);
+
+                    // Cleanup
+                    setTimeout(() => {
+                        particle.remove();
+                    }, 2000);
+                }, i * 100);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -27,6 +27,13 @@
         "zh-CN": "手繪筆記本",
         "en-US": "Hand-Drawn Notebook"
       }
+    },
+    {
+      "id": "handDrawnSketchComponents",
+      "title": {
+        "zh-CN": "HandDrawnSketchComponents",
+        "en-US": "HandDrawnSketchComponents"
+      }
     }
   ]
 }

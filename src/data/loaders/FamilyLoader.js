@@ -32,6 +32,39 @@ import { loadTemplatePrompts, loadPreviewPrompts } from './PromptLoader.js';
 const logger = createLogger('FamilyLoader');
 
 /**
+ * 清理 manifest 中的模板清單，過濾重複項目
+ *
+ * 注意：不再根據前綴過濾模板，因為模板命名方式多樣：
+ * - 有些用 `visual-industrial-*` 格式
+ * - 有些用 `industrial-*` 格式（僅 familyId 前綴）
+ * - 有些用其他自定義格式
+ *
+ * @param {Array<string|Object>} rawTemplates - 原始模板配置
+ * @param {string} familyPrefix - 家族前綴（用於日誌，不再用於過濾）
+ * @returns {Array<string|Object>} 已去重的模板列表
+ */
+function sanitizeTemplateEntries(rawTemplates = [], familyPrefix = '') {
+  const seen = new Set();
+
+  return rawTemplates.reduce((acc, entry) => {
+    const id = typeof entry === 'string'
+      ? entry.trim()
+      : (entry?.id || '').trim();
+
+    if (!id) return acc;
+
+    if (seen.has(id)) {
+      logger.warn(`忽略重複模板：${id}`);
+      return acc;
+    }
+
+    seen.add(id);
+    acc.push(typeof entry === 'string' ? id : { ...entry, id });
+    return acc;
+  }, []);
+}
+
+/**
  * 處理單個 Preview 的內容加載
  * @private
  */
@@ -220,7 +253,10 @@ export async function loadFullFamily(category, familyId) {
   logger.debug(`Family Prompts 已加載`);
 
   // 3. 加載所有 Templates
-  const templateIds = manifest.templates || manifest.styles || [];
+  const rawTemplates = manifest.templates || manifest.styles || [];
+  const familyPrefix = manifest.id || `${category}-${familyId}`;
+  const templateIds = sanitizeTemplateEntries(rawTemplates, familyPrefix);
+
   logger.debug(`開始加載 ${templateIds.length} 個模板...`);
 
   const templates = await Promise.all(

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Steampunk Dashboard - Victorian Industrial UI</title>
+  <link rel="stylesheet" href="fullpage.css">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- React CDN -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+  <!-- Babel Standalone for JSX -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    /**
+     * SteampunkDashboard
+     * A React component demonstrating a Victorian-Industrial UI aesthetic.
+     * All styles, logic, and assets are self-contained.
+     */
+
+    /* --- SVG ASSETS & ICONS --- */
+
+    const ScrewHead = ({ className }) => (
+      <div className={`relative rounded-full border border-yellow-900 bg-gradient-to-br from-[#d4af37] via-[#b8860b] to-[#8b6508] shadow-[1px_1px_2px_rgba(0,0,0,0.8)] ${className}`} style={{ width: '12px', height: '12px' }}>
+        <div className="absolute top-1/2 left-1/2 w-full h-[2px] bg-[#5c4033] -translate-x-1/2 -translate-y-1/2 rotate-45 opacity-60"></div>
+      </div>
+    );
+
+    const GearIcon = ({ size = 40, color = "#cd7f32", speed = 10, clockwise = true, className = "" }) => {
+      const rotationStyle = {
+        animation: `spin ${speed}s linear infinite`,
+        animationDirection: clockwise ? 'normal' : 'reverse',
+      };
+
+      return (
+        <svg
+          width={size}
+          height={size}
+          viewBox="0 0 100 100"
+          className={`drop-shadow-md ${className}`}
+          style={rotationStyle}
+        >
+          <defs>
+            <linearGradient id="gearGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#f0e68c" />
+              <stop offset="50%" stopColor={color} />
+              <stop offset="100%" stopColor="#8b4513" />
+            </linearGradient>
+            <filter id="insetShadow">
+              <feOffset dx="0" dy="0" />
+              <feGaussianBlur stdDeviation="2" result="offset-blur" />
+              <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse" />
+              <feFlood floodColor="black" floodOpacity="1" result="color" />
+              <feComposite operator="in" in="color" in2="inverse" result="shadow" />
+              <feComposite operator="over" in="shadow" in2="SourceGraphic" />
+            </filter>
+          </defs>
+          {/* Gear Teeth */}
+          <path
+            fill="url(#gearGradient)"
+            d="M94.5,43.6l-8.6-2.8c-0.6-2.3-1.4-4.5-2.5-6.6l5.9-6.9c1-1.2,1-2.9,0.1-4.2l-4.9-4.9c-1.2-1.2-3.1-1.4-4.4-0.3L73,23.3c-2-1.3-4.1-2.4-6.3-3.2l-2-9c-0.3-1.6-1.7-2.7-3.3-2.7h-7c-1.7,0-3,1.1-3.4,2.7l-2,9c-2.2,0.8-4.3,1.9-6.3,3.2l-7.1-5.5c-1.3-1-3.1-0.9-4.4,0.3L26.3,23c-0.9,0.9-1.2,2.3-0.7,3.5c0.2,0.4,0.4,0.7,0.8,1l5.7,6.6c-1.1,2.1-2,4.4-2.6,6.7l-8.6,2.8c-1.6,0.5-2.6,2.1-2.6,3.7v7c0,1.7,1.1,3.1,2.7,3.5l8.6,2.4c0.6,2.4,1.5,4.7,2.7,6.8l-5.6,6.5c-1,1.2-0.9,2.9,0.2,4.1l4.9,4.9c1.2,1.2,2.9,1.3,4.1,0.2l6.4-5.5c2.2,1.3,4.5,2.3,6.9,3l2.3,8.6c0.4,1.6,1.8,2.7,3.5,2.7h7c1.6,0,3.1-1.1,3.5-2.7l2.3-8.6c2.4-0.7,4.7-1.7,6.9-3l6.4,5.5c1.2,1.1,3,1,4.1-0.2l4.9-4.9c1.1-1.2,1.2-2.9,0.2-4.1l-5.6-6.5c1.2-2.1,2.1-4.4,2.7-6.8l8.6-2.4c1.6-0.4,2.7-1.9,2.7-3.5v-7C97.1,45.5,96.1,44.1,94.5,43.6z M50,71c-11.6,0-21-9.4-21-21s9.4-21,21-21s21,9.4,21,21S61.6,71,50,71z"
+          />
+          <circle cx="50" cy="50" r="10" fill="#3e2723" />
+        </svg>
+      );
+    };
+
+    /* --- SUB COMPONENTS --- */
+
+    const TypewriterButton = ({ label, onClick, active }) => {
+      return (
+        <button
+          onClick={onClick}
+          className={`
+            group relative w-16 h-16 rounded-full
+            transition-all duration-100 ease-out
+            ${active ? 'translate-y-1' : '-translate-y-1'}
+          `}
+        >
+          {/* Button Stem */}
+          <div className="absolute top-full left-1/2 -translate-x-1/2 w-4 h-4 bg-gray-800" />
+
+          {/* Button Housing (Metal Rim) */}
+          <div className={`
+            absolute inset-0 rounded-full border-2 border-gray-400
+            bg-gradient-to-br from-gray-200 via-gray-400 to-gray-600
+            shadow-[0_4px_6px_rgba(0,0,0,0.6)]
+            ${active ? 'shadow-[0_1px_2px_rgba(0,0,0,0.8)]' : ''}
+          `}></div>
+
+          {/* Button Cap (Ivory/Plastic) */}
+          <div className={`
+            absolute inset-1 rounded-full
+            bg-[#fdfbf7] border border-gray-300
+            flex items-center justify-center
+            shadow-[inset_0_-2px_4px_rgba(0,0,0,0.1),inset_0_2px_4px_rgba(255,255,255,1)]
+            ${active ? 'bg-[#e0ded9] shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)]' : ''}
+          `}>
+            <span className="font-mono text-gray-800 font-bold text-lg select-none" style={{ fontFamily: '"Courier Prime", monospace' }}>
+              {label}
+            </span>
+          </div>
+        </button>
+      );
+    };
+
+    const Gauge = ({ value, label, max = 100, danger = false }) => {
+      const rotation = -135 + (value / max) * 270; // Map 0-100 to -135deg to +135deg
+
+      return (
+        <div className="relative w-32 h-32 flex-shrink-0">
+          {/* Outer Case */}
+          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#8B4513] to-[#3E2723] shadow-xl border-4 border-[#b8860b]"></div>
+
+          {/* Inner Face */}
+          <div className="absolute inset-2 rounded-full bg-[#1a1a1a] border border-[#d4af37] shadow-inner flex items-center justify-center overflow-hidden">
+            {/* Tick Marks (CSS Conic Gradient approximation) */}
+            <div className="absolute inset-0 opacity-20"
+                 style={{
+                   background: `repeating-conic-gradient(from 0deg, #d4af37 0deg 2deg, transparent 2deg 30deg)`
+                 }}>
+            </div>
+
+            {/* Glow effect */}
+            {danger && <div className="absolute inset-0 bg-red-500 opacity-20 animate-pulse rounded-full blur-xl"></div>}
+
+            <div className="z-10 mt-8 text-[#d4af37] text-xs font-serif uppercase tracking-widest">{label}</div>
+          </div>
+
+          {/* Needle */}
+          <div
+            className="absolute top-1/2 left-1/2 w-[2px] h-12 bg-red-600 origin-bottom transform -translate-x-1/2 -translate-y-full transition-transform duration-700 cubic-bezier(0.34, 1.56, 0.64, 1)"
+            style={{ transform: `translate(-50%, -100%) rotate(${rotation}deg)` }}
+          >
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3 h-3 bg-[#d4af37] rounded-full shadow-sm"></div>
+          </div>
+
+          {/* Glass Reflection */}
+          <div className="absolute inset-2 rounded-full bg-gradient-to-br from-white via-transparent to-transparent opacity-10 pointer-events-none"></div>
+        </div>
+      );
+    };
+
+    const SteamVent = ({ active }) => {
+      return (
+        <div className="absolute top-0 right-10 w-20 h-full pointer-events-none overflow-hidden">
+          {active && (
+            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-4 h-4 bg-white rounded-full blur-xl animate-[steam_2s_ease-out_infinite] opacity-60"></div>
+          )}
+          {active && (
+            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-6 h-6 bg-gray-200 rounded-full blur-xl animate-[steam_2.5s_ease-out_infinite_0.5s] opacity-50"></div>
+          )}
+        </div>
+      );
+    };
+
+    /* --- MAIN APPLICATION --- */
+
+    function SteampunkDashboard() {
+      const [pressure, setPressure] = useState(45);
+      const [temperature, setTemperature] = useState(120);
+      const [activeModule, setActiveModule] = useState('NAVIGATION');
+      const [steamVenting, setSteamVent] = useState(false);
+      const [currentTime, setCurrentTime] = useState(new Date());
+
+      // Simulation Loop
+      useEffect(() => {
+        const timer = setInterval(() => {
+          // Fluctuate pressure randomly
+          setPressure(p => Math.min(100, Math.max(0, p + (Math.random() * 10 - 5))));
+          // Fluctuate temp randomly
+          setTemperature(t => Math.min(200, Math.max(80, t + (Math.random() * 4 - 2))));
+          // Update Clock
+          setCurrentTime(new Date());
+        }, 1000);
+        return () => clearInterval(timer);
+      }, []);
+
+      const handleVent = () => {
+        setSteamVent(true);
+        setPressure(p => Math.max(20, p - 30));
+        setTemperature(t => Math.max(90, t - 15));
+        setTimeout(() => setSteamVent(false), 2000);
+      };
+
+      const formattedTime = currentTime.toLocaleTimeString('en-US', { hour12: false });
+
+      return (
+        <div className="min-h-screen bg-[#0f0e0d] flex items-center justify-center p-4 overflow-hidden relative font-serif">
+          {/* BACKGROUND ELEMENTS */}
+          <div className="absolute inset-0 pointer-events-none opacity-30">
+            <GearIcon size={600} speed={60} color="#2a1e16" className="absolute -top-32 -left-32 opacity-50" />
+            <GearIcon size={400} speed={40} clockwise={false} color="#2a1e16" className="absolute -bottom-32 -right-32 opacity-50" />
+          </div>
+
+          {/* MAIN DEVICE CHASSIS */}
+          <div className="relative w-full max-w-5xl bg-[#2b1d16] rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] border-8 border-[#5d4037] p-2 z-10">
+
+            {/* Brass Border Frame */}
+            <div className="absolute inset-0 rounded-lg border-[12px] border-[#b8860b] pointer-events-none brass-gradient shadow-inner"></div>
+            <div className="absolute inset-3 rounded border border-[#8b4513] pointer-events-none opacity-50"></div>
+
+            {/* Corner Rivets */}
+            <ScrewHead className="absolute top-4 left-4 z-20" />
+            <ScrewHead className="absolute top-4 right-4 z-20" />
+            <ScrewHead className="absolute bottom-4 left-4 z-20" />
+            <ScrewHead className="absolute bottom-4 right-4 z-20" />
+
+            {/* Mid-frame Rivets */}
+            <div className="absolute top-4 left-1/2 -translate-x-1/2 flex gap-32">
+              <ScrewHead /> <ScrewHead />
+            </div>
+
+            {/* --- CONTENT CONTAINER --- */}
+            <div className="relative z-10 h-full flex flex-col md:flex-row gap-6 p-8 rounded bg-[#1a120e] shadow-[inset_0_0_80px_rgba(0,0,0,0.9)]">
+
+              {/* LEFT COLUMN: CONTROLS & GAUGES */}
+              <div className="w-full md:w-1/3 flex flex-col items-center gap-8 border-r border-[#4e342e] pr-6 border-dashed">
+
+                {/* Header Plate */}
+                <div className="bg-[#1a1a1a] border-2 border-[#d4af37] px-6 py-2 rounded-full shadow-lg mb-4">
+                  <h1 className="text-[#f0e68c] font-bold text-xl tracking-widest text-center" style={{ fontFamily: 'Rye, serif' }}>
+                    AETHER-OS
+                  </h1>
+                </div>
+
+                {/* Gauges */}
+                <div className="flex flex-col gap-6 w-full items-center bg-[#231812] p-4 rounded-lg shadow-inner border border-[#3e2723]">
+                  <Gauge value={pressure} max={100} label="Steam Pressure" danger={pressure > 85} />
+                  <Gauge value={temperature} max={200} label="Core Temp" danger={temperature > 180} />
+                </div>
+
+                {/* Mechanical Controls */}
+                <div className="w-full bg-[#5d4037] p-4 rounded border-t-4 border-[#3e2723] shadow-lg relative">
+                  <div className="absolute top-0 left-0 w-full h-full leather-texture opacity-30 pointer-events-none"></div>
+                  <div className="relative z-10 flex justify-around items-center">
+                    <div className="text-center">
+                      <div className="text-[#d4af37] text-xs font-mono mb-2 uppercase">Vent System</div>
+                      <button
+                        onClick={handleVent}
+                        className="w-16 h-16 rounded-full bg-red-900 border-4 border-[#8b0000] shadow-[0_4px_4px_rgba(0,0,0,0.5)] active:translate-y-1 active:shadow-none transition-transform flex items-center justify-center group"
+                      >
+                        <span className="text-red-200 text-xs font-bold group-hover:text-white">PURGE</span>
+                      </button>
+                    </div>
+                    {/* Decorative Pipe */}
+                    <div className="h-20 w-4 bg-gradient-to-r from-[#b87333] via-[#ffcc99] to-[#8b4513] rounded shadow-md border-x border-[#5d3215]"></div>
+                  </div>
+                  <SteamVent active={steamVenting} />
+                </div>
+              </div>
+
+              {/* RIGHT COLUMN: MAIN DISPLAY & NAVIGATION */}
+              <div className="w-full md:w-2/3 flex flex-col">
+
+                {/* Navigation Typewriter Buttons */}
+                <div className="flex justify-center gap-6 mb-8 border-b border-[#4e342e] pb-6 relative">
+                  {['NAV', 'LOG', 'MAP', 'COM'].map((item) => (
+                    <TypewriterButton
+                      key={item}
+                      label={item}
+                      active={activeModule === (item === 'NAV' ? 'NAVIGATION' : item)}
+                      onClick={() => setActiveModule(item === 'NAV' ? 'NAVIGATION' : item)}
+                    />
+                  ))}
+                  {/* Decorative wire behind buttons */}
+                  <div className="absolute top-1/2 left-4 right-4 h-1 bg-[#333] -z-10 -translate-y-1/2"></div>
+                </div>
+
+                {/* Main Screen Area */}
+                <div className="flex-grow bg-[#000] p-1 rounded border-[6px] border-[#5d4037] relative shadow-[0_0_20px_rgba(0,0,0,0.8)]">
+                  {/* Screen Glare */}
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-white to-transparent opacity-5 rounded-tr pointer-events-none z-20"></div>
+
+                  {/* Screen Content */}
+                  <div className="h-full w-full bg-[#1a1c1a] relative overflow-hidden p-6 text-[#33ff33] font-mono screen-flicker shadow-[inset_0_0_30px_rgba(0,0,0,1)]" style={{ fontFamily: 'Courier Prime, monospace' }}>
+
+                    {/* Scanlines */}
+                    <div className="absolute inset-0 pointer-events-none z-10 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%]"></div>
+
+                    {/* Content Switching */}
+                    <div className="relative z-0 h-full flex flex-col">
+
+                      {/* Top Status Bar */}
+                      <div className="flex justify-between border-b border-[#33ff33] border-opacity-30 pb-2 mb-4 text-xs uppercase tracking-widest text-[#33ff33] opacity-70">
+                        <span>SYS.STATUS: ONLINE</span>
+                        <span>{formattedTime}</span>
+                        <span>ETHERNET: CONNECTED</span>
+                      </div>
+
+                      {activeModule === 'NAVIGATION' && (
+                        <div className="flex flex-col h-full items-center justify-center animate-fade-in">
+                          <div className="w-48 h-48 border-2 border-[#33ff33] rounded-full flex items-center justify-center relative opacity-80 mb-4">
+                            <div className="absolute inset-0 rounded-full border border-[#33ff33] opacity-30 animate-ping"></div>
+                            <div className="w-1 h-24 bg-gradient-to-t from-[#33ff33] to-transparent absolute bottom-1/2 origin-bottom animate-[spin_4s_linear_infinite]"></div>
+                            <div className="absolute w-2 h-2 bg-red-500 rounded-full top-10 right-10 animate-pulse shadow-[0_0_10px_red]"></div>
+                            <span className="text-xs absolute bottom-2">RADAR ACTIVE</span>
+                          </div>
+                          <p className="text-center text-sm leading-relaxed max-w-md opacity-80">
+                            Target Coordinates: 51.5074° N, 0.1278° W <br/>
+                            Altitude: 2,500 ft <br/>
+                            Wind Speed: 12 Knots NE
+                          </p>
+                        </div>
+                      )}
+
+                      {activeModule === 'LOG' && (
+                        <div className="h-full overflow-y-auto pr-2 custom-scrollbar">
+                           <ul className="space-y-3 text-sm opacity-90">
+                            <li className="border-l-2 border-[#33ff33] pl-2">
+                              <span className="opacity-50">[08:00]</span> Engine ignition sequence started.
+                            </li>
+                            <li className="border-l-2 border-[#33ff33] pl-2">
+                              <span className="opacity-50">[08:15]</span> Pressure stabilized at 45 PSI.
+                            </li>
+                            <li className="border-l-2 border-[#33ff33] pl-2">
+                              <span className="opacity-50">[09:30]</span> Anomaly detected in Aether manifold.
+                            </li>
+                            <li className="border-l-2 border-red-500 pl-2 text-red-400">
+                              <span className="opacity-50">[10:45]</span> WARNING: Core temperature fluctuation.
+                            </li>
+                            <li className="border-l-2 border-[#33ff33] pl-2">
+                              <span className="opacity-50">[11:00]</span> Rerouting power to auxiliary gears.
+                            </li>
+                           </ul>
+                        </div>
+                      )}
+
+                      {(activeModule === 'MAP' || activeModule === 'COM') && (
+                        <div className="flex flex-col items-center justify-center h-full opacity-50">
+                          <GearIcon size={60} color="#33ff33" className="mb-4 animate-spin-slow" />
+                          <p>MODULE INSTALLATION PENDING...</p>
+                          <p className="text-xs mt-2">INSERT PUNCH CARD TO LOAD</p>
+                        </div>
+                      )}
+                    </div>
+
+                  </div>
+
+                  {/* Bottom Brass Trim on Screen */}
+                  <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#b8860b] via-[#f0e68c] to-[#b8860b] px-8 py-1 rounded-b shadow-lg text-[10px] text-black font-bold tracking-widest uppercase border border-[#5c4033]">
+                    Model Mk.IV
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Decorative Gears at corners of container */}
+            <GearIcon size={80} speed={20} color="#cd7f32" className="absolute -top-6 -left-6 z-30 shadow-xl border-4 border-[#2b1d16] rounded-full bg-[#2b1d16]" />
+            <GearIcon size={60} speed={15} clockwise={false} color="#8b4513" className="absolute -top-6 -right-6 z-30 shadow-xl border-4 border-[#2b1d16] rounded-full bg-[#2b1d16]" />
+
+          </div>
+        </div>
+      );
+    }
+
+    // Render the app
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<SteampunkDashboard />);
+  </script>
+</body>
+</html>

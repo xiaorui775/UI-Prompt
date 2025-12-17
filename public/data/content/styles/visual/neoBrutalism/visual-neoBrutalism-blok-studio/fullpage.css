@@ -1,0 +1,84 @@
+/* Neo-Brutalism - Blok Studio Style */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+
+:root {
+  --color-primary: #FF6B6B;
+  --color-secondary: #4ECDC4;
+  --color-yellow: #FFE66D;
+  --color-light: #F7F7F7;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-orange: #FF9F1C;
+  --color-cyan: #CBF3F0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--color-light);
+  color: var(--color-black);
+  overflow-x: hidden;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+p {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* Utilities */
+.border-black {
+  border-color: var(--color-black);
+}
+
+.border-2 {
+  border-width: 2px;
+}
+
+.shadow-heavy {
+  box-shadow: 6px 6px 0px 0px rgba(0, 0, 0, 1);
+}
+
+/* Animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+/* Smooth transitions */
+.transition-all {
+  transition: all 0.2s ease;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--color-black);
+  color: var(--color-yellow);
+}
+
+/* Grid pattern background */
+.grid-pattern {
+  background-image: radial-gradient(var(--color-black) 2px, transparent 2px);
+  background-size: 24px 24px;
+  opacity: 0.1;
+}

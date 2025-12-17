@@ -7,7 +7,7 @@
  * - 本組件專注於 UI 渲染和 Props 處理
  */
 
-import { useMemo, useEffect } from 'react';
+import { useMemo, useEffect, memo } from 'react';
 import PropTypes from 'prop-types';
 
 import { useLanguage } from '../../hooks/useLanguage';
@@ -87,16 +87,9 @@ export function PreviewModal({
     onClose
   });
 
-  // 處理標題和描述
-  const displayTitle = useMemo(
-    () => String(resolveI18nValue(title, language, t) || ''),
-    [title, language, t]
-  );
-
-  const displayDescription = useMemo(
-    () => String(resolveI18nValue(description, language, t) || ''),
-    [description, language, t]
-  );
+  // 處理標題和描述 - 直接計算（簡單字符串操作不需要 useMemo）
+  const displayTitle = String(resolveI18nValue(title, language, t) || '');
+  const displayDescription = String(resolveI18nValue(description, language, t) || '');
 
   // 檢查是否為 React 組件預覽
   const isReactPreview = !!(variant && variant.reactComponent);
@@ -366,4 +359,8 @@ PreviewModal.propTypes = {
   ])
 };
 
-export default PreviewModal;
+// OPTIMIZATION Phase 4: Memoize component to prevent unnecessary re-renders
+// PreviewModal only re-renders when props actually change
+const MemoizedPreviewModal = memo(PreviewModal);
+
+export default MemoizedPreviewModal;

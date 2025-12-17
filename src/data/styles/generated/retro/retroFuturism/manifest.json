@@ -20,6 +20,13 @@
         "zh-CN": "DOS 终端",
         "en-US": "DOS Terminal"
       }
+    },
+    {
+      "id": "retroFuture",
+      "title": {
+        "zh-CN": "复古Future",
+        "en-US": "RetroFuture"
+      }
     }
   ]
 }

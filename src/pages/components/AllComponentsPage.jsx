@@ -3,6 +3,7 @@ import { ComponentCard } from '../../components/ui/ComponentCard';
 import { SearchBar } from '../../components/ui/SearchBar';
 import { FilterTabs } from '../../components/ui/FilterTabs';
 import { useLanguage } from '../../hooks/useLanguage';
+import { useDebounce } from '../../hooks/useDebounce';
 import { useRemoteCategories } from '../../hooks/useRemoteCategories';
 import { applyTranslationsToCategories } from '../../utils/categoryHelper';
 import { loadComponentMetadataOnly } from '../../data/components/loaders';
@@ -15,11 +16,17 @@ import { ListPageScaffold } from '../../components/scaffold';
  * 合併所有 8 個組件分类,支持搜索和篩選,使用网格佈局
  *
  * 使用 ListPageScaffold 統一 UI 骨架
+ *
+ * 💡 性能優化：
+ * - 使用 useDebounce 防抖搜索輸入，避免每次按鍵觸發篩選重算
  */
 export function AllComponentsPage() {
   const { t, language } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
+
+  // 🚀 搜索防抖優化：300ms 延遲，減少篩選重算次數
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
   // 使用共享的數據加載 hook
   const {
@@ -70,7 +77,7 @@ export function AllComponentsPage() {
     );
   }, [translatedCategories, t, language]);
 
-  // 篩選邏輯 (結合分类篩選和搜索)
+  // 篩選邏輯 (結合分类篩選和搜索) - 使用防抖後的搜索值
   const filteredComponents = useMemo(() => {
     let components = allComponents;
 
@@ -78,8 +85,8 @@ export function AllComponentsPage() {
       components = components.filter(c => c._categoryId === activeCategory);
     }
 
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase();
+    if (debouncedSearchQuery.trim()) {
+      const query = debouncedSearchQuery.toLowerCase();
       components = components.filter(
         comp =>
           comp.title?.toLowerCase().includes(query) ||
@@ -88,7 +95,7 @@ export function AllComponentsPage() {
     }
 
     return components;
-  }, [allComponents, activeCategory, searchQuery]);
+  }, [allComponents, activeCategory, debouncedSearchQuery]);
 
   // 是否有啟用篩選
   const hasActiveFilters = searchQuery || activeCategory !== 'all';

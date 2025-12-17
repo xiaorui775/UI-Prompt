@@ -7,6 +7,7 @@
  * - PostMessage communication with parent window
  * - "Get AI Prompt" button to open prompt drawer
  * - Fully responsive and accessible
+ * - No external CDN dependencies (all styles are inlined)
  */
 
 /**
@@ -58,19 +59,170 @@ export function buildEmptyStateHTML({ displayTitle, language = 'en-US', t: _t })
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${safeTitle} - Preview</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* Base settings for Minimalist Design */
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #ffffff;
-      color: #171717; /* Neutral-900 */
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+    /* Reset & Base */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    /* Smooth, modest animations */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background-color: #ffffff;
+      color: #171717;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Navigation */
+    .empty-nav {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .empty-nav-title {
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.025em;
+      color: #171717;
+    }
+
+    .empty-nav-subtitle {
+      font-size: 0.875rem;
+      color: #a3a3a3;
+    }
+
+    /* Main Content */
+    .empty-main {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+
+    .empty-container {
+      max-width: 480px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* Icon */
+    .empty-icon {
+      margin-bottom: 2rem;
+      color: #171717;
+      opacity: 0.9;
+    }
+
+    .empty-icon svg {
+      width: 48px;
+      height: 48px;
+    }
+
+    /* Typography */
+    .empty-title {
+      font-size: 1.875rem;
+      font-weight: 300;
+      letter-spacing: -0.025em;
+      color: #171717;
+      margin-bottom: 1rem;
+    }
+
+    .empty-description {
+      color: #737373;
+      font-size: 1rem;
+      line-height: 1.625;
+      margin-bottom: 2.5rem;
+      max-width: 24rem;
+    }
+
+    /* Button */
+    .empty-btn-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .empty-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 2rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #171717;
+      background-color: transparent;
+      border: 1px solid #e5e5e5;
+      border-radius: 0.125rem;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.2s ease-out;
+    }
+
+    .empty-btn:hover {
+      background-color: #171717;
+      color: #ffffff;
+      border-color: #171717;
+    }
+
+    .empty-btn-content {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .empty-btn-icon {
+      width: 1rem;
+      height: 1rem;
+      color: #a3a3a3;
+      transition: color 0.2s ease-out;
+    }
+
+    .empty-btn:hover .empty-btn-icon {
+      color: #ffffff;
+    }
+
+    /* Note */
+    .empty-note {
+      margin-top: 1.5rem;
+    }
+
+    .empty-note-text {
+      font-size: 0.75rem;
+      color: #a3a3a3;
+    }
+
+    /* Footer Divider */
+    .empty-footer-divider {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background-color: #f5f5f5;
+    }
+
+    /* Animations */
     .fade-in-up {
       animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       opacity: 0;
@@ -92,16 +244,6 @@ export function buildEmptyStateHTML({ displayTitle, language = 'en-US', t: _t })
       }
     }
 
-    /* Minimalist Button Hover */
-    .btn-minimal {
-      transition: all 0.2s ease-out;
-    }
-    .btn-minimal:hover {
-      background-color: #171717; /* Neutral-900 */
-      color: #ffffff;
-      border-color: #171717;
-    }
-
     /* Focus states for accessibility */
     *:focus-visible {
       outline: 1px solid #171717;
@@ -110,31 +252,41 @@ export function buildEmptyStateHTML({ displayTitle, language = 'en-US', t: _t })
 
     /* Lucide icon styling */
     .lucide {
-      width: 1rem;
-      height: 1rem;
       stroke: currentColor;
       stroke-width: 2;
       stroke-linecap: round;
       stroke-linejoin: round;
       fill: none;
     }
+
+    /* Responsive */
+    @media (min-width: 640px) {
+      .empty-main {
+        padding-left: 3rem;
+        padding-right: 3rem;
+      }
+
+      .empty-title {
+        font-size: 2.25rem;
+      }
+    }
   </style>
 </head>
-<body class="h-screen w-full flex flex-col relative overflow-hidden">
+<body>
 
   <!-- Subtle Navigation Context -->
-  <nav class="absolute top-0 left-0 w-full p-8 flex justify-between items-center z-10">
-    <div class="text-sm font-medium tracking-wide text-neutral-900">${safeTitle}</div>
-    <div class="text-sm text-neutral-400">Design Styles</div>
+  <nav class="empty-nav">
+    <div class="empty-nav-title">${safeTitle}</div>
+    <div class="empty-nav-subtitle">Design Styles</div>
   </nav>
 
   <!-- Main Content Area -->
-  <main class="flex-grow flex items-center justify-center px-6 sm:px-12">
-    <div class="max-w-[480px] w-full flex flex-col items-center text-center">
+  <main class="empty-main">
+    <div class="empty-container">
 
       <!-- Icon: Lightbulb for "coming soon" -->
-      <div class="fade-in-up mb-8 text-neutral-900 opacity-90">
-        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide">
+      <div class="empty-icon fade-in-up">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" class="lucide">
           <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-1 1.5-2 1.5-3.5a6 6 0 0 0-11 0c0 1.5.5 2.5 1.5 3.5 2.5 2.4 2.9 2.5 3 4"/>
           <path d="M9 18h6"/>
           <path d="M10 22h4"/>
@@ -142,20 +294,20 @@ export function buildEmptyStateHTML({ displayTitle, language = 'en-US', t: _t })
       </div>
 
       <!-- Typography: Clean hierarchy -->
-      <h1 class="fade-in-up delay-100 text-3xl sm:text-4xl font-light tracking-tight text-neutral-900 mb-4">
+      <h1 class="empty-title fade-in-up delay-100">
         No Website Template Available
       </h1>
 
       <!-- Description -->
-      <p class="fade-in-up delay-200 text-neutral-500 text-base leading-relaxed mb-10 max-w-sm">
+      <p class="empty-description fade-in-up delay-200">
         This design style doesn't have a full website template example yet. We're working hard to prepare more high-quality templates for you. Stay tuned!
       </p>
 
       <!-- Action Button -->
-      <div class="fade-in-up delay-300 w-full flex justify-center">
-        <button onclick="notifyParent()" class="btn-minimal group relative inline-flex items-center justify-center px-8 py-3 text-sm font-medium text-neutral-900 bg-transparent border border-neutral-200 rounded-sm overflow-hidden">
-          <span class="relative flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="lucide w-4 h-4 text-neutral-400 group-hover:text-white transition-colors duration-200" viewBox="0 0 24 24">
+      <div class="empty-btn-wrapper fade-in-up delay-300">
+        <button onclick="notifyParent()" class="empty-btn">
+          <span class="empty-btn-content">
+            <svg xmlns="http://www.w3.org/2000/svg" class="empty-btn-icon lucide" viewBox="0 0 24 24">
               <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>
             </svg>
             <span>AI Prompt</span>
@@ -164,8 +316,8 @@ export function buildEmptyStateHTML({ displayTitle, language = 'en-US', t: _t })
       </div>
 
       <!-- Contextual Note -->
-      <div class="fade-in-up delay-300 mt-6">
-        <p class="text-xs text-neutral-400">
+      <div class="empty-note fade-in-up delay-300">
+        <p class="empty-note-text">
           You can click the 'AI Prompt' button to view the design guide and generation prompts for this style
         </p>
       </div>
@@ -174,7 +326,7 @@ export function buildEmptyStateHTML({ displayTitle, language = 'en-US', t: _t })
   </main>
 
   <!-- Minimal Footer Divider -->
-  <div class="absolute bottom-0 left-0 w-full h-px bg-neutral-100"></div>
+  <div class="empty-footer-divider"></div>
 
   <script>
     // Notify parent window to open AI Prompt drawer

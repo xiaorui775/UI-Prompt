@@ -1,0 +1,229 @@
+{
+  "generated": "2025-12-17T12:14:27.460Z",
+  "count": 18,
+  "files": {
+    "core-skeuomorphism-core-skeuomorphism-analog-synthesizer:fullpage": {
+      "hash": "b384b4e0",
+      "file": "core-skeuomorphism-core-skeuomorphism-analog-synthesizer_fullpage-b384b4e0.js",
+      "mode": "react",
+      "componentName": "App",
+      "lucideIcons": [],
+      "size": 21396
+    },
+    "retro-swissDesign-retro-swissDesign-helvetica:demo": {
+      "hash": "0aa86014",
+      "file": "retro-swissDesign-retro-swissDesign-helvetica_demo-0aa86014.js",
+      "mode": "react",
+      "componentName": "SwissDesignDemo",
+      "lucideIcons": [
+        "Grid",
+        "Type",
+        "Square"
+      ],
+      "size": 4125
+    },
+    "retro-swissDesign-retro-swissDesign-helvetica:fullpage": {
+      "hash": "d7ba3a0a",
+      "file": "retro-swissDesign-retro-swissDesign-helvetica_fullpage-d7ba3a0a.js",
+      "mode": "react",
+      "componentName": "SwissDesign",
+      "lucideIcons": [
+        "ArrowRight",
+        "Grid",
+        "Type",
+        "Layout",
+        "Menu",
+        "X",
+        "Circle",
+        "Square",
+        "Triangle"
+      ],
+      "size": 22124
+    },
+    "retro-synthwave-retro-synthwave-landing:fullpage": {
+      "hash": "8ccd9087",
+      "file": "retro-synthwave-retro-synthwave-landing_fullpage-8ccd9087.js",
+      "mode": "react",
+      "componentName": "App",
+      "lucideIcons": [],
+      "size": 23182
+    },
+    "retro-synthwave-retro-synthwave-music-player:fullpage": {
+      "hash": "32c0ef2c",
+      "file": "retro-synthwave-retro-synthwave-music-player_fullpage-32c0ef2c.js",
+      "mode": "react",
+      "componentName": "App",
+      "lucideIcons": [],
+      "size": 14199
+    },
+    "visual-blueprint-visual-blueprint:demo": {
+      "hash": "539ea180",
+      "file": "visual-blueprint-visual-blueprint_demo-539ea180.js",
+      "mode": "react",
+      "componentName": "BlueprintDemo",
+      "lucideIcons": [
+        "Activity",
+        "Database",
+        "AlertTriangle"
+      ],
+      "size": 8440
+    },
+    "visual-blueprint-visual-blueprint:fullpage": {
+      "hash": "c1a92e97",
+      "file": "visual-blueprint-visual-blueprint_fullpage-c1a92e97.js",
+      "mode": "react",
+      "componentName": "App",
+      "lucideIcons": [
+        "Maximize2",
+        "Minimize2",
+        "Compass",
+        "Layers",
+        "Activity",
+        "Settings",
+        "AlertTriangle",
+        "Crosshair",
+        "Cpu",
+        "Database",
+        "Wifi",
+        "Wind"
+      ],
+      "size": 25888
+    },
+    "visual-industrial-industrial-nexus-control:fullpage": {
+      "hash": "2d2f9913",
+      "file": "visual-industrial-industrial-nexus-control_fullpage-2d2f9913.js",
+      "mode": "react",
+      "componentName": "App",
+      "lucideIcons": [],
+      "size": 15663
+    },
+    "visual-industrial-industrial-strataos-dashboard:fullpage": {
+      "hash": "06804a34",
+      "file": "visual-industrial-industrial-strataos-dashboard_fullpage-06804a34.js",
+      "mode": "react",
+      "componentName": "App",
+      "lucideIcons": [],
+      "size": 16345
+    },
+    "visual-industrial-visual-industrial-analog-synth:demo": {
+      "hash": "d681384d",
+      "file": "visual-industrial-visual-industrial-analog-synth_demo-d681384d.js",
+      "mode": "react",
+      "componentName": "DemoComponent",
+      "lucideIcons": [
+        "Settings",
+        "Menu",
+        "X"
+      ],
+      "size": 821
+    },
+    "visual-industrial-visual-industrial-analog-synth:fullpage": {
+      "hash": "81fcb3a7",
+      "file": "visual-industrial-visual-industrial-analog-synth_fullpage-81fcb3a7.js",
+      "mode": "react",
+      "componentName": "AnalogSynth",
+      "lucideIcons": [
+        "Volume2",
+        "Power",
+        "Music",
+        "Activity",
+        "Disc",
+        "Zap"
+      ],
+      "size": 28120
+    },
+    "visual-monochrome-portfolio-showcase:demo": {
+      "hash": "7f7f4ac7",
+      "file": "visual-monochrome-portfolio-showcase_demo-7f7f4ac7.js",
+      "mode": "react",
+      "componentName": "MonochromePortfolioDemo",
+      "lucideIcons": [],
+      "size": 2951
+    },
+    "visual-monochrome-portfolio-showcase:fullpage": {
+      "hash": "f3312c5b",
+      "file": "visual-monochrome-portfolio-showcase_fullpage-f3312c5b.js",
+      "mode": "react",
+      "componentName": "MonochromePortfolio",
+      "lucideIcons": [
+        "ArrowRight",
+        "Menu",
+        "X",
+        "ArrowUpRight",
+        "Layers",
+        "Layout",
+        "Smartphone",
+        "Code",
+        "Users",
+        "Globe",
+        "Award"
+      ],
+      "size": 23646
+    },
+    "visual-particle-neural-nexus:demo": {
+      "hash": "224f41e1",
+      "file": "visual-particle-neural-nexus_demo-224f41e1.js",
+      "mode": "react",
+      "componentName": "NeuralNexusDemo",
+      "lucideIcons": [
+        "Activity",
+        "Terminal"
+      ],
+      "size": 4870
+    },
+    "visual-particle-neural-nexus:fullpage": {
+      "hash": "6bef7bbe",
+      "file": "visual-particle-neural-nexus_fullpage-6bef7bbe.js",
+      "mode": "react",
+      "componentName": "App",
+      "lucideIcons": [
+        "Activity",
+        "Cpu",
+        "Globe",
+        "Zap",
+        "Layers",
+        "Pause",
+        "Play",
+        "Share2",
+        "Maximize2",
+        "Terminal",
+        "ShieldCheck",
+        "Wifi"
+      ],
+      "size": 17374
+    },
+    "visual-popArt-visual-popArt-studio:fullpage": {
+      "hash": "755c8c01",
+      "file": "visual-popArt-visual-popArt-studio_fullpage-755c8c01.js",
+      "mode": "react",
+      "componentName": "PopArtStudio",
+      "lucideIcons": [
+        "Zap",
+        "Star",
+        "Heart",
+        "MessageCircle",
+        "ArrowRight",
+        "MousePointer",
+        "Eye",
+        "Grid"
+      ],
+      "size": 16258
+    },
+    "visual-wabiSabi-visual-wabiSabi-wabiSabi-zen-website:demo": {
+      "hash": "057b01ad",
+      "file": "visual-wabiSabi-visual-wabiSabi-wabiSabi-zen-website_demo-057b01ad.js",
+      "mode": "react",
+      "componentName": "DemoComponent",
+      "lucideIcons": [],
+      "size": 240
+    },
+    "visual-wabiSabi-visual-wabiSabi-wabiSabi-zen-website:fullpage": {
+      "hash": "7fce8b90",
+      "file": "visual-wabiSabi-visual-wabiSabi-wabiSabi-zen-website_fullpage-7fce8b90.js",
+      "mode": "react",
+      "componentName": "WabiSabiTemplate",
+      "lucideIcons": [],
+      "size": 13801
+    }
+  }
+}

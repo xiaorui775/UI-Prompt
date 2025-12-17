@@ -4,15 +4,15 @@ import { FeaturesSection } from '../../components/home/FeaturesSection';
 import { HowItWorksSection } from '../../components/home/HowItWorksSection';
 import { BenefitsSection } from '../../components/home/BenefitsSection';
 import { useLanguage } from '../../hooks/useLanguage';
-import { getComponentsStatsAsync, getStylesStatsFromMetadata } from '../../data/components/loaders';
+import { getComponentsStatsFromMetadata, getStylesStatsFromMetadata } from '../../data/components/loaders';
 
 /**
  * HomePage - 新首页
  * 展示 AI Prompt 演示区域和統計信息
  *
  * 💡 性能優化：
- * - 使用 getStylesStatsFromMetadata（輕量統計）而非 getStylesStatsAsync（完整加載）
- * - 避免在首屏觸發 loadFullFamily，減少 HTTP 請求 100+ → 1
+ * - 使用 getStylesStatsFromMetadata 和 getComponentsStatsFromMetadata（輕量統計）
+ * - 避免在首屏觸發完整載入，減少 HTTP 請求 100+ → 2
  * - 首屏加載速度提升 40-50%
  */
 export function HomePage() {
@@ -23,7 +23,7 @@ export function HomePage() {
   // 首次載入按需取統計資料（動態 import 資料）
   useEffect(() => {
     let active = true
-    Promise.all([getStylesStatsFromMetadata(), getComponentsStatsAsync()]).then(([s, c]) => {
+    Promise.all([getStylesStatsFromMetadata(), getComponentsStatsFromMetadata()]).then(([s, c]) => {
       if (!active) return
       setStylesStats(s)
       setComponentsStats(c)

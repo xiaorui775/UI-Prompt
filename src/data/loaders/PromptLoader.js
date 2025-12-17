@@ -4,6 +4,7 @@
  */
 
 import { createLogger } from '../../utils/logger';
+import { buildPromptPath } from './config/pathHelper.js';
 
 const logger = createLogger('PromptLoader');
 
@@ -53,10 +54,10 @@ export function parsePromptMd(md) {
  * @returns {Promise<Object>} Prompt 對象 { customPrompt, stylePrompt }
  */
 export async function loadTemplatePrompts(category, familyId, templateId = null) {
-  // 使用 public 資料夾路徑
+  // 使用 buildPromptPath 支持子路徑部署
   const basePath = templateId
-    ? `/data/prompts/styles/${category}/${familyId}/${templateId}`
-    : `/data/prompts/styles/${category}/${familyId}`;
+    ? buildPromptPath(`styles/${category}/${familyId}/${templateId}`)
+    : buildPromptPath(`styles/${category}/${familyId}`);
 
   const [customMd, styleMd] = await Promise.all([
     fetchText(`${basePath}/custom.md`),
@@ -77,8 +78,8 @@ export async function loadTemplatePrompts(category, familyId, templateId = null)
  * @returns {Promise<Object>} Prompt 對象 { customPrompt, stylePrompt }
  */
 export async function loadPreviewPrompts(category, familyId, previewId) {
-  // 使用 public 資料夾路徑
-  const basePath = `/data/prompts/styles/${category}/${familyId}/${previewId}`;
+  // 使用 buildPromptPath 支持子路徑部署
+  const basePath = buildPromptPath(`styles/${category}/${familyId}/${previewId}`);
 
   const [customMd, styleMd] = await Promise.all([
     fetchText(`${basePath}/custom.md`),

@@ -66,6 +66,7 @@ export const FAMILY_ID_MAP = {
   'fabric': 'fabric',
   'grain': 'grain',
   'leather': 'leather',
+  'texture-leather': 'leather',  // visual-texture-leather → leather folder
   'paper': 'paperCutout',
   'paper-cutout': 'paperCutout',
   'papercutout': 'paperCutout',

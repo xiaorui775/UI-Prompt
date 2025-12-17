@@ -75,24 +75,29 @@ describe('buildEmptyStateHTML', () => {
     expect(html).not.toContain('<script>alert');
   });
 
-  it('should include Tailwind CSS CDN', () => {
+  it('should NOT include external CDN dependencies (self-contained)', () => {
     const html = buildEmptyStateHTML({
       displayTitle: 'Test',
       language: 'en-US',
       t: mockT
     });
 
-    expect(html).toContain('cdn.tailwindcss.com');
+    // Should not include any external CDN
+    expect(html).not.toContain('cdn.tailwindcss.com');
+    expect(html).not.toContain('fonts.googleapis.com');
+    expect(html).not.toContain('fonts.gstatic.com');
   });
 
-  it('should include Inter font from Google Fonts', () => {
+  it('should use system font stack instead of external fonts', () => {
     const html = buildEmptyStateHTML({
       displayTitle: 'Test',
       language: 'en-US',
       t: mockT
     });
 
-    expect(html).toContain('fonts.googleapis.com/css2?family=Inter');
+    // Should use system font stack
+    expect(html).toContain('-apple-system');
+    expect(html).toContain('BlinkMacSystemFont');
   });
 
   it('should include postMessage script', () => {
@@ -128,7 +133,7 @@ describe('buildEmptyStateHTML', () => {
 
     expect(html).toContain('.fade-in-up');
     expect(html).toContain('@keyframes fadeInUp');
-    expect(html).toContain('.btn-minimal');
+    expect(html).toContain('.empty-btn');
   });
 
   it('should include accessibility features', () => {

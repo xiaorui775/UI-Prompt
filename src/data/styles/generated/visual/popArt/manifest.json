@@ -1,0 +1,36 @@
+{
+  "id": "visual-popArt",
+  "category": "visual",
+  "family": {
+    "name": {
+      "zh-CN": "Pop Art（波普艺术）",
+      "en-US": "Pop Art"
+    },
+    "description": {
+      "zh-CN": "受安迪·沃霍尔和罗伊·利希滕斯坦启发的波普艺术风格，大胆的原色、本戴点阵、漫画式轮廓与讽刺性视觉元素",
+      "en-US": "Pop Art style inspired by Andy Warhol and Roy Lichtenstein, featuring bold primary colors, Ben-Day dots, comic-style outlines, and ironic visual elements"
+    },
+    "tags": [
+      "art",
+      "bold",
+      "colorful",
+      "retro",
+      "graphic",
+      "dots"
+    ],
+    "relatedStyles": [
+      "memphis",
+      "neoBrutalism",
+      "comicBook"
+    ]
+  },
+  "templates": [
+    {
+      "id": "visual-popArt-studio",
+      "title": {
+        "zh-CN": "波普工作室",
+        "en-US": "Pop Art Studio"
+      }
+    }
+  ]
+}

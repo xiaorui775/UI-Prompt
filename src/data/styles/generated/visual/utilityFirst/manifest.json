@@ -20,6 +20,13 @@
         "zh-CN": "实用优先",
         "en-US": "Utility First"
       }
+    },
+    {
+      "id": "utilityFirst",
+      "title": {
+        "zh-CN": "UtilityFirst",
+        "en-US": "UtilityFirst"
+      }
     }
   ]
 }

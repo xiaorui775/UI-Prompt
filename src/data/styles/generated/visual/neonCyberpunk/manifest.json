@@ -20,6 +20,20 @@
         "zh-CN": "Neon Cyberpunk 霓虹赛博朋克",
         "en-US": "Neon Cyberpunk"
       }
+    },
+    {
+      "id": "cyberpunkGamingStore",
+      "title": {
+        "zh-CN": "赛博punkGaming商店",
+        "en-US": "CyberpunkGamingStore"
+      }
+    },
+    {
+      "id": "cyberpunkMatrixTerminal",
+      "title": {
+        "zh-CN": "赛博punkMatrixTerminal",
+        "en-US": "CyberpunkMatrixTerminal"
+      }
     }
   ]
 }

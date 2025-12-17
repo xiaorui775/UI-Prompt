@@ -70,13 +70,7 @@
       },
       "key": "specialViews",
       "path": "/components/special",
-      "components": [
-        "empty-state",
-        "no-search-results",
-        "404-error-page",
-        "500-error-page",
-        "maintenance-mode"
-      ]
+      "components": []
     },
     "visualEffects": {
       "name": {
@@ -85,9 +79,7 @@
       },
       "key": "visualEffects",
       "path": "/components/visual-effects",
-      "components": [
-        "confetti-effects"
-      ]
+      "components": []
     }
   }
 }

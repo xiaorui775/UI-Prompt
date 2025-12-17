@@ -5,9 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run build:styles-index && npm run build:components-index && vite build",
+    "build": "npm run build:styles-index && npm run build:components-index && npm run build:preview-id-map && npm run build:shard-preview-map && npm run build:pre-compile-jsx && vite build",
     "build:styles-index": "node scripts/build-styles-index.js",
     "build:components-index": "node scripts/build-components-index.js",
+    "build:preview-id-map": "node scripts/build-preview-id-map.js",
+    "build:shard-preview-map": "node scripts/shard-preview-map.js",
+    "build:pre-compile-jsx": "node scripts/pre-compile-jsx.js",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
@@ -23,7 +26,8 @@
     "translate:prompts": "node scripts/translate-prompts.js",
     "translate:prompts:dry-run": "node scripts/translate-prompts.js --dry-run",
     "translate:prompts:top10": "node scripts/translate-prompts.js --top-10",
-    "translate:helper": "node scripts/translate-helper.js"
+    "translate:helper": "node scripts/translate-helper.js",
+    "analyze": "vite build && npx vite-bundle-visualizer"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Rye&family=Cinzel:wght@400;700&display=swap');
+
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Cinzel', serif;
+  overflow-x: hidden;
+}
+
+/* Keyframe animations */
+@keyframes steam {
+  0% { transform: translateY(0) scale(1); opacity: 0.8; }
+  100% { transform: translateY(-100px) scale(4); opacity: 0; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes flicker {
+  0% { opacity: 0.95; }
+  100% { opacity: 1; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Utility classes */
+.brass-gradient {
+  background: linear-gradient(135deg, #b8860b 0%, #f0e68c 25%, #d4af37 50%, #b8860b 75%, #8b4513 100%);
+}
+
+.leather-texture {
+  background-color: #3e2723;
+  background-image:
+    radial-gradient(#4e342e 15%, transparent 16%),
+    radial-gradient(#4e342e 15%, transparent 16%);
+  background-size: 8px 8px;
+  background-position: 0 0, 4px 4px;
+}
+
+.engraved-text {
+  text-shadow: 1px 1px 0px rgba(255,255,255,0.2), -1px -1px 0px rgba(0,0,0,0.8);
+  color: #3e2723;
+}
+
+.screen-flicker {
+  animation: flicker 0.15s infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out;
+}
+
+/* Custom scrollbar for steampunk aesthetic */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #1a1a1a;
+  border-left: 1px solid #33ff33;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #33ff33;
+  opacity: 0.5;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #44ff44;
+}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback, memo } from 'react';
 import { Search, ChevronDown, ChevronUp, Filter as FilterIcon, X } from 'lucide-react';
 import { useLanguage } from '../../hooks/useLanguage';
 import {
@@ -20,7 +20,10 @@ import {
  * @param {Boolean} props.showCategories - 是否显示分类篩選
  * @param {Boolean} props.showTags - 是否显示标籤篩選
  */
-export function FilterBar({
+// Pre-compute category list outside component (static data)
+const CATEGORY_LIST = Object.values(primaryCategories);
+
+export const FilterBar = memo(function FilterBar({
   onFilterChange,
   initialFilters = {},
   showSearch = true,
@@ -46,12 +49,20 @@ export function FilterBar({
 
   const hasTagStats = tagStats && Object.keys(tagStats).length > 0;
 
-  // 依據實際數據隱藏無覆蓋的標籤
-  const filterAvailableTags = (tagGroup) => {
-    const ids = Object.keys(tagGroup);
-    if (!hasTagStats) return ids;
-    return ids.filter(id => (tagStats[id] || 0) > 0);
-  };
+  // Memoized available tags - computed once when tagStats changes
+  const availableTags = useMemo(() => {
+    const filterFn = (tagGroup) => {
+      const ids = Object.keys(tagGroup);
+      if (!hasTagStats) return ids;
+      return ids.filter(id => (tagStats[id] || 0) > 0);
+    };
+    return {
+      era: filterFn(allTags.era),
+      visual: filterFn(allTags.visual),
+      technical: filterFn(allTags.technical),
+      useCase: filterFn(allTags.useCase)
+    };
+  }, [tagStats, hasTagStats]);
 
   // 當篩選條件變化時通知父組件
   useEffect(() => {
@@ -60,59 +71,54 @@ export function FilterBar({
     }
   }, [filters, onFilterChange]);
 
-  // 處理关鍵詞搜索
-  const handleSearchChange = (e) => {
+  // Memoized handlers to prevent unnecessary re-renders
+  const handleSearchChange = useCallback((e) => {
     setFilters(prev => ({
       ...prev,
       keyword: e.target.value
     }));
-  };
+  }, []);
 
-  // 處理分类切換
-  const toggleCategory = (categoryId) => {
+  const toggleCategory = useCallback((categoryId) => {
     setFilters(prev => ({
       ...prev,
       categories: prev.categories.includes(categoryId)
         ? prev.categories.filter(id => id !== categoryId)
         : [...prev.categories, categoryId]
     }));
-  };
+  }, []);
 
-  // 處理标籤切換
-  const toggleTag = (tagId) => {
+  const toggleTag = useCallback((tagId) => {
     setFilters(prev => ({
       ...prev,
       tags: prev.tags.includes(tagId)
         ? prev.tags.filter(id => id !== tagId)
         : [...prev.tags, tagId]
     }));
-  };
+  }, []);
 
-  // 切換匹配模式
-  const toggleMatchMode = () => {
+  const toggleMatchMode = useCallback(() => {
     setFilters(prev => ({
       ...prev,
       matchMode: prev.matchMode === 'any' ? 'all' : 'any'
     }));
-  };
+  }, []);
 
-  // 清除所有篩選
-  const clearFilters = () => {
+  const clearFilters = useCallback(() => {
     setFilters({
       keyword: '',
       categories: [],
       tags: [],
       matchMode: 'any'
     });
-  };
+  }, []);
 
-  // 切換展開的部分
-  const toggleSection = (section) => {
+  const toggleSection = useCallback((section) => {
     setOpenSections(prev => ({
       ...prev,
       [section]: !prev[section]
     }));
-  };
+  }, []);
 
   const hasActiveFilters = filters.keyword || filters.categories.length > 0 || filters.tags.length > 0;
   const activeFilterCount = filters.categories.length + filters.tags.length;
@@ -201,7 +207,7 @@ export function FilterBar({
 
                 {openSections.categories && (
                   <div className="flex flex-wrap gap-2 animate-in fade-in slide-in-from-top-1 duration-200">
-                    {Object.values(primaryCategories).map(category => {
+                    {CATEGORY_LIST.map(category => {
                       const isActive = filters.categories.includes(category.id);
                       return (
                         <button
@@ -270,7 +276,7 @@ export function FilterBar({
                         {t('filter.eraTitle')}
                       </div>
                       <div className="flex flex-wrap gap-2">
-                        {filterAvailableTags(allTags.era).map(tagId => {
+                        {availableTags.era.map(tagId => {
                           const isActive = filters.tags.includes(tagId);
                           return (
                             <button
@@ -297,7 +303,7 @@ export function FilterBar({
                         {t('filter.visualTitle')}
                       </div>
                       <div className="flex flex-wrap gap-2">
-                        {filterAvailableTags(allTags.visual).map(tagId => {
+                        {availableTags.visual.map(tagId => {
                           const isActive = filters.tags.includes(tagId);
                           return (
                             <button
@@ -324,7 +330,7 @@ export function FilterBar({
                         {t('filter.technicalTitle')}
                       </div>
                       <div className="flex flex-wrap gap-2">
-                        {filterAvailableTags(allTags.technical).map(tagId => {
+                        {availableTags.technical.map(tagId => {
                           const isActive = filters.tags.includes(tagId);
                           return (
                             <button
@@ -351,7 +357,7 @@ export function FilterBar({
                         {t('filter.useCasesTitle')}
                       </div>
                       <div className="flex flex-wrap gap-2">
-                        {filterAvailableTags(allTags.useCase).map(tagId => {
+                        {availableTags.useCase.map(tagId => {
                           const isActive = filters.tags.includes(tagId);
                           return (
                             <button
@@ -432,6 +438,7 @@ export function FilterBar({
       </div>
     </div>
   );
-}
+});
 
+// Default export for backward compatibility
 export default FilterBar;

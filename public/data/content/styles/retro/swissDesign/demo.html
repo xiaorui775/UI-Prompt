@@ -1,29 +1,277 @@
-<div class="swiss-demo">
-    <div class="swiss-card">
-      <!-- Header -->
-      <div class="swiss-header">
-        <div class="swiss-logo">SWISS</div>
-        <div class="swiss-accent-line"></div>
-      </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swiss Design Style Demo</title>
+    <style>
+        /* * RESET & BASE 
+         */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-      <!-- Content -->
-      <div class="swiss-content">
-        <!-- Grid demonstration -->
-        <div class="swiss-grid-preview">
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell grid-accent"></div>
-          <div class="grid-cell"></div>
+        body {
+            /* Center the demo in the viewport */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #e6e6e6; /* Neutral background to let the card pop */
+            font-family: "Helvetica Neue", Helvetica, Arial, "sans-serif";
+            overflow: hidden; /* Prevent scroll for this specific demo view */
+        }
+
+        /* * MAIN CONTAINER (The Square)
+         * Solves the layout collapse issue by avoiding cqw/cqh.
+         * Uses vmin to scale relative to the screen size.
+         */
+        .swiss-container {
+            width: 90vmin;
+            height: 90vmin;
+            max-width: 600px;
+            max-height: 600px;
+            background-color: #ffffff;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05); /* Very subtle lift, flat feel */
+            aspect-ratio: 1 / 1; /* Forces strict square shape */
+            overflow: hidden;
+            display: grid;
+            /* Asymmetric Grid: 
+               Col 1: Narrow margin (1fr)
+               Col 2: Main Content (4fr)
+               Col 3: Right Margin (0.5fr) 
+            */
+            grid-template-columns: 1fr 5fr 0.5fr;
+            grid-template-rows: 1fr auto auto 1fr auto;
+            border: 1px solid #000; /* Thin stroke frame */
+        }
+
+        /* * TYPOGRAPHY SCALING 
+         * Using clamp + vmin ensures text fits specifically inside this square 
+         * without needing container queries.
+         */
+        
+        /* The Red Accent Label */
+        .meta-label {
+            color: #FF3B30; /* Swiss Red */
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: clamp(10px, 1.5vmin, 14px);
+            letter-spacing: 0.05em;
+            grid-column: 2;
+            grid-row: 1;
+            align-self: end;
+            margin-bottom: 2vmin;
+            display: flex;
+            align-items: center;
+            gap: 1vmin;
+        }
+
+        .meta-label::before {
+            content: '';
+            display: block;
+            width: 4vmin;
+            height: 2px;
+            background: #FF3B30;
+        }
+
+        /* The Massive Headline */
+        .headline {
+            grid-column: 2;
+            grid-row: 2;
+            font-size: clamp(2rem, 11vmin, 6rem);
+            line-height: 0.85;
+            font-weight: 700;
+            color: #000;
+            letter-spacing: -0.04em; /* Tight tracking is key to Swiss style */
+            border-top: 4px solid #000; /* Strong structural divider */
+            padding-top: 2vmin;
+        }
+
+        .headline span {
+            display: block;
+        }
+
+        /* The Descriptive Body Text */
+        .body-text {
+            grid-column: 2;
+            grid-row: 3;
+            font-size: clamp(12px, 2vmin, 18px);
+            line-height: 1.4;
+            margin-top: 4vmin;
+            max-width: 90%;
+            font-weight: 400;
+            color: #333;
+        }
+
+        /* Visual Element (Abstract Geometry) */
+        .visual-element {
+            grid-column: 1 / -1; /* Spans full width */
+            grid-row: 4;
+            position: relative;
+            background: repeating-linear-gradient(
+                45deg,
+                #fff,
+                #fff 2px,
+                #f0f0f0 2px,
+                #f0f0f0 4px
+            );
+            border-top: 1px solid #000;
+            border-bottom: 1px solid #000;
+            margin-top: 4vmin;
+            overflow: hidden;
+        }
+
+        /* The circle shape inside */
+        .circle {
+            position: absolute;
+            right: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20vmin;
+            height: 20vmin;
+            border: 2px solid #000;
+            border-radius: 50%;
+            background: #FF3B30; /* Red Circle */
+        }
+
+        /* * ACTION AREA 
+         */
+        .action-area {
+            grid-column: 2;
+            grid-row: 5;
+            align-self: center;
+            padding-bottom: 4vmin;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Minimal Button */
+        .swiss-btn {
+            background: transparent;
+            border: 2px solid #000;
+            color: #000;
+            padding: 1.5vmin 3vmin;
+            font-size: clamp(12px, 1.8vmin, 16px);
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .swiss-btn:hover, .swiss-btn:focus {
+            background: #000;
+            color: #fff;
+            outline: 2px solid #FF3B30; /* Accessible focus ring */
+            outline-offset: 2px;
+        }
+
+        .page-indicator {
+            font-size: clamp(10px, 1.5vmin, 12px);
+            font-weight: 700;
+        }
+
+        /* * UTILITY: GRID OVERLAY (To show the structure) 
+         * Toggled via JS
+         */
+        .grid-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: grid;
+            grid-template-columns: 1fr 5fr 0.5fr;
+            grid-template-rows: 1fr auto auto 1fr auto;
+            pointer-events: none; /* Critical: fixes interaction issues */
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 100;
+        }
+        
+        .grid-overlay div {
+            border: 1px solid rgba(255, 59, 48, 0.3); /* Red guide lines */
+            background: rgba(255, 59, 48, 0.05);
+        }
+
+        .grid-visible .grid-overlay {
+            opacity: 1;
+        }
+
+        /* Toggle Switch UI */
+        .toggle-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #000;
+            color: #fff;
+            padding: 10px 15px;
+            font-size: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 999;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MAIN DEMO COMPONENT -->
+    <div class="swiss-container" id="demoCard">
+        
+        <!-- Semantic Header / Label -->
+        <div class="meta-label">International Typographic Style</div>
+
+        <!-- Heavy Typography Hierarchy -->
+        <h1 class="headline">
+            <span>SWISS</span>
+            <span>DESIGN</span>
+            <span style="color: transparent; -webkit-text-stroke: 2px black;">1950</span>
+        </h1>
+
+        <!-- Readable Body Text -->
+        <p class="body-text">
+            Objective. Factual. Confident. Form follows function.
+            We prioritize legibility and structured information over ornamentation.
+            <br><br>
+            <strong>Grid systems create order.</strong>
+        </p>
+
+        <!-- Graphic Element (Abstract, Flat) -->
+        <div class="visual-element">
+            <div class="circle"></div>
         </div>
 
-        <!-- Typography sample -->
-        <h2 class="swiss-typo">Helvetica</h2>
-        <p class="swiss-text">PRECISION · ORDER · CLARITY</p>
-      </div>
+        <!-- Interactive Footer -->
+        <div class="action-area">
+            <button class="swiss-btn" onclick="alert('Primary Action Triggered')">Explore</button>
+            <span class="page-indicator">FIG 01. / 2025</span>
+        </div>
 
-      <!-- Footer -->
-      <div class="swiss-footer">
-        <div class="swiss-footer-line"></div>
-      </div>
+        <!-- Invisible Grid Structure for Demo Purpose -->
+        <div class="grid-overlay">
+            <div></div><div></div><div></div>
+            <div></div><div></div><div></div>
+            <div></div><div></div><div></div>
+            <div></div><div></div><div></div>
+            <div></div><div></div><div></div>
+        </div>
+
     </div>
-  </div>
+
+    <!-- Toggle for "Show Grid" (Outside the demo UI) -->
+    <button class="toggle-container" onclick="toggleGrid()">
+        TOGGLE GRID SYSTEM
+    </button>
+
+    <script>
+        function toggleGrid() {
+            const card = document.getElementById('demoCard');
+            card.classList.toggle('grid-visible');
+        }
+    </script>
+</body>
+</html>

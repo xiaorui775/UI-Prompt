@@ -1,0 +1,25 @@
+{
+  "id": "retro-steampunk",
+  "category": "retro",
+  "family": {
+    "name": {
+      "zh-CN": "Steampunk（蒸汽朋克）",
+      "en-US": "Steampunk"
+    },
+    "description": {
+      "zh-CN": "融合维多利亚时代美学与蒸汽动力机械的复古科幻风格，黄铜齿轮、蒸汽管道、古典仪表与工业元素",
+      "en-US": "Retro sci-fi style combining Victorian era aesthetics with steam-powered machinery, featuring brass gears, steam pipes, classical gauges, and industrial elements"
+    },
+    "tags": ["victorian", "industrial", "mechanical", "brass", "vintage", "sci-fi"],
+    "relatedStyles": ["industrial", "skeuomorphism", "retroFuturism"]
+  },
+  "templates": [
+    {
+      "id": "retro-steampunk-dashboard",
+      "title": {
+        "zh-CN": "蒸汽控制台",
+        "en-US": "Steam Console"
+      }
+    }
+  ]
+}

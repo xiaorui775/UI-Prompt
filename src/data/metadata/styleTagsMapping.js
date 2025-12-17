@@ -90,12 +90,7 @@ export const styleEnhancements = {
     tags: ['contemporary', 'organic', 'colorful', 'natural', 'creative'],
     relatedStyles: ['visual-nature-solarpunk', 'visual-biophilic']
   },
-  'visual-liquid': {
-    primaryCategory: 'visual',
-    categories: ['visual', 'nature'],
-    tags: ['contemporary', 'organic', 'colorful', 'animated', 'creative'],
-    relatedStyles: ['visual-nature-liquid', 'visual-nature-wave']
-  },
+
   'visual-particle': {
     primaryCategory: 'visual',
     categories: ['visual', 'nature'],
@@ -106,7 +101,7 @@ export const styleEnhancements = {
     primaryCategory: 'visual',
     categories: ['visual', 'nature'],
     tags: ['contemporary', 'organic', 'effectDriven', 'animated', 'creative'],
-    relatedStyles: ['visual-nature-liquid', 'visual-nature-particle']
+    relatedStyles: ['visual-nature-particle']
   },
   'visual-solarpunk': {
     primaryCategory: 'visual',
@@ -211,6 +206,12 @@ export const styleEnhancements = {
     categories: ['visual', 'tech'],
     tags: ['contemporary', 'effectDriven', 'futuristic', 'gaming', 'creative'],
     relatedStyles: ['visual-neonCyberpunk', 'visual-tech-generative-art']
+  },
+  'visual-blueprint': {
+    primaryCategory: 'visual',
+    categories: ['visual', 'tech'],
+    tags: ['contemporary', 'technical', 'engineering', 'grid', 'professional', 'enterprise'],
+    relatedStyles: ['visual-sciFiHud', 'visual-industrial']
   },
   'visual-3dElements': {
     primaryCategory: 'visual',
@@ -328,7 +329,7 @@ export const styleEnhancements = {
     primaryCategory: 'visual',
     categories: ['visual', 'nature'],
     tags: ['contemporary', 'organic', 'colorful', 'creative', 'animated'],
-    relatedStyles: ['visual-nature-liquid']
+    relatedStyles: []
   },
   'visual-liminalSpace': {
     primaryCategory: 'visual',
@@ -368,6 +369,12 @@ export const styleEnhancements = {
     tags: ['retro', 'classic', 'geometric', 'bold', 'creative', 'enterprise'],
     relatedStyles: ['visual-neoBrutalism', 'core-skeuomorphism']
   },
+  'retro-bauhaus': {
+    primaryCategory: 'retro',
+    categories: ['retro', 'design'],
+    tags: ['retro', 'geometric', 'modernism', 'functional', 'classic', 'bold'],
+    relatedStyles: ['core-minimalism', 'visual-neoBrutalism', 'retro-swissDesign']
+  },
   'retro-darkAcademia': {
     primaryCategory: 'retro',
     categories: ['retro', 'academic'],
@@ -397,6 +404,18 @@ export const styleEnhancements = {
     categories: ['retro', 'print'],
     tags: ['retro', 'minimal', 'typography', 'geometric', 'clean', 'creative'],
     relatedStyles: ['core-minimalism', 'visual-outlineStyle-business']
+  },
+  'retro-synthwave-music-player': {
+    primaryCategory: 'retro',
+    categories: ['retro', 'digital'],
+    tags: ['retro', 'neon', 'futuristic', 'audio', 'effectDriven', 'interactive', 'creative'],
+    relatedStyles: ['retro-retroFuturism', 'visual-neonCyberpunk', 'retro-arcadeCRT']
+  },
+  'retro-synthwave-landing': {
+    primaryCategory: 'retro',
+    categories: ['retro', 'digital'],
+    tags: ['retro', 'neon', 'gradient', 'futuristic', 'effectDriven', 'creative'],
+    relatedStyles: ['retro-retroFuturism', 'visual-neonCyberpunk', 'retro-synthwave-music-player']
   },
 
   // Keep existing retro styles
@@ -514,7 +533,7 @@ export const styleEnhancements = {
     primaryCategory: 'visual',
     categories: ['visual', 'nature'],
     tags: ['contemporary', 'organic', 'colorful', 'natural', 'harmonious', 'creative'],
-    relatedStyles: ['visual-nature-solarpunk', 'visual-nature-liquid', 'natural']
+    relatedStyles: ['visual-nature-solarpunk', 'natural']
   },
 
   // Scroll Narrative (NEW - replaces parallaxScrolling)
@@ -560,7 +579,7 @@ export const styleEnhancements = {
     primaryCategory: 'visual',
     categories: ['visual', 'tech'],
     tags: ['contemporary', 'effectDriven', 'aiPowered', 'creative', 'animated'],
-    relatedStyles: ['visual-nature-particle', 'visual-nature-liquid', 'visual-tech-sci-fi-hud']
+    relatedStyles: ['visual-nature-particle', 'visual-tech-sci-fi-hud']
   },
   'visual-tech-sci-fi-hud': {
     primaryCategory: 'visual',
@@ -701,14 +720,9 @@ export const styleEnhancements = {
     primaryCategory: 'visual',
     categories: ['visual', 'nature'],
     tags: ['contemporary', 'organic', 'effectDriven', 'creative', 'animated'],
-    relatedStyles: ['visual-nature-liquid', 'visual-nature-particle']
+    relatedStyles: ['visual-nature-particle']
   },
-  'visual-nature-liquid': {
-    primaryCategory: 'visual',
-    categories: ['visual', 'nature'],
-    tags: ['contemporary', 'organic', 'colorful', 'creative', 'animated'],
-    relatedStyles: []
-  },
+
   'visual-nature-particle': {
     primaryCategory: 'visual',
     categories: ['visual', 'nature'],
@@ -719,13 +733,13 @@ export const styleEnhancements = {
     primaryCategory: 'visual',
     categories: ['visual', 'nature'],
     tags: ['contemporary', 'organic', 'motionBased', 'creative', 'animated'],
-    relatedStyles: ['visual-nature-liquid']
+    relatedStyles: []
   },
   'visual-nature-aurora-wave': {
     primaryCategory: 'visual',
     categories: ['visual', 'nature'],
     tags: ['contemporary', 'gradient', 'animation', 'dreamlike', 'futuristic', 'nature'],
-    relatedStyles: ['visual-nature-liquid', 'visual-nature-particle', 'visual-gradient-mesh-gradient']
+    relatedStyles: ['visual-nature-particle', 'visual-gradient-mesh-gradient']
   },
 
   // 其他 Visual 風格
@@ -1195,5 +1209,23 @@ export default {
     categories: ['visual'],
     tags: ['contemporary', 'organic', 'warm', 'workspace', 'biophilic', 'calm', 'tactile'],
     relatedStyles: ['visual-organic']
+  },
+  'visual-neoBrutalism-blok-studio': {
+    primaryCategory: 'visual',
+    categories: ['visual'],
+    tags: ['contemporary', 'bold', 'brutal', 'geometric', 'colorful', 'creative', 'high-contrast'],
+    relatedStyles: ['visual-neoBrutalism', 'core-flatDesign', 'visual-antiDesign', 'visual-y2k']
+  },
+  'visual-popArt': {
+    primaryCategory: 'visual',
+    categories: ['visual', 'art'],
+    tags: ['retro', 'bold', 'colorful', 'graphic', 'art', 'dots', 'comic', 'warhol'],
+    relatedStyles: ['visual-memphis', 'visual-neoBrutalism', 'visual-comicBook']
+  },
+  'visual-popArt-studio': {
+    primaryCategory: 'visual',
+    categories: ['visual', 'art'],
+    tags: ['retro', 'bold', 'colorful', 'graphic', 'art', 'dots', 'comic', 'warhol', 'interactive'],
+    relatedStyles: ['visual-popArt', 'visual-memphis', 'visual-neoBrutalism', 'visual-comicBook']
   },
 };

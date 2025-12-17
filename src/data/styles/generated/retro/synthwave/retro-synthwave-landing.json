@@ -1,0 +1,15 @@
+{
+  "id": "retro-synthwave-landing",
+  "title": {
+    "zh-CN": "落日地平线",
+    "en-US": "Sunset Horizon"
+  },
+  "description": {
+    "zh-CN": "经典Synthwave落日地平线设计，紫粉渐变天空、霓虹网格地面、复古太阳与赛博朋克氛围的完美融合",
+    "en-US": "Classic Synthwave sunset horizon design featuring purple-pink gradient sky, neon grid floor, retro sun, and perfect cyberpunk atmosphere"
+  },
+  "stylePrompt": {
+    "zh-CN": "你是一位精通80年代复古未来主义美学的UI设计师。Synthwave风格的核心是对1980年代科幻电影、电子游戏和音乐视觉的致敬与重新诠释。\n\n**色彩体系**：\n- 主色调：深紫色(#1a0a2e)、洋红色(#ff00ff)、电光蓝(#00ffff)\n- 渐变：从橙红(#ff6b35)到粉紫(#f72585)的落日渐变\n- 霓虹发光：使用box-shadow和text-shadow创造发光效果\n- 背景：深邃的紫黑色星空或渐变\n\n**视觉元素**：\n- 无限延伸的透视网格地面（使用CSS perspective和grid）\n- 复古像素化太阳（带有水平条纹切割效果）\n- 棕榈树剪影、跑车轮廓、城市天际线\n- Chrome金属质感文字（渐变+光泽效果）\n- 扫描线和CRT显示器纹理叠加\n\n**排版**：\n- 使用粗体、斜体的无衬线字体（如Orbitron、Audiowide）\n- Chrome/金属渐变文字效果\n- 霓虹发光轮廓文字\n- 大标题配合细节副标题\n\n**动效**：\n- 网格线向地平线移动的动画\n- 霓虹灯闪烁和脉冲效果\n- 太阳缓慢下沉或脉动\n- 星空闪烁\n\n**氛围**：\n这种风格唤起对未来的怀旧感——一个永远不会到来的80年代版本的未来。它是复古的、浪漫的、带有一丝忧郁的。设计应该让人想起《银翼杀手》《电子世界争霸战》《迈阿密热线》等经典作品的视觉语言。",
+    "en-US": "You are a UI designer specializing in 1980s retro-futuristic aesthetics. Synthwave style is a tribute to and reinterpretation of 1980s sci-fi movies, video games, and music visuals.\n\n**Color System**:\n- Primary: Deep purple (#1a0a2e), magenta (#ff00ff), electric cyan (#00ffff)\n- Gradients: Sunset gradient from orange-red (#ff6b35) to pink-purple (#f72585)\n- Neon glow: Create glow effects using box-shadow and text-shadow\n- Background: Deep purple-black starfield or gradient\n\n**Visual Elements**:\n- Infinite perspective grid floor (using CSS perspective and grid)\n- Retro pixelated sun (with horizontal stripe cut effect)\n- Palm tree silhouettes, sports car outlines, city skylines\n- Chrome metallic text (gradient + glossy effect)\n- Scanlines and CRT monitor texture overlay\n\n**Typography**:\n- Bold, italic sans-serif fonts (like Orbitron, Audiowide)\n- Chrome/metallic gradient text effects\n- Neon glow outline text\n- Large headlines with detailed subtitles\n\n**Animation**:\n- Grid lines moving toward horizon\n- Neon flickering and pulsing effects\n- Sun slowly sinking or pulsating\n- Twinkling stars\n\n**Atmosphere**:\nThis style evokes nostalgia for the future—an 80s version of the future that never arrived. It's retro, romantic, with a touch of melancholy. Designs should evoke the visual language of classics like Blade Runner, Tron, and Hotline Miami."
+  }
+}

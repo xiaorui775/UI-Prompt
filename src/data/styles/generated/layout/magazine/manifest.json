@@ -1,0 +1,28 @@
+{
+  "id": "layout-magazine",
+  "category": "layout",
+  "family": {
+    "name": {
+      "zh-CN": "Magazine（杂志排版）",
+      "en-US": "Magazine Layout"
+    },
+    "description": {
+      "zh-CN": "借鉴印刷杂志的经典排版风格，多栏布局、大标题、精美图文混排与编辑设计美学",
+      "en-US": "Classic typography style inspired by print magazines, featuring multi-column layouts, large headlines, beautiful text-image flow, and editorial design aesthetics"
+    },
+    "tags": [
+      "editorial",
+      "typography",
+      "columns",
+      "print",
+      "elegant",
+      "content"
+    ],
+    "relatedStyles": [
+      "newspaper",
+      "typography",
+      "minimalism"
+    ]
+  },
+  "templates": []
+}

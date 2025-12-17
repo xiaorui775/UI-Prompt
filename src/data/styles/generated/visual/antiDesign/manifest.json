@@ -10,8 +10,19 @@
       "zh-CN": "打破設計規則的大膽實驗性風格。拒絕網格系統、標準字體和傳統互動，擁抱視覺侵略性和混亂的美學。",
       "en-US": "A bold experimental style that breaks design rules. Rejects grid systems, standard typography, and traditional interactions, embracing visual aggression and chaotic aesthetics."
     },
-    "tags": ["contemporary", "bold", "experimental", "creative", "colorful", "brutalism"],
-    "relatedStyles": ["visual-neoBrutalism", "visual-y2k", "visual-memphis"]
+    "tags": [
+      "contemporary",
+      "bold",
+      "experimental",
+      "creative",
+      "colorful",
+      "brutalism"
+    ],
+    "relatedStyles": [
+      "visual-neoBrutalism",
+      "visual-y2k",
+      "visual-memphis"
+    ]
   },
   "templates": [
     {

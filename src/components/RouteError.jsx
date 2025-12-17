@@ -8,7 +8,7 @@ export function RouteError() {
   const error = useRouteError();
 
   const status = error?.status || error?.statusCode || 'Error';
-  const message = error?.message || errosr?.statusText || 'Unexpected Application Error';
+  const message = error?.message || error?.statusText || 'Unexpected Application Error';
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-gray-50 p-6">

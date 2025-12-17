@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BLOK.STUDIO - Bold & Loud Design</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="fullpage.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Marquee Animation */
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .animate-marquee {
+      animation: marquee 30s linear infinite;
+    }
+
+    /* Selection */
+    ::selection {
+      background-color: #000;
+      color: #FFE66D;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-[#F7F7F7] text-black overflow-x-hidden">
+
+  <!-- NAVIGATION -->
+  <nav class="sticky top-0 z-50 w-full border-b-2 border-black bg-[#FFE66D] px-4 py-4 md:px-8">
+    <div class="mx-auto flex max-w-7xl items-center justify-between">
+      <!-- Logo -->
+      <div class="flex items-center gap-2">
+        <div class="h-8 w-8 bg-black"></div>
+        <span class="text-2xl font-black tracking-tighter">BLOK.STUDIO</span>
+      </div>
+
+      <!-- Desktop Links -->
+      <div class="hidden md:flex items-center gap-8 font-bold">
+        <a href="#work" class="hover:underline decoration-2 decoration-black underline-offset-4">WORK</a>
+        <a href="#about" class="hover:underline decoration-2 decoration-black underline-offset-4">ABOUT</a>
+        <a href="#pricing" class="hover:underline decoration-2 decoration-black underline-offset-4">PRICING</a>
+        <button class="relative inline-flex items-center justify-center font-bold border-2 border-black px-4 py-2 text-sm bg-[#FF6B6B] text-black hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:translate-x-0 active:shadow-none transition-all duration-200">
+          LET'S TALK
+        </button>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <button id="mobileMenuBtn" class="md:hidden p-1 border-2 border-black bg-white active:bg-black active:text-white transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <header class="relative w-full border-b-2 border-black bg-white px-4 py-20 md:py-32 overflow-hidden">
+    <!-- Decorative background grid pattern -->
+    <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#000 2px, transparent 2px); background-size: 24px 24px;"></div>
+
+    <!-- Floating Stickers -->
+    <div class="absolute border-2 border-black p-3 bg-[#FFE66D] -rotate-12 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] z-10 hidden md:flex items-center justify-center top-10 left-[10%] w-16 h-16">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+    </div>
+    <div class="absolute border-2 border-black p-3 bg-[#FF6B6B] rotate-6 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] z-10 hidden md:flex items-center justify-center bottom-20 right-[15%] w-20 h-20 rounded-full">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+    </div>
+    <div class="absolute border-2 border-black p-3 bg-[#4ECDC4] -rotate-3 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] z-10 hidden md:flex items-center justify-center top-24 right-[5%] w-14 h-14">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+    </div>
+
+    <div class="relative mx-auto max-w-7xl">
+      <div class="max-w-4xl">
+        <span class="inline-block border-2 border-black px-3 py-1 text-xs font-black uppercase tracking-wider bg-[#4ECDC4] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] mb-4">
+          New: 2025 Portfolio Kit
+        </span>
+
+        <h1 class="mb-8 text-6xl font-black uppercase leading-[0.9] tracking-tighter md:text-8xl lg:text-9xl">
+          Make It <br>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B6B] to-[#FF6B6B]" style="-webkit-text-stroke: 3px black;">LOUD</span> &
+          <span class="relative inline-block ml-4">
+             BOLD
+            <svg class="absolute -bottom-4 left-0 w-full h-4 text-[#FFE66D]" viewBox="0 0 100 10" preserveAspectRatio="none">
+              <path d="M0 5 Q 50 10 100 5" stroke="black" stroke-width="3" fill="none" />
+            </svg>
+          </span>
+        </h1>
+
+        <p class="mb-10 max-w-xl text-xl font-medium leading-relaxed font-mono border-l-4 border-black pl-6 bg-[#F0F0F0] py-4">
+          We design digital products that refuse to be ignored.
+          High contrast, heavy strokes, and zero subtlety.
+        </p>
+
+        <div class="flex flex-col gap-4 sm:flex-row">
+          <button class="relative inline-flex items-center justify-center font-bold border-2 border-black px-6 py-3 text-lg bg-[#FF6B6B] text-black hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:translate-x-0 active:shadow-none transition-all duration-200">
+            START A PROJECT
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="ml-2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </button>
+          <button class="relative inline-flex items-center justify-center font-bold border-2 border-black px-6 py-3 text-lg bg-white text-black hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:translate-x-0 active:shadow-none transition-all duration-200">
+            VIEW SHOWREEL
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- SERVICES / MARQUEE -->
+  <div class="w-full overflow-hidden border-b-2 border-black bg-[#FF6B6B] py-6">
+    <div class="flex min-w-full animate-marquee whitespace-nowrap">
+      <span class="mx-8 text-3xl font-black uppercase italic text-black flex items-center gap-4">
+        Design ★ Dev ★ Branding ★ Strategy ★
+        Design ★ Dev ★ Branding ★ Strategy ★
+        Design ★ Dev ★ Branding ★ Strategy ★
+        Design ★ Dev ★ Branding ★ Strategy ★
+        Design ★ Dev ★ Branding ★ Strategy ★
+      </span>
+    </div>
+  </div>
+
+  <!-- FEATURE GRID -->
+  <section id="work" class="bg-[#4ECDC4] px-4 py-20">
+    <div class="mx-auto max-w-7xl">
+
+      <div class="mb-16 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
+        <div>
+          <h2 class="text-5xl font-black uppercase md:text-7xl">Selected Work</h2>
+          <p class="mt-4 font-mono font-bold">Stuff we built recently.</p>
+        </div>
+        <button class="relative inline-flex items-center justify-center font-bold border-2 border-black px-6 py-3 text-lg bg-white text-black hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:translate-x-0 active:shadow-none transition-all duration-200">
+          VIEW ALL
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="ml-2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <!-- Card 1 -->
+        <div class="border-2 border-black bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-transform hover:rotate-[0.5deg] flex flex-col h-full">
+          <div class="h-64 w-full border-b-2 border-black bg-[#FFE66D] p-8 flex items-center justify-center relative overflow-hidden group">
+             <div class="absolute inset-0 opacity-50" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22><rect width=%2220%22 height=%2220%22 fill=%22%23FFE66D%22/><circle cx=%225%22 cy=%225%22 r=%221%22 fill=%22%23000%22 opacity=%220.1%22/></svg>');"></div>
+             <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="group-hover:scale-110 transition-transform duration-300"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+             <div class="absolute top-4 right-4 bg-black text-white px-2 py-1 font-mono text-xs font-bold">2024</div>
+          </div>
+          <div class="p-6 flex-grow flex flex-col justify-between">
+            <div>
+              <h3 class="mb-2 text-2xl font-black uppercase">Hyper-Dash</h3>
+              <p class="font-mono text-sm leading-relaxed">
+                A dashboard for the hyper-active. We stripped away the gradients and added raw data visualization.
+              </p>
+            </div>
+            <div class="mt-6 flex gap-2">
+              <span class="border-2 border-black px-2 py-0.5 text-xs font-bold bg-[#FF6B6B] rounded-full">UI/UX</span>
+              <span class="border-2 border-black px-2 py-0.5 text-xs font-bold bg-white rounded-full">REACT</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="border-2 border-black bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-transform hover:rotate-[0.5deg] flex flex-col h-full">
+          <div class="h-64 w-full border-b-2 border-black bg-[#FF9F1C] p-8 flex items-center justify-center relative overflow-hidden group">
+            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="group-hover:rotate-12 transition-transform duration-300"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          </div>
+          <div class="p-6 flex-grow flex flex-col justify-between">
+            <div>
+              <h3 class="mb-2 text-2xl font-black uppercase">Bolt Energy</h3>
+              <p class="font-mono text-sm leading-relaxed">
+                Rebranding a generic energy drink into a lifestyle cult. Loud colors, louder typography.
+              </p>
+            </div>
+            <div class="mt-6 flex gap-2">
+              <span class="border-2 border-black px-2 py-0.5 text-xs font-bold bg-[#4ECDC4] rounded-full">BRANDING</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="border-2 border-black bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-transform hover:rotate-[0.5deg] flex flex-col h-full md:col-span-2 lg:col-span-1">
+          <div class="h-64 w-full border-b-2 border-black bg-[#FF6B6B] p-8 flex items-center justify-center relative overflow-hidden group">
+             <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="group-hover:scale-90 transition-transform duration-300"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+          </div>
+          <div class="p-6 flex-grow flex flex-col justify-between">
+            <div>
+              <h3 class="mb-2 text-2xl font-black uppercase">Lovebyte</h3>
+              <p class="font-mono text-sm leading-relaxed">
+                Dating app for developers. Monospace fonts only. No profile pics, just GitHub repos.
+              </p>
+            </div>
+            <div class="mt-6 flex gap-2">
+              <span class="border-2 border-black px-2 py-0.5 text-xs font-bold bg-[#FFE66D] rounded-full">APP</span>
+              <span class="border-2 border-black px-2 py-0.5 text-xs font-bold bg-white rounded-full">MOBILE</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TABS / INTERACTION AREA -->
+  <section id="about" class="bg-white px-4 py-24 border-b-2 border-black relative">
+     <!-- Background graphic -->
+     <div class="absolute top-10 right-10 w-32 h-32 bg-[#CBF3F0] rounded-full border-2 border-black hidden lg:block"></div>
+     <div class="absolute top-14 right-14 w-32 h-32 bg-[#FF9F1C] rounded-full border-2 border-black mix-blend-multiply hidden lg:block"></div>
+
+    <div class="mx-auto max-w-4xl">
+      <h2 class="mb-8 text-center text-4xl font-black uppercase md:text-6xl">The Process</h2>
+
+      <div class="flex flex-col md:flex-row border-2 border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+
+        <!-- Tab Headers -->
+        <div class="flex md:flex-col border-b-2 md:border-b-0 md:border-r-2 border-black w-full md:w-1/3">
+          <button class="tab-btn flex-1 p-6 text-left font-black uppercase text-xl md:text-2xl transition-all bg-[#FFE66D] text-black" data-tab="Idea">Idea</button>
+          <button class="tab-btn flex-1 p-6 text-left font-black uppercase text-xl md:text-2xl transition-all bg-white hover:bg-gray-100 border-b-2 md:border-b-0 border-black" data-tab="Design">Design</button>
+          <button class="tab-btn flex-1 p-6 text-left font-black uppercase text-xl md:text-2xl transition-all bg-white hover:bg-gray-100 border-b-2 md:border-b-0 border-black" data-tab="Code">Code</button>
+          <button class="tab-btn flex-1 p-6 text-left font-black uppercase text-xl md:text-2xl transition-all bg-white hover:bg-gray-100" data-tab="Ship">Ship</button>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="p-8 md:p-12 w-full md:w-2/3 bg-white min-h-[300px] flex flex-col justify-center relative overflow-hidden">
+           <div class="absolute top-0 right-0 p-4 opacity-10">
+              <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path><path d="M13 13l6 6"></path></svg>
+           </div>
+
+           <div id="tab-Idea" class="tab-content">
+              <h3 class="text-3xl font-black mb-4 bg-[#FF6B6B] inline-block px-2 border-2 border-black transform -rotate-1">CHAOS MODE</h3>
+              <p class="text-lg font-mono leading-relaxed">
+                We start by throwing everything at the wall. No bad ideas, just loud ones. We sketch on napkins, whiteboards, and sometimes tables.
+              </p>
+           </div>
+           <div id="tab-Design" class="tab-content hidden">
+              <h3 class="text-3xl font-black mb-4 bg-[#4ECDC4] inline-block px-2 border-2 border-black transform rotate-1">PIXEL PUSH</h3>
+              <p class="text-lg font-mono leading-relaxed">
+                We move to Figma. We use thick borders and clashy colors. If it looks corporate, we delete it and start over.
+              </p>
+           </div>
+           <div id="tab-Code" class="tab-content hidden">
+              <h3 class="text-3xl font-black mb-4 bg-[#CBF3F0] inline-block px-2 border-2 border-black transform -rotate-1">SMASH KEYS</h3>
+              <p class="text-lg font-mono leading-relaxed">
+                Clean code, messy frontend. We use React and Tailwind to build robust systems that look like they might explode (visually).
+              </p>
+           </div>
+           <div id="tab-Ship" class="tab-content hidden">
+              <h3 class="text-3xl font-black mb-4 bg-[#FFE66D] inline-block px-2 border-2 border-black transform rotate-1">BLAST OFF</h3>
+              <p class="text-lg font-mono leading-relaxed">
+                Deploy on Friday. Break things. Fix them Monday. The user experience is a rollercoaster, and we are the operators.
+              </p>
+           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing" class="bg-[#CBF3F0] px-4 py-20 border-b-2 border-black">
+    <div class="mx-auto max-w-6xl">
+      <div class="text-center mb-16">
+        <span class="inline-block border-2 border-black px-3 py-1 text-xs font-black uppercase tracking-wider bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] mb-4">Fair & Square</span>
+        <h2 class="text-5xl font-black uppercase md:text-7xl">Pricing</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-end">
+         <!-- Plan 1 -->
+         <div class="bg-white border-2 border-black p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] relative">
+            <h3 class="text-2xl font-black uppercase mb-2">Basic</h3>
+            <div class="text-4xl font-black mb-6">$999</div>
+            <ul class="font-mono text-sm space-y-3 mb-8">
+              <li class="flex items-center gap-2"><div class="w-2 h-2 bg-black"></div> One Landing Page</li>
+              <li class="flex items-center gap-2"><div class="w-2 h-2 bg-black"></div> Mobile Responsive</li>
+              <li class="flex items-center gap-2"><div class="w-2 h-2 bg-black"></div> 2 Revisions</li>
+            </ul>
+            <button class="relative w-full inline-flex items-center justify-center font-bold border-2 border-black px-6 py-3 text-lg bg-transparent text-black hover:bg-black hover:text-white transition-colors">SELECT</button>
+         </div>
+
+         <!-- Plan 2 (Featured) -->
+         <div class="bg-[#FF6B6B] border-2 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative transform md:-translate-y-4 z-10">
+            <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-black text-white px-3 py-1 font-bold font-mono text-sm border-2 border-white">MOST POPULAR</div>
+            <h3 class="text-2xl font-black uppercase mb-2">Pro</h3>
+            <div class="text-4xl font-black mb-6">$2,499</div>
+            <ul class="font-mono text-sm space-y-3 mb-8 font-bold">
+              <li class="flex items-center gap-2"><div class="w-2 h-2 bg-black"></div> 5 Page Site</li>
+              <li class="flex items-center gap-2"><div class="w-2 h-2 bg-black"></div> CMS Integration</li>
+              <li class="flex items-center gap-2"><div class="w-2 h-2 bg-black"></div> Logo Design</li>
+              <li class="flex items-center gap-2"><div class="w-2 h-2 bg-black"></div> Unlimited Revisions</li>
+            </ul>
+            <button class="relative w-full inline-flex items-center justify-center font-bold border-2 border-black px-6 py-3 text-lg bg-[#FFE66D] text-black hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:translate-x-0 active:shadow-none transition-all duration-200">SELECT</button>
+         </div>
+
+         <!-- Plan 3 -->
+         <div class="bg-white border-2 border-black p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] relative">
+            <h3 class="text-2xl font-black uppercase mb-2">Enterprise</h3>
+            <div class="text-4xl font-black mb-6">Let's Talk</div>
+            <ul class="font-mono text-sm space-y-3 mb-8">
+              <li class="flex items-center gap-2"><div class="w-2 h-2 bg-black"></div> Full System Design</li>
+              <li class="flex items-center gap-2"><div class="w-2 h-2 bg-black"></div> Custom App Dev</li>
+              <li class="flex items-center gap-2"><div class="w-2 h-2 bg-black"></div> 24/7 Support</li>
+            </ul>
+            <button class="relative w-full inline-flex items-center justify-center font-bold border-2 border-black px-6 py-3 text-lg bg-transparent text-black hover:bg-black hover:text-white transition-colors">CONTACT US</button>
+         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER / CONTACT -->
+  <footer class="bg-black text-[#F7F7F7] px-4 py-20 relative overflow-hidden">
+    <!-- Footer Texture -->
+    <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: repeating-linear-gradient(45deg, #333 0, #333 2px, transparent 0, transparent 50%); background-size: 10px 10px;"></div>
+
+    <div class="relative mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-2 gap-16">
+
+      <div>
+        <h2 class="text-6xl md:text-8xl font-black uppercase tracking-tighter mb-8 text-[#FFE66D]">
+          Let's <br> Build.
+        </h2>
+        <p class="font-mono text-xl max-w-md mb-8">
+          Ready to make some noise? Drop your email and we'll send a pigeon.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 max-w-md">
+          <input
+            type="email"
+            placeholder="YOUR@EMAIL.COM"
+            class="bg-white text-black font-bold border-2 border-[#F7F7F7] px-6 py-4 flex-grow focus:outline-none focus:bg-[#CBF3F0] transition-colors placeholder:text-gray-400 font-mono"
+          >
+          <button class="bg-[#FF6B6B] text-black font-black border-2 border-[#F7F7F7] px-8 py-4 hover:bg-[#FFE66D] transition-colors flex items-center justify-center gap-2">
+            SEND
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-8 font-mono text-sm md:text-base">
+        <div>
+          <h4 class="font-black text-[#4ECDC4] mb-4 text-lg">SOCIALS</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-[#FFE66D] hover:underline decoration-2 underline-offset-4">Instagram</a></li>
+            <li><a href="#" class="hover:text-[#FFE66D] hover:underline decoration-2 underline-offset-4">Twitter / X</a></li>
+            <li><a href="#" class="hover:text-[#FFE66D] hover:underline decoration-2 underline-offset-4">Dribbble</a></li>
+            <li><a href="#" class="hover:text-[#FFE66D] hover:underline decoration-2 underline-offset-4">LinkedIn</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-black text-[#4ECDC4] mb-4 text-lg">OFFICE</h4>
+          <ul class="space-y-2">
+            <li>123 Brutal St.</li>
+            <li>Block A, Floor 99</li>
+            <li>New York, NY 10012</li>
+            <li class="mt-4 text-[#FF6B6B]">hello@blok.studio</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="relative mx-auto max-w-7xl mt-20 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center font-mono text-xs text-gray-400">
+       <div>© 2025 BLOK STUDIO. ALL RIGHTS RESERVED.</div>
+       <div class="mt-2 md:mt-0">DESIGNED WITH PURE CHAOS.</div>
+    </div>
+  </footer>
+
+  <script>
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tab = btn.dataset.tab;
+
+        // Update button styles
+        document.querySelectorAll('.tab-btn').forEach(b => {
+          b.classList.remove('bg-[#FFE66D]');
+          b.classList.add('bg-white', 'hover:bg-gray-100');
+        });
+        btn.classList.add('bg-[#FFE66D]');
+        btn.classList.remove('bg-white', 'hover:bg-gray-100');
+
+        // Show/hide content
+        document.querySelectorAll('.tab-content').forEach(content => {
+          content.classList.add('hidden');
+        });
+        document.getElementById('tab-' + tab).classList.remove('hidden');
+      });
+    });
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('mobileMenuBtn');
+    if (menuBtn) {
+      menuBtn.addEventListener('click', () => {
+        alert('Mobile menu would open here!');
+      });
+    }
+  </script>
+</body>
+</html>

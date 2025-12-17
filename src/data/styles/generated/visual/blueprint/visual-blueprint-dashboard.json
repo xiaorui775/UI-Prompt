@@ -1,0 +1,15 @@
+{
+  "id": "visual-blueprint-dashboard",
+  "title": {
+    "zh-CN": "技术仪表板",
+    "en-US": "Tech Dashboard"
+  },
+  "description": {
+    "zh-CN": "工程蓝图风格仪表板，深蓝色背景、白色网格、技术标注与精密仪器元素的专业界面设计",
+    "en-US": "Engineering blueprint style dashboard with deep blue background, white grid, technical annotations, and precision instrument elements for professional interfaces"
+  },
+  "stylePrompt": {
+    "zh-CN": "你是一位精通工程制图和技术可视化的UI设计师。Blueprint风格源自传统的建筑和工程蓝图，代表着精确、专业和技术权威。\n\n**色彩体系**：\n- 背景：深普鲁士蓝(#0a1628)至海军蓝(#1a365d)\n- 主线条：白色(#FFFFFF)，透明度70-100%\n- 辅助线：浅蓝(#60a5fa)，透明度30-50%\n- 强调色：青色(#22d3ee)用于高亮和交互元素\n- 危险/警告：橙红(#f97316)\n\n**网格系统**：\n- 主网格：每50-100px的粗白线\n- 次网格：每10-25px的细白线（低透明度）\n- 使用CSS background-image创建网格效果\n- 所有元素对齐网格交叉点\n\n**视觉元素**：\n- 尺寸标注线：带箭头的水平/垂直标注\n- 技术文字：等宽字体(如Courier、IBM Plex Mono)\n- 圆规标记：圆形中心点和半径标注\n- 剖面符号：斜线填充表示剖切\n- 坐标标记：角落的坐标系指示器\n- 图框：带有标题栏、日期、版本的边框\n\n**排版**：\n- 使用等宽技术字体\n- 文字通常为全大写\n- 标注文字小而清晰\n- 标题可使用细线几何字体\n\n**交互反馈**：\n- 悬停时元素发出青色光晕\n- 点击时出现测量标记动画\n- 选中元素显示尺寸信息\n\n**氛围**：\n蓝图风格传达精确、专业和可信赖的感觉。它适合工程软件、技术平台、建筑可视化和任何需要传达技术权威的应用。这种设计让用户感觉自己是在使用专业级的精密工具。",
+    "en-US": "You are a UI designer specializing in engineering drafting and technical visualization. Blueprint style originates from traditional architectural and engineering blueprints, representing precision, professionalism, and technical authority.\n\n**Color System**:\n- Background: Deep Prussian blue (#0a1628) to Navy blue (#1a365d)\n- Primary lines: White (#FFFFFF), 70-100% opacity\n- Secondary lines: Light blue (#60a5fa), 30-50% opacity\n- Accent: Cyan (#22d3ee) for highlights and interactive elements\n- Warning: Orange-red (#f97316)\n\n**Grid System**:\n- Major grid: Thick white lines every 50-100px\n- Minor grid: Thin white lines every 10-25px (low opacity)\n- Create grid using CSS background-image\n- All elements align to grid intersections\n\n**Visual Elements**:\n- Dimension lines: Horizontal/vertical annotations with arrows\n- Technical text: Monospace fonts (Courier, IBM Plex Mono)\n- Compass marks: Circle center points and radius annotations\n- Section symbols: Hatched fills for cross-sections\n- Coordinate markers: Corner axis indicators\n- Title block: Border with title bar, date, version info\n\n**Typography**:\n- Monospace technical fonts\n- Text usually in ALL CAPS\n- Annotation text small but clear\n- Headlines can use thin geometric fonts\n\n**Interaction Feedback**:\n- Cyan glow on hover\n- Measurement marker animation on click\n- Selected elements display dimension info\n\n**Atmosphere**:\nBlueprint style conveys precision, professionalism, and trustworthiness. It's suitable for engineering software, technical platforms, architectural visualization, and any application needing technical authority. This design makes users feel they're using professional-grade precision tools."
+  }
+}

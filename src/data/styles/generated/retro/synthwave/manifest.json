@@ -1,0 +1,43 @@
+{
+  "id": "retro-synthwave",
+  "category": "retro",
+  "family": {
+    "name": {
+      "zh-CN": "Synthwave（合成波）",
+      "en-US": "Synthwave"
+    },
+    "description": {
+      "zh-CN": "融合80年代复古未来主义美学，霓虹色彩、网格地平线、落日渐变与赛博朋克元素的视觉风格",
+      "en-US": "A visual style blending 80s retro-futuristic aesthetics with neon colors, grid horizons, sunset gradients, and cyberpunk elements"
+    },
+    "tags": [
+      "retro",
+      "80s",
+      "neon",
+      "cyberpunk",
+      "futuristic",
+      "gradient"
+    ],
+    "relatedStyles": [
+      "vaporwave",
+      "neonCyberpunk",
+      "retroFuturism"
+    ]
+  },
+  "templates": [
+    {
+      "id": "retro-synthwave-music-player",
+      "title": {
+        "zh-CN": "复古音乐播放器",
+        "en-US": "Synthwave Music Player"
+      }
+    },
+    {
+      "id": "retro-synthwave-landing",
+      "title": {
+        "zh-CN": "日落地平线",
+        "en-US": "Sunset Horizon"
+      }
+    }
+  ]
+}

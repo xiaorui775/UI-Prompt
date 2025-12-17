@@ -1,31 +1,344 @@
-<div class="frutiger-aero-demo">
-    <div class="aero-card">
-      <!-- Header with glass effect -->
-      <div class="aero-header">
-        <div class="glass-icon">💎</div>
-        <h2 class="aero-title">FRUTIGER AERO</h2>
-        <div class="aero-subtitle">Y2K · Glossy · Futurism</div>
-      </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frutiger Aero UI Demo</title>
+    <style>
+        /* Base Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none; /* Enhance the 'app' feel */
+        }
 
-      <!-- Content area with glass elements -->
-      <div class="aero-content">
-        <!-- Glass bubbles -->
-        <div class="bubble-group">
-          <div class="aero-bubble bubble-1"></div>
-          <div class="aero-bubble bubble-2"></div>
-          <div class="aero-bubble bubble-3"></div>
+        body {
+            /* Center the demo on the screen */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #1a1a1a; /* Dark background to make the UI pop */
+            font-family: 'Segoe UI', 'Frutiger', 'Verdana', sans-serif;
+            overflow: hidden;
+        }
+
+        /* Main Container: Forces a Square Shape 
+           We use aspect-ratio for modern browsers, but the layout logic
+           inside relies on % to be robust without cqw.
+        */
+        .aero-container {
+            width: 100%;
+            max-width: 500px; /* Cap size for demo */
+            aspect-ratio: 1 / 1;
+            position: relative;
+            background: linear-gradient(180deg, #87CEFA 0%, #00BFFF 50%, #1E90FF 100%);
+            border-radius: 24px;
+            box-shadow: 
+                0 20px 50px rgba(0, 0, 0, 0.3),
+                inset 0 1px 2px rgba(255, 255, 255, 0.5);
+            overflow: hidden; /* Clip everything inside */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+            /* Font size base for scaling relative to container roughly */
+            font-size: clamp(12px, 2.5vw, 18px); 
+        }
+
+        /* --- Background Effects (The "Atmosphere") --- */
+        
+        /* Horizon Glow */
+        .aero-glow {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            background: radial-gradient(ellipse at bottom, rgba(255, 255, 255, 0.6) 0%, transparent 70%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Abstract "Aurora" or Wave */
+        .aero-wave {
+            position: absolute;
+            bottom: -10%;
+            left: -10%;
+            width: 120%;
+            height: 40%;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50% 50% 0 0;
+            filter: blur(20px);
+            z-index: 1;
+            pointer-events: none;
+            transform: rotate(-5deg);
+        }
+
+        /* --- Floating Bubbles (Animation) --- */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.1) 60%, transparent 80%);
+            box-shadow: inset -2px -2px 6px rgba(0, 0, 0, 0.05), 0 4px 10px rgba(0, 0, 0, 0.05);
+            z-index: 2;
+            pointer-events: none; /* Fix: No interference */
+            opacity: 0.7;
+            animation: floatBubble 10s infinite ease-in-out;
+        }
+
+        /* Specific bubble variations */
+        .b1 { width: 15%; height: 15%; top: 10%; left: 10%; animation-duration: 8s; }
+        .b2 { width: 8%; height: 8%; bottom: 20%; right: 15%; animation-duration: 12s; animation-delay: 1s; }
+        .b3 { width: 5%; height: 5%; top: 40%; right: 25%; animation-duration: 15s; animation-delay: 2s; }
+        .b4 { width: 20%; height: 20%; bottom: -5%; left: 20%; opacity: 0.3; filter: blur(2px); animation-duration: 20s; }
+
+        @keyframes floatBubble {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.05); }
+        }
+
+        /* --- Main Content (Glass Layer) --- */
+        .glass-panel {
+            position: relative;
+            z-index: 10;
+            width: 80%;
+            height: auto;
+            background: rgba(255, 255, 255, 0.35); /* More transparent for Aero feel */
+            backdrop-filter: blur(12px); /* The frosted glass look */
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-top: 1px solid rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 8%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-shadow: 
+                0 15px 35px rgba(0, 80, 150, 0.15),
+                inset 0 0 20px rgba(255, 255, 255, 0.4);
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s ease;
+        }
+
+        /* Interaction: Panel floats up */
+        .glass-panel:hover {
+            transform: scale(1.02) translateY(-5px);
+            box-shadow: 
+                0 25px 45px rgba(0, 80, 150, 0.2),
+                inset 0 0 20px rgba(255, 255, 255, 0.6);
+        }
+
+        /* Glossy Highlight on Panel */
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 45%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.1) 100%);
+            border-radius: 20px 20px 60% 60% / 20px 20px 15px 15px;
+            pointer-events: none;
+        }
+
+        /* Typography & Content */
+        .badge {
+            background: linear-gradient(90deg, #7FDBFF, #0074D9);
+            color: white;
+            padding: 0.4em 1em;
+            border-radius: 50px;
+            font-size: 0.75em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 1em;
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 0.2em;
+            background: linear-gradient(180deg, #ffffff 20%, #e0e0e0 100%);
+            -webkit-background-clip: text; /* Fallback */
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+            font-weight: 600;
+        }
+
+        p.subtitle {
+            font-size: 0.9em;
+            color: #004a80;
+            margin-bottom: 1.5em;
+            line-height: 1.4;
+            font-weight: 500;
+        }
+
+        /* Inputs / Buttons (Skeuomorphic touches) */
+        .input-group {
+            width: 100%;
+            margin-bottom: 1em;
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.8em 1em;
+            border-radius: 12px;
+            border: 1px solid #aaccff;
+            background: #f0f8ff;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+            font-size: 0.9em;
+            color: #333;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(135, 206, 250, 0.5);
+            border-color: #00BFFF;
+        }
+
+        .cta-button {
+            width: 100%;
+            padding: 0.9em;
+            border: none;
+            border-radius: 12px;
+            /* The classic Glossy Button Gradient */
+            background: linear-gradient(180deg, #62c2ff 0%, #2b95e3 50%, #1c7ed6 51%, #359ee6 100%);
+            color: white;
+            font-weight: bold;
+            font-size: 1em;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 100, 200, 0.3);
+            transition: all 0.2s ease;
+            text-shadow: 0 -1px 1px rgba(0,0,0,0.2);
+        }
+
+        /* Button Gloss Shine */
+        .cta-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.1) 100%);
+            border-radius: 12px 12px 20px 20px;
+            pointer-events: none;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 15px rgba(0, 100, 200, 0.4);
+            filter: brightness(1.1);
+        }
+
+        .cta-button:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 5px rgba(0, 100, 200, 0.3);
+        }
+
+        /* --- Footer/Detail Elements --- */
+        .system-status {
+            margin-top: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8em;
+            color: rgba(255,255,255,0.8);
+            background: rgba(0,0,0,0.1);
+            padding: 5px 12px;
+            border-radius: 12px;
+            backdrop-filter: blur(4px);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #76ff03;
+            border-radius: 50%;
+            box-shadow: 0 0 5px #76ff03;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 
+      The Main Square Container 
+      Uses standard responsive units (%, vh, vw) instead of cqw for maximum compatibility.
+    -->
+    <div class="aero-container">
+        
+        <!-- Background Layers (Atmosphere) -->
+        <div class="aero-glow"></div>
+        <div class="aero-wave"></div>
+
+        <!-- Floating Bubbles -->
+        <div class="bubble b1"></div>
+        <div class="bubble b2"></div>
+        <div class="bubble b3"></div>
+        <div class="bubble b4"></div>
+
+        <!-- Glass Interface Card -->
+        <div class="glass-panel">
+            <div class="badge">Frutiger Aero</div>
+            
+            <h1>Welcome</h1>
+            <p class="subtitle">Experience the clear sky and digital optimism.</p>
+
+            <div class="input-group">
+                <input type="text" placeholder="Username" aria-label="Username">
+            </div>
+
+            <button class="cta-button">Enter System</button>
         </div>
 
-        <!-- Glass button demo -->
-        <button class="aero-glass-button">
-          <span class="button-shine"></span>
-          <span class="button-text">Experience Aero</span>
-        </button>
-      </div>
+        <!-- Footer Element -->
+        <div class="system-status">
+            <div class="status-dot"></div>
+            <span>System Online</span>
+        </div>
 
-      <!-- Footer with gradient -->
-      <div class="aero-footer">
-        <div class="gradient-bar"></div>
-      </div>
     </div>
-  </div>
+
+    <script>
+        // Minimal JS to enhance the "Alive" feel
+        // Adds subtle parallax to bubbles on mouse move within the container
+        const container = document.querySelector('.aero-container');
+        const bubbles = document.querySelectorAll('.bubble');
+
+        container.addEventListener('mousemove', (e) => {
+            const rect = container.getBoundingClientRect();
+            // Calculate mouse position relative to center of container (-1 to 1)
+            const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+            const y = ((e.clientY - rect.top) / rect.height) * 2 - 1;
+
+            bubbles.forEach((bubble, index) => {
+                // Different speed for each bubble based on index
+                const speed = (index + 1) * 10;
+                const xOffset = x * speed;
+                const yOffset = y * speed;
+                
+                // Use translate3d for performance
+                bubble.style.transform = `translate3d(${xOffset}px, ${yOffset}px, 0)`;
+            });
+        });
+
+        container.addEventListener('mouseleave', () => {
+            // Reset positions when mouse leaves
+            bubbles.forEach(bubble => {
+                bubble.style.transform = `translate3d(0, 0, 0)`;
+            });
+        });
+    </script>
+</body>
+</html>

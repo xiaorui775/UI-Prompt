@@ -41,15 +41,23 @@ export function StyleCardUI({
   const descriptionRef = useRef(null);
 
   // Check if description exceeds 5 lines
+  // Using fixed line height to avoid synchronous getComputedStyle layout reflow
   useEffect(() => {
     if (!descriptionRef.current) return;
 
-    const element = descriptionRef.current;
-    const lineHeight = parseInt(window.getComputedStyle(element).lineHeight);
-    const height = element.scrollHeight;
-    const lines = Math.ceil(height / lineHeight);
+    // text-sm (14px) * leading-relaxed (1.625) ≈ 22.75px, rounded to 23
+    const LINE_HEIGHT = 23;
+    const MAX_LINES = 5;
 
-    setIsOverflowing(lines > 5);
+    const checkOverflow = () => {
+      const element = descriptionRef.current;
+      if (!element) return;
+      const lines = Math.ceil(element.scrollHeight / LINE_HEIGHT);
+      setIsOverflowing(lines > MAX_LINES);
+    };
+
+    // Use RAF to batch with browser paint cycle and avoid layout thrashing
+    requestAnimationFrame(checkOverflow);
   }, [description]);
 
   return (

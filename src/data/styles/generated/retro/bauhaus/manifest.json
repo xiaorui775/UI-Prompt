@@ -1,0 +1,35 @@
+{
+  "id": "retro-bauhaus",
+  "category": "retro",
+  "family": {
+    "name": {
+      "zh-CN": "Bauhaus（包豪斯）",
+      "en-US": "Bauhaus"
+    },
+    "description": {
+      "zh-CN": "源自1919年德国包豪斯学派的设计风格，强调几何形状、原色、功能主义与「形式追随功能」的理念",
+      "en-US": "Design style originating from the 1919 German Bauhaus school, emphasizing geometric shapes, primary colors, functionalism, and 'form follows function' philosophy"
+    },
+    "tags": [
+      "geometric",
+      "modernism",
+      "primary-colors",
+      "functional",
+      "classic"
+    ],
+    "relatedStyles": [
+      "swissDesign",
+      "minimalism",
+      "constructivism"
+    ]
+  },
+  "templates": [
+    {
+      "id": "retro-bauhaus-landing",
+      "title": {
+        "zh-CN": "包豪斯展示",
+        "en-US": "Bauhaus Showcase"
+      }
+    }
+  ]
+}

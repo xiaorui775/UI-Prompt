@@ -1,0 +1,28 @@
+{
+  "id": "visual-inkWash",
+  "category": "visual",
+  "family": {
+    "name": {
+      "zh-CN": "Ink Wash（水墨）",
+      "en-US": "Ink Wash"
+    },
+    "description": {
+      "zh-CN": "源自中国传统水墨画的设计风格，运用墨色浓淡、留白意境、毛笔笔触与东方美学元素",
+      "en-US": "Design style inspired by traditional Chinese ink wash painting, featuring ink gradients, meaningful whitespace, brush stroke textures, and Eastern aesthetic elements"
+    },
+    "tags": [
+      "chinese",
+      "traditional",
+      "artistic",
+      "zen",
+      "minimalist",
+      "brush"
+    ],
+    "relatedStyles": [
+      "wabiSabi",
+      "minimalism",
+      "monochrome"
+    ]
+  },
+  "templates": []
+}

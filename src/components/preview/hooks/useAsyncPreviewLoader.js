@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { loadPreview, batchPreloadPreviews, isPreviewIdValid } from '../../../utils/previewLoader';
+import { loadPreview, batchPreloadPreviews, preloadPreview } from '../../../utils/previewLoader';
 import { compileJSX } from '../../../utils/jsxCompiler';
 import { previewLogger as logger } from '../../../utils/logger';
 
@@ -57,33 +57,42 @@ export function useAsyncPreviewLoader({
   }, [currentPreview, fullPagePreviewId, styleId]);
 
   // Effect 1: Batch preload all preview IDs to reduce switching latency
+  // OPTIMIZATION: Removed async isPreviewIdValid() calls that caused race conditions
+  // Invalid IDs will gracefully return empty content when loaded
   useEffect(() => {
     // Skip preloading for React preview mode (no async loading needed)
     if (isReactPreview) return;
 
-    const ids = new Set();
+    // Collect all candidate IDs synchronously (no async validation)
+    const candidates = [];
 
-    // Collect all preview IDs from previewsList
+    // Collect preview IDs from previewsList
     previewsList.forEach((preview) => {
       const candidate = preview?.previewId || preview?.id;
-      if (candidate && isPreviewIdValid(candidate)) {
-        ids.add(candidate);
+      if (candidate) {
+        candidates.push(candidate);
       }
     });
 
-    // Add fullPagePreviewId if valid
-    if (fullPagePreviewId && isPreviewIdValid(fullPagePreviewId)) {
-      ids.add(fullPagePreviewId);
+    // Add fullPagePreviewId
+    if (fullPagePreviewId) {
+      candidates.push(fullPagePreviewId);
     }
 
     // Fallback to style.id for single-preview styles
-    if (ids.size === 0 && styleId && isPreviewIdValid(styleId)) {
-      ids.add(styleId);
+    if (candidates.length === 0 && styleId) {
+      candidates.push(styleId);
     }
 
-    // Batch preload with 150ms delay between requests
-    if (ids.size > 0) {
-      batchPreloadPreviews(Array.from(ids), 150);
+    // Deduplicate and batch preload
+    if (candidates.length > 0) {
+      const uniqueIds = [...new Set(candidates)];
+      // Load first 3 immediately (most likely to be viewed first)
+      uniqueIds.slice(0, 3).forEach((id) => preloadPreview(id));
+      // Remaining with reduced delay (50ms instead of 150ms)
+      if (uniqueIds.length > 3) {
+        batchPreloadPreviews(uniqueIds.slice(3), 50);
+      }
     }
   }, [previewsList, fullPagePreviewId, styleId, isReactPreview]);
 
@@ -275,14 +284,15 @@ export function useAsyncPreviewLoader({
     return () => {
       cancelled = true;
     };
+  // Optimized dependency array:
+  // - currentPreview/currentPreviewId are derived from previewsList + activeIndex (already tracked)
+  // - asyncPreviewId/asyncPreview are set inside this effect (should use refs, not deps)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     activeIndex,
     previewsList,
     fullPagePreviewId,
-    currentPreview,
-    currentPreviewId,
-    asyncPreviewId,
-    asyncPreview,
+    currentPreviewId, // Keep for cache key changes
     setIsLoading
   ]);
 

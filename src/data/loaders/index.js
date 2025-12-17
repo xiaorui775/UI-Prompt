@@ -63,8 +63,17 @@ export {
   resolveAlias
 } from './config/familyIdMap.js';
 
-// ========== Legacy: 保留原有 jsonStyleLoader 的默認導出兼容 ==========
-// 這允許漸進式遷移，現有代碼可以繼續使用 import jsonStyleLoader from './jsonStyleLoader'
+// ========== Path Helper ==========
+export {
+  BASE_URL,
+  buildContentPath,
+  buildPromptPath,
+  buildPublicPath,
+  buildComponentContentPath,
+  buildComponentPromptPath
+} from './config/pathHelper.js';
+
+// ========== Default Export: 提供便捷的對象式導出 ==========
 import { loadFullFamily } from './FamilyLoader.js';
 import { loadFamilyManifest, loadTemplateManifest, loadCategory } from './ManifestLoader.js';
 import { loadTemplateContent, loadPreviewContent, loadFamilyContent } from './ContentLoader.js';

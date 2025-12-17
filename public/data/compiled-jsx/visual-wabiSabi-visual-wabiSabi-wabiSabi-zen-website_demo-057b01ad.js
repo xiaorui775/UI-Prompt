@@ -1,0 +1,1 @@
+{"code":"function DemoComponent() {\n  return (\n    React.createElement('div', { className: \"demo-container\",}\n      /* TODO: 添加您的 JSX 代碼 */\n    )\n  );\n}\n","componentName":"DemoComponent","lucideIcons":[],"mode":"react"}

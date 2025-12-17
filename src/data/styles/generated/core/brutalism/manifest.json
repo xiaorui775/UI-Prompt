@@ -13,20 +13,5 @@
     "tags": [],
     "relatedStyles": []
   },
-  "templates": [
-    {
-      "id": "modern-brutalism-dev-workspace",
-      "title": {
-        "zh-CN": "開發者工作區",
-        "en-US": "Developer Workspace"
-      }
-    },
-    {
-      "id": "modern-brutalism-project-mgmt",
-      "title": {
-        "zh-CN": "項目管理界面",
-        "en-US": "Project Management UI"
-      }
-    }
-  ]
+  "templates": []
 }

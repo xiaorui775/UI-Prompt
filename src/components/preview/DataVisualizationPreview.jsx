@@ -48,6 +48,17 @@ export function DataVisualizationPreview({
     setIframeKey(prev => prev + 1); // Force iframe reload
   };
 
+  // Cleanup intervals when scenario changes or component unmounts
+  React.useEffect(() => {
+    return () => {
+      const iframe = document.getElementById('data-viz-iframe');
+      if (iframe?.contentWindow?.__previewIntervals) {
+        iframe.contentWindow.__previewIntervals.forEach(clearInterval);
+        iframe.contentWindow.__previewIntervals = [];
+      }
+    };
+  }, [selectedScenario]);
+
   // Handle iframe load
   const handleIframeLoad = (e) => {
     try { injectAppStylesIntoIframe(e.currentTarget); } catch {
@@ -80,6 +91,13 @@ export function DataVisualizationPreview({
       '</body>',
       `
       <script>
+        // Initialize interval tracking registry
+        window.__previewIntervals = window.__previewIntervals || [];
+
+        // Cleanup existing intervals before starting new ones
+        window.__previewIntervals.forEach(clearInterval);
+        window.__previewIntervals = [];
+
         // Simulate real-time data updates
         function updateMetrics() {
           const elements = document.querySelectorAll('[data-metric]');
@@ -124,14 +142,20 @@ export function DataVisualizationPreview({
           }
         }
 
-        // Start simulations
+        // Start simulations with tracked intervals
         if ('${scenario.id}' === 'realtime-monitoring') {
-          setInterval(updateMetrics, 3000);
+          window.__previewIntervals.push(setInterval(updateMetrics, 3000));
         }
 
         if ('${scenario.id}' === 'analytics-platform') {
-          setInterval(updateActivity, 5000);
+          window.__previewIntervals.push(setInterval(updateActivity, 5000));
         }
+
+        // Cleanup intervals on unload
+        window.addEventListener('unload', () => {
+          window.__previewIntervals.forEach(clearInterval);
+          window.__previewIntervals = [];
+        });
 
         // Add smooth animations
         const style = document.createElement('style');

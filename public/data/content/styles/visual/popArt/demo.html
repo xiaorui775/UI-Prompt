@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pop Art UI Demo</title>
+    <style>
+        /* * CORE VARIABLES 
+         * Pure RGB/CMY colors typical of Pop Art
+         */
+        :root {
+            --pop-red: #FF0000;
+            --pop-yellow: #FFFF00;
+            --pop-blue: #0000FF;
+            --pop-magenta: #FF00FF;
+            --pop-cyan: #00FFFF;
+            --pop-black: #000000;
+            --pop-white: #FFFFFF;
+            --border-thick: 4px;
+            --shadow-offset: 4px;
+        }
+
+        /* RESET & DEMO WRAPPER */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            /* Neutral gray background to make the UI pop */
+            background-color: #333;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            overflow: hidden;
+        }
+
+        /* * MAIN COMPONENT CONTAINER 
+         * Fixed square aspect ratio, robust sizing
+         */
+        .pop-card {
+            position: relative;
+            /* Smart Sizing: fits screen but caps at 450px */
+            width: min(90vw, 90vh, 450px);
+            height: min(90vw, 90vh, 450px);
+            aspect-ratio: 1 / 1; 
+            
+            background-color: var(--pop-white);
+            border: var(--border-thick) solid var(--pop-black);
+            box-shadow: 10px 10px 0px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            
+            /* Global Scaling Factor based on container width */
+            font-size: clamp(12px, 3vmin, 18px); 
+        }
+
+        /* * BACKGROUND: Ben-Day Dots 
+         * Pure CSS radial gradients, strictly decorative
+         */
+        .ben-day-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(var(--pop-blue) 20%, transparent 20%),
+                              radial-gradient(var(--pop-red) 20%, transparent 20%);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            opacity: 0.15;
+            z-index: 0;
+            pointer-events: none; /* Critical fix: Clicks pass through */
+        }
+
+        /* * LAYOUT CONTENT 
+         */
+        .content-layer {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            padding: 5%;
+            gap: 5%;
+        }
+
+        /* HEADER: Big, Bold, Shadowed */
+        .header-title {
+            font-size: 3.5em;
+            text-transform: uppercase;
+            line-height: 0.9;
+            color: var(--pop-yellow);
+            -webkit-text-stroke: 2px var(--pop-black);
+            text-shadow: 4px 4px 0px var(--pop-black);
+            transform: rotate(-2deg);
+            text-align: center;
+            letter-spacing: -1px;
+        }
+
+        /* * WARHOL GRID 
+         * 4 items, high contrast colors
+         */
+        .warhol-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            border: var(--border-thick) solid var(--pop-black);
+            background: var(--pop-black);
+            gap: var(--border-thick);
+        }
+
+        .grid-item {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Specific coloring for grid items to mimic separation */
+        .item-1 { background-color: var(--pop-red); }
+        .item-2 { background-color: var(--pop-blue); }
+        .item-3 { background-color: var(--pop-yellow); }
+        .item-4 { background-color: var(--pop-magenta); }
+
+        .grid-icon {
+            width: 70%;
+            height: 70%;
+            fill: var(--pop-black);
+            filter: drop-shadow(2px 2px 0px rgba(255,255,255,0.3));
+        }
+
+        /* * COMIC ACTION BUTTON (CTA) 
+         * Jagged edges using clip-path
+         */
+        .action-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .comic-btn {
+            background-color: var(--pop-red);
+            color: var(--pop-white);
+            border: none;
+            padding: 1.5em 3em;
+            font-family: inherit;
+            font-size: 1.5em;
+            font-weight: bold;
+            cursor: pointer;
+            
+            /* Comic Burst Shape */
+            clip-path: polygon(
+                10% 0%, 100% 0%, 95% 50%, 100% 100%, 
+                10% 100%, 0% 50%
+            );
+            
+            filter: drop-shadow(4px 4px 0px var(--pop-black));
+            transition: transform 0.1s;
+        }
+
+        .comic-btn:active {
+            transform: scale(0.95);
+            filter: drop-shadow(2px 2px 0px var(--pop-black));
+        }
+
+        .comic-btn:hover {
+            background-color: var(--pop-magenta);
+        }
+
+        /* * POPUP BUBBLE (Hidden by default)
+         */
+        .speech-bubble {
+            position: absolute;
+            top: 10%;
+            right: -5%;
+            background: var(--pop-white);
+            border: 3px solid var(--pop-black);
+            padding: 1em;
+            border-radius: 50%;
+            font-size: 1.2em;
+            transform: scale(0) rotate(15deg);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
+            box-shadow: 4px 4px 0px var(--pop-black);
+        }
+        
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 20px;
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: var(--pop-black) transparent;
+            display: block;
+            width: 0;
+        }
+
+        .speech-bubble.show {
+            transform: scale(1) rotate(15deg);
+        }
+
+        /* HELPER FOR TEXT STYLING */
+        .text-outline {
+            -webkit-text-stroke: 1px var(--pop-black); 
+            color: white; 
+            font-weight: 900;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Main Container: Strictly Square -->
+    <div class="pop-card">
+        
+        <!-- Background Noise (Ben-Day Dots) -->
+        <div class="ben-day-bg"></div>
+
+        <!-- Interactive Layer -->
+        <div class="content-layer">
+            
+            <!-- Header -->
+            <header class="header-title">
+                POP ART<br>STYLE
+            </header>
+
+            <!-- Visual Centerpiece (Warhol Grid) -->
+            <div class="warhol-grid" id="artGrid">
+                <!-- SVG Icons inline for robustness -->
+                <div class="grid-item item-1">
+                    <svg class="grid-icon" viewBox="0 0 24 24"><path d="M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M13,7H11V11H7V13H11V17H13V13H17V11H13V7Z" /></svg>
+                </div>
+                <div class="grid-item item-2">
+                    <svg class="grid-icon" viewBox="0 0 24 24"><path d="M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M13,7H11V11H7V13H11V17H13V13H17V11H13V7Z" /></svg>
+                </div>
+                <div class="grid-item item-3">
+                    <svg class="grid-icon" viewBox="0 0 24 24"><path d="M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M13,7H11V11H7V13H11V17H13V13H17V11H13V7Z" /></svg>
+                </div>
+                <div class="grid-item item-4">
+                    <svg class="grid-icon" viewBox="0 0 24 24"><path d="M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M13,7H11V11H7V13H11V17H13V13H17V11H13V7Z" /></svg>
+                </div>
+            </div>
+
+            <!-- Footer / CTA -->
+            <div class="action-area">
+                <button class="comic-btn" id="boomBtn">CLICK!</button>
+            </div>
+
+            <!-- Hidden Feedback Element -->
+            <div class="speech-bubble" id="bubble">
+                <span style="font-weight:900; color:black;">POW!</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple Interaction Logic
+        const btn = document.getElementById('boomBtn');
+        const bubble = document.getElementById('bubble');
+        const gridItems = document.querySelectorAll('.grid-item');
+        
+        // Colors for random shuffling (Warhol effect)
+        const colors = ['#FF0000', '#FFFF00', '#0000FF', '#FF00FF', '#00FFFF', '#FF6600'];
+
+        btn.addEventListener('click', () => {
+            // 1. Show Comic Bubble
+            bubble.classList.add('show');
+            
+            // 2. Shuffle Grid Colors
+            gridItems.forEach(item => {
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                item.style.backgroundColor = randomColor;
+            });
+
+            // 3. Reset Bubble after animation
+            setTimeout(() => {
+                bubble.classList.remove('show');
+            }, 800);
+        });
+    </script>
+</body>
+</html>

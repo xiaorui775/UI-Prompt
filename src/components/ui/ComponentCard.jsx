@@ -1,9 +1,10 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../../hooks/useLanguage';
 import DOMPurify from 'dompurify';
 import { getDemoHTML } from "../../utils/i18n/demoI18n";
 import { injectAppStylesIntoIframe } from '../../utils/previewCss';
+import { useSharedIntersectionObserver } from '../../hooks/useSharedIntersectionObserver';
 import appCssUrl from '../../index.css?url';
 
 /**
@@ -31,24 +32,19 @@ export function ComponentCard({
   const [readyToInject, setReadyToInject] = useState(false); // requestIdleCallback 双條件
   const [hasInjected, setHasInjected] = useState(false); // 避免重複注入
 
-  // Intersection Observer for lazy loading (observe the container so it's always present)
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsIntersecting(true);
-        }
-      },
-      { threshold: 0.1, rootMargin: '300px' }
-    );
+  // Use shared IntersectionObserver for efficient visibility detection
+  const sharedObserverRef = useSharedIntersectionObserver(
+    () => setIsIntersecting(true),
+    { threshold: 0.1, rootMargin: '300px' }
+  );
 
-    const el = containerRef.current;
-    if (el) observer.observe(el);
-
-    return () => {
-      if (el) observer.unobserve(el);
-    };
-  }, []);
+  // Merge refs: containerRef for other purposes + sharedObserverRef for intersection
+  const setRefs = useCallback((node) => {
+    containerRef.current = node;
+    if (sharedObserverRef) {
+      sharedObserverRef.current = node;
+    }
+  }, [sharedObserverRef]);
 
   // 在瀏覽器空閒時标記可注入，降低主线阻塞
   useEffect(() => {
@@ -175,7 +171,7 @@ export function ComponentCard({
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* 迷你 iframe 預覽区域 */}
-      <div ref={containerRef} className="relative w-full h-44 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 overflow-hidden">
+      <div ref={setRefs} className="relative w-full h-44 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 overflow-hidden">
         {/* 變体数量徽章 (右上角) */}
         {hasVariants && (
           <div className="absolute top-2 right-2 z-10">

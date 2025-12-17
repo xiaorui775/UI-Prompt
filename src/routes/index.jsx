@@ -4,22 +4,27 @@
  * @module routes
  */
 
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, redirect } from 'react-router-dom';
 import { HydrateFallback } from '../components/HydrateFallback';
-import { createStyleLoader, createComponentLoader, createLazyRoute } from '../utils/routeLoaders';
+import { createStyleLoader, createStyleLoaderDeferred, createComponentLoader, createLazyRoute } from '../utils/routeLoaders';
 
 /**
  * Application routes configuration
  * @type {import('react-router-dom').RouteObject[]}
  */
 export const router = createBrowserRouter([
-  // Preview routes (without main Layout)
+  // Preview routes (without main Layout) - uses deferred loading for fast TTF
   {
     path: '/styles/preview/:styleId',
     lazy: createLazyRoute(
       () => import('../pages/styles/StylePreviewPage.jsx'),
-      createStyleLoader
+      createStyleLoaderDeferred  // Use deferred loader for streaming data
     )
+  },
+  // Redirect /styles/preview (without styleId) to /styles page
+  {
+    path: '/styles/preview',
+    loader: () => redirect('/styles')
   },
   {
     path: '/styles/code/:styleId',
