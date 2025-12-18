@@ -1,14 +1,17 @@
-import { useMemo, useState, useCallback } from 'react';
+import { useMemo, useCallback, useState } from 'react';
 import { StyleCard } from '../../components/ui/StyleCard';
+import { StyleListRow } from '../../components/ui/StyleListRow';
 import { MasonryContainer } from '../../components/ui/MasonryContainer';
 import { VirtualMasonryVariable } from '../../components/ui/VirtualMasonryVariable';
+import { ViewModeToggle } from '../../components/ui/ViewModeToggle';
 import { FilterBar } from '../../components/filter/FilterBar';
 import { useLanguage } from '../../hooks/useLanguage';
-import { useRemoteCategories } from '../../hooks/useRemoteCategories';
+import { useProgressiveStyleLoad } from '../../hooks/useProgressiveStyleLoad';
+import { useFilterUrlSync } from '../../hooks/useFilterUrlSync';
 import { applyFilters, applyTranslationsToCategories, getTagStatistics } from '../../utils/categoryHelper';
-import { loadStyleMetadataOnly } from '../../data/components/loaders';
 import { VIRTUAL_SCROLL_THRESHOLD, SKELETON_COUNTS } from '../../utils/constants';
 import { ListPageScaffold } from '../../components/scaffold';
+import { SEOHead, getPageSEO, generateStyleListSchema } from '../../components/seo';
 
 
 /**
@@ -20,23 +23,23 @@ import { ListPageScaffold } from '../../components/scaffold';
 export function AllStylesPage() {
   const { t, language } = useLanguage();
 
-  // 使用共享的數據加載 hook
+  // 視圖模式狀態：grid 或 list
+  const [viewMode, setViewMode] = useState('grid');
+
+  // 🚀 使用漸進式加載 hook（優化首屏性能）
   const {
     data: categories,
     isLoading,
+    isPartiallyLoaded: _isPartiallyLoaded, // 保留供未來 UI 優化使用
     isError,
-    retry: handleRetry
-  } = useRemoteCategories(loadStyleMetadataOnly, {
+    retry: handleRetry,
+    loadProgress: _loadProgress // 保留供未來進度條使用
+  } = useProgressiveStyleLoad({
     loggerName: 'AllStylesPage'
   });
 
-  // 篩選狀態
-  const [filters, setFilters] = useState({
-    keyword: '',
-    categories: [],
-    tags: [],
-    matchMode: 'any'
-  });
+  // 篩選狀態 - 使用 URL 同步 hook
+  const { filters, setFilters, clearFilters } = useFilterUrlSync();
 
   // 獲取所有風格数据 (已增強 with 标籤 + 翻譯)
   const allStyles = useMemo(() => {
@@ -70,22 +73,7 @@ export function AllStylesPage() {
   // 是否有啟用篩選
   const hasActiveFilters = filters.keyword || filters.categories.length > 0 || filters.tags.length > 0;
 
-  // 處理篩選條件變化
-  const handleFilterChange = useCallback((newFilters) => {
-    setFilters(newFilters);
-  }, []);
-
-  // 清除篩選
-  const handleClearFilters = useCallback(() => {
-    setFilters({
-      keyword: '',
-      categories: [],
-      tags: [],
-      matchMode: 'any'
-    });
-  }, []);
-
-  // 渲染 StyleCard
+  // 渲染 StyleCard (Grid View)
   const renderStyleCard = useCallback((style) => (
     <StyleCard
       key={style._uniqueKey}
@@ -111,8 +99,45 @@ export function AllStylesPage() {
     />
   ), []);
 
+  // 渲染 StyleListRow (List View)
+  const renderStyleListRow = useCallback((style) => (
+    <StyleListRow
+      key={style._uniqueKey}
+      id={style.id}
+      title={style.title}
+      description={style.description}
+      demoHTML={style.demoHTML}
+      customStyles={style.customStyles}
+      fullPageHTML={style.fullPageHTML}
+      previews={style.previews}
+      tags={style.tags}
+      primaryCategory={style.primaryCategory}
+      customPrompt={style.customPrompt}
+      stylePrompt={style.stylePrompt}
+      categoryId={style._categoryId || style.primaryCategory || style.category}
+      familyId={style.familyId}
+    />
+  ), []);
+
+  // SEO configuration
+  const seo = getPageSEO('styles', language);
+  const styleListSchema = useMemo(
+    () => generateStyleListSchema(allStyles.slice(0, 10), language),
+    [allStyles, language]
+  );
+
   return (
-    <ListPageScaffold
+    <>
+      {/* SEO Meta Tags */}
+      <SEOHead
+        title={seo.title}
+        description={seo.description}
+        keywords={seo.keywords}
+        path="/styles"
+        language={language}
+        jsonLd={styleListSchema}
+      />
+      <ListPageScaffold
       className="styles-page"
       title={t('common.styles')}
       description={t('common.stylesDescription')}
@@ -122,7 +147,7 @@ export function AllStylesPage() {
       toolbarSkeletonVariant="complex"
       renderToolbar={() => (
         <FilterBar
-          onFilterChange={handleFilterChange}
+          onFilterChange={setFilters}
           initialFilters={filters}
           showSearch={true}
           showCategories={true}
@@ -136,30 +161,44 @@ export function AllStylesPage() {
         totalCount: allStyles.length,
         filteredLabel: t('common.foundResults', { count: filteredStyles.length }),
         totalLabel: t('common.showingAll', { count: filteredStyles.length }),
-        showTotal: filteredStyles.length > 0,
-        totalLabelRight: t('common.totalStyles', { count: allStyles.length })
+        showTotal: false,
+        rightContent: (
+          <ViewModeToggle
+            viewMode={viewMode}
+            onViewModeChange={setViewMode}
+          />
+        )
       }}
       isEmpty={filteredStyles.length === 0}
-      onClearFilters={handleClearFilters}
+      onClearFilters={clearFilters}
       skeletonCount={SKELETON_COUNTS.STYLES}
       skeletonColumns="md:grid-cols-2 lg:grid-cols-3"
       skeletonGap="gap-8"
     >
-      {/* Content: Virtual scroll for large lists, Masonry for small */}
+      {/* Content: Grid or List view based on viewMode */}
       <div className="transition-opacity duration-300 ease-out">
-        {filteredStyles.length > VIRTUAL_SCROLL_THRESHOLD ? (
-          <VirtualMasonryVariable
-            items={filteredStyles}
-            itemHeight={400}
-            gap={32}
-            renderItem={renderStyleCard}
-          />
+        {viewMode === 'list' ? (
+          /* List View - Full width */
+          <div className="flex flex-col gap-3">
+            {filteredStyles.map(renderStyleListRow)}
+          </div>
         ) : (
-          <MasonryContainer>
-            {filteredStyles.map(renderStyleCard)}
-          </MasonryContainer>
+          /* Grid View: Virtual scroll for large lists, Masonry for small */
+          filteredStyles.length > VIRTUAL_SCROLL_THRESHOLD ? (
+            <VirtualMasonryVariable
+              items={filteredStyles}
+              itemHeight={400}
+              gap={32}
+              renderItem={renderStyleCard}
+            />
+          ) : (
+            <MasonryContainer>
+              {filteredStyles.map(renderStyleCard)}
+            </MasonryContainer>
+          )
         )}
       </div>
     </ListPageScaffold>
+    </>
   );
 }

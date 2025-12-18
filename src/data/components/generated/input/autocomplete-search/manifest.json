@@ -3,12 +3,12 @@
   "category": "input",
   "component": {
     "name": {
-      "zh-CN": "data.components.input.autocomplete-search.title",
-      "en-US": "data.components.input.autocomplete-search.title"
+      "zh-CN": "自动补全搜索",
+      "en-US": "Autocomplete Search"
     },
     "description": {
-      "zh-CN": "data.components.input.autocomplete-search.description",
-      "en-US": "data.components.input.autocomplete-search.description"
+      "zh-CN": "自动补全搜索框",
+      "en-US": "Autocomplete search input"
     },
     "tags": [
       "input"
@@ -19,12 +19,12 @@
     {
       "id": "default",
       "name": {
-        "zh-CN": "data.components.input.autocomplete-search.title",
-        "en-US": "data.components.input.autocomplete-search.title"
+        "zh-CN": "默认样式",
+        "en-US": "Default"
       },
       "description": {
-        "zh-CN": "data.components.input.autocomplete-search.description",
-        "en-US": "data.components.input.autocomplete-search.description"
+        "zh-CN": "默认样式风格的自动补全搜索实现",
+        "en-US": "Autocomplete Search implementation in Default style"
       },
       "hasContent": true,
       "hasStyles": false

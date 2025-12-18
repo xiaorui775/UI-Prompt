@@ -100,7 +100,6 @@ export function generatePrompt(title, description, language = DEFAULT_LANGUAGE) 
 
 // 兼容舊的 PreviewPromptGenerator（向後兼容）
 export class PreviewPromptGenerator {
-  // eslint-disable-next-line no-unused-vars
   static generate(titleOrStyle, _description, _htmlContent, language, _previewDescription = '', _previewFeatures = [], _colorScheme = '', currentPreview = null) {
     return PromptGenerator.generate(titleOrStyle, { currentPreview }, language);
   }

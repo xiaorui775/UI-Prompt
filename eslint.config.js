@@ -38,7 +38,7 @@ export default defineConfig([
     },
     rules: {
       // === 變量規則 ===
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]', argsIgnorePattern: '^[A-Z_]', caughtErrorsIgnorePattern: '^[A-Z_]' }],
 
       // === Console 規則 ===
       // 警告 console 使用，允許 warn 和 error 用於調試

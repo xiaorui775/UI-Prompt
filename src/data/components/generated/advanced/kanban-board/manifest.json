@@ -3,12 +3,12 @@
   "category": "advanced",
   "component": {
     "name": {
-      "zh-CN": "data.components.advanced.kanban-board.title",
-      "en-US": "data.components.advanced.kanban-board.title"
+      "zh-CN": "看板",
+      "en-US": "Kanban Board"
     },
     "description": {
-      "zh-CN": "data.components.advanced.kanban-board.description",
-      "en-US": "data.components.advanced.kanban-board.description"
+      "zh-CN": "看板任务管理组件",
+      "en-US": "Kanban task management board"
     },
     "tags": [
       "advanced"
@@ -19,12 +19,12 @@
     {
       "id": "default",
       "name": {
-        "zh-CN": "data.components.advanced.kanban-board.title",
-        "en-US": "data.components.advanced.kanban-board.title"
+        "zh-CN": "默认样式",
+        "en-US": "Default"
       },
       "description": {
-        "zh-CN": "data.components.advanced.kanban-board.description",
-        "en-US": "data.components.advanced.kanban-board.description"
+        "zh-CN": "默认样式风格的看板实现",
+        "en-US": "Kanban Board implementation in Default style"
       },
       "hasContent": true,
       "hasStyles": false

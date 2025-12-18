@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../../hooks/useLanguage';
+import { LANG_TO_URL } from '../../components/seo/seoConfig';
 import DOMPurify from 'dompurify';
 import { getDemoHTML } from "../../utils/i18n/demoI18n";
 import { injectAppStylesIntoIframe } from '../../utils/previewCss';
@@ -8,10 +9,41 @@ import { useSharedIntersectionObserver } from '../../hooks/useSharedIntersection
 import appCssUrl from '../../index.css?url';
 
 /**
+ * 自定義 props 比較函數
+ * 避免不必要的重渲染，只在關鍵 props 變化時才重新渲染
+ */
+function arePropsEqual(prevProps, nextProps) {
+  // 核心識別符
+  if (prevProps.id !== nextProps.id) return false;
+  if (prevProps.categoryId !== nextProps.categoryId) return false;
+
+  // 內容相關 (影響渲染)
+  if (prevProps.title !== nextProps.title) return false;
+  if (prevProps.description !== nextProps.description) return false;
+  if (prevProps.demoHTML !== nextProps.demoHTML) return false;
+  if (prevProps.customStyles !== nextProps.customStyles) return false;
+
+  // UI 相關
+  if (prevProps.categoryLabel !== nextProps.categoryLabel) return false;
+  if (prevProps.categoryIcon !== nextProps.categoryIcon) return false;
+
+  // variants 長度比較（避免深比較）
+  const prevVariantsLen = prevProps.variants?.length ?? 0;
+  const nextVariantsLen = nextProps.variants?.length ?? 0;
+  if (prevVariantsLen !== nextVariantsLen) return false;
+
+  // onCategoryClick 是回調函數，通常穩定，跳過比較
+
+  return true;
+}
+
+/**
  * ComponentCard - 組件画廊卡片
  * 显示迷你 iframe 預覽、組件名稱、描述和分类标籤
+ *
+ * 🚀 性能優化：使用 React.memo + 自定義比較函數減少重渲染
  */
-export function ComponentCard({
+function ComponentCardComponent({
   id,
   title,
   description,
@@ -143,7 +175,8 @@ export function ComponentCard({
   const handleCardClick = (e) => {
     // 避免點擊分类标籤時觸發
     if (e.target.closest('.category-badge')) return;
-    navigate(`/components/${categoryId}/${id}`);
+    const urlLang = LANG_TO_URL[language] || 'zh';
+    navigate(`/${urlLang}/components/${categoryId}/${id}`);
   };
 
   // 處理分类标籤點擊
@@ -254,5 +287,8 @@ export function ComponentCard({
     </div>
   );
 }
+
+// 🚀 使用 React.memo 包裝組件，配合自定義比較函數
+export const ComponentCard = memo(ComponentCardComponent, arePropsEqual);
 
 export default ComponentCard;

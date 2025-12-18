@@ -1,15 +1,16 @@
-import { useMemo, useState, useCallback } from 'react';
+import { useMemo, useCallback } from 'react';
 import { ComponentCard } from '../../components/ui/ComponentCard';
 import { SearchBar } from '../../components/ui/SearchBar';
 import { FilterTabs } from '../../components/ui/FilterTabs';
 import { useLanguage } from '../../hooks/useLanguage';
-import { useDebounce } from '../../hooks/useDebounce';
 import { useRemoteCategories } from '../../hooks/useRemoteCategories';
+import { useComponentFilterUrlSync } from '../../hooks/useComponentFilterUrlSync';
 import { applyTranslationsToCategories } from '../../utils/categoryHelper';
 import { loadComponentMetadataOnly } from '../../data/components/loaders';
 import { createI18nResolver } from '../../utils/i18n/resolveI18nValue';
 import { SKELETON_COUNTS } from '../../utils/constants';
 import { ListPageScaffold } from '../../components/scaffold';
+import { SEOHead, getPageSEO, generateComponentListSchema } from '../../components/seo';
 
 /**
  * AllComponentsPage - 統一組件画廊页面
@@ -22,11 +23,6 @@ import { ListPageScaffold } from '../../components/scaffold';
  */
 export function AllComponentsPage() {
   const { t, language } = useLanguage();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [activeCategory, setActiveCategory] = useState('all');
-
-  // 🚀 搜索防抖優化：300ms 延遲，減少篩選重算次數
-  const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
   // 使用共享的數據加載 hook
   const {
@@ -42,6 +38,21 @@ export function AllComponentsPage() {
   const translatedCategories = useMemo(() => {
     return applyTranslationsToCategories(categories, language);
   }, [language, categories]);
+
+  // 獲取有效分類 ID 列表
+  const validCategoryIds = useMemo(() =>
+    translatedCategories.map(cat => cat.id)
+  , [translatedCategories]);
+
+  // 篩選狀態 - 使用 URL 同步 hook（含 debounce）
+  const {
+    searchQuery,
+    setSearchQuery,
+    debouncedSearchQuery,
+    activeCategory,
+    setActiveCategory,
+    clearFilters
+  } = useComponentFilterUrlSync(validCategoryIds);
 
   // 所有組件列表 (扁平化) - 使用 _uniqueKey 避免 key 碰撞
   const allComponents = useMemo(() => {
@@ -100,25 +111,31 @@ export function AllComponentsPage() {
   // 是否有啟用篩選
   const hasActiveFilters = searchQuery || activeCategory !== 'all';
 
-  // 處理分类點擊
-  const handleCategoryChange = useCallback((categoryId) => {
-    setActiveCategory(categoryId);
-  }, []);
-
   // 處理卡片中分类标籤點擊
   const handleCategoryClick = useCallback((categoryId) => {
     setActiveCategory(categoryId);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
+  }, [setActiveCategory]);
 
-  // 清除篩選
-  const handleClearFilters = useCallback(() => {
-    setSearchQuery('');
-    setActiveCategory('all');
-  }, []);
+  // SEO configuration
+  const seo = getPageSEO('components', language);
+  const componentListSchema = useMemo(
+    () => generateComponentListSchema(allComponents.slice(0, 10), language),
+    [allComponents, language]
+  );
 
   return (
-    <ListPageScaffold
+    <>
+      {/* SEO Meta Tags */}
+      <SEOHead
+        title={seo.title}
+        description={seo.description}
+        keywords={seo.keywords}
+        path="/components"
+        language={language}
+        jsonLd={componentListSchema}
+      />
+      <ListPageScaffold
       title={t('common.components')}
       description={t('common.componentsDescription')}
       isLoading={isLoading}
@@ -135,7 +152,7 @@ export function AllComponentsPage() {
           <FilterTabs
             categories={translatedCategories}
             activeCategory={activeCategory}
-            onCategoryChange={handleCategoryChange}
+            onCategoryChange={setActiveCategory}
           />
         </div>
       )}
@@ -148,7 +165,7 @@ export function AllComponentsPage() {
         showTotal: false
       }}
       isEmpty={filteredComponents.length === 0}
-      onClearFilters={handleClearFilters}
+      onClearFilters={clearFilters}
       skeletonCount={SKELETON_COUNTS.COMPONENTS}
       skeletonColumns="grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
       skeletonGap="gap-6"
@@ -172,5 +189,6 @@ export function AllComponentsPage() {
         ))}
       </div>
     </ListPageScaffold>
+    </>
   );
 }

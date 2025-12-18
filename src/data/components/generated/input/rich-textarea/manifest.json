@@ -3,12 +3,12 @@
   "category": "input",
   "component": {
     "name": {
-      "zh-CN": "data.components.input.rich-textarea.title",
-      "en-US": "data.components.input.rich-textarea.title"
+      "zh-CN": "富文本输入框",
+      "en-US": "Rich Textarea"
     },
     "description": {
-      "zh-CN": "data.components.input.rich-textarea.description",
-      "en-US": "data.components.input.rich-textarea.description"
+      "zh-CN": "增强型文本输入框",
+      "en-US": "Enhanced textarea component"
     },
     "tags": [
       "input"
@@ -19,12 +19,12 @@
     {
       "id": "default",
       "name": {
-        "zh-CN": "data.components.input.rich-textarea.title",
-        "en-US": "data.components.input.rich-textarea.title"
+        "zh-CN": "默认样式",
+        "en-US": "Default"
       },
       "description": {
-        "zh-CN": "data.components.input.rich-textarea.description",
-        "en-US": "data.components.input.rich-textarea.description"
+        "zh-CN": "默认样式风格的富文本输入框实现",
+        "en-US": "Rich Textarea implementation in Default style"
       },
       "hasContent": true,
       "hasStyles": false

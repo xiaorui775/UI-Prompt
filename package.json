@@ -5,12 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run build:styles-index && npm run build:components-index && npm run build:preview-id-map && npm run build:shard-preview-map && npm run build:pre-compile-jsx && vite build",
+    "build": "npm run build:styles-index && npm run build:components-index && npm run build:preview-id-map && npm run build:shard-preview-map && npm run build:pre-compile-jsx && npm run build:sitemap && vite build",
     "build:styles-index": "node scripts/build-styles-index.js",
     "build:components-index": "node scripts/build-components-index.js",
     "build:preview-id-map": "node scripts/build-preview-id-map.js",
     "build:shard-preview-map": "node scripts/shard-preview-map.js",
     "build:pre-compile-jsx": "node scripts/pre-compile-jsx.js",
+    "build:sitemap": "node scripts/build-sitemap.js",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
@@ -27,12 +28,15 @@
     "translate:prompts:dry-run": "node scripts/translate-prompts.js --dry-run",
     "translate:prompts:top10": "node scripts/translate-prompts.js --top-10",
     "translate:helper": "node scripts/translate-helper.js",
-    "analyze": "vite build && npx vite-bundle-visualizer"
+    "analyze": "vite build && npx vite-bundle-visualizer",
+    "check:permissions": "node scripts/normalize-permissions.js",
+    "fix:permissions": "node scripts/normalize-permissions.js --fix"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
+    "@dr.pogodin/react-helmet": "^3.0.5",
     "@monaco-editor/react": "^4.7.0",
     "dompurify": "^3.3.0",
     "framer-motion": "^12.23.24",

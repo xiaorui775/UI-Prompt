@@ -2,73 +2,74 @@
 
 ## 中文版本 (zh-CN)
 
-創建「編織與經緯」(Woven & Weft) 風格的手工生活方式電商落地頁，融合編織纹理、缝线装饰和温暖的布料美学。
 
-### 核心設計理念
-以布料為靈感的界面設計，通過編織紋理背景、縫線邊框和手工質感，營造溫暖、慢生活的購物體驗。適用於手工藝品、家居紡織品、時尚服飾等強調質感和工藝的品牌。
+创建「编织与经纬」(Woven & Weft) 风格的手工生活方式电商落地页，融合编织纹理、缝线装饰和温暖的布料美学。
 
-### 視覺特徵
+### 核心设计理念
+以布料为灵感的界面设计，通过编织纹理背景、缝线边框和手工质感，营造温暖、慢生活的购物体验。适用于手工艺品、家居纺织品、时尚服饰等强调质感和工艺的品牌。
 
-**1. 背景紋理（三層疊加）**
+### 视觉特征
+
+**1. 背景纹理（三层叠加）**
 ```css
 body {
-  background-color: #f4f1ea; /* 亞麻色基底 */
+  background-color: #f4f1ea; /* 亚麻色基底 */
   background-image:
-    /* 噪點紋理（顆粒感） */
+    /* 噪点纹理（颗粒感） */
     url("data:image/svg+xml,...fractalNoise..."),
-    /* 縱向編織線 */
+    /* 纵向编织线 */
     repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,0.02) 2px, rgba(0,0,0,0.02) 4px),
-    /* 橫向編織線 */
+    /* 横向编织线 */
     repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.02) 2px, rgba(0,0,0,0.02) 4px);
 }
 ```
 
-**2. 縫線邊框效果**
-所有卡片和容器使用虛線邊框模擬縫線：
+**2. 缝线边框效果**
+所有卡片和容器使用虚线边框模拟缝线：
 ```css
 .stitched-container::after {
   content: '';
   position: absolute;
-  inset: 6px; /* 與外邊框保持間距 */
+  inset: 6px; /* 与外边框保持间距 */
   border: 1px dashed rgba(61, 58, 54, 0.2);
   border-radius: 2px;
 }
 ```
 
-**3. 布料質感按鈕**
-- 按鈕背景使用絕對定位的 `.btn-bg` 層模擬布料補丁
-- 內部添加虛線縫合效果
-- 懸停時輕微放大（`scale(1.02)`）+ 增亮（`brightness(1.1)`）
-- 按下時縮小（`scale(0.98)`）+ 陰影變淺
+**3. 布料质感按钮**
+- 按钮背景使用绝对定位的 `.btn-bg` 层模拟布料补丁
+- 内部添加虚线缝合效果
+- 悬停时轻微放大（`scale(1.02)`）+ 增亮（`brightness(1.1)`）
+- 按下时缩小（`scale(0.98)`）+ 阴影变浅
 
-### 色彩系統
+### 色彩系统
 
-**主色調**（溫暖中性色）：
-- 亞麻背景：`#f4f1ea`
+**主色调**（温暖中性色）：
+- 亚麻背景：`#f4f1ea`
 - 卡片白色：`#ffffff`
 - 主要文字：`#3d3a36`（深棕灰）
 - 次要文字：`#6e6b66`（中灰棕）
 
-**強調色**（大地色調）：
-- 靛藍（Denim）：`#5f7186` - 用於分類標籤
-- 陶土紅（Clay）：`#b87e6b` - 用於小標題
-- 鼠尾草綠（Sage）：`#8fa08e` - 用於 Newsletter 區塊
+**强调色**（大地色调）：
+- 靛蓝（Denim）：`#5f7186` - 用于分类标签
+- 陶土红（Clay）：`#b87e6b` - 用于小标题
+- 鼠尾草绿（Sage）：`#8fa08e` - 用于 Newsletter 区块
 
-### 排版系統
+### 排版系统
 
-**字體組合**：
-- 標題：`'Cormorant Garamond', serif` - 優雅襯線體，斜體用於品牌名
-- 正文：`'Nunito Sans', sans-serif` - 現代無襯線，易讀
+**字体组合**：
+- 标题：`'Cormorant Garamond', serif` - 优雅衬线体，斜体用于品牌名
+- 正文：`'Nunito Sans', sans-serif` - 现代无衬线，易读
 
-**字階**：
-- Hero 標題：`4.5rem`（移動端調整為 `2.5rem`）
-- 區塊標題：`2.5rem`
-- 產品標題：`1.5rem`
-- 小標籤：`0.75rem`（大寫 + 字母間距 `0.1em`）
+**字阶**：
+- Hero 标题：`4.5rem`（移动端调整为 `2.5rem`）
+- 区块标题：`2.5rem`
+- 产品标题：`1.5rem`
+- 小标签：`0.75rem`（大写 + 字母间距 `0.1em`）
 
-### 組件設計
+### 组件设计
 
-**1. 產品卡片**
+**1. 产品卡片**
 ```html
 <div class="stitched-container product-card">
   <div class="product-img-box">
@@ -87,7 +88,7 @@ body {
 </div>
 ```
 
-**2. Logo 縫布標籤**
+**2. Logo 缝布标签**
 ```css
 .logo::before {
   content: '';
@@ -95,12 +96,12 @@ body {
   inset: -4px 0;
   background: rgba(255,255,255,0.6);
   z-index: -1;
-  transform: rotate(-1deg); /* 輕微傾斜 */
+  transform: rotate(-1deg); /* 轻微倾斜 */
   border: 1px dashed var(--c-thread);
 }
 ```
 
-**3. 導航縫線下劃線**
+**3. 导航缝线下划线**
 ```css
 nav a::before {
   content: '';
@@ -109,7 +110,7 @@ nav a::before {
   left: 0;
   width: 0;
   height: 2px;
-  /* 虛線效果模擬縫線 */
+  /* 虚线效果模拟缝线 */
   background-image: repeating-linear-gradient(90deg,
     var(--c-accent-clay), var(--c-accent-clay) 4px,
     transparent 4px, transparent 6px);
@@ -118,9 +119,9 @@ nav a::before {
 nav a:hover::before { width: 100%; }
 ```
 
-**4. 材質色板（Swatches）**
-- 圓形色板（`18px` 直徑）
-- 激活狀態顯示白色針頭效果（`::after` 偽元素）
+**4. 材质色板（Swatches）**
+- 圆形色板（`18px` 直径）
+- 激活状态显示白色针头效果（`::after` 伪元素）
 ```css
 .swatch.active::after {
   content: '';
@@ -136,27 +137,27 @@ nav a:hover::before { width: 100%; }
 }
 ```
 
-### 動畫與交互
+### 动画与交互
 
-**過渡效果**：
-- 統一使用 `cubic-bezier(0.4, 0, 0.2, 1)` 緩動
-- 懸停卡片：`translateY(-2px)` + 陰影加深
-- 避免過於流暢的動畫，保持手工質感
+**过渡效果**：
+- 统一使用 `cubic-bezier(0.4, 0, 0.2, 1)` 缓动
+- 悬停卡片：`translateY(-2px)` + 阴影加深
+- 避免过于流畅的动画，保持手工质感
 
 **Toast 通知**：
 - 固定在右下角
-- 使用 `cubic-bezier(0.175, 0.885, 0.32, 1.275)` 彈性進入
-- 內部也有縫線裝飾（虛線邊框）
+- 使用 `cubic-bezier(0.175, 0.885, 0.32, 1.275)` 弹性进入
+- 内部也有缝线装饰（虚线边框）
 
-### 佈局結構
+### 布局结构
 
-**Hero 區域**：
-- 左右兩欄（移動端改為單欄）
-- 右側圖片使用分層邊框模擬布料畫框：
-  - 外層偏移背景色塊（`position: absolute`）
-  - 內層圖片帶柔和圓角和陰影
+**Hero 区域**：
+- 左右两栏（移动端改为单栏）
+- 右侧图片使用分层边框模拟布料画框：
+  - 外层偏移背景色块（`position: absolute`）
+  - 内层图片带柔和圆角和阴影
 
-**產品網格**：
+**产品网格**：
 ```css
 .grid {
   display: grid;
@@ -165,33 +166,32 @@ nav a:hover::before { width: 100%; }
 }
 ```
 
-**Newsletter 區塊**：
-- 全寬區塊，背景色為 Sage Green
-- 使用 45 度斜線紋理模擬牛仔布質感
+**Newsletter 区块**：
+- 全宽区块，背景色为 Sage Green
+- 使用 45 度斜线纹理模拟牛仔布质感
 
-### 響應式設計
+### 响应式设计
 
-**移動端（< 768px）**：
-- Hero 改為單欄，圖片置頂
-- 導航隱藏（顯示漢堡菜單）
-- Newsletter 輸入框改為垂直堆疊
-- 字體大小適當縮小
+**移动端（< 768px）**：
+- Hero 改为单栏，图片置顶
+- 导航隐藏（显示汉堡菜单）
+- Newsletter 输入框改为垂直堆叠
+- 字体大小适当缩小
 
-### 實現關鍵點
+### 实现关键点
 
-1. **CSS 變量管理**：使用 `:root` 定義顏色、間距、陰影
-2. **偽元素裝飾**：大量使用 `::before` 和 `::after` 創建縫線效果
-3. **iframe 安全**：如在 iframe 中渲染，確保 Google Fonts 可加載
-4. **降級優雅**：圖片加載失敗時顯示替代背景色
-5. **語義化 HTML**：使用正確的標籤（`<header>`, `<section>`, `<footer>`）
+1. **CSS 变量管理**：使用 `:root` 定义颜色、间距、阴影
+2. **伪元素装饰**：大量使用 `::before` 和 `::after` 创建缝线效果
+3. **iframe 安全**：如在 iframe 中渲染，确保 Google Fonts 可加载
+4. **降级优雅**：图片加载失败时显示替代背景色
+5. **语义化 HTML**：使用正确的标签（`<header>`, `<section>`, `<footer>`）
 
-### 典型應用場景
-- 手工藝品電商（編織、陶藝、木工）
-- 家居紡織品商店（床品、桌布、窗簾）
-- 時尚服飾品牌（亞麻服、天然纖維）
-- 慢生活方式博客/雜誌
-- 咖啡/烘焙店官網
-
+### 典型应用场景
+- 手工艺品电商（编织、陶艺、木工）
+- 家居纺织品商店（床品、桌布、窗帘）
+- 时尚服饰品牌（亚麻服、天然纤维）
+- 慢生活方式博客/杂志
+- 咖啡/烘焙店官网
 
 ---
 

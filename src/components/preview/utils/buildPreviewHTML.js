@@ -513,6 +513,36 @@ function buildLoadingHTML(loadingText = 'Loading...', language = 'en-US') {
 </html>`;
 }
 
+/**
+ * 構建空白佔位頁面（用於由外層 React UI 顯示 Loading 時，避免 iframe 內再渲染第二個 Loader）
+ * @returns {string} 空白頁面 HTML
+ */
+function buildBlankHTML(language = 'en-US') {
+  const langAttr = language || 'en-US';
+
+  return `<!DOCTYPE html>
+<html lang="${langAttr}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loading</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background: white;
+    }
+    @media (prefers-color-scheme: dark) {
+      body { background: #111827; }
+    }
+  </style>
+</head>
+<body></body>
+</html>`;
+}
+
 // ========== 主構建函數 ==========
 
 /**
@@ -548,6 +578,7 @@ export function buildPreviewHTML({
   asyncPreviewId, // eslint-disable-line no-unused-vars -- Reserved for future async preview caching
   isLoadingPreview,
   previewCacheRef, // eslint-disable-line no-unused-vars -- Reserved for future preview cache optimization
+  suppressLoadingUI = false,
   language = 'en-US'
 }) {
   const resolvedLanguage = language || 'en-US';
@@ -576,6 +607,9 @@ export function buildPreviewHTML({
 
       // 如果正在加載，顯示加載頁面
       if (isLoadingPreview) {
+        if (suppressLoadingUI) {
+          return buildBlankHTML(resolvedLanguage);
+        }
         return buildReactLoadingHTML('Loading...', resolvedLanguage);
       }
     }
@@ -635,6 +669,9 @@ export function buildPreviewHTML({
 
     // 3a. 若需要異步加載但內容尚未到位，顯示骨架頁面
     if ((current?.previewId || fullPagePreviewId) && !previewContent) {
+      if (suppressLoadingUI) {
+        return buildBlankHTML(resolvedLanguage);
+      }
       return buildLoadingHTML('Loading...', resolvedLanguage);
     }
 

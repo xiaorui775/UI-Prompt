@@ -3,12 +3,12 @@
   "category": "dataDisplay",
   "component": {
     "name": {
-      "zh-CN": "data.components.dataDisplay.statistics-card.title",
-      "en-US": "data.components.dataDisplay.statistics-card.title"
+      "zh-CN": "统计卡片",
+      "en-US": "Statistics Card"
     },
     "description": {
-      "zh-CN": "data.components.dataDisplay.statistics-card.description",
-      "en-US": "data.components.dataDisplay.statistics-card.description"
+      "zh-CN": "用于展示统计数据的卡片组件",
+      "en-US": "Card component for displaying statistics"
     },
     "tags": [
       "dataDisplay"
@@ -19,12 +19,12 @@
     {
       "id": "minimalist",
       "name": {
-        "zh-CN": "data.components.dataDisplay.statistics-card.variants.minimalist.name",
-        "en-US": "data.components.dataDisplay.statistics-card.variants.minimalist.name"
+        "zh-CN": "极简风格",
+        "en-US": "Minimalist"
       },
       "description": {
-        "zh-CN": "data.components.dataDisplay.statistics-card.variants.minimalist.description",
-        "en-US": "data.components.dataDisplay.statistics-card.variants.minimalist.description"
+        "zh-CN": "极简风格风格的统计卡片实现",
+        "en-US": "Statistics Card implementation in Minimalist style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -32,12 +32,12 @@
     {
       "id": "bootstrap5",
       "name": {
-        "zh-CN": "data.components.dataDisplay.statistics-card.variants.bootstrap5.name",
-        "en-US": "data.components.dataDisplay.statistics-card.variants.bootstrap5.name"
+        "zh-CN": "Bootstrap 5",
+        "en-US": "Bootstrap 5"
       },
       "description": {
-        "zh-CN": "data.components.dataDisplay.statistics-card.variants.bootstrap5.description",
-        "en-US": "data.components.dataDisplay.statistics-card.variants.bootstrap5.description"
+        "zh-CN": "Bootstrap 5风格的统计卡片实现",
+        "en-US": "Statistics Card implementation in Bootstrap 5 style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -45,12 +45,12 @@
     {
       "id": "glassmorphism",
       "name": {
-        "zh-CN": "data.components.dataDisplay.statistics-card.variants.glassmorphism.name",
-        "en-US": "data.components.dataDisplay.statistics-card.variants.glassmorphism.name"
+        "zh-CN": "玻璃拟态",
+        "en-US": "Glassmorphism"
       },
       "description": {
-        "zh-CN": "data.components.dataDisplay.statistics-card.variants.glassmorphism.description",
-        "en-US": "data.components.dataDisplay.statistics-card.variants.glassmorphism.description"
+        "zh-CN": "玻璃拟态风格的统计卡片实现",
+        "en-US": "Statistics Card implementation in Glassmorphism style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -58,12 +58,12 @@
     {
       "id": "ant-design",
       "name": {
-        "zh-CN": "data.components.dataDisplay.statistics-card.variants.ant-design.name",
-        "en-US": "data.components.dataDisplay.statistics-card.variants.ant-design.name"
+        "zh-CN": "Ant Design",
+        "en-US": "Ant Design"
       },
       "description": {
-        "zh-CN": "data.components.dataDisplay.statistics-card.variants.ant-design.description",
-        "en-US": "data.components.dataDisplay.statistics-card.variants.ant-design.description"
+        "zh-CN": "Ant Design风格的统计卡片实现",
+        "en-US": "Statistics Card implementation in Ant Design style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -71,12 +71,12 @@
     {
       "id": "neumorphism",
       "name": {
-        "zh-CN": "data.components.dataDisplay.statistics-card.variants.neumorphism.name",
-        "en-US": "data.components.dataDisplay.statistics-card.variants.neumorphism.name"
+        "zh-CN": "拟态风格",
+        "en-US": "Neumorphism"
       },
       "description": {
-        "zh-CN": "data.components.dataDisplay.statistics-card.variants.neumorphism.description",
-        "en-US": "data.components.dataDisplay.statistics-card.variants.neumorphism.description"
+        "zh-CN": "拟态风格风格的统计卡片实现",
+        "en-US": "Statistics Card implementation in Neumorphism style"
       },
       "hasContent": true,
       "hasStyles": true

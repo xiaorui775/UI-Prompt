@@ -3,12 +3,12 @@
   "category": "advanced",
   "component": {
     "name": {
-      "zh-CN": "data.components.advanced.color-picker.title",
-      "en-US": "data.components.advanced.color-picker.title"
+      "zh-CN": "颜色选择器",
+      "en-US": "Color Picker"
     },
     "description": {
-      "zh-CN": "data.components.advanced.color-picker.description",
-      "en-US": "data.components.advanced.color-picker.description"
+      "zh-CN": "颜色选择器组件",
+      "en-US": "Color picker component"
     },
     "tags": [
       "advanced"
@@ -19,12 +19,12 @@
     {
       "id": "default",
       "name": {
-        "zh-CN": "data.components.advanced.color-picker.title",
-        "en-US": "data.components.advanced.color-picker.title"
+        "zh-CN": "默认样式",
+        "en-US": "Default"
       },
       "description": {
-        "zh-CN": "data.components.advanced.color-picker.description",
-        "en-US": "data.components.advanced.color-picker.description"
+        "zh-CN": "默认样式风格的颜色选择器实现",
+        "en-US": "Color Picker implementation in Default style"
       },
       "hasContent": true,
       "hasStyles": false

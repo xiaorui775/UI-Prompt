@@ -386,26 +386,38 @@ export async function loadComponentMetadataOnly(forceRefresh = false) {
           id: categoryId,
           key: cat.key || categoryId,
           path: `/components/${categoryId}`,
-          data: components.map(compMeta => ({
-            // 元數據（來自 components-index.json）
-            id: compMeta.id,
-            category: categoryId,
-            title: compMeta.title,
-            description: compMeta.description,
-            tags: compMeta.tags || [],
-            relatedComponents: compMeta.relatedComponents || [],
-            variantsCount: compMeta.variantsCount || 0,
+          data: components.map(compMeta => {
+            // Generate placeholder variants array for variant count display
+            const variantsPlaceholder = compMeta.variantsCount > 0
+              ? Array.from({ length: compMeta.variantsCount }, (_, i) => ({
+                  id: `variant-${i + 1}`,
+                  name: `Variant ${i + 1}`,
+                  _placeholder: true
+                }))
+              : [];
 
-            // Preview 內容（從索引中獲取第一個變體的 demo）
-            demoHTML: compMeta.demoHTML || null,
-            customStyles: compMeta.customStyles || null,
-            variants: [],
+            return {
+              // 元數據（來自 components-index.json）
+              id: compMeta.id,
+              category: categoryId,
+              title: compMeta.title,
+              description: compMeta.description,
+              tags: compMeta.tags || [],
+              relatedComponents: compMeta.relatedComponents || [],
+              variantsCount: compMeta.variantsCount || 0,
 
-            // 標記是否需要完整內容載入（詳情頁需要）
-            _needsContentLoad: !compMeta.demoHTML,
-            _categoryId: categoryId,
-            _categoryKey: cat.key || categoryId
-          })),
+              // Preview 內容（從索引中獲取第一個變體的 demo）
+              demoHTML: compMeta.demoHTML || null,
+              customStyles: compMeta.customStyles || null,
+              // ⭐ 添加 variants 佔位符，讓 ComponentCard 可以顯示變體數量
+              variants: variantsPlaceholder,
+
+              // 標記是否需要完整內容載入（詳情頁需要）
+              _needsContentLoad: !compMeta.demoHTML,
+              _categoryId: categoryId,
+              _categoryKey: cat.key || categoryId
+            };
+          }),
           icon: ''
         };
       });
@@ -414,9 +426,28 @@ export async function loadComponentMetadataOnly(forceRefresh = false) {
       __componentMetadataCache = result;
       return result;
     } catch (error) {
-      logger.warn('loadComponentMetadataOnly failed, falling back to loadComponentCategories:', error.message);
-      // Fallback to full loading
-      return loadComponentCategories(forceRefresh);
+      logger.error('loadComponentMetadataOnly failed:', error);
+
+      // Priority 1: Use stale metadata cache if available
+      if (__componentMetadataCache) {
+        logger.warn('Using stale component metadata cache');
+        return __componentMetadataCache;
+      }
+
+      // Priority 2: Use full categories cache if available
+      if (__componentCategoriesCache) {
+        logger.warn('Using full component categories cache as metadata fallback');
+        return __componentCategoriesCache;
+      }
+
+      // Priority 3: Fall back to full loading but CACHE the result
+      logger.warn('Falling back to loadComponentCategories (expensive)...');
+      const fullData = await loadComponentCategories(forceRefresh);
+
+      // Cache the fallback result to prevent repeated expensive loads
+      __componentMetadataCache = fullData;
+
+      return fullData;
     } finally {
       __componentMetadataPromise = null;
     }

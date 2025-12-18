@@ -1,6 +1,7 @@
 import { useLanguage } from '../../hooks/useLanguage';
 import { useDarkMode } from '../../hooks/useDarkMode';
-import { Github, Globe, Mail } from 'lucide-react';
+import { Github, Mail } from 'lucide-react';
+import { SEOHead, getPageSEO } from '../../components/seo';
 
 /**
  * AboutPage - 关于页面
@@ -26,8 +27,11 @@ const PushPin = ({ color = "bg-red-500", className = "" }) => (
 );
 
 export function AboutPage() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { isDarkMode } = useDarkMode();
+
+  // SEO configuration
+  const seo = getPageSEO('about', language);
 
   // Mission cards with light and dark mode color variants
   const missionCards = [
@@ -69,17 +73,20 @@ export function AboutPage() {
       label: t('pages.about.githubRepo'),
       url: 'https://github.com/TonnyWong1052/UI-Prompt',
       color: 'bg-gray-800 hover:bg-gray-700'
-    },
-    {
-      icon: Globe,
-      label: t('pages.about.website'),
-      url: 'https://uiprompt.site',
-      color: 'bg-blue-600 hover:bg-blue-500'
     }
   ];
 
   return (
-    <section className="min-h-screen w-full relative overflow-hidden bg-stone-100 dark:bg-gray-900 font-sans selection:bg-yellow-200 dark:selection:bg-yellow-700 py-16 px-6 transition-colors duration-300">
+    <>
+      {/* SEO Meta Tags */}
+      <SEOHead
+        title={seo.title}
+        description={seo.description}
+        keywords={seo.keywords}
+        path="/about"
+        language={language}
+      />
+      <section className="min-h-screen w-full relative overflow-hidden bg-white dark:bg-[#101828] font-sans selection:bg-yellow-200 dark:selection:bg-yellow-700 py-16 px-6 transition-colors duration-300">
       {/* Background Texture */}
       <div
         className="absolute inset-0 opacity-10 dark:opacity-5 pointer-events-none"
@@ -173,5 +180,6 @@ export function AboutPage() {
         </div>
       </div>
     </section>
+    </>
   );
 }

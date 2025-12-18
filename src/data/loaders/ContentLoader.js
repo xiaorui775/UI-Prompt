@@ -12,33 +12,65 @@ const logger = createLogger('ContentLoader');
 /**
  * 通用文本獲取函數
  * @param {string} url - 請求 URL
+ * @param {Object} options - 選項
+ * @param {boolean} options.silent - 是否靜默模式（不輸出警告）
  * @returns {Promise<string>} 文本內容
  */
-export async function fetchText(url) {
+export async function fetchText(url, options = {}) {
+  const { silent = false } = options;
+
   try {
-    const response = await fetch(url);
-    if (response.ok) {
-      const text = await response.text();
+    // Node.js/Undici 的 fetch() 需要 absolute URL；瀏覽器可接受相對路徑。
+    // 這裡統一處理，避免在測試/SSR 環境出現「Failed to parse URL from /...」噪音。
+    let requestUrl = url;
+    const isAbsoluteUrl = typeof requestUrl === 'string' && /^[a-zA-Z][a-zA-Z\\d+.-]*:/.test(requestUrl);
+    const isRelativeUrl = typeof requestUrl === 'string' && !isAbsoluteUrl;
 
-      // Guard against Vite SPA fallback returning index.html for missing files
-      // When a requested file doesn't exist, Vite dev server may return index.html (200 OK)
-      // instead of 404. Detect this by checking if the response looks like HTML
-      // when we're expecting CSS, JSX, or JS content.
-      const isHtmlContent = text.trim().toLowerCase().startsWith('<!doctype') ||
-                           text.trim().toLowerCase().startsWith('<html');
-      const expectsNonHtml = url.endsWith('.css') ||
-                            url.endsWith('.jsx') ||
-                            url.endsWith('.js');
-
-      if (isHtmlContent && expectsNonHtml) {
-        logger.warn(`SPA fallback detected for ${url}, returning empty string`);
+    if (isRelativeUrl) {
+      const baseHref = globalThis?.location?.href;
+      if (typeof baseHref === 'string' && baseHref.length > 0) {
+        requestUrl = new URL(requestUrl, baseHref).toString();
+      } else {
+        // 在無 base 的環境（常見於 Node 測試）無法解析相對 URL，直接返回空字串即可。
         return '';
       }
-
-      return text;
     }
-    return '';
-  } catch {
+
+    const response = await fetch(requestUrl);
+
+    if (!response.ok) {
+      // Log non-200 responses with status for debugging
+      if (!silent) {
+        logger.debug(`HTTP ${response.status} for ${requestUrl}`);
+      }
+      return '';
+    }
+
+    const text = await response.text();
+
+    // Guard against Vite SPA fallback returning index.html for missing files
+    // When a requested file doesn't exist, Vite dev server may return index.html (200 OK)
+    // instead of 404. Detect this by checking if the response looks like HTML
+    // when we're expecting CSS, JSX, or JS content.
+    const isHtmlContent = text.trim().toLowerCase().startsWith('<!doctype') ||
+                         text.trim().toLowerCase().startsWith('<html');
+    const expectsNonHtml = requestUrl.endsWith('.css') ||
+                          requestUrl.endsWith('.jsx') ||
+                          requestUrl.endsWith('.js');
+
+    if (isHtmlContent && expectsNonHtml) {
+      if (!silent) {
+        logger.warn(`SPA fallback detected for ${requestUrl}, returning empty string`);
+        logger.warn(`This usually indicates a missing file or permission issue (should be chmod 644)`);
+      }
+      return '';
+    }
+
+    return text;
+  } catch (err) {
+    if (!silent) {
+      logger.error(`Fetch failed for ${url}: ${err.message}`);
+    }
     return '';
   }
 }
@@ -225,5 +257,75 @@ export default {
   fetchText,
   loadTemplateContent,
   loadPreviewContent,
-  loadFamilyContent
+  loadFamilyContent,
+  diagnoseContentLoading
 };
+
+/**
+ * Diagnose content loading issues for a template
+ * Useful for debugging missing content or permission problems
+ * @param {string} category - Category ID
+ * @param {string} familyId - Family ID
+ * @param {string} templateId - Template ID
+ * @returns {Promise<Object>} Diagnostic report
+ */
+export async function diagnoseContentLoading(category, familyId, templateId) {
+  const basePath = buildContentPath(`styles/${category}/${familyId}/${templateId}`);
+  const files = ['demo.html', 'demo.css', 'fullpage.html', 'fullpage.css', 'demo.jsx', 'fullpage.jsx'];
+
+  const results = await Promise.all(
+    files.map(async (file) => {
+      const url = `${basePath}/${file}`;
+      try {
+        const response = await fetch(url);
+        const text = response.ok ? await response.text() : '';
+
+        // Check for SPA fallback
+        const isHtmlContent = text.trim().toLowerCase().startsWith('<!doctype') ||
+                             text.trim().toLowerCase().startsWith('<html');
+        const expectsNonHtml = file.endsWith('.css') || file.endsWith('.jsx') || file.endsWith('.js');
+        const isSpaFallback = isHtmlContent && expectsNonHtml;
+
+        return {
+          file,
+          url,
+          status: response.status,
+          hasContent: text.length > 0 && !isSpaFallback,
+          contentLength: isSpaFallback ? 0 : text.length,
+          error: isSpaFallback ? 'SPA_FALLBACK' : (response.ok ? null : `HTTP_${response.status}`)
+        };
+      } catch (err) {
+        return {
+          file,
+          url,
+          status: 0,
+          hasContent: false,
+          contentLength: 0,
+          error: err.message
+        };
+      }
+    })
+  );
+
+  const hasAnyContent = results.some(r => r.hasContent);
+  const spaFallbacks = results.filter(r => r.error === 'SPA_FALLBACK');
+  const httpErrors = results.filter(r => r.error && r.error.startsWith('HTTP_'));
+
+  return {
+    basePath,
+    files: results,
+    summary: {
+      hasAnyContent,
+      totalFiles: files.length,
+      successfulFiles: results.filter(r => r.hasContent).length,
+      spaFallbackCount: spaFallbacks.length,
+      httpErrorCount: httpErrors.length,
+      likelyPermissionIssue: spaFallbacks.length > 0 && !hasAnyContent,
+      recommendation: spaFallbacks.length > 0
+        ? 'Check file permissions (should be 644) or verify files exist. Run: npm run fix:permissions'
+        : hasAnyContent
+          ? 'Content loaded successfully'
+          : 'No content files found - verify template path is correct'
+    }
+  };
+}

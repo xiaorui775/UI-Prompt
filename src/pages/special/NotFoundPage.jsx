@@ -1,8 +1,13 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useLanguage } from '../../hooks/useLanguage';
+import { LANG_TO_URL } from '../../components/seo/seoConfig';
 
 export function NotFoundPage() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const { lang } = useParams();
+
+  // Get current URL language prefix (default to 'zh')
+  const currentLang = lang || LANG_TO_URL[language] || 'zh';
 
   return (
     <div className="min-h-[calc(100vh-12rem)] flex items-center justify-center px-8">
@@ -48,7 +53,7 @@ export function NotFoundPage() {
         {/* 操作按鈕 */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Link
-            to="/"
+            to={`/${currentLang}`}
             className="inline-flex items-center justify-center px-8 py-3 border border-black bg-black text-white font-light text-sm hover:bg-white hover:text-black transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
             aria-label={t('errors.pageNotFound.backHome')}
           >
@@ -71,13 +76,13 @@ export function NotFoundPage() {
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link
-              to="/styles"
+              to={`/${currentLang}/styles`}
               className="px-4 py-2 text-xs border border-gray-300 text-gray-700 hover:border-black hover:text-black transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
             >
               {t('nav.allStyles')}
             </Link>
             <Link
-              to="/components"
+              to={`/${currentLang}/components`}
               className="px-4 py-2 text-xs border border-gray-300 text-gray-700 hover:border-black hover:text-black transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
             >
               {t('nav.allComponents')}

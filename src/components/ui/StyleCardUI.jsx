@@ -27,7 +27,6 @@ export function StyleCardUI({
   title,
   description,
   primaryCategoryLabel = null,
-  templatesCount = 0,
   tags = [],
   onTagClick,
   onGetPrompt,
@@ -35,7 +34,6 @@ export function StyleCardUI({
   language,
   t
 }) {
-  const [isHovered, setIsHovered] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isOverflowing, setIsOverflowing] = useState(false);
   const descriptionRef = useRef(null);
@@ -63,8 +61,6 @@ export function StyleCardUI({
   return (
     <div
       className="p-5 flex flex-col gap-4"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Header: Category Tag and Title */}
       <div className="space-y-1.5">
@@ -211,8 +207,6 @@ StyleCardUI.propTypes = {
   description: PropTypes.string.isRequired,
   /** 主分類標籤文本 */
   primaryCategoryLabel: PropTypes.string,
-  /** 模板數量 */
-  templatesCount: PropTypes.number,
   /** 標籤數組 */
   tags: PropTypes.arrayOf(PropTypes.string),
   /** 標籤點擊處理函數 */

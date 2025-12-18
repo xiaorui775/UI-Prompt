@@ -1,21 +1,27 @@
-import { Link, useLocation } from 'react-router-dom';
-import { useState, useEffect, useRef } from 'react';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useDarkMode } from '../../hooks/useDarkMode';
 import { LANGUAGES } from '../../utils/i18n/languageConstants';
+import { LANG_TO_URL } from '../seo/seoConfig';
 
 export function Sidebar() {
   const location = useLocation();
-  const { t, switchLanguage, language } = useLanguage();
+  const navigate = useNavigate();
+  const { lang } = useParams();
+  const { t, language } = useLanguage();
   const { mode, setMode } = useDarkMode();
   const [isThemeMenuOpen, setIsThemeMenuOpen] = useState(false);
   const themeMenuRef = useRef(null);
 
+  // Get current URL language prefix (default to 'zh')
+  const currentLang = lang || LANG_TO_URL[language] || 'zh';
+
   const navItems = [
-    { path: '/home', label: t('nav.home'), num: '01' },
-    { path: '/styles', label: t('nav.allStyles'), num: '02' },
-    { path: '/components', label: t('nav.allComponents'), num: '03' },
-    { path: '/about', label: t('nav.about'), num: '04' },
+    { path: `/${currentLang}/home`, label: t('nav.home'), num: '01' },
+    { path: `/${currentLang}/styles`, label: t('nav.allStyles'), num: '02' },
+    { path: `/${currentLang}/components`, label: t('nav.allComponents'), num: '03' },
+    { path: `/${currentLang}/about`, label: t('nav.about'), num: '04' },
     {
       path: '/style/minimalism/html-demo-template/',
       label: t('styles.minimalism.fullPageTemplate'),
@@ -24,6 +30,15 @@ export function Sidebar() {
       rel: 'noopener noreferrer'
     },
   ];
+
+  // URL-based language switching
+  const handleSwitchLanguage = useCallback(() => {
+    const newLang = currentLang === 'zh' ? 'en' : 'zh';
+    // Extract path without language prefix
+    const pathMatch = location.pathname.match(/^\/(zh|en)(\/.*)?$/);
+    const pathWithoutLang = pathMatch ? (pathMatch[2] || '') : location.pathname;
+    navigate(`/${newLang}${pathWithoutLang}${location.search}`, { replace: true });
+  }, [currentLang, location, navigate]);
 
   // 處理主題菜單外部點擊關閉
   useEffect(() => {
@@ -66,7 +81,7 @@ export function Sidebar() {
   return (
     <aside
       id="sidebar"
-      className="fixed top-0 left-0 h-screen bg-black dark:bg-gray-900 text-white w-16 hover:w-60 z-50 overflow-hidden transition-all duration-200 ease-in-out"
+      className="fixed top-0 left-0 h-screen bg-black dark:bg-[#101828] text-white w-16 hover:w-60 z-50 overflow-hidden transition-all duration-200 ease-in-out"
     >
       <nav className="flex flex-col h-full">
         <div className="h-16 flex items-center justify-center border-b border-gray-800">
@@ -184,7 +199,7 @@ export function Sidebar() {
 
           {/* 語言切換器 */}
           <button
-            onClick={switchLanguage}
+            onClick={handleSwitchLanguage}
             className="w-full flex items-center gap-2 px-4 py-2 text-xs hover:bg-white hover:text-black transition-colors duration-200 rounded"
             title={t('language.switch')}
           >

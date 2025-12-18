@@ -3,12 +3,12 @@
   "category": "dataDisplay",
   "component": {
     "name": {
-      "zh-CN": "data.components.dataDisplay.list-view.title",
-      "en-US": "data.components.dataDisplay.list-view.title"
+      "zh-CN": "列表视图",
+      "en-US": "List View"
     },
     "description": {
-      "zh-CN": "data.components.dataDisplay.list-view.description",
-      "en-US": "data.components.dataDisplay.list-view.description"
+      "zh-CN": "用于展示数据列表的组件",
+      "en-US": "Component for displaying data lists"
     },
     "tags": [
       "dataDisplay"
@@ -19,12 +19,12 @@
     {
       "id": "minimalism",
       "name": {
-        "zh-CN": "data.components.dataDisplay.list-view.variants.minimalism.name",
-        "en-US": "data.components.dataDisplay.list-view.variants.minimalism.name"
+        "zh-CN": "极简风格",
+        "en-US": "Minimalism"
       },
       "description": {
-        "zh-CN": "data.components.dataDisplay.list-view.variants.minimalism.description",
-        "en-US": "data.components.dataDisplay.list-view.variants.minimalism.description"
+        "zh-CN": "极简风格风格的列表视图实现",
+        "en-US": "List View implementation in Minimalism style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -32,12 +32,12 @@
     {
       "id": "material-design",
       "name": {
-        "zh-CN": "data.components.dataDisplay.list-view.variants.material-design.name",
-        "en-US": "data.components.dataDisplay.list-view.variants.material-design.name"
+        "zh-CN": "Material Design",
+        "en-US": "Material Design"
       },
       "description": {
-        "zh-CN": "data.components.dataDisplay.list-view.variants.material-design.description",
-        "en-US": "data.components.dataDisplay.list-view.variants.material-design.description"
+        "zh-CN": "Material Design风格的列表视图实现",
+        "en-US": "List View implementation in Material Design style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -45,12 +45,12 @@
     {
       "id": "bootstrap5",
       "name": {
-        "zh-CN": "data.components.dataDisplay.list-view.variants.bootstrap5.name",
-        "en-US": "data.components.dataDisplay.list-view.variants.bootstrap5.name"
+        "zh-CN": "Bootstrap 5",
+        "en-US": "Bootstrap 5"
       },
       "description": {
-        "zh-CN": "data.components.dataDisplay.list-view.variants.bootstrap5.description",
-        "en-US": "data.components.dataDisplay.list-view.variants.bootstrap5.description"
+        "zh-CN": "Bootstrap 5风格的列表视图实现",
+        "en-US": "List View implementation in Bootstrap 5 style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -58,12 +58,12 @@
     {
       "id": "neumorphism",
       "name": {
-        "zh-CN": "data.components.dataDisplay.list-view.variants.neumorphism.name",
-        "en-US": "data.components.dataDisplay.list-view.variants.neumorphism.name"
+        "zh-CN": "拟态风格",
+        "en-US": "Neumorphism"
       },
       "description": {
-        "zh-CN": "data.components.dataDisplay.list-view.variants.neumorphism.description",
-        "en-US": "data.components.dataDisplay.list-view.variants.neumorphism.description"
+        "zh-CN": "拟态风格风格的列表视图实现",
+        "en-US": "List View implementation in Neumorphism style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -71,12 +71,12 @@
     {
       "id": "glassmorphism",
       "name": {
-        "zh-CN": "data.components.dataDisplay.list-view.variants.glassmorphism.name",
-        "en-US": "data.components.dataDisplay.list-view.variants.glassmorphism.name"
+        "zh-CN": "玻璃拟态",
+        "en-US": "Glassmorphism"
       },
       "description": {
-        "zh-CN": "data.components.dataDisplay.list-view.variants.glassmorphism.description",
-        "en-US": "data.components.dataDisplay.list-view.variants.glassmorphism.description"
+        "zh-CN": "玻璃拟态风格的列表视图实现",
+        "en-US": "List View implementation in Glassmorphism style"
       },
       "hasContent": true,
       "hasStyles": true

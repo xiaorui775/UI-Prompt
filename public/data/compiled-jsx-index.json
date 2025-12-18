@@ -1,6 +1,6 @@
 {
-  "generated": "2025-12-17T13:25:22.424Z",
-  "count": 19,
+  "generated": "2025-12-18T10:16:07.444Z",
+  "count": 20,
   "files": {
     "core-skeuomorphism-core-skeuomorphism-analog-synthesizer:fullpage": {
       "hash": "b384b4e0",
@@ -132,6 +132,23 @@
       ],
       "size": 28120
     },
+    "visual-inkWash-visual-inkWash-gallery:fullpage": {
+      "hash": "ed59e839",
+      "file": "visual-inkWash-visual-inkWash-gallery_fullpage-ed59e839.js",
+      "mode": "react",
+      "componentName": "App",
+      "lucideIcons": [
+        "Menu",
+        "ChevronDown",
+        "Mail",
+        "User",
+        "Send",
+        "Search",
+        "Sparkles",
+        "MoveRight"
+      ],
+      "size": 29267
+    },
     "visual-monochrome-portfolio-showcase:demo": {
       "hash": "7f7f4ac7",
       "file": "visual-monochrome-portfolio-showcase_demo-7f7f4ac7.js",
@@ -161,15 +178,15 @@
       "size": 23646
     },
     "visual-particle-neural-nexus:demo": {
-      "hash": "224f41e1",
-      "file": "visual-particle-neural-nexus_demo-224f41e1.js",
+      "hash": "d256bae4",
+      "file": "visual-particle-neural-nexus_demo-d256bae4.js",
       "mode": "react",
       "componentName": "NeuralNexusDemo",
       "lucideIcons": [
         "Activity",
         "Terminal"
       ],
-      "size": 4870
+      "size": 5941
     },
     "visual-particle-neural-nexus:fullpage": {
       "hash": "6bef7bbe",

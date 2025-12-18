@@ -317,7 +317,7 @@ export class BaseLoader {
    * @param {string} itemId - Item ID
    * @returns {Promise<Object|null>} Item object or null
    */
-  async loadItem(category, itemId) {
+  async loadItem(_category, _itemId) {
     throw new Error('loadItem() must be implemented by subclass');
   }
 
@@ -327,7 +327,7 @@ export class BaseLoader {
    * @param {string} category - Category ID
    * @returns {Promise<Array>} Array of items
    */
-  async loadCategoryItems(category) {
+  async loadCategoryItems(_category) {
     throw new Error('loadCategoryItems() must be implemented by subclass');
   }
 

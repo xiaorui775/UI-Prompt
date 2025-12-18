@@ -106,19 +106,13 @@ export function BenefitsSection() {
 
   return (
     <section
-      className="w-full py-16 px-6"
-      style={{
-        background: isDarkMode
-          ? 'linear-gradient(to bottom, #1a1815, #15130f)'
-          : 'linear-gradient(to bottom, #ffffff, #f9fafb)'
-      }}
+      className="w-full py-16 px-6 bg-white dark:bg-[#101828]"
     >
       <div className="max-w-4xl mx-auto relative">
         {/* Lined Paper Container */}
         <div
-          className="p-8 md:p-12 shadow-2xl relative transform -rotate-1"
+          className="p-8 md:p-12 shadow-2xl relative transform -rotate-1 bg-white dark:bg-[#2a2520]"
           style={{
-            backgroundColor: isDarkMode ? '#2a2520' : '#ffffff',
             backgroundImage: `repeating-linear-gradient(transparent, transparent 31px, ${isDarkMode ? 'rgba(75, 85, 99, 0.3)' : 'rgba(148, 163, 184, 0.5)'} 31px, ${isDarkMode ? 'rgba(75, 85, 99, 0.3)' : 'rgba(148, 163, 184, 0.5)'} 32px)`,
             backgroundAttachment: 'local',
             boxShadow: isDarkMode ? '0 25px 50px -12px rgba(0, 0, 0, 0.5)' : undefined
@@ -132,10 +126,7 @@ export function BenefitsSection() {
             <h2 className="text-4xl text-gray-800 dark:text-gray-100 font-marker mb-4">
               {t('home.benefits.title')}
             </h2>
-            <p
-              className="text-lg font-handwriting text-gray-600 dark:text-gray-300 inline-block px-2"
-              style={{ backgroundColor: isDarkMode ? '#2a2520' : '#ffffff' }}
-            >
+            <p className="text-lg font-handwriting text-gray-600 dark:text-gray-300 inline-block px-2 bg-white dark:bg-[#2a2520]">
               {t('home.benefits.subtitle')}
             </p>
           </div>

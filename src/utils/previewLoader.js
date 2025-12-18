@@ -216,11 +216,11 @@ async function loadContentFromPublic(category, familyId, templateId) {
       return content;
     }
 
-    // For HTML files, we need to detect if it's the main app's index.html
-    // by checking for Vite-specific markers
+    // For HTML files, detect Vite's index.html using STRICT markers only
+    // Note: <div id="root"></div> alone is NOT sufficient - many valid templates
+    // (e.g., Steampunk with React + Babel Standalone) legitimately use this pattern
     const isViteIndexHtml = content.includes('/@vite/client') ||
-                           content.includes('/src/main.jsx') ||
-                           content.includes('<div id="root"></div>');
+                           content.includes('/src/main.jsx');
     if (isViteIndexHtml) {
       logger.warn(`SPA fallback detected (index.html), ignoring for HTML file`);
       return null;

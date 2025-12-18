@@ -48,7 +48,7 @@ export function AIPromptDemo() {
 
 
   return (
-    <section className="ai-prompt-demo w-full mb-16">
+    <section className="ai-prompt-demo w-full mb-16 bg-white dark:bg-[#101828]">
       {/* 已移除進度條与重置按鈕 */}
 
       {/* Demo Container - 3/7 Layout */}

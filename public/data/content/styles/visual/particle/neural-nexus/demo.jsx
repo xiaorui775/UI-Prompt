@@ -35,12 +35,17 @@ export default function NeuralNexusDemo() {
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
     const particles = [];
+    let rafId = 0;
 
     const resize = () => {
-      const rect = canvas.parentElement.getBoundingClientRect();
-      canvas.width = rect.width;
-      canvas.height = rect.height;
+      const rect = canvas.parentElement?.getBoundingClientRect?.() || canvas.getBoundingClientRect();
+      // 在卡片/iframe 佈局尚未穩定時，可能拿到 0 高度，提供保守回退以確保粒子可見
+      const nextWidth = Math.max(1, Math.floor(rect.width || 0));
+      const nextHeight = Math.max(200, Math.floor(rect.height || 0));
+      canvas.width = nextWidth;
+      canvas.height = nextHeight;
     };
 
     resize();
@@ -77,21 +82,26 @@ export default function NeuralNexusDemo() {
         }
       }
 
-      requestAnimationFrame(animate);
+      rafId = requestAnimationFrame(animate);
     };
 
     animate();
 
     return () => {
       window.removeEventListener('resize', resize);
+      if (rafId) cancelAnimationFrame(rafId);
     };
   }, []);
 
   return (
-    <div className="relative min-h-full bg-gradient-to-br from-slate-950 to-slate-900 text-slate-200 p-6 overflow-hidden">
+    <div
+      className="relative bg-gradient-to-br from-slate-950 to-slate-900 text-slate-200 p-6 overflow-hidden"
+      style={{ minHeight: 220 }}
+    >
       <canvas
         ref={canvasRef}
         className="absolute inset-0 pointer-events-none"
+        style={{ width: '100%', height: '100%' }}
       />
 
       <div className="relative z-10 flex flex-col h-full justify-between">

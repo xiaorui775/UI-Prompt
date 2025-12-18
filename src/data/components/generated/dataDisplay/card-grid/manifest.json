@@ -3,12 +3,12 @@
   "category": "dataDisplay",
   "component": {
     "name": {
-      "zh-CN": "data.components.dataDisplay.card-grid.title",
-      "en-US": "data.components.dataDisplay.card-grid.title"
+      "zh-CN": "卡片网格",
+      "en-US": "Card Grid"
     },
     "description": {
-      "zh-CN": "data.components.dataDisplay.card-grid.description",
-      "en-US": "data.components.dataDisplay.card-grid.description"
+      "zh-CN": "网格布局的卡片展示组件",
+      "en-US": "Grid layout card display component"
     },
     "tags": [
       "dataDisplay"
@@ -19,12 +19,12 @@
     {
       "id": "bootstrap5",
       "name": {
-        "zh-CN": "data.components.dataDisplay.card-grid.variants.bootstrap5.name",
-        "en-US": "data.components.dataDisplay.card-grid.variants.bootstrap5.name"
+        "zh-CN": "Bootstrap 5",
+        "en-US": "Bootstrap 5"
       },
       "description": {
-        "zh-CN": "data.components.dataDisplay.card-grid.variants.bootstrap5.description",
-        "en-US": "data.components.dataDisplay.card-grid.variants.bootstrap5.description"
+        "zh-CN": "Bootstrap 5风格的卡片网格实现",
+        "en-US": "Card Grid implementation in Bootstrap 5 style"
       },
       "hasContent": true,
       "hasStyles": true

@@ -3,12 +3,12 @@
   "category": "advanced",
   "component": {
     "name": {
-      "zh-CN": "data.components.advanced.code-editor.title",
-      "en-US": "data.components.advanced.code-editor.title"
+      "zh-CN": "代码编辑器",
+      "en-US": "Code Editor"
     },
     "description": {
-      "zh-CN": "data.components.advanced.code-editor.description",
-      "en-US": "data.components.advanced.code-editor.description"
+      "zh-CN": "代码编辑器组件",
+      "en-US": "Code editor component"
     },
     "tags": [
       "advanced"
@@ -19,12 +19,12 @@
     {
       "id": "default",
       "name": {
-        "zh-CN": "data.components.advanced.code-editor.title",
-        "en-US": "data.components.advanced.code-editor.title"
+        "zh-CN": "默认样式",
+        "en-US": "Default"
       },
       "description": {
-        "zh-CN": "data.components.advanced.code-editor.description",
-        "en-US": "data.components.advanced.code-editor.description"
+        "zh-CN": "默认样式风格的代码编辑器实现",
+        "en-US": "Code Editor implementation in Default style"
       },
       "hasContent": true,
       "hasStyles": false

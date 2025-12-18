@@ -3,10 +3,7 @@
  * 負責加載和解析雙語 Prompt 內容
  */
 
-import { createLogger } from '../../utils/logger';
 import { buildPromptPath } from './config/pathHelper.js';
-
-const logger = createLogger('PromptLoader');
 
 /**
  * 通用文本獲取函數

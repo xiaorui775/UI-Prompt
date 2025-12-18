@@ -701,6 +701,16 @@
     "familyId": "industrial",
     "templateId": "industrial-nexus-control"
   },
+  "visual-inkWash-visual-inkWash-gallery": {
+    "category": "visual",
+    "familyId": "inkWash",
+    "templateId": "visual-inkWash-gallery"
+  },
+  "visual-inkWash-gallery": {
+    "category": "visual",
+    "familyId": "inkWash",
+    "templateId": "visual-inkWash-gallery"
+  },
   "visual-inkWash-visual-inkWash-landing": {
     "category": "visual",
     "familyId": "inkWash",
@@ -714,17 +724,17 @@
   "inkWash": {
     "category": "visual",
     "familyId": "inkWash",
-    "templateId": "visual-inkWash-landing"
+    "templateId": "visual-inkWash-gallery"
   },
   "ink-wash": {
     "category": "visual",
     "familyId": "inkWash",
-    "templateId": "visual-inkWash-landing"
+    "templateId": "visual-inkWash-gallery"
   },
   "inkwash": {
     "category": "visual",
     "familyId": "inkWash",
-    "templateId": "visual-inkWash-landing"
+    "templateId": "visual-inkWash-gallery"
   },
   "visual-kawaiiMinimal-visual-kawaiiMinimal": {
     "category": "visual",
@@ -1641,16 +1651,6 @@
     "familyId": "retroFuturism",
     "templateId": "retro-futurism-dos"
   },
-  "retro-retroFuturism-retroFuture": {
-    "category": "retro",
-    "familyId": "retroFuturism",
-    "templateId": "retroFuture"
-  },
-  "retroFuture": {
-    "category": "retro",
-    "familyId": "retroFuturism",
-    "templateId": "retroFuture"
-  },
   "retroFuturism": {
     "category": "retro",
     "familyId": "retroFuturism",
@@ -1675,16 +1675,6 @@
     "category": "retro",
     "familyId": "retroOS",
     "templateId": "retro-os-windows95"
-  },
-  "retro-retroOS-retroOS95": {
-    "category": "retro",
-    "familyId": "retroOS",
-    "templateId": "retroOS95"
-  },
-  "retroOS95": {
-    "category": "retro",
-    "familyId": "retroOS",
-    "templateId": "retroOS95"
   },
   "retroOS": {
     "category": "retro",

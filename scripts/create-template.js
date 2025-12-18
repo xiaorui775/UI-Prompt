@@ -103,13 +103,17 @@ async function main() {
     const demoHTML = generateHTMLTemplate(config.format);
     const demoCSS = generateCSSTemplate();
     fs.writeFileSync(path.join(contentDir, `demo.${ext}`), demoHTML, 'utf8');
+    fs.chmodSync(path.join(contentDir, `demo.${ext}`), 0o644);
     fs.writeFileSync(path.join(contentDir, 'demo.css'), demoCSS, 'utf8');
+    fs.chmodSync(path.join(contentDir, 'demo.css'), 0o644);
 
     // Create fullpage files
     const fullpageHTML = generateFullpageHTML(config.format);
     const fullpageCSS = generateFullpageCSSTemplate();
     fs.writeFileSync(path.join(contentDir, `fullpage.${ext}`), fullpageHTML, 'utf8');
+    fs.chmodSync(path.join(contentDir, `fullpage.${ext}`), 0o644);
     fs.writeFileSync(path.join(contentDir, 'fullpage.css'), fullpageCSS, 'utf8');
+    fs.chmodSync(path.join(contentDir, 'fullpage.css'), 0o644);
 
     console.log(`✅ 已生成 ${config.format.toUpperCase()} 模板文件`);
 
@@ -122,7 +126,9 @@ async function main() {
       const stylePrompt = generatePromptTemplate('style');
 
       fs.writeFileSync(path.join(promptDir, 'custom.md'), customPrompt, 'utf8');
+      fs.chmodSync(path.join(promptDir, 'custom.md'), 0o644);
       fs.writeFileSync(path.join(promptDir, 'style.md'), stylePrompt, 'utf8');
+      fs.chmodSync(path.join(promptDir, 'style.md'), 0o644);
 
       console.log(`✅ 已生成 Prompt 模板文件：${promptDir}`);
     }

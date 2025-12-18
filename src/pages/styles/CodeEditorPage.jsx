@@ -397,7 +397,7 @@ ${htmlCode}
       { id: 'css', label: 'CSS' },
       { id: 'full', label: t('codeEditor.fullCode') || 'Full Code' }
     ];
-  }, [previewsList, activeIndex, demoJSX, renderMode, t]);
+  }, [previewsList, activeIndex, renderMode, t]);
 
   // ✨ 當進入 JSX 模式時，自動切換到 JSX 標籤
   useEffect(() => {

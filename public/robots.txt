@@ -1,0 +1,32 @@
+# robots.txt for uiprompt.site
+# Last updated: 2024
+
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://www.uiprompt.site/sitemap.xml
+Sitemap: https://www.uiprompt.site/sitemap-zh.xml
+Sitemap: https://www.uiprompt.site/sitemap-en.xml
+
+# Baidu Spider
+User-agent: Baiduspider
+Allow: /
+
+# Allow language-prefixed routes
+Allow: /zh/
+Allow: /en/
+
+# Allow preview pages for indexing
+Allow: /zh/styles/preview/
+Allow: /en/styles/preview/
+Allow: /zh/components/
+Allow: /en/components/
+
+# Disallow unnecessary paths
+Disallow: /assets/
+Disallow: /data/*.json
+Disallow: /sw.js
+
+# Crawl-delay for politeness
+Crawl-delay: 1

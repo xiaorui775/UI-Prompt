@@ -3,12 +3,12 @@
   "category": "advanced",
   "component": {
     "name": {
-      "zh-CN": "data.components.advanced.scrollbar-thumb.title",
-      "en-US": "data.components.advanced.scrollbar-thumb.title"
+      "zh-CN": "滚动条滑块",
+      "en-US": "Scrollbar Thumb"
     },
     "description": {
-      "zh-CN": "data.components.advanced.scrollbar-thumb.description",
-      "en-US": "data.components.advanced.scrollbar-thumb.description"
+      "zh-CN": "滚动条滑块样式",
+      "en-US": "Scrollbar thumb styles"
     },
     "tags": [
       "advanced"
@@ -19,12 +19,12 @@
     {
       "id": "minimal-modern",
       "name": {
-        "zh-CN": "data.components.advanced.scrollbar-thumb.variants.minimal-modern.name",
-        "en-US": "data.components.advanced.scrollbar-thumb.variants.minimal-modern.name"
+        "zh-CN": "现代极简",
+        "en-US": "Minimal Modern"
       },
       "description": {
-        "zh-CN": "data.components.advanced.scrollbar-thumb.variants.minimal-modern.description",
-        "en-US": "data.components.advanced.scrollbar-thumb.variants.minimal-modern.description"
+        "zh-CN": "现代极简风格的滚动条滑块实现",
+        "en-US": "Scrollbar Thumb implementation in Minimal Modern style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -32,12 +32,12 @@
     {
       "id": "gradient-effects",
       "name": {
-        "zh-CN": "data.components.advanced.scrollbar-thumb.variants.gradient-effects.name",
-        "en-US": "data.components.advanced.scrollbar-thumb.variants.gradient-effects.name"
+        "zh-CN": "渐变效果",
+        "en-US": "Gradient Effects"
       },
       "description": {
-        "zh-CN": "data.components.advanced.scrollbar-thumb.variants.gradient-effects.description",
-        "en-US": "data.components.advanced.scrollbar-thumb.variants.gradient-effects.description"
+        "zh-CN": "渐变效果风格的滚动条滑块实现",
+        "en-US": "Scrollbar Thumb implementation in Gradient Effects style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -45,12 +45,12 @@
     {
       "id": "brand-customizable",
       "name": {
-        "zh-CN": "data.components.advanced.scrollbar-thumb.variants.brand-customizable.name",
-        "en-US": "data.components.advanced.scrollbar-thumb.variants.brand-customizable.name"
+        "zh-CN": "品牌定制",
+        "en-US": "Brand Customizable"
       },
       "description": {
-        "zh-CN": "data.components.advanced.scrollbar-thumb.variants.brand-customizable.description",
-        "en-US": "data.components.advanced.scrollbar-thumb.variants.brand-customizable.description"
+        "zh-CN": "品牌定制风格的滚动条滑块实现",
+        "en-US": "Scrollbar Thumb implementation in Brand Customizable style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -58,12 +58,12 @@
     {
       "id": "interactive-enhanced",
       "name": {
-        "zh-CN": "data.components.advanced.scrollbar-thumb.variants.interactive-enhanced.name",
-        "en-US": "data.components.advanced.scrollbar-thumb.variants.interactive-enhanced.name"
+        "zh-CN": "交互增强",
+        "en-US": "Interactive Enhanced"
       },
       "description": {
-        "zh-CN": "data.components.advanced.scrollbar-thumb.variants.interactive-enhanced.description",
-        "en-US": "data.components.advanced.scrollbar-thumb.variants.interactive-enhanced.description"
+        "zh-CN": "交互增强风格的滚动条滑块实现",
+        "en-US": "Scrollbar Thumb implementation in Interactive Enhanced style"
       },
       "hasContent": true,
       "hasStyles": true

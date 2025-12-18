@@ -3,12 +3,12 @@
   "category": "dataDisplay",
   "component": {
     "name": {
-      "zh-CN": "data.components.dataDisplay.table-basic.title",
-      "en-US": "data.components.dataDisplay.table-basic.title"
+      "zh-CN": "基础表格",
+      "en-US": "Basic Table"
     },
     "description": {
-      "zh-CN": "data.components.dataDisplay.table-basic.description",
-      "en-US": "data.components.dataDisplay.table-basic.description"
+      "zh-CN": "基础数据表格组件",
+      "en-US": "Basic data table component"
     },
     "tags": [
       "dataDisplay",
@@ -22,12 +22,12 @@
     {
       "id": "minimalism",
       "name": {
-        "zh-CN": "data.components.dataDisplay.table-basic.variants.minimalism.name",
-        "en-US": "data.components.dataDisplay.table-basic.variants.minimalism.name"
+        "zh-CN": "极简风格",
+        "en-US": "Minimalism"
       },
       "description": {
-        "zh-CN": "data.components.dataDisplay.table-basic.variants.minimalism.description",
-        "en-US": "data.components.dataDisplay.table-basic.variants.minimalism.description"
+        "zh-CN": "极简风格风格的基础表格实现",
+        "en-US": "Basic Table implementation in Minimalism style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -35,12 +35,12 @@
     {
       "id": "bootstrap5",
       "name": {
-        "zh-CN": "data.components.dataDisplay.table-basic.variants.bootstrap5.name",
-        "en-US": "data.components.dataDisplay.table-basic.variants.bootstrap5.name"
+        "zh-CN": "Bootstrap 5",
+        "en-US": "Bootstrap 5"
       },
       "description": {
-        "zh-CN": "data.components.dataDisplay.table-basic.variants.bootstrap5.description",
-        "en-US": "data.components.dataDisplay.table-basic.variants.bootstrap5.description"
+        "zh-CN": "Bootstrap 5风格的基础表格实现",
+        "en-US": "Basic Table implementation in Bootstrap 5 style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -48,12 +48,12 @@
     {
       "id": "neo-brutalism",
       "name": {
-        "zh-CN": "data.components.dataDisplay.table-basic.variants.neo-brutalism.name",
-        "en-US": "data.components.dataDisplay.table-basic.variants.neo-brutalism.name"
+        "zh-CN": "新残酷主义",
+        "en-US": "Neo Brutalism"
       },
       "description": {
-        "zh-CN": "data.components.dataDisplay.table-basic.variants.neo-brutalism.description",
-        "en-US": "data.components.dataDisplay.table-basic.variants.neo-brutalism.description"
+        "zh-CN": "新残酷主义风格的基础表格实现",
+        "en-US": "Basic Table implementation in Neo Brutalism style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -61,12 +61,12 @@
     {
       "id": "glassmorphism",
       "name": {
-        "zh-CN": "data.components.dataDisplay.table-basic.variants.glassmorphism.name",
-        "en-US": "data.components.dataDisplay.table-basic.variants.glassmorphism.name"
+        "zh-CN": "玻璃拟态",
+        "en-US": "Glassmorphism"
       },
       "description": {
-        "zh-CN": "data.components.dataDisplay.table-basic.variants.glassmorphism.description",
-        "en-US": "data.components.dataDisplay.table-basic.variants.glassmorphism.description"
+        "zh-CN": "玻璃拟态风格的基础表格实现",
+        "en-US": "Basic Table implementation in Glassmorphism style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -74,12 +74,12 @@
     {
       "id": "neumorphism",
       "name": {
-        "zh-CN": "data.components.dataDisplay.table-basic.variants.neumorphism.name",
-        "en-US": "data.components.dataDisplay.table-basic.variants.neumorphism.name"
+        "zh-CN": "拟态风格",
+        "en-US": "Neumorphism"
       },
       "description": {
-        "zh-CN": "data.components.dataDisplay.table-basic.variants.neumorphism.description",
-        "en-US": "data.components.dataDisplay.table-basic.variants.neumorphism.description"
+        "zh-CN": "拟态风格风格的基础表格实现",
+        "en-US": "Basic Table implementation in Neumorphism style"
       },
       "hasContent": true,
       "hasStyles": true

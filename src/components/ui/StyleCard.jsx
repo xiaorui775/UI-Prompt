@@ -7,6 +7,7 @@ const PreviewModal = lazy(() =>
 );
 import { PromptGenerator } from '../../utils/promptGenerator';
 import { useLanguage } from '../../hooks/useLanguage';
+import { useI18nText } from '../../hooks/useI18nText';
 import { getDemoHTML } from "../../utils/i18n/demoI18n";
 import { getStylePreviewUrl } from '../../utils/styleHelper';
 import { LANGUAGES } from "../../utils/i18n/languageConstants";
@@ -93,48 +94,10 @@ function StyleCardComponent({
 
   // ===== 國際化處理 =====
   const currentDemoHTML = getDemoHTML(effectiveDemoHTML, language);
+  const resolveText = useI18nText();
 
-  /**
-   * 渲染文本：支持多種格式（i18n 對象、翻譯鍵、純文本）
-   */
-  const renderText = (value) => {
-    let result = '';
-
-    // i18n 對象格式
-    if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-      result = value[language];
-      if (!result && language === LANGUAGES.ZH_CN) {
-        result = value[LANGUAGES.ZH_CN_LOWER];
-      } else if (!result && language === LANGUAGES.ZH_CN_LOWER) {
-        result = value[LANGUAGES.ZH_CN];
-      }
-      if (!result) {
-        result = value[LANGUAGES.ZH_CN] || value[LANGUAGES.ZH_CN_LOWER] || value[LANGUAGES.EN_US] || '';
-      }
-    }
-    // raw: 前綴
-    else if (typeof value === 'string' && value.toLowerCase().startsWith('raw:')) {
-      result = value.slice(4);
-    }
-    // 包含中文字符
-    else if (typeof value === 'string' && /[\u4e00-\u9fff]/.test(value)) {
-      result = value;
-    }
-    // 翻譯鍵（包含點號）
-    else if (typeof value === 'string' && value.includes('.')) {
-      const translation = t(value);
-      result = translation !== value ? translation : value;
-    }
-    // 其他情況
-    else if (typeof value === 'string') {
-      result = t(value);
-    }
-
-    return String(result || '');
-  };
-
-  const displayTitle = renderText(title);
-  const displayDescription = renderText(description);
+  const displayTitle = resolveText(title);
+  const displayDescription = resolveText(description);
 
   // ===== 判斷渲染模式（HTML or JSX） =====
   const shouldUseJSX = useMemo(() => {
@@ -206,12 +169,8 @@ function StyleCardComponent({
   }, []);
 
   const handlePreview = useCallback(() => {
-    // ⭐ DEBUG: 驗證傳入的 ID
-    console.log(`[StyleCard handlePreview] id prop: "${id}" (${id?.length} chars)`);
-
     // ⭐ ID 驗證保護
     if (!id || typeof id !== 'string' || id.length === 0) {
-      console.error('[StyleCard] Invalid id:', id);
       setShowPreview(true);  // Fallback 到模態框預覽
       return;
     }
@@ -230,37 +189,19 @@ function StyleCardComponent({
       if (hasCategoryPrefix) {
         // 單一模板且已有分類前綴，直接使用
         previewId = templatePreviewId;
-        console.log(`[StyleCard] 單一模板，使用帶前綴 templateId: ${previewId}`);
       } else {
         // 缺少分類前綴時改用 family id，並鎖定第一個預覽索引
         previewId = id;
         query = 'previewIndex=0';
-        console.warn(`[StyleCard] 模板 ID 缺少分類前綴，改用 family id: ${previewId}`);
       }
-    } else if (previews && previews.length > 1) {
-      // 多個模板：使用 family ID 以顯示所有模板和切換器
-      console.log(`[StyleCard] 多個模板 (${previews.length})，使用 family ID: ${id}`);
-    } else if (id) {
-      console.log(`[StyleCard] 使用 card id: ${id}`);
     }
 
     if (previewId) {
       const baseUrl = getStylePreviewUrl(previewId);
       const previewUrl = query ? `${baseUrl}?${query}` : baseUrl;
-      const fullUrl = window.location.origin + previewUrl;
-
-      // ⭐ URL 完整性驗證
-      if (!fullUrl.includes(encodeURIComponent(previewId))) {
-        console.error('[StyleCard] URL validation FAILED:', {
-          previewId,
-          expectedLength: previewId.length,
-          fullUrl
-        });
-      }
-
-      window.open(fullUrl, '_blank');
+      // 直接開啟相對路徑，避免硬綁 origin；加上 noopener/noreferrer 避免 opener 風險
+      window.open(previewUrl, '_blank', 'noopener,noreferrer');
     } else {
-      console.warn('[StyleCard] Missing previewId, fallback to modal');
       setShowPreview(true);
     }
   }, [id, previews]);
@@ -313,6 +254,7 @@ function StyleCardComponent({
         demoBoxClass={demoBoxClass}
         demoBoxStyle={demoBoxInlineStyle}
         isVisible={isVisible}
+        allowInlineScripts={true}
       />
     );
   };

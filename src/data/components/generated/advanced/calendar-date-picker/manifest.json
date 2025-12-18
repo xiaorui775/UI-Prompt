@@ -3,12 +3,12 @@
   "category": "advanced",
   "component": {
     "name": {
-      "zh-CN": "data.components.advanced.calendar-date-picker.title",
-      "en-US": "data.components.advanced.calendar-date-picker.title"
+      "zh-CN": "日历日期选择",
+      "en-US": "Calendar Date Picker"
     },
     "description": {
-      "zh-CN": "data.components.advanced.calendar-date-picker.description",
-      "en-US": "data.components.advanced.calendar-date-picker.description"
+      "zh-CN": "日历日期选择组件",
+      "en-US": "Calendar date picker component"
     },
     "tags": [
       "advanced",
@@ -21,12 +21,12 @@
     {
       "id": "default",
       "name": {
-        "zh-CN": "data.components.advanced.calendar-date-picker.title",
-        "en-US": "data.components.advanced.calendar-date-picker.title"
+        "zh-CN": "默认样式",
+        "en-US": "Default"
       },
       "description": {
-        "zh-CN": "data.components.advanced.calendar-date-picker.description",
-        "en-US": "data.components.advanced.calendar-date-picker.description"
+        "zh-CN": "默认样式风格的日历日期选择实现",
+        "en-US": "Calendar Date Picker implementation in Default style"
       },
       "hasContent": true,
       "hasStyles": false

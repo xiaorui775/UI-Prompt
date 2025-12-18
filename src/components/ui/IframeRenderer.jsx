@@ -38,7 +38,8 @@ export function IframeRenderer({
   demoBoxStyle = {},
   isVisible = true,
   onIframeLoad,
-  enableInteractivity = true
+  enableInteractivity = true,
+  allowInlineScripts = false
 }) {
   const iframeRef = useRef(null);
 
@@ -127,6 +128,33 @@ export function IframeRenderer({
   };
 
   /**
+   * 提取內聯 <script> 標籤（不含 src）
+   * - 預設 DOMPurify 會移除 script，導致動畫/互動失效
+   * - allowInlineScripts=true 時，先提取後再在 iframe document 內重新注入
+   */
+  const extractInlineScripts = (html) => {
+    if (!html) return { html: '', scripts: [] };
+    const scripts = [];
+    const without = html.replace(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi, (match, attrs = '', code = '') => {
+      // 保留外部腳本（由 extractAllowedExternalAssets + externalAssetsHTML 處理）
+      if (/src\s*=/i.test(attrs)) return '';
+
+      const typeMatch = String(attrs).match(/type\s*=\s*["']([^"']+)["']/i);
+      const type = (typeMatch?.[1] || '').toLowerCase();
+      const isJsType = !type || type.includes('javascript') || type === 'module';
+      if (!isJsType) return '';
+
+      const trimmed = String(code || '').trim();
+      if (!trimmed) return '';
+
+      scripts.push({ attrs, code: trimmed });
+      return '';
+    });
+
+    return { html: without, scripts };
+  };
+
+  /**
    * 消毒 CSS，移除潛在的安全風險
    * - 移除 @import 外部資源
    * - 移除 url(javascript:...) 注入
@@ -158,7 +186,13 @@ export function IframeRenderer({
     const noExternal = stripExternalAssets(demoHTML || '');
     const { html: noStyleHtml, styles: inlineStyles } = extractInlineStyles(noExternal);
     const bodyInner = extractBodyInner(noStyleHtml);
-    const sanitizedHTML = cachedSanitize(bodyInner || '', 'html');
+
+    // 允許內聯腳本時：先提取，避免被 DOMPurify 移除
+    const { html: bodyWithoutScripts, scripts: inlineScripts } = allowInlineScripts
+      ? extractInlineScripts(bodyInner)
+      : { html: bodyInner, scripts: [] };
+
+    const sanitizedHTML = cachedSanitize(bodyWithoutScripts || '', 'html');
     const combinedStyles = sanitizeCss(`${inlineStyles || ''}\n${customStyles || ''}`);
     const hasTailwindScript = externalScripts.some((src) => /tailwindcss\.com/i.test(src));
     const hasTailwindCss = externalLinks.some((href) => /tailwindcss/i.test(href));
@@ -177,6 +211,12 @@ export function IframeRenderer({
       ...externalLinks.map((href) => `<link rel="stylesheet" href="${href}" />`),
       ...externalScripts.map((src) => `<script src="${src}"></script>`)
     ].join('\n');
+
+    const inlineScriptsHTML = (allowInlineScripts && inlineScripts.length > 0)
+      ? inlineScripts
+        .map(({ attrs, code }) => `<script${attrs || ''}>\n${code}\n</script>`)
+        .join('\n')
+      : '';
 
     // 步驟 2: 檢測佈局模式
     const isFullWidthLayout =
@@ -209,6 +249,7 @@ ${externalAssetsHTML}
 </head>
 <body>
   <div class="demo-root">${sanitizedHTML}</div>
+  ${inlineScriptsHTML}
 </body>
 </html>`;
 
@@ -271,7 +312,7 @@ ${externalAssetsHTML}
         cleanupFn();
       }
     };
-  }, [isVisible, demoHTML, customStyles, layoutMode, enableInteractivity, onIframeLoad]);
+  }, [isVisible, demoHTML, customStyles, layoutMode, enableInteractivity, onIframeLoad, allowInlineScripts]);
 
   // 如果不可見，顯示佔位符
   if (!isVisible) {
@@ -321,7 +362,9 @@ IframeRenderer.propTypes = {
   /** iframe 加載完成回調 */
   onIframeLoad: PropTypes.func,
   /** 是否啟用交互 */
-  enableInteractivity: PropTypes.bool
+  enableInteractivity: PropTypes.bool,
+  /** 是否允許 demo 內的內聯腳本（動畫/互動） */
+  allowInlineScripts: PropTypes.bool
 };
 
 // OPTIMIZATION Phase 4: Memoize IframeRenderer to prevent re-renders

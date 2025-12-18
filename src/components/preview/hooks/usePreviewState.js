@@ -7,7 +7,7 @@
  * - UI 狀態 (showPrompt, activeIndex)
  */
 
-import { useReducer, useEffect, useCallback, useMemo } from 'react';
+import { useReducer, useEffect, useCallback, useMemo, useRef } from 'react';
 import { loadPreview } from '../../../utils/previewLoader';
 import { asyncTryCatch } from '../../../utils/errorHandler';
 
@@ -35,6 +35,9 @@ const ActionTypes = {
   CLOSE_PROMPT: 'CLOSE_PROMPT',
   RESET_FOR_NEW_PREVIEWS: 'RESET_FOR_NEW_PREVIEWS'
 };
+
+// 切換預覽時，確保 Loading 動畫至少可見一小段時間（避免快取命中時「一閃而過」）
+const MIN_PREVIEW_LOADING_MS = 200;
 
 // ========== Reducer ==========
 
@@ -83,7 +86,9 @@ function previewReducer(state, action) {
       return {
         ...state,
         activeIndex: action.payload,
-        isLoading: true
+        isLoading: true,
+        isLoadingPreview: true,
+        previewContent: null
       };
 
     case ActionTypes.TOGGLE_PROMPT:
@@ -130,6 +135,7 @@ export function usePreviewState({
   onClose
 }) {
   const [state, dispatch] = useReducer(previewReducer, initialState);
+  const previewRequestIdRef = useRef(0);
 
   // 穩定化 previews 引用
   const previewsList = useMemo(
@@ -169,6 +175,8 @@ export function usePreviewState({
     const previewId = currentPreview?.previewId || fullPagePreviewId;
 
     if (previewId) {
+      const requestId = ++previewRequestIdRef.current;
+      const startedAt = Date.now();
       dispatch({ type: ActionTypes.START_PREVIEW_LOAD });
 
       asyncTryCatch(
@@ -179,6 +187,21 @@ export function usePreviewState({
           onError: () => dispatch({ type: ActionTypes.PREVIEW_ERROR })
         }
       ).then(content => {
+        // 若使用者切到其他模板，忽略過期回應（避免競態導致 loading/內容閃爍）
+        if (requestId !== previewRequestIdRef.current) return;
+
+        const elapsed = Date.now() - startedAt;
+        const remaining = Math.max(0, MIN_PREVIEW_LOADING_MS - elapsed);
+
+        // 讓 Loading 動畫至少顯示一段時間
+        if (remaining > 0) {
+          setTimeout(() => {
+            if (requestId !== previewRequestIdRef.current) return;
+            dispatch({ type: ActionTypes.PREVIEW_LOADED, payload: content });
+          }, remaining);
+          return;
+        }
+
         dispatch({ type: ActionTypes.PREVIEW_LOADED, payload: content });
       });
     } else {

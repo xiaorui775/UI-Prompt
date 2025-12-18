@@ -36,11 +36,74 @@
 - 干笔效果：虚实交替的线条
 - 晕染效果：边缘柔化的色块
 
+**书法字体系统（核心）**：
+
+水墨风格的灵魂在于**传统书法字体的正确运用**。不同书法体裁承载不同的情感与气质：
+
+1. **刘建毛草 (Liu Jian Mao Cao)** - 草书风格
+   - 用途：大标题「水墨意境」等震撼性主题文字
+   - 特点：笔势奔放、潇洒不羁、如狂风骤雨
+   - CSS：`.font-calligraphy-草 { font-family: 'Liu Jian Mao Cao', cursive; }`
+   - 字号：text-6xl～text-8xl 或 text-[13vw]
+
+2. **马善政 (Ma Shan Zheng)** - 行书风格
+   - 用途：副标题、章节标题、导航文字
+   - 特点：笔画流畅、结体端正、如行云流水
+   - CSS：`.font-calligraphy-行 { font-family: 'Ma Shan Zheng', cursive; }`
+   - 字号：text-3xl～text-7xl
+
+3. **智蟒行 (Zhi Mang Xing)** - 行草风格
+   - 用途：诗句引用、装饰题字、侧边文字
+   - 特点：笔意连绵、潇洒飘逸、富有韵律
+   - CSS：`.font-calligraphy-行草 { font-family: 'Zhi Mang Xing', cursive; }`
+   - 字号：text-2xl～text-4xl
+
+4. **站酷小薇 (ZCOOL XiaoWei)** - 楷书风格
+   - 用途：正文描述、段落说明
+   - 特点：笔画工整清秀、如端坐的贤者
+   - CSS：`.font-body-楷 { font-family: 'ZCOOL XiaoWei', serif; }`
+   - 字号：text-xl～text-3xl
+
+5. **站酷快乐体 (ZCOOL KuaiLe)** - 印章字体
+   - 用途：印章内文字、标志题字
+   - 特点：方正厚重、篆刻风格、具金石味
+   - CSS：`.font-seal { font-family: 'ZCOOL KuaiLe', cursive; }`
+   - 字号：动态计算（fontSize: size * 0.38）
+
+6. **思源宋体 (Noto Serif SC)** - 衬线字体
+   - 用途：英文标题、小字说明
+   - 特点：优雅衬线、中西融合
+   - 权重：300（细）、700（粗）
+
+**字体加载方式**：
+```html
+<!-- HTML 格式 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Liu+Jian+Mao+Cao&family=Ma+Shan+Zheng&family=Zhi+Mang+Xing&family=ZCOOL+XiaoWei&family=ZCOOL+KuaiLe&family=Noto+Serif+SC:wght@300;700&display=swap" rel="stylesheet">
+```
+
+**字体组合原则**：
+- 标题用草书或行书，营造艺术感
+- 正文用楷书，保证可读性
+- 装饰用行草，增添韵味
+- 印章用篆刻体，强化文化符号
+- 英文用衬线体，与中文协调
+
+**竖排文字实现**：
+```css
+.vertical-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+```
+
 **排版**：
-- 宋体、楷体等传统中文字体
-- 标题可用草书或行书风格
-- 文字大小对比强烈
-- 竖排文字用于装饰
+- 草书大标题，笔势飞扬
+- 行书副标题，流畅端正
+- 楷书正文，工整易读
+- 竖排装饰文字，营造古典氛围
+- 文字大小对比强烈（text-xl 到 text-8xl）
 
 **交互反馈**：
 - 墨迹扩散动画
@@ -86,11 +149,74 @@ You are a UI designer mastering traditional Chinese ink wash aesthetics, deeply 
 - Dry brush: Lines alternating solid and void
 - Wash effect: Softened edge color blocks
 
+**Calligraphy Font System (Core)**:
+
+The soul of Ink Wash style lies in the **proper use of traditional calligraphy fonts**. Different calligraphic styles carry distinct emotions and temperaments:
+
+1. **Liu Jian Mao Cao (刘建毛草)** - Cursive Script (草书)
+   - Usage: Main titles like "水墨意境" and impactful thematic text
+   - Style: Bold, unrestrained, like a sudden storm
+   - CSS: `.font-calligraphy-草 { font-family: 'Liu Jian Mao Cao', cursive; }`
+   - Sizes: text-6xl to text-8xl or text-[13vw]
+
+2. **Ma Shan Zheng (马善政)** - Running Script (行书)
+   - Usage: Subtitles, section headers, navigation text
+   - Style: Smooth, balanced, like flowing clouds and water
+   - CSS: `.font-calligraphy-行 { font-family: 'Ma Shan Zheng', cursive; }`
+   - Sizes: text-3xl to text-7xl
+
+3. **Zhi Mang Xing (智蟒行)** - Semi-Cursive (行草)
+   - Usage: Poetry quotes, decorative inscriptions, side text
+   - Style: Connected strokes, elegant, rhythmic
+   - CSS: `.font-calligraphy-行草 { font-family: 'Zhi Mang Xing', cursive; }`
+   - Sizes: text-2xl to text-4xl
+
+4. **ZCOOL XiaoWei (站酷小薇)** - Regular Script (楷书)
+   - Usage: Body text, paragraph descriptions
+   - Style: Neat, graceful, like a seated sage
+   - CSS: `.font-body-楷 { font-family: 'ZCOOL XiaoWei', serif; }`
+   - Sizes: text-xl to text-3xl
+
+5. **ZCOOL KuaiLe (站酷快乐体)** - Seal Script Style
+   - Usage: Text inside seals and signature marks
+   - Style: Square, heavy, engraving-like
+   - CSS: `.font-seal { font-family: 'ZCOOL KuaiLe', cursive; }`
+   - Sizes: Dynamic (fontSize: size * 0.38)
+
+6. **Noto Serif SC (思源宋体)** - Serif Font
+   - Usage: English titles, small captions
+   - Style: Elegant serifs, East-West fusion
+   - Weights: 300 (light), 700 (bold)
+
+**Font Loading**:
+```html
+<!-- HTML Format -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Liu+Jian+Mao+Cao&family=Ma+Shan+Zheng&family=Zhi+Mang+Xing&family=ZCOOL+XiaoWei&family=ZCOOL+KuaiLe&family=Noto+Serif+SC:wght@300;700&display=swap" rel="stylesheet">
+```
+
+**Font Combination Principles**:
+- Titles: Cursive or running script for artistic impact
+- Body: Regular script for readability
+- Decorative: Semi-cursive for charm
+- Seals: Seal script for cultural symbolism
+- English: Serif font for harmony with Chinese
+
+**Vertical Text**:
+```css
+.vertical-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+```
+
 **Typography**:
-- Song, Kai, and traditional Chinese fonts
-- Headlines in cursive or running script style
-- Strong size contrast
-- Vertical text for decoration
+- Cursive main titles with flying strokes
+- Running script subtitles, smooth and proper
+- Regular script body, neat and readable
+- Vertical decorative text for classical atmosphere
+- Strong size contrast (text-xl to text-8xl)
 
 **Interaction Feedback**:
 - Ink spreading animation

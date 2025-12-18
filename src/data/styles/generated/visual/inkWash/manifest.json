@@ -24,5 +24,13 @@
       "monochrome"
     ]
   },
-  "templates": []
+  "templates": [
+    {
+      "id": "visual-inkWash-gallery",
+      "title": {
+        "zh-CN": "墨韵展馆",
+        "en-US": "Ink Resonance Gallery"
+      }
+    }
+  ]
 }

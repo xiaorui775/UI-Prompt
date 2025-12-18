@@ -13,7 +13,7 @@
  * @module hooks/useDetailPageState
  */
 
-import { useState, useEffect, useCallback, useMemo, useReducer } from 'react';
+import { useEffect, useCallback, useMemo, useReducer } from 'react';
 import { loadPreview } from '../utils/previewLoader';
 import { asyncTryCatch } from '../utils/errorHandler';
 

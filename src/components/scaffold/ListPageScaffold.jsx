@@ -71,6 +71,7 @@ export function ToolbarSkeleton({ variant = 'complex' }) {
  * @param {string} props.totalLabel - Label when not filtered (e.g., "Showing all 50 styles")
  * @param {boolean} props.showTotal - Whether to show total count on right side
  * @param {string} props.totalLabelRight - Label for total count on right side
+ * @param {React.ReactNode} props.rightContent - Custom content to render on the right side
  */
 export function ResultStats({
   isLoading,
@@ -80,7 +81,8 @@ export function ResultStats({
   filteredLabel,
   totalLabel,
   showTotal = true,
-  totalLabelRight
+  totalLabelRight,
+  rightContent
 }) {
   const { t } = useLanguage();
 
@@ -94,11 +96,14 @@ export function ResultStats({
         </p>
       )}
 
-      {showTotal && !isLoading && filteredCount > 0 && (
-        <div className="text-xs text-gray-500 dark:text-gray-400">
-          {totalLabelRight || t('common.totalStyles', { count: totalCount })}
-        </div>
-      )}
+      <div className="flex items-center gap-4">
+        {showTotal && !isLoading && filteredCount > 0 && (
+          <div className="text-xs text-gray-500 dark:text-gray-400">
+            {totalLabelRight || t('common.totalStyles', { count: totalCount })}
+          </div>
+        )}
+        {rightContent}
+      </div>
     </div>
   );
 }

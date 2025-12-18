@@ -89,10 +89,10 @@ export function HowItWorksSection() {
   ];
 
   return (
-    <section className="w-full py-24 px-6 bg-white dark:bg-[#1f1c18] relative overflow-hidden">
+    <section className="w-full py-24 px-6 bg-white dark:bg-[#101828] relative overflow-hidden">
       {/* Section Title */}
       <div className="text-center mb-16">
-        <h2 className="text-4xl md:text-5xl text-gray-800 dark:text-gray-100 font-marker mb-2 transform rotate-1 inline-block bg-white dark:bg-[#2a2520] px-4 py-2 border-2 border-black/10 dark:border-white/10 shadow-[4px_4px_0px_rgba(0,0,0,0.1)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.05)]">
+        <h2 className="text-4xl md:text-5xl text-gray-800 dark:text-gray-100 font-marker mb-2 transform rotate-1 inline-block bg-white dark:bg-[#101828] px-4 py-2 border-2 border-black/10 dark:border-white/10 shadow-[4px_4px_0px_rgba(0,0,0,0.1)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.05)]">
           {t('home.howItWorks.title')}
         </h2>
         <p className="mt-4 text-xl font-handwriting text-gray-600 dark:text-gray-300">

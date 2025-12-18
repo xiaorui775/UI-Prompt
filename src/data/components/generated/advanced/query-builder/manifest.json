@@ -3,12 +3,12 @@
   "category": "advanced",
   "component": {
     "name": {
-      "zh-CN": "data.components.advanced.query-builder.title",
-      "en-US": "data.components.advanced.query-builder.title"
+      "zh-CN": "查询构建器",
+      "en-US": "Query Builder"
     },
     "description": {
-      "zh-CN": "data.components.advanced.query-builder.description",
-      "en-US": "data.components.advanced.query-builder.description"
+      "zh-CN": "可视化查询构建器",
+      "en-US": "Visual query builder"
     },
     "tags": [
       "advanced"
@@ -19,12 +19,12 @@
     {
       "id": "default",
       "name": {
-        "zh-CN": "data.components.advanced.query-builder.title",
-        "en-US": "data.components.advanced.query-builder.title"
+        "zh-CN": "默认样式",
+        "en-US": "Default"
       },
       "description": {
-        "zh-CN": "data.components.advanced.query-builder.description",
-        "en-US": "data.components.advanced.query-builder.description"
+        "zh-CN": "默认样式风格的查询构建器实现",
+        "en-US": "Query Builder implementation in Default style"
       },
       "hasContent": true,
       "hasStyles": false

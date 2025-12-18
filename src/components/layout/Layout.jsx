@@ -3,7 +3,7 @@ import { Header } from './Header';
 
 export function Layout() {
   return (
-    <div className="bg-white dark:bg-gray-900 text-black dark:text-white antialiased min-h-screen transition-colors duration-200">
+    <div className="bg-white dark:bg-[#101828] text-black dark:text-white antialiased min-h-screen transition-colors duration-200">
       <Header />
 
       <main id="main-content" className="pt-16">

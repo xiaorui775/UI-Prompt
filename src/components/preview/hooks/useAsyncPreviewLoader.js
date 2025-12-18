@@ -2,6 +2,10 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { loadPreview, batchPreloadPreviews, preloadPreview } from '../../../utils/previewLoader';
 import { compileJSX } from '../../../utils/jsxCompiler';
 import { previewLogger as logger } from '../../../utils/logger';
+import { getPreviewCache } from '../../../utils/LRUCache';
+
+// 🚀 全局 LRU 緩存（限制 30 entries，避免內存無限增長）
+const previewCache = getPreviewCache(30);
 
 /**
  * Custom hook for managing async preview loading with cache and multi-mode support
@@ -36,8 +40,8 @@ export function useAsyncPreviewLoader({
   setIsLoading,
   language = 'en-US' // eslint-disable-line no-unused-vars -- Reserved for future i18n use
 }) {
-  // Cache ref to store loaded previews and avoid redundant network requests
-  const previewCacheRef = useRef({});
+  // 🚀 使用全局 LRU 緩存（保留 ref 供外部訪問統計）
+  const previewCacheRef = useRef(previewCache);
 
   // Async preview state
   const [asyncPreview, setAsyncPreview] = useState(null);
@@ -128,7 +132,7 @@ export function useAsyncPreviewLoader({
         setAsyncPreviewId(cacheKey);
         setAsyncPreview(previewData);
         if (cacheKey) {
-          previewCacheRef.current[cacheKey] = previewData;
+          previewCache.set(cacheKey, previewData);
         }
         setIsLoading(false);
         return true;
@@ -145,10 +149,11 @@ export function useAsyncPreviewLoader({
       }
     };
 
-    // Check if preview is already cached
-    if (currentPreviewId && previewCacheRef.current[currentPreviewId]) {
+    // Check if preview is already cached (使用 LRU 緩存的 get 方法)
+    const cachedPreview = currentPreviewId ? previewCache.get(currentPreviewId) : null;
+    if (cachedPreview) {
       setAsyncPreviewId(currentPreviewId);
-      setAsyncPreview(previewCacheRef.current[currentPreviewId]);
+      setAsyncPreview(cachedPreview);
       setIsLoading(false);
       setIsLoadingPreview(false);
       return;
@@ -219,7 +224,7 @@ export function useAsyncPreviewLoader({
 
             setAsyncPreview(previewData);
             setIsLoading(false);
-            previewCacheRef.current[currentPreviewId] = previewData;
+            previewCache.set(currentPreviewId, previewData);
           } catch (error) {
             logger.error('[React JSX] Compilation error:', error);
             setAsyncPreview({
@@ -241,7 +246,7 @@ export function useAsyncPreviewLoader({
 
           setAsyncPreview(previewData);
           setIsLoading(false);
-          previewCacheRef.current[currentPreviewId] = previewData;
+          previewCache.set(currentPreviewId, previewData);
         }
         // Handle HTML mode: store static HTML and styles
         else {
@@ -252,7 +257,7 @@ export function useAsyncPreviewLoader({
 
           setAsyncPreview(previewData);
           setIsLoading(false);
-          previewCacheRef.current[currentPreviewId] = previewData;
+          previewCache.set(currentPreviewId, previewData);
         }
 
         // If loaded content is empty, attempt React JSX fallback compilation

@@ -36,7 +36,7 @@ export class PromptResolver {
     const result = this.tryResolve(context);
     
     if (result) {
-      console.log(`[${this.constructor.name}] ✅ Found prompt for ${context.toString()}`);
+      console.warn(`[${this.constructor.name}] ✅ Found prompt for ${context.toString()}`);
       return result;
     }
     

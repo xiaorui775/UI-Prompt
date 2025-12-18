@@ -186,7 +186,7 @@ export function FeaturesSection() {
   ];
 
   return (
-    <section className="min-h-screen w-full relative overflow-hidden bg-stone-100 dark:bg-[#1a1815] font-sans selection:bg-yellow-200 dark:selection:bg-yellow-800 py-20 px-6">
+    <section className="min-h-screen w-full relative overflow-hidden bg-white dark:bg-[#101828] font-sans selection:bg-yellow-200 dark:selection:bg-yellow-800 py-20 px-6">
       {/* Background Texture (Dot Grid) */}
       <div
         className="absolute inset-0 opacity-10 dark:opacity-5 pointer-events-none"

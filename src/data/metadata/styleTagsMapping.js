@@ -1228,4 +1228,16 @@ export default {
     tags: ['retro', 'bold', 'colorful', 'graphic', 'art', 'dots', 'comic', 'warhol', 'interactive'],
     relatedStyles: ['visual-popArt', 'visual-memphis', 'visual-neoBrutalism', 'visual-comicBook']
   },
+  'visual-inkWash': {
+    primaryCategory: 'visual',
+    categories: ['visual', 'artistic'],
+    tags: ['contemporary', 'artistic', 'minimal', 'cultural', 'zen', 'brush', 'organic'],
+    relatedStyles: ['visual-scandi', 'visual-wabiSabi', 'core-minimalism']
+  },
+  'visual-inkWash-gallery': {
+    primaryCategory: 'visual',
+    categories: ['visual', 'artistic'],
+    tags: ['contemporary', 'artistic', 'cultural', 'gallery', 'exhibition', 'brush', 'elegant', 'interactive'],
+    relatedStyles: ['visual-inkWash', 'visual-scrollNarrative', 'visual-wabiSabi']
+  },
 };

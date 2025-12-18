@@ -5,6 +5,7 @@ import { HowItWorksSection } from '../../components/home/HowItWorksSection';
 import { BenefitsSection } from '../../components/home/BenefitsSection';
 import { useLanguage } from '../../hooks/useLanguage';
 import { getComponentsStatsFromMetadata, getStylesStatsFromMetadata } from '../../data/components/loaders';
+import { SEOHead, getPageSEO, generateWebsiteSchema } from '../../components/seo';
 
 /**
  * HomePage - 新首页
@@ -16,7 +17,7 @@ import { getComponentsStatsFromMetadata, getStylesStatsFromMetadata } from '../.
  * - 首屏加載速度提升 40-50%
  */
 export function HomePage() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [stylesStats, setStylesStats] = useState({ total: 0, categories: [] })
   const [componentsStats, setComponentsStats] = useState({ total: 0, categories: [] })
 
@@ -31,10 +32,22 @@ export function HomePage() {
     return () => { active = false }
   }, [])
 
-  // 已移除页面載入時的自動聚焦功能
+  // SEO configuration
+  const seo = getPageSEO('home', language);
+  const websiteSchema = generateWebsiteSchema(language);
 
   return (
-    <section className="min-h-screen flex flex-col">
+    <section className="min-h-screen flex flex-col bg-white dark:bg-[#101828]">
+      {/* SEO Meta Tags */}
+      <SEOHead
+        title={seo.title}
+        description={seo.description}
+        keywords={seo.keywords}
+        path=""
+        language={language}
+        jsonLd={websiteSchema}
+      />
+
       {/* AI Prompt 演示区域 */}
       <AIPromptDemo />
 

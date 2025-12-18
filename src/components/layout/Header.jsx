@@ -1,8 +1,9 @@
-import { Link, useLocation } from 'react-router-dom';
-import { useState, useEffect, useRef } from 'react';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useDarkMode } from '../../hooks/useDarkMode';
 import { LANGUAGES } from "../../utils/i18n/languageConstants";
+import { LANG_TO_URL } from '../seo/seoConfig';
 
 /**
  * Header - 极简主义顶部导航
@@ -15,7 +16,9 @@ import { LANGUAGES } from "../../utils/i18n/languageConstants";
  */
 export function Header() {
   const location = useLocation();
-  const { t, switchLanguage, language } = useLanguage();
+  const navigate = useNavigate();
+  const { lang } = useParams();
+  const { t, language } = useLanguage();
   const { mode, setMode } = useDarkMode();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isThemeMenuOpen, setIsThemeMenuOpen] = useState(false);
@@ -23,12 +26,25 @@ export function Header() {
   const menuButtonRef = useRef(null);
   const themeMenuRef = useRef(null);
 
+  // Get current URL language prefix (default to 'zh')
+  const currentLang = lang || LANG_TO_URL[language] || 'zh';
+
+  // Navigation items with language prefix
   const navItems = [
-    { path: '/home', label: t('nav.home') },
-    { path: '/styles', label: t('nav.allStyles') },
-    { path: '/components', label: t('nav.allComponents') },
-    { path: '/about', label: t('nav.about') },
+    { path: `/${currentLang}/home`, label: t('nav.home') },
+    { path: `/${currentLang}/styles`, label: t('nav.allStyles') },
+    { path: `/${currentLang}/components`, label: t('nav.allComponents') },
+    { path: `/${currentLang}/about`, label: t('nav.about') },
   ];
+
+  // URL-based language switching
+  const handleSwitchLanguage = useCallback(() => {
+    const newLang = currentLang === 'zh' ? 'en' : 'zh';
+    // Extract path without language prefix
+    const pathMatch = location.pathname.match(/^\/(zh|en)(\/.*)?$/);
+    const pathWithoutLang = pathMatch ? (pathMatch[2] || '') : location.pathname;
+    navigate(`/${newLang}${pathWithoutLang}${location.search}`, { replace: true });
+  }, [currentLang, location, navigate]);
 
   // 處理 Escape 鍵关閉菜單
   useEffect(() => {
@@ -110,7 +126,7 @@ export function Header() {
       </a>
 
       <header
-        className="fixed top-0 left-0 right-0 z-40 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 h-16 transition-shadow duration-300"
+        className="fixed top-0 left-0 right-0 z-40 bg-white dark:bg-[#101828] border-b border-gray-200 dark:border-gray-700 h-16 transition-shadow duration-300"
         role="banner"
       >
         <nav
@@ -243,7 +259,7 @@ export function Header() {
 
             {/* 語言切換按鈕 */}
             <button
-              onClick={switchLanguage}
+              onClick={handleSwitchLanguage}
               className="px-3 py-1.5 text-xs font-medium border border-black dark:border-white text-black dark:text-white hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-all duration-200 rounded-sm focus:outline-2 focus:outline-black dark:focus:outline-white focus:outline-offset-2"
               aria-label={t('ui.switchToLanguage')}
             >

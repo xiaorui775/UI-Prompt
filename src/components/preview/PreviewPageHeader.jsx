@@ -50,6 +50,7 @@ export function PreviewPageHeader({
   setShowPrompt,
   onOpenFullPage,
   promptContent,
+  language,
   // Component mode props
   isComponent = false,
   onEditCode: customOnEditCode,
@@ -66,9 +67,7 @@ export function PreviewPageHeader({
       customOnEditCode();
       return;
     }
-    const codeUrl = `/styles/code/${encodeURIComponent(styleId)}${
-      activeIndex > 0 ? `?previewIndex=${activeIndex}` : ''
-    }`;
+    const codeUrl = `/${language}/styles/code/${encodeURIComponent(styleId)}?previewIndex=${activeIndex}`;
     window.open(codeUrl, '_blank');
   };
 
@@ -273,6 +272,7 @@ PreviewPageHeader.propTypes = {
   setShowPrompt: PropTypes.func.isRequired,
   onOpenFullPage: PropTypes.func.isRequired,
   promptContent: PropTypes.string,
+  language: PropTypes.string.isRequired,
   // Component mode props
   isComponent: PropTypes.bool,
   onEditCode: PropTypes.func,

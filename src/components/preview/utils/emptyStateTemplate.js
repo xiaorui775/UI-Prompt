@@ -47,7 +47,7 @@ function escapeHTML(str) {
  *   language: 'zh-CN'
  * });
  */
-export function buildEmptyStateHTML({ displayTitle, language = 'en-US', t: _t }) {
+export function buildEmptyStateHTML({ displayTitle, language = 'en-US' }) {
   // Sanitize the title to prevent XSS
   const safeTitle = escapeHTML(displayTitle || '');
   // Use provided language or default to en-US

@@ -1,6 +1,7 @@
 import { useMemo, useState, useEffect } from 'react';
 import { useParams, useNavigate, useLoaderData } from 'react-router-dom';
 import { useLanguage } from '../../hooks/useLanguage';
+import { LANG_TO_URL } from '../../components/seo/seoConfig';
 import { usePromptContent } from '../../hooks/usePromptContent';
 import { VariantGrid } from '../../components/ui/VariantGrid';
 import { CodeModal } from '../../components/ui/CodeModal';
@@ -85,7 +86,8 @@ export function ComponentDetailPage() {
   const handlePreview = (variant, variantIndex) => {
     // 導航到 ComponentPreviewPage (Style Preview UI)
     const variantIdx = variantIndex ?? componentData.variants.findIndex(v => v.id === variant.id);
-    const url = `/components/preview/${category}/${componentId}${variantIdx > 0 ? `?variantIndex=${variantIdx}` : ''}`;
+    const urlLang = LANG_TO_URL[language] || 'zh';
+    const url = `/${urlLang}/components/preview/${category}/${componentId}${variantIdx > 0 ? `?variantIndex=${variantIdx}` : ''}`;
     navigate(url);
   };
 
@@ -108,7 +110,8 @@ export function ComponentDetailPage() {
 
   // 返回按鈕
   const handleBack = () => {
-    navigate('/components');
+    const urlLang = LANG_TO_URL[language] || 'zh';
+    navigate(`/${urlLang}/components`);
   };
 
   // 找不到組件（Route loader 應該已處理 404，這是備用）

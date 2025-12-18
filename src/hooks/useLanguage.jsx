@@ -48,12 +48,20 @@ export function LanguageProvider({ children }) {
     setLanguage(prev => prev === LANGUAGES.ZH_CN ? LANGUAGES.EN_US : LANGUAGES.ZH_CN);
   }, []);
 
+  // 直接设置语言（用於 URL 同步）
+  const setLanguageDirectly = useCallback((newLang) => {
+    if (SUPPORTED_LANGUAGES.includes(newLang)) {
+      setLanguage(newLang);
+    }
+  }, []);
+
   // 稳定化 Context value，避免每次渲染都是新對象
   const contextValue = useMemo(() => ({
     language,
     t,
-    switchLanguage
-  }), [language, t, switchLanguage]);
+    switchLanguage,
+    setLanguageDirectly
+  }), [language, t, switchLanguage, setLanguageDirectly]);
 
   return (
     <LanguageContext.Provider value={contextValue}>
@@ -76,6 +84,7 @@ export function useLanguage() {
       language: DEFAULT_LANGUAGE,
       t: (key) => key,
       switchLanguage: () => {},
+      setLanguageDirectly: () => {},
     };
   }
   return context;

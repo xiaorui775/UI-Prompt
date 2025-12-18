@@ -11,20 +11,34 @@ const ensureString = (v) => {
 };
 
 /**
+ * Get current language prefix from URL or localStorage
+ * @returns {string} Language prefix ('zh' or 'en')
+ */
+const getCurrentLangPrefix = () => {
+  // Try to get from URL first
+  const pathMatch = window.location.pathname.match(/^\/(zh|en)(\/.*)?$/);
+  if (pathMatch) {
+    return pathMatch[1];
+  }
+  // Fallback to localStorage
+  const storedLang = localStorage.getItem('language');
+  return storedLang === 'en-US' ? 'en' : 'zh';
+};
+
+/**
  * 生成風格預覽页面的 URL
  * @param {string} styleId - 風格的唯一識別符
+ * @param {string} [lang] - 語言前綴（可選，如未提供則自動偵測）
  * @returns {string} 預覽页面 URL
  */
-export const getStylePreviewUrl = (styleId) => {
-  // ⭐ DEBUG: 驗證輸入的 styleId
-  console.log(`[getStylePreviewUrl] Input: "${styleId}" (${styleId?.length} chars)`);
+export const getStylePreviewUrl = (styleId, lang = null) => {
+  const langPrefix = lang || getCurrentLangPrefix();
 
-  if (!styleId) return '/styles';
+  if (!styleId) return `/${langPrefix}/styles`;
 
   // 確保 styleId 是 URL-safe 的
   const safeStyleId = encodeURIComponent(styleId);
-  console.log(`[getStylePreviewUrl] Encoded: "${safeStyleId}"`);
-  return `/styles/preview/${safeStyleId}`;
+  return `/${langPrefix}/styles/preview/${safeStyleId}`;
 };
 
 /**

@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Liu+Jian+Mao+Cao&family=Ma+Shan+Zheng&family=Zhi+Mang+Xing&family=ZCOOL+XiaoWei&family=ZCOOL+KuaiLe&family=Noto+Serif+SC:wght@300;700&display=swap');
+
+:root {
+  --burnt-ink: #1a1a1a;
+  --dense-ink: #333333;
+  --seal-red: #C41E3A;
+  --gold: #D4AF37;
+  --light-ink: #999999;
+  --pale-ink: #cccccc;
+}
+
+.font-calligraphy-草 { font-family: 'Liu Jian Mao Cao', cursive; }
+.font-calligraphy-行 { font-family: 'Ma Shan Zheng', cursive; }
+.font-calligraphy-行草 { font-family: 'Zhi Mang Xing', cursive; }
+.font-body-楷 { font-family: 'ZCOOL XiaoWei', serif; }
+.font-seal { font-family: 'ZCOOL KuaiLe', cursive; }
+
+.vertical-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+body {
+  background-color: #F8F5F0;
+  background-image: url("https://www.transparenttextures.com/patterns/p6.png");
+  overflow-x: hidden;
+}
+
+@keyframes drift {
+  0%, 100% { transform: translate(-3%, -3%); opacity: 0.15; }
+  50% { transform: translate(3%, 3%); opacity: 0.35; }
+}
+
+.mist-drift {
+  background: radial-gradient(circle, white 0%, transparent 80%);
+  filter: blur(100px);
+  animation: drift 20s infinite ease-in-out;
+}
+
+@keyframes inkBleed {
+  0% { filter: blur(15px); opacity: 0; transform: translateY(20px) scale(0.95); }
+  100% { filter: blur(0); opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.animate-ink-bleed {
+  animation: inkBleed 3s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #F8F5F0; }
+::-webkit-scrollbar-thumb { background: #C41E3A; }
+
+/* Color utility classes */
+.text-burnt-ink { color: #1a1a1a; }
+.text-dense-ink { color: #333333; }
+.text-seal-red { color: #C41E3A; }
+.text-gold { color: #D4AF37; }
+.text-light-ink { color: #999999; }
+.text-pale-ink { color: #cccccc; }
+
+.bg-burnt-ink { background-color: #1a1a1a; }
+.bg-seal-red { background-color: #C41E3A; }
+
+.border-burnt-ink { border-color: #1a1a1a; }
+.border-seal-red { border-color: #C41E3A; }
+
+/* Scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection styling */
+::selection {
+  background-color: rgba(196, 30, 58, 0.3);
+}
+
+/* Cursor styling */
+* {
+  cursor: crosshair;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Typography enhancements */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+}
+
+/* Section spacing */
+section {
+  position: relative;
+}
+
+/* Focus states */
+button:focus,
+input:focus,
+textarea:focus {
+  outline: none;
+}
+
+/* Transition utilities */
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+/* Animation utilities */
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Responsive utilities */
+@media (max-width: 1024px) {
+  .hidden.xl\\:block {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hidden.xl\\:block {
+    display: block;
+  }
+}
+
+/* Print styles */
+@media print {
+  body {
+    background-color: #F8F5F0;
+  }
+}

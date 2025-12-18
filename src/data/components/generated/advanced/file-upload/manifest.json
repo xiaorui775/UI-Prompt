@@ -3,12 +3,12 @@
   "category": "advanced",
   "component": {
     "name": {
-      "zh-CN": "data.components.advanced.file-upload.title",
-      "en-US": "data.components.advanced.file-upload.title"
+      "zh-CN": "文件上传",
+      "en-US": "File Upload"
     },
     "description": {
-      "zh-CN": "data.components.advanced.file-upload.description",
-      "en-US": "data.components.advanced.file-upload.description"
+      "zh-CN": "文件上传组件",
+      "en-US": "File upload component"
     },
     "tags": [
       "advanced"
@@ -19,12 +19,12 @@
     {
       "id": "default",
       "name": {
-        "zh-CN": "data.components.advanced.file-upload.title",
-        "en-US": "data.components.advanced.file-upload.title"
+        "zh-CN": "默认样式",
+        "en-US": "Default"
       },
       "description": {
-        "zh-CN": "data.components.advanced.file-upload.description",
-        "en-US": "data.components.advanced.file-upload.description"
+        "zh-CN": "默认样式风格的文件上传实现",
+        "en-US": "File Upload implementation in Default style"
       },
       "hasContent": true,
       "hasStyles": false

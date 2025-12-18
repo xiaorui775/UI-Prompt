@@ -3,12 +3,12 @@
   "category": "advanced",
   "component": {
     "name": {
-      "zh-CN": "data.components.advanced.map-picker.title",
-      "en-US": "data.components.advanced.map-picker.title"
+      "zh-CN": "地图选择器",
+      "en-US": "Map Picker"
     },
     "description": {
-      "zh-CN": "data.components.advanced.map-picker.description",
-      "en-US": "data.components.advanced.map-picker.description"
+      "zh-CN": "地图位置选择器",
+      "en-US": "Map location picker"
     },
     "tags": [
       "advanced"
@@ -19,12 +19,12 @@
     {
       "id": "default",
       "name": {
-        "zh-CN": "data.components.advanced.map-picker.title",
-        "en-US": "data.components.advanced.map-picker.title"
+        "zh-CN": "默认样式",
+        "en-US": "Default"
       },
       "description": {
-        "zh-CN": "data.components.advanced.map-picker.description",
-        "en-US": "data.components.advanced.map-picker.description"
+        "zh-CN": "默认样式风格的地图选择器实现",
+        "en-US": "Map Picker implementation in Default style"
       },
       "hasContent": true,
       "hasStyles": false

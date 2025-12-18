@@ -102,7 +102,7 @@ export function CyberpunkPreview({ progress = 0 }) {
         <div className="preview-content flex-1 overflow-hidden relative bg-black">
           {/* Loading 遮罩层 */}
           <div
-            className="loading-mask absolute inset-0 bg-white z-50"
+            className="loading-mask absolute inset-0 bg-[#101828] z-50"
             style={{
               opacity: displayProgress < 50 ? 1 : 0,
               transition: 'opacity 0.5s ease-out',

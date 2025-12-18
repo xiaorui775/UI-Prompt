@@ -43,7 +43,7 @@ const logger = createLogger('FamilyLoader');
  * @param {string} familyPrefix - 家族前綴（用於日誌，不再用於過濾）
  * @returns {Array<string|Object>} 已去重的模板列表
  */
-function sanitizeTemplateEntries(rawTemplates = [], familyPrefix = '') {
+function sanitizeTemplateEntries(rawTemplates = [], _familyPrefix = '') {
   const seen = new Set();
 
   return rawTemplates.reduce((acc, entry) => {

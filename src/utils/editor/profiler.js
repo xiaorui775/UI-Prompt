@@ -90,9 +90,9 @@ function clear() {
 if (typeof window !== 'undefined') {
    
   window.EditorBench = {
-    mount1000: () => mountN(1000).then((r) => { console.log('[Bench] mount 1000 nodes:', r); return r; }),
-    mount2000: () => mountN(2000).then((r) => { console.log('[Bench] mount 2000 nodes:', r); return r; }),
-    clear: () => clear().then((r) => { console.log('[Bench] clear:', r); return r; }),
+    mount1000: () => mountN(1000).then((r) => { console.warn('[Bench] mount 1000 nodes:', r); return r; }),
+    mount2000: () => mountN(2000).then((r) => { console.warn('[Bench] mount 2000 nodes:', r); return r; }),
+    clear: () => clear().then((r) => { console.warn('[Bench] clear:', r); return r; }),
     measureRender
   };
 }

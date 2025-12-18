@@ -74,7 +74,10 @@ export function usePerformanceSummary(componentName) {
   useEffect(() => {
     return () => {
       if (process.env.NODE_ENV === 'development') {
-        console.log(`[Perf] ${componentName}: total renders = ${renderCount.current}`);
+        // Intentionally read ref value in cleanup to log final render count on unmount.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        const totalRenders = renderCount.current;
+        console.warn(`[Perf] ${componentName}: total renders = ${totalRenders}`);
       }
     };
   }, [componentName]);

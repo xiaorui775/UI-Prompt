@@ -7,6 +7,7 @@ import { PreviewPromptGenerator } from '../../utils/promptGenerator';
 import { DataVisualizationPreview } from '../../components/preview/DataVisualizationPreview';
 import { previewLogger as logger } from '../../utils/logger';
 import { resolveI18nValue } from '../../utils/i18n/resolveI18nValue';
+import { LoadingOverlay } from '../../components/preview/LoadingOverlay';
 
 // Extracted hooks
 import { usePreviewPageState } from '../../components/preview/hooks/usePreviewPageState';
@@ -48,7 +49,7 @@ function PreviewSkeleton({ title }) {
             <div className="minimalism-loader-dot"></div>
             <div className="minimalism-loader-dot"></div>
           </div>
-          <p className="text-gray-500 dark:text-gray-400 text-sm">Loading preview...</p>
+          <span className="sr-only">Loading preview...</span>
         </div>
       </div>
     </div>
@@ -94,6 +95,7 @@ function StylePreviewContent({ style }) {
   const {
     showPrompt,
     setShowPrompt,
+    isLoading,
     setIsLoading,
     activeIndex,
     setActiveIndex,
@@ -153,7 +155,8 @@ function StylePreviewContent({ style }) {
       fullPageStyles,
       htmlContent: demoHTML,
       customStyles,
-      displayTitle
+      displayTitle,
+      suppressLoadingUI: true
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps -- previewCacheRef is stable (useRef)
   }, [
@@ -224,10 +227,14 @@ function StylePreviewContent({ style }) {
             setShowPrompt={setShowPrompt}
             onOpenFullPage={handleOpenFullPageWindow}
             promptContent={promptContent}
+            language={language}
           />
         )}
 
         <div className="flex-1 overflow-auto custom-scrollbar relative">
+          {!isDataVisualization && !isReactPreview && (
+            <LoadingOverlay isVisible={isLoading || isLoadingPreview} />
+          )}
           {isDataVisualization ? (
             <DataVisualizationPreview
               isOpen={true}

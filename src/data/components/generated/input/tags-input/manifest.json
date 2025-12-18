@@ -3,12 +3,12 @@
   "category": "input",
   "component": {
     "name": {
-      "zh-CN": "data.components.input.tags-input.title",
-      "en-US": "data.components.input.tags-input.title"
+      "zh-CN": "标签输入",
+      "en-US": "Tags Input"
     },
     "description": {
-      "zh-CN": "data.components.input.tags-input.description",
-      "en-US": "data.components.input.tags-input.description"
+      "zh-CN": "标签输入组件",
+      "en-US": "Tags input component"
     },
     "tags": [
       "input",
@@ -20,12 +20,12 @@
     {
       "id": "default",
       "name": {
-        "zh-CN": "data.components.input.tags-input.title",
-        "en-US": "data.components.input.tags-input.title"
+        "zh-CN": "默认样式",
+        "en-US": "Default"
       },
       "description": {
-        "zh-CN": "data.components.input.tags-input.description",
-        "en-US": "data.components.input.tags-input.description"
+        "zh-CN": "默认样式风格的标签输入实现",
+        "en-US": "Tags Input implementation in Default style"
       },
       "hasContent": true,
       "hasStyles": false

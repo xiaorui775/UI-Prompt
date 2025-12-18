@@ -18,8 +18,25 @@ import path from 'path';
 const CATEGORIES = ['core', 'visual', 'retro', 'interaction', 'layout'];
 const CONTENT_ROOT = 'public/data/content/styles';
 const MANIFEST_ROOT = 'src/data/styles/generated';
+const TARGET_PERMISSION = 0o644;
 
 const FIX_MODE = process.argv.includes('--fix');
+const CHECK_PERMISSIONS = process.argv.includes('--check-permissions') || process.argv.includes('-p');
+
+/**
+ * Get file permissions as octal
+ */
+function getFilePermissions(filePath) {
+  const stats = fs.statSync(filePath);
+  return stats.mode & 0o777;
+}
+
+/**
+ * Format permissions as octal string
+ */
+function formatPermissions(mode) {
+  return mode.toString(8).padStart(3, '0');
+}
 
 // Helper: Convert template ID to title
 function idToTitle(id) {
@@ -132,12 +149,15 @@ function auditTemplates() {
     unregistered: [],
     noFullpage: [],
     orphanedRegistrations: [],
-    fixed: 0
+    permissionIssues: [],
+    fixed: 0,
+    permissionsFixed: 0
   };
 
   console.log('\n🔍 Template Audit Report\n');
   console.log('═'.repeat(80));
   console.log(`Mode: ${FIX_MODE ? '🔧 FIX (will auto-register missing templates)' : '📊 CHECK ONLY'}`);
+  console.log(`Permission Check: ${CHECK_PERMISSIONS ? '✅ ENABLED' : '❌ DISABLED (use -p to enable)'}`);
   console.log('═'.repeat(80));
 
   CATEGORIES.forEach(category => {
@@ -208,6 +228,38 @@ function auditTemplates() {
             files
           });
         }
+
+        // Permission check (if enabled)
+        if (CHECK_PERMISSIONS) {
+          files.forEach(file => {
+            if (['.html', '.css', '.jsx', '.js'].some(ext => file.endsWith(ext))) {
+              const filePath = path.join(templatePath, file);
+              const currentMode = getFilePermissions(filePath);
+
+              if (currentMode !== TARGET_PERMISSION) {
+                results.permissionIssues.push({
+                  category,
+                  family,
+                  templateId,
+                  file,
+                  filePath,
+                  current: formatPermissions(currentMode),
+                  target: formatPermissions(TARGET_PERMISSION)
+                });
+
+                // Fix permission if in fix mode
+                if (FIX_MODE) {
+                  try {
+                    fs.chmodSync(filePath, TARGET_PERMISSION);
+                    results.permissionsFixed++;
+                  } catch (err) {
+                    console.error(`   ⚠️  Failed to fix ${filePath}: ${err.message}`);
+                  }
+                }
+              }
+            }
+          });
+        }
       });
 
       // Check for orphaned registrations (registered but directory missing or no fullpage)
@@ -253,6 +305,9 @@ function auditTemplates() {
   console.log(`   Unregistered (missing from manifest): ${results.unregistered.length}`);
   console.log(`   No fullpage file (demo only): ${results.noFullpage.length}`);
   console.log(`   Orphaned registrations: ${results.orphanedRegistrations.length}`);
+  if (CHECK_PERMISSIONS) {
+    console.log(`   Permission issues: ${results.permissionIssues.length}`);
+  }
 
   if (results.unregistered.length > 0) {
     console.log('\n' + '─'.repeat(80));
@@ -275,6 +330,33 @@ function auditTemplates() {
     }
   }
 
+  if (results.permissionIssues.length > 0) {
+    console.log('\n' + '─'.repeat(80));
+    console.log('\n🔒 Permission Issues (files with incorrect permissions):\n');
+
+    // Group by template
+    const byTemplate = {};
+    for (const issue of results.permissionIssues) {
+      const key = `${issue.category}/${issue.family}/${issue.templateId}`;
+      if (!byTemplate[key]) byTemplate[key] = [];
+      byTemplate[key].push(issue);
+    }
+
+    for (const [template, issues] of Object.entries(byTemplate)) {
+      const status = FIX_MODE ? '✅' : '❌';
+      console.log(`   ${status} ${template}/`);
+      for (const issue of issues) {
+        console.log(`       ${issue.file} (${issue.current} → ${issue.target})`);
+      }
+    }
+
+    if (!FIX_MODE) {
+      console.log('\n   💡 To fix permissions, run:');
+      console.log('      node scripts/audit-templates.js -p --fix');
+      console.log('      Or use: npm run fix:permissions');
+    }
+  }
+
   if (results.noFullpage.length > 0 && process.argv.includes('--verbose')) {
     console.log('\n' + '─'.repeat(80));
     console.log('\nℹ️  Directories without fullpage (demo only, not an error):\n');
@@ -288,7 +370,10 @@ function auditTemplates() {
 
   if (FIX_MODE) {
     console.log(`\n✨ Fixed ${results.fixed} unregistered templates`);
-    if (results.fixed > 0) {
+    if (CHECK_PERMISSIONS) {
+      console.log(`✨ Fixed ${results.permissionsFixed} permission issues`);
+    }
+    if (results.fixed > 0 || results.permissionsFixed > 0) {
       console.log('\n📝 Next steps:');
       console.log('   1. Run: node scripts/build-styles-index.js');
       console.log('   2. Restart dev server if running');

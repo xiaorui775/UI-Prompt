@@ -93,7 +93,6 @@ const Row = memo(function Row({ data, index, style }) {
   );
 });
 
-// eslint-disable-next-line no-unused-vars
 function ColumnVariable({ items, renderItem, defaultItemHeight, listHeight, gap, VarList }) {
   const sizeMapRef = useRef(new Map())
   const listRef = useRef(null)

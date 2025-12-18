@@ -3,12 +3,12 @@
   "category": "advanced",
   "component": {
     "name": {
-      "zh-CN": "data.components.advanced.range-slider.title",
-      "en-US": "data.components.advanced.range-slider.title"
+      "zh-CN": "范围滑块",
+      "en-US": "Range Slider"
     },
     "description": {
-      "zh-CN": "data.components.advanced.range-slider.description",
-      "en-US": "data.components.advanced.range-slider.description"
+      "zh-CN": "范围选择滑块组件",
+      "en-US": "Range selection slider component"
     },
     "tags": [
       "advanced"
@@ -19,12 +19,12 @@
     {
       "id": "minimal-vertical",
       "name": {
-        "zh-CN": "data.components.advanced.range-slider.variants.0.name",
-        "en-US": "data.components.advanced.range-slider.variants.0.name"
+        "zh-CN": "极简垂直滑块",
+        "en-US": "Minimal Vertical"
       },
       "description": {
-        "zh-CN": "data.components.advanced.range-slider.variants.0.description",
-        "en-US": "data.components.advanced.range-slider.variants.0.description"
+        "zh-CN": "极简垂直滑块风格的范围滑块实现",
+        "en-US": "Range Slider implementation in Minimal Vertical style"
       },
       "hasContent": true,
       "hasStyles": false
@@ -32,12 +32,12 @@
     {
       "id": "glassmorphism-dual",
       "name": {
-        "zh-CN": "data.components.advanced.range-slider.variants.1.name",
-        "en-US": "data.components.advanced.range-slider.variants.1.name"
+        "zh-CN": "双滑块玻璃态",
+        "en-US": "Glassmorphism Dual"
       },
       "description": {
-        "zh-CN": "data.components.advanced.range-slider.variants.1.description",
-        "en-US": "data.components.advanced.range-slider.variants.1.description"
+        "zh-CN": "双滑块玻璃态风格的范围滑块实现",
+        "en-US": "Range Slider implementation in Glassmorphism Dual style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -45,12 +45,12 @@
     {
       "id": "bootstrap-price-filter",
       "name": {
-        "zh-CN": "data.components.advanced.range-slider.variants.2.name",
-        "en-US": "data.components.advanced.range-slider.variants.2.name"
+        "zh-CN": "Bootstrap 价格筛选",
+        "en-US": "Bootstrap Price Filter"
       },
       "description": {
-        "zh-CN": "data.components.advanced.range-slider.variants.2.description",
-        "en-US": "data.components.advanced.range-slider.variants.2.description"
+        "zh-CN": "Bootstrap 价格筛选风格的范围滑块实现",
+        "en-US": "Range Slider implementation in Bootstrap Price Filter style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -58,12 +58,12 @@
     {
       "id": "material-brightness",
       "name": {
-        "zh-CN": "data.components.advanced.range-slider.variants.3.name",
-        "en-US": "data.components.advanced.range-slider.variants.3.name"
+        "zh-CN": "Material 亮度调节",
+        "en-US": "Material Brightness"
       },
       "description": {
-        "zh-CN": "data.components.advanced.range-slider.variants.3.description",
-        "en-US": "data.components.advanced.range-slider.variants.3.description"
+        "zh-CN": "Material 亮度调节风格的范围滑块实现",
+        "en-US": "Range Slider implementation in Material Brightness style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -71,12 +71,12 @@
     {
       "id": "neumorphism-volume",
       "name": {
-        "zh-CN": "data.components.advanced.range-slider.variants.4.name",
-        "en-US": "data.components.advanced.range-slider.variants.4.name"
+        "zh-CN": "拟态音量调节",
+        "en-US": "Neumorphism Volume"
       },
       "description": {
-        "zh-CN": "data.components.advanced.range-slider.variants.4.description",
-        "en-US": "data.components.advanced.range-slider.variants.4.description"
+        "zh-CN": "拟态音量调节风格的范围滑块实现",
+        "en-US": "Range Slider implementation in Neumorphism Volume style"
       },
       "hasContent": true,
       "hasStyles": true

@@ -3,12 +3,12 @@
   "category": "feedback",
   "component": {
     "name": {
-      "zh-CN": "data.components.feedback.modal-dialog.title",
-      "en-US": "data.components.feedback.modal-dialog.title"
+      "zh-CN": "模态对话框",
+      "en-US": "Modal Dialog"
     },
     "description": {
-      "zh-CN": "data.components.feedback.modal-dialog.description",
-      "en-US": "data.components.feedback.modal-dialog.description"
+      "zh-CN": "模态弹窗对话框组件",
+      "en-US": "Modal popup dialog component"
     },
     "tags": [
       "feedback",
@@ -21,12 +21,12 @@
     {
       "id": "minimalism",
       "name": {
-        "zh-CN": "data.components.feedback.modal-dialog.variants.minimalism.name",
-        "en-US": "data.components.feedback.modal-dialog.variants.minimalism.name"
+        "zh-CN": "极简风格",
+        "en-US": "Minimalism"
       },
       "description": {
-        "zh-CN": "data.components.feedback.modal-dialog.variants.minimalism.description",
-        "en-US": "data.components.feedback.modal-dialog.variants.minimalism.description"
+        "zh-CN": "极简风格风格的模态对话框实现",
+        "en-US": "Modal Dialog implementation in Minimalism style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -34,12 +34,12 @@
     {
       "id": "material",
       "name": {
-        "zh-CN": "data.components.feedback.modal-dialog.variants.material.name",
-        "en-US": "data.components.feedback.modal-dialog.variants.material.name"
+        "zh-CN": "Material Design",
+        "en-US": "Material Design"
       },
       "description": {
-        "zh-CN": "data.components.feedback.modal-dialog.variants.material.description",
-        "en-US": "data.components.feedback.modal-dialog.variants.material.description"
+        "zh-CN": "Material Design风格的模态对话框实现",
+        "en-US": "Modal Dialog implementation in Material Design style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -47,12 +47,12 @@
     {
       "id": "glassmorphism",
       "name": {
-        "zh-CN": "data.components.feedback.modal-dialog.variants.glassmorphism.name",
-        "en-US": "data.components.feedback.modal-dialog.variants.glassmorphism.name"
+        "zh-CN": "玻璃拟态",
+        "en-US": "Glassmorphism"
       },
       "description": {
-        "zh-CN": "data.components.feedback.modal-dialog.variants.glassmorphism.description",
-        "en-US": "data.components.feedback.modal-dialog.variants.glassmorphism.description"
+        "zh-CN": "玻璃拟态风格的模态对话框实现",
+        "en-US": "Modal Dialog implementation in Glassmorphism style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -60,12 +60,12 @@
     {
       "id": "neumorphism",
       "name": {
-        "zh-CN": "data.components.feedback.modal-dialog.variants.neumorphism.name",
-        "en-US": "data.components.feedback.modal-dialog.variants.neumorphism.name"
+        "zh-CN": "拟态风格",
+        "en-US": "Neumorphism"
       },
       "description": {
-        "zh-CN": "data.components.feedback.modal-dialog.variants.neumorphism.description",
-        "en-US": "data.components.feedback.modal-dialog.variants.neumorphism.description"
+        "zh-CN": "拟态风格风格的模态对话框实现",
+        "en-US": "Modal Dialog implementation in Neumorphism style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -73,12 +73,12 @@
     {
       "id": "bootstrap",
       "name": {
-        "zh-CN": "data.components.feedback.modal-dialog.variants.bootstrap.name",
-        "en-US": "data.components.feedback.modal-dialog.variants.bootstrap.name"
+        "zh-CN": "Bootstrap",
+        "en-US": "Bootstrap"
       },
       "description": {
-        "zh-CN": "data.components.feedback.modal-dialog.variants.bootstrap.description",
-        "en-US": "data.components.feedback.modal-dialog.variants.bootstrap.description"
+        "zh-CN": "Bootstrap风格的模态对话框实现",
+        "en-US": "Modal Dialog implementation in Bootstrap style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -86,12 +86,12 @@
     {
       "id": "neo-brutalism",
       "name": {
-        "zh-CN": "data.components.feedback.modal-dialog.variants.neo-brutalism.name",
-        "en-US": "data.components.feedback.modal-dialog.variants.neo-brutalism.name"
+        "zh-CN": "新残酷主义",
+        "en-US": "Neo Brutalism"
       },
       "description": {
-        "zh-CN": "data.components.feedback.modal-dialog.variants.neo-brutalism.description",
-        "en-US": "data.components.feedback.modal-dialog.variants.neo-brutalism.description"
+        "zh-CN": "新残酷主义风格的模态对话框实现",
+        "en-US": "Modal Dialog implementation in Neo Brutalism style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -99,12 +99,12 @@
     {
       "id": "cyberpunk",
       "name": {
-        "zh-CN": "data.components.feedback.modal-dialog.variants.cyberpunk.name",
-        "en-US": "data.components.feedback.modal-dialog.variants.cyberpunk.name"
+        "zh-CN": "赛博朋克",
+        "en-US": "Cyberpunk"
       },
       "description": {
-        "zh-CN": "data.components.feedback.modal-dialog.variants.cyberpunk.description",
-        "en-US": "data.components.feedback.modal-dialog.variants.cyberpunk.description"
+        "zh-CN": "赛博朋克风格的模态对话框实现",
+        "en-US": "Modal Dialog implementation in Cyberpunk style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -112,12 +112,12 @@
     {
       "id": "bottom-sheet",
       "name": {
-        "zh-CN": "data.components.feedback.modal-dialog.variants.bottom-sheet.name",
-        "en-US": "data.components.feedback.modal-dialog.variants.bottom-sheet.name"
+        "zh-CN": "底部弹出",
+        "en-US": "Bottom Sheet"
       },
       "description": {
-        "zh-CN": "data.components.feedback.modal-dialog.variants.bottom-sheet.description",
-        "en-US": "data.components.feedback.modal-dialog.variants.bottom-sheet.description"
+        "zh-CN": "底部弹出风格的模态对话框实现",
+        "en-US": "Modal Dialog implementation in Bottom Sheet style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -125,12 +125,12 @@
     {
       "id": "side-drawer",
       "name": {
-        "zh-CN": "data.components.feedback.modal-dialog.variants.side-drawer.name",
-        "en-US": "data.components.feedback.modal-dialog.variants.side-drawer.name"
+        "zh-CN": "侧边抽屉",
+        "en-US": "Side Drawer"
       },
       "description": {
-        "zh-CN": "data.components.feedback.modal-dialog.variants.side-drawer.description",
-        "en-US": "data.components.feedback.modal-dialog.variants.side-drawer.description"
+        "zh-CN": "侧边抽屉风格的模态对话框实现",
+        "en-US": "Modal Dialog implementation in Side Drawer style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -138,12 +138,12 @@
     {
       "id": "notification",
       "name": {
-        "zh-CN": "data.components.feedback.modal-dialog.variants.notification.name",
-        "en-US": "data.components.feedback.modal-dialog.variants.notification.name"
+        "zh-CN": "通知弹窗",
+        "en-US": "Notification"
       },
       "description": {
-        "zh-CN": "data.components.feedback.modal-dialog.variants.notification.description",
-        "en-US": "data.components.feedback.modal-dialog.variants.notification.description"
+        "zh-CN": "通知弹窗风格的模态对话框实现",
+        "en-US": "Modal Dialog implementation in Notification style"
       },
       "hasContent": true,
       "hasStyles": true
@@ -151,12 +151,12 @@
     {
       "id": "image-preview",
       "name": {
-        "zh-CN": "data.components.feedback.modal-dialog.variants.image-preview.name",
-        "en-US": "data.components.feedback.modal-dialog.variants.image-preview.name"
+        "zh-CN": "图片预览",
+        "en-US": "Image Preview"
       },
       "description": {
-        "zh-CN": "data.components.feedback.modal-dialog.variants.image-preview.description",
-        "en-US": "data.components.feedback.modal-dialog.variants.image-preview.description"
+        "zh-CN": "图片预览风格的模态对话框实现",
+        "en-US": "Modal Dialog implementation in Image Preview style"
       },
       "hasContent": true,
       "hasStyles": true
