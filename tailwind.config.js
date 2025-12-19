@@ -4,6 +4,11 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+    // 讓預覽 iframe 也能吃到 Tailwind utilities（避免依賴 Tailwind CDN）
+    "./public/data/content/**/*.{html,md}",
+    // Fallback：部分組件/風格可能只內嵌在 generated JSON 中
+    "./src/data/components/generated/**/*.json",
+    "./src/data/styles/generated/**/*.json",
   ],
   // 保護關鍵的 dark: 類，防止 Tree-shaking 誤刪除
   safelist: [

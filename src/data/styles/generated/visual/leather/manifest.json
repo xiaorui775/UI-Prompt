@@ -10,8 +10,16 @@
       "zh-CN": "深色皮革面板风格，通过径向渐变、噪点纹理、缝线和金属细节营造厚重而奢华的视觉体验",
       "en-US": "Dark leather panel style with radial gradients, noise textures, stitching and metal accents"
     },
-    "tags": ["classic", "depth", "creative", "enterprise"],
-    "relatedStyles": ["core-skeuomorphism", "visual-texture-fabric"]
+    "tags": [
+      "classic",
+      "depth",
+      "creative",
+      "enterprise"
+    ],
+    "relatedStyles": [
+      "core-skeuomorphism",
+      "visual-texture-fabric"
+    ]
   },
   "templates": [
     {

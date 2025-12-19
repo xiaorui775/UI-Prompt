@@ -24,5 +24,13 @@
       "minimalism"
     ]
   },
-  "templates": []
+  "templates": [
+    {
+      "id": "layout-magazine-lumiere",
+      "title": {
+        "zh-CN": "Lumière（光）",
+        "en-US": "Lumière"
+      }
+    }
+  ]
 }

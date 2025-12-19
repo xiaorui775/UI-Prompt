@@ -3,7 +3,7 @@
   "category": "visual",
   "family": {
     "name": {
-      "zh-CN": "3D Elements 3D 元素",
+      "zh-CN": "3D 元素",
       "en-US": "3D Elements"
     },
     "description": {
@@ -14,6 +14,13 @@
     "relatedStyles": []
   },
   "templates": [
+    {
+      "id": "visual-3dElements-spatial-ui",
+      "title": {
+        "zh-CN": "深度空间 UI",
+        "en-US": "Deep Dimension Spatial UI"
+      }
+    },
     {
       "id": "visual-tech-3d-elements",
       "title": {

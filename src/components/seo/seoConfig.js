@@ -4,6 +4,10 @@
  */
 
 import { LANGUAGES } from '../../utils/i18n/languageConstants';
+import { getFormattedStyleCount } from '../../utils/styleStats.js';
+
+// Dynamic style count (e.g., "70+")
+const STYLE_COUNT = getFormattedStyleCount();
 
 // Base URL for canonical and absolute URLs
 export const BASE_URL = 'https://www.uiprompt.site';
@@ -23,14 +27,14 @@ export const PAGE_SEO = {
     [LANGUAGES.ZH_CN]: {
       title: 'UI 设计风格提示词库',
       description:
-        '探索 70+ 种现代 UI 设计风格，获取专业 AI 生成提示词。包含玻璃态、新拟物、扁平化、赛博朋克等流行设计系统，帮助您的 AI 生成独特 UI。',
+        `探索 ${STYLE_COUNT} 种现代 UI 设计风格，获取专业 AI 生成提示词。包含玻璃态、新拟物、扁平化、赛博朋克等流行设计系统，帮助您的 AI 生成独特 UI。`,
       keywords:
         'UI设计,AI提示词,设计风格,玻璃态,新拟物,扁平化,CSS,前端设计,UI模板',
     },
     [LANGUAGES.EN_US]: {
       title: 'UI Design Style Prompts',
       description:
-        'Explore 70+ modern UI design styles with professional AI prompts. Includes Glassmorphism, Neumorphism, Flat Design, Cyberpunk and more design systems for unique AI-generated UIs.',
+        `Explore ${STYLE_COUNT} modern UI design styles with professional AI prompts. Includes Glassmorphism, Neumorphism, Flat Design, Cyberpunk and more design systems for unique AI-generated UIs.`,
       keywords:
         'UI design,AI prompts,design styles,glassmorphism,neumorphism,flat design,CSS,frontend design,UI templates',
     },
@@ -54,13 +58,13 @@ export const PAGE_SEO = {
     [LANGUAGES.ZH_CN]: {
       title: 'UI 组件库',
       description:
-        '浏览 40+ 种可复用 UI 组件，包含按钮、表单、卡片、导航等。每个组件都有多种风格变体和即用代码。',
+        `浏览 ${STYLE_COUNT} 种可复用 UI 组件，包含按钮、表单、卡片、导航等。每个组件都有多种风格变体和即用代码。`,
       keywords: 'UI组件,React组件,按钮,表单,卡片,导航,组件库,前端组件',
     },
     [LANGUAGES.EN_US]: {
       title: 'UI Components',
       description:
-        'Browse 40+ reusable UI components including buttons, forms, cards, navigation and more. Each component has multiple style variants with ready-to-use code.',
+        `Browse ${STYLE_COUNT} reusable UI components including buttons, forms, cards, navigation and more. Each component has multiple style variants with ready-to-use code.`,
       keywords:
         'UI components,React components,buttons,forms,cards,navigation,component library,frontend components',
     },

@@ -3,11 +3,11 @@
   "category": "visual",
   "family": {
     "name": {
-      "zh-CN": "反設計工作室",
+      "zh-CN": "反设计工作室",
       "en-US": "Anti-Design Studio"
     },
     "description": {
-      "zh-CN": "打破設計規則的大膽實驗性風格。拒絕網格系統、標準字體和傳統互動，擁抱視覺侵略性和混亂的美學。",
+      "zh-CN": "打破设计规则的大胆实验性风格。拒绝网格系统、标准字体和传统互动，拥抱视觉侵略性和混乱的美学。",
       "en-US": "A bold experimental style that breaks design rules. Rejects grid systems, standard typography, and traditional interactions, embracing visual aggression and chaotic aesthetics."
     },
     "tags": [
@@ -28,7 +28,7 @@
     {
       "id": "visual-antiDesign-studio",
       "title": {
-        "zh-CN": "反設計工作室",
+        "zh-CN": "反设计工作室",
         "en-US": "Anti-Design Studio"
       },
       "isDefault": true
@@ -36,7 +36,7 @@
     {
       "id": "visual-tech-anti-design",
       "title": {
-        "zh-CN": "科技反設計",
+        "zh-CN": "科技反设计",
         "en-US": "Tech Anti-Design"
       }
     }

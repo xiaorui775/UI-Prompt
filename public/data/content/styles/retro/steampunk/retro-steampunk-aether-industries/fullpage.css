@@ -1,0 +1,45 @@
+/* Base Tailwind CSS will be applied via CDN in HTML */
+/* This file can remain minimal as Tailwind handles most styling */
+
+/* Additional custom styles beyond Tailwind */
+:root {
+  --brass-light: #d4af37;
+  --brass-dark: #b8860b;
+  --leather-dark: #2a1810;
+  --text-light: #dcdcdc;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0503;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #b8860b;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #d4af37;
+}
+
+/* Ensure smooth scrolling behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Image optimizations */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}

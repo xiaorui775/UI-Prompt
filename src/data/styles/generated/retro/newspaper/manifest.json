@@ -17,14 +17,14 @@
     {
       "id": "modernEditorialTemplates",
       "title": {
-        "zh-CN": "現代編輯風格",
+        "zh-CN": "现代编辑风格",
         "en-US": "Modern Editorial Style"
       }
     },
     {
       "id": "vintageRetroTemplates",
       "title": {
-        "zh-CN": "復古懷舊風格",
+        "zh-CN": "复古怀旧风格",
         "en-US": "Vintage Retro Style"
       }
     }

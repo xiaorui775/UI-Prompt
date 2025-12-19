@@ -3,7 +3,7 @@
   "category": "core",
   "family": {
     "name": {
-      "zh-CN": "擬物化",
+      "zh-CN": "拟物化",
       "en-US": "Skeuomorphism"
     },
     "description": {
@@ -17,14 +17,14 @@
     {
       "id": "core-skeuomorphism-tech-corp-homepage",
       "title": {
-        "zh-CN": "科技公司主頁",
+        "zh-CN": "科技公司主页",
         "en-US": "Tech Corp Homepage"
       }
     },
     {
       "id": "core-skeuomorphism-vintage-library-landing",
       "title": {
-        "zh-CN": "復古圖書館頁面",
+        "zh-CN": "复古图书馆页面",
         "en-US": "Vintage Library Landing"
       }
     },

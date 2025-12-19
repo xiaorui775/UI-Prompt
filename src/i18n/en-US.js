@@ -1,3 +1,8 @@
+import { getFormattedStyleCount } from '../utils/styleStats.js';
+
+// Dynamic style count (e.g., "70+")
+const STYLE_COUNT = getFormattedStyleCount();
+
 export default {
   "nav": {
     "logoShort": "UIP",
@@ -52,7 +57,7 @@ export default {
     "all": "All",
     "styles": "Design Styles",
     "components": "UI Components",
-    "stylesDescription": "Explore 70+ modern UI design styles",
+    "stylesDescription": `Explore ${STYLE_COUNT} modern UI design styles`,
     "componentsDescription": "Browse 40+ reusable UI components",
     "searchPlaceholder": "Search styles or components...",
     "searchStyles": "Search styles (by name or description)",
@@ -97,7 +102,7 @@ export default {
       "problemTitle": "The Problem We Found",
       "problemDesc": "When everyone uses the same prompts to generate UI with AI, the result is homogeneous designs everywhere. No design language, rough details, messy code...",
       "solutionTitle": "Our Solution",
-      "solutionDesc": "We've curated 70+ battle-tested design styles, each with complete Prompt templates and CSS specifications. Copy, paste, generate — it's that simple.",
+      "solutionDesc": `We've curated ${STYLE_COUNT} battle-tested design styles, each with complete Prompt templates and CSS specifications. Copy, paste, generate — it's that simple.`,
       "philosophyTitle": "Design Philosophy",
       "philosophyDesc": "Minimal shell, raw demos. We believe great tools let creators focus on creating.",
       "contactTitle": "Contact Us",
@@ -3405,7 +3410,7 @@ export default {
     "features": {
       "title": "Core Features",
       "subtitle": "Solve AI-generated UI homogenization with battle-tested Prompt templates",
-      "styles": "40+ Design Styles",
+      "styles": `${STYLE_COUNT} Design Styles`,
       "stylesDesc": "Complete style library from classic to modern, covering minimalism, cyberpunk, neumorphism and more",
       "prompts": "AI Prompt Templates",
       "promptsDesc": "Bilingual Prompt templates, battle-tested, ready to paste into Claude Code",
@@ -3426,7 +3431,7 @@ export default {
       "title": "How It Works",
       "subtitle": "Four steps to generate high-quality UI",
       "step1Title": "Browse Styles",
-      "step1Desc": "Explore 40+ design styles and find the perfect fit for your project",
+      "step1Desc": `Explore ${STYLE_COUNT} design styles and find the perfect fit for your project`,
       "step2Title": "View Prompt",
       "step2Desc": "Click on style card to view the complete AI Prompt template",
       "step3Title": "Copy Prompt",
@@ -3448,7 +3453,7 @@ export default {
       "problem4Title": "Poor maintainability",
       "problem4": "Messy code structure, difficult to modify and extend",
       "afterTitle": "Our Solutions",
-      "solution1Title": "40+ unique styles",
+      "solution1Title": `${STYLE_COUNT} unique styles`,
       "solution1": "From classic to modern, each style has a clear design language",
       "solution2Title": "Complete design system",
       "solution2": "Provides structured Prompt templates and design specifications",

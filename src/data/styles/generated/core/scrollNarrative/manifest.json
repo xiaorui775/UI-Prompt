@@ -1,6 +1,6 @@
 {
-  "id": "visual-scrollNarrative",
-  "category": "visual",
+  "id": "core-scrollNarrative",
+  "category": "core",
   "family": {
     "name": {
       "zh-CN": "滚动叙事",
@@ -15,6 +15,13 @@
   },
   "templates": [
     {
+      "id": "core-scrollNarrative-immersive-narrative",
+      "title": {
+        "zh-CN": "沉浸式叙事设计",
+        "en-US": "Immersive Narrative Design"
+      }
+    },
+    {
       "id": "product-feature-showcase",
       "title": {
         "zh-CN": "SaaS 产品功能展示",
@@ -26,13 +33,6 @@
       "title": {
         "zh-CN": "产品发布时间轴",
         "en-US": "Product Launch Timeline"
-      }
-    },
-    {
-      "id": "parallax-story-experience",
-      "title": {
-        "zh-CN": "视差动画叙事体验",
-        "en-US": "Parallax Story Experience"
       }
     },
     {

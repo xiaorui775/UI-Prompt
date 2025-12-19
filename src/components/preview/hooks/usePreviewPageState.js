@@ -11,7 +11,7 @@
  * @module usePreviewPageState
  */
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 /**
  * 預覽頁面狀態管理 Hook
@@ -59,12 +59,9 @@ export function usePreviewPageState({
    * 檢測是否為「純 HTML 完整頁面」模式（無頂部 Header）
    * 從 URL 參數 ?full=1 或 ?fullpage=1 判斷
    */
-  const isFullPageMode = useMemo(() => {
-    return (
-      searchParams.get('full') === '1' ||
-      searchParams.get('fullpage') === '1'
-    );
-  }, [searchParams]);
+  const isFullPageMode =
+    searchParams.get('full') === '1' ||
+    searchParams.get('fullpage') === '1';
 
   /**
    * 找到第一個 full 類型預覽的索引作為默認值

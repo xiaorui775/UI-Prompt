@@ -4,8 +4,8 @@ import { compileJSX } from '../../../utils/jsxCompiler';
 import { previewLogger as logger } from '../../../utils/logger';
 import { getPreviewCache } from '../../../utils/LRUCache';
 
-// 🚀 全局 LRU 緩存（限制 30 entries，避免內存無限增長）
-const previewCache = getPreviewCache(30);
+// 🚀 全局 LRU 緩存（限制 50 entries，避免內存無限增長）
+const previewCache = getPreviewCache(50);
 
 /**
  * Custom hook for managing async preview loading with cache and multi-mode support

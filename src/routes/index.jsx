@@ -13,6 +13,7 @@ import {
   createStyleLoader,
   createStyleLoaderDeferred,
   createComponentLoader,
+  createComponentPreviewLoaderDeferred,
   createLazyRoute,
 } from '../utils/routeLoaders';
 
@@ -94,7 +95,7 @@ export const router = createBrowserRouter([
     path: '/:lang/components/preview/:category/:componentId',
     lazy: createLazyRoute(
       () => import('../pages/components/ComponentPreviewPage.jsx'),
-      createComponentLoader
+      createComponentPreviewLoaderDeferred
     ),
   },
 

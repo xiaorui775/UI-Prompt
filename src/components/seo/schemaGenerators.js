@@ -5,6 +5,10 @@
 
 import { BASE_URL, LANG_TO_URL } from './seoConfig';
 import { LANGUAGES } from '../../utils/i18n/languageConstants';
+import { getFormattedStyleCount } from '../../utils/styleStats.js';
+
+// Dynamic style count (e.g., "70+")
+const STYLE_COUNT = getFormattedStyleCount();
 
 /**
  * Generate WebSite schema for the main site
@@ -67,8 +71,8 @@ export function generateStyleListSchema(styles, language) {
       language === LANGUAGES.ZH_CN ? 'UI 设计风格库' : 'UI Design Style Library',
     description:
       language === LANGUAGES.ZH_CN
-        ? '探索 70+ 种现代 UI 设计风格'
-        : 'Explore 70+ modern UI design styles',
+        ? `探索 ${STYLE_COUNT} 种现代 UI 设计风格`
+        : `Explore ${STYLE_COUNT} modern UI design styles`,
     numberOfItems: styles.length,
     itemListElement: styles.slice(0, 10).map((style, index) => ({
       '@type': 'ListItem',

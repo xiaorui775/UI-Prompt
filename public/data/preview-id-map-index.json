@@ -1,19 +1,19 @@
 {
-  "total": 361,
+  "total": 367,
   "shards": {
     "core": {
-      "count": 48,
-      "size": 5671,
+      "count": 59,
+      "size": 7109,
       "file": "preview-id-map-core.json"
     },
     "visual": {
-      "count": 245,
-      "size": 28069,
+      "count": 238,
+      "size": 27278,
       "file": "preview-id-map-visual.json"
     },
     "retro": {
-      "count": 60,
-      "size": 6546,
+      "count": 62,
+      "size": 6828,
       "file": "preview-id-map-retro.json"
     },
     "interaction": {
@@ -23,9 +23,9 @@
     },
     "layout": {
       "count": 3,
-      "size": 339,
+      "size": 329,
       "file": "preview-id-map-layout.json"
     }
   },
-  "generated": "2025-12-18T10:49:55.304Z"
+  "generated": "2025-12-18T23:21:00.476Z"
 }

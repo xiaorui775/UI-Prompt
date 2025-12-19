@@ -15,8 +15,10 @@ import { createI18nResolver } from '../../utils/i18n/resolveI18nValue';
 
 import {
   buildComponentPreviewHTML,
-  buildComponentEmptyStateHTML
+  buildComponentEmptyStateHTML,
+  buildComponentLoadingHTML
 } from '../../components/preview/utils/buildComponentPreviewHTML';
+import { useAsyncComponentVariantLoader } from '../../components/preview/hooks/useAsyncComponentVariantLoader';
 
 import { createLogger } from '../../utils/logger';
 
@@ -37,7 +39,7 @@ const logger = createLogger('ComponentPreviewPage');
  */
 export function ComponentPreviewPage() {
   // ========== 1. Router hooks ==========
-  const { component } = useLoaderData();
+  const { component, preloadedVariant, preloadedVariantId } = useLoaderData();
   const { category, componentId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -71,7 +73,7 @@ export function ComponentPreviewPage() {
     isFullPageMode
   } = useUnifiedPreviewPageState({
     mode: PREVIEW_PAGE_MODES.COMPONENT,
-    itemId: componentId,
+    itemId: `${category}/${componentId}`,
     itemsList: previewsList,
     searchParams,
     setSearchParams,
@@ -106,14 +108,47 @@ export function ComponentPreviewPage() {
     };
   }, [component, category, resolveI18n, t]);
 
-  // ========== 7. Current variant ==========
-  const currentVariant = useMemo(() => {
-    if (!componentData?.variants?.length) return null;
-    return componentData.variants[activeIndex] || componentData.variants[0];
-  }, [componentData, activeIndex]);
+  // ========== 7. Async variant loader (load only what we need) ==========
+  const {
+    variantData,
+    currentVariantId,
+    isLoadingVariant
+  } = useAsyncComponentVariantLoader({
+    category,
+    componentId,
+    variants: componentData?.variants || [],
+    activeIndex,
+    preloadedVariant,
+    preloadedVariantId
+  });
 
-  // ========== 8. Build preview HTML ==========
+  // ========== 8. Current variant (merged meta + async content/prompts) ==========
+  const currentVariantMeta = !componentData?.variants?.length
+    ? null
+    : componentData.variants[activeIndex] || componentData.variants[0];
+
+  const currentVariant = useMemo(() => {
+    if (!currentVariantMeta) return null;
+
+    if (variantData?.variantId && currentVariantId === variantData.variantId) {
+      return {
+        ...currentVariantMeta,
+        ...variantData
+      };
+    }
+
+    return currentVariantMeta;
+  }, [currentVariantMeta, variantData, currentVariantId]);
+
+  const includeTailwindCdn = searchParams.get('tw') === '1';
+
+  // ========== 9. Build preview HTML ==========
   const previewHTML = useMemo(() => {
+    // Still loading the variant content: show loading iframe instead of empty state
+    if (isLoadingVariant && !currentVariant?.demoHTML) {
+      return buildComponentLoadingHTML({ language });
+    }
+
     if (!currentVariant?.demoHTML) {
       return buildComponentEmptyStateHTML({
         displayTitle: componentData?.title || 'Component Preview',
@@ -125,11 +160,12 @@ export function ComponentPreviewPage() {
       demoHTML: currentVariant.demoHTML,
       customStyles: currentVariant.customStyles || '',
       displayTitle: `${componentData?.title} - ${currentVariant.name}`,
-      language
+      language,
+      includeTailwindCdn
     });
-  }, [currentVariant, componentData?.title, language]);
+  }, [currentVariant, componentData?.title, language, includeTailwindCdn, isLoadingVariant]);
 
-  // ========== 9. Generate prompt content ==========
+  // ========== 10. Generate prompt content ==========
   const promptContent = usePromptContent(
     () => {
       if (!currentVariant) return '';
@@ -144,7 +180,7 @@ export function ComponentPreviewPage() {
     { loggerName: 'ComponentPreviewPage' }
   );
 
-  // ========== 10. Event handlers ==========
+  // ========== 11. Event handlers ==========
   const handleEditCode = useCallback(() => {
     setShowCodeModal(true);
   }, [setShowCodeModal]);
@@ -155,7 +191,7 @@ export function ComponentPreviewPage() {
     window.open(`${currentUrl}${separator}full=1`, '_blank', 'noopener');
   }, []);
 
-  // ========== 11. Not found state ==========
+  // ========== 12. Not found state ==========
   if (!componentData) {
     return (
       <div className="fixed inset-0 z-50 bg-white dark:bg-gray-900 flex items-center justify-center">
@@ -175,7 +211,7 @@ export function ComponentPreviewPage() {
     );
   }
 
-  // ========== 12. Render ==========
+  // ========== 13. Render ==========
   return (
     <>
       <div className="fixed inset-0 z-50 bg-white dark:bg-gray-900 flex flex-col">
@@ -201,7 +237,7 @@ export function ComponentPreviewPage() {
 
         {/* Preview iframe */}
         <div className="flex-1 overflow-auto custom-scrollbar relative">
-          <LoadingOverlay isVisible={isLoading} />
+          <LoadingOverlay isVisible={isLoading || isLoadingVariant} />
 
           <iframe
             key={`${componentId}:${activeIndex}`}

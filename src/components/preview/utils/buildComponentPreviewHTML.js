@@ -14,6 +14,50 @@ import appCssUrl from '../../../index.css?url';
 // 工具按鈕交互腳本（用於 paint-toolbox 等組件）
 const INTERACTIVE_SCRIPT = `(function(){function i(){try{document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.tool-button');if(!b)return;var c=b.closest&&b.closest('.paint-toolbox');if(!c)return;var a=c.querySelectorAll&&c.querySelectorAll('.tool-button.active');if(a){a.forEach?a.forEach(function(el){el.classList.remove('active')}):Array.prototype.forEach.call(a,function(el){el.classList.remove('active')});}b.classList.add('active');},true);}catch(_){} } if(document.readyState==='complete'||document.readyState==='interactive'){i();}else{document.addEventListener('DOMContentLoaded',i,{once:true});}})();`;
 
+const LOADING_HTML = `<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loading...</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0b0b0f;
+    }
+    .minimalism-loader {
+      display: flex;
+      gap: 10px;
+    }
+    .minimalism-loader-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      background: #e5e7eb;
+      animation: pulse 1s ease-in-out infinite;
+    }
+    .minimalism-loader-dot:nth-child(2) { animation-delay: 0.15s; }
+    .minimalism-loader-dot:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.3; transform: translateY(0); }
+      50% { opacity: 1; transform: translateY(-6px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="minimalism-loader" aria-label="Loading">
+    <div class="minimalism-loader-dot"></div>
+    <div class="minimalism-loader-dot"></div>
+    <div class="minimalism-loader-dot"></div>
+  </div>
+</body>
+</html>`;
+
 /**
  * 構建組件預覽 HTML 文檔
  *
@@ -22,13 +66,15 @@ const INTERACTIVE_SCRIPT = `(function(){function i(){try{document.addEventListen
  * @param {string} options.customStyles - 自定義 CSS 樣式
  * @param {string} options.displayTitle - 顯示標題（用於頁面 title）
  * @param {string} options.language - 語言代碼 (en-US | zh-CN)
+ * @param {boolean} [options.includeTailwindCdn=false] - 是否注入 Tailwind CDN（預設關閉以提升切換速度）
  * @returns {string} 完整的 HTML 文檔
  */
 export function buildComponentPreviewHTML({
   demoHTML = '',
   customStyles = '',
   displayTitle = 'Component Preview',
-  language = 'en-US'
+  language = 'en-US',
+  includeTailwindCdn = false
 }) {
   const langAttr = language || 'en-US';
 
@@ -42,7 +88,7 @@ export function buildComponentPreviewHTML({
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${displayTitle}</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  ${includeTailwindCdn ? '<script src="https://cdn.tailwindcss.com"></script>' : ''}
   <link rel="stylesheet" href="${appCssUrl}">
   <style>
     /* Reset and base styles */
@@ -71,6 +117,18 @@ export function buildComponentPreviewHTML({
   <script>${INTERACTIVE_SCRIPT}</script>
 </body>
 </html>`;
+}
+
+/**
+ * 組件預覽載入中 HTML（用於變體內容還沒到時，避免空白 iframe）
+ *
+ * @param {Object} options
+ * @param {string} [options.language='en-US']
+ * @returns {string}
+ */
+export function buildComponentLoadingHTML({ language = 'en-US' } = {}) {
+  const langAttr = language || 'en-US';
+  return LOADING_HTML.replace('lang="en-US"', `lang="${langAttr}"`);
 }
 
 /**

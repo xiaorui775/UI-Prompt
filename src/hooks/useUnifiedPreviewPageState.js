@@ -10,7 +10,7 @@
  * @module hooks/useUnifiedPreviewPageState
  */
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { LOADING_TIMEOUT_MS } from '../utils/constants';
 
 /**
@@ -85,12 +85,9 @@ export function useUnifiedPreviewPageState({
    * Check if in full page mode (no header)
    * From URL params: ?full=1 or ?fullpage=1
    */
-  const isFullPageMode = useMemo(() => {
-    return (
-      searchParams.get('full') === '1' ||
-      searchParams.get('fullpage') === '1'
-    );
-  }, [searchParams]);
+  const isFullPageMode =
+    searchParams.get('full') === '1' ||
+    searchParams.get('fullpage') === '1';
 
   /**
    * Get default index based on mode

@@ -15,6 +15,13 @@
   },
   "templates": [
     {
+      "id": "visual-neonCyberpunk-netrunner-deck",
+      "title": {
+        "zh-CN": "NetRunner 作战甲板",
+        "en-US": "NetRunner Operations Deck"
+      }
+    },
+    {
       "id": "visual-neon-cyberpunk",
       "title": {
         "zh-CN": "Neon Cyberpunk 霓虹赛博朋克",

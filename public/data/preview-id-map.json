@@ -159,6 +159,61 @@
     "familyId": "minimalism",
     "templateId": "core-minimalism-japanese-style"
   },
+  "core-scrollNarrative-core-scrollNarrative-immersive-narrative": {
+    "category": "core",
+    "familyId": "scrollNarrative",
+    "templateId": "core-scrollNarrative-immersive-narrative"
+  },
+  "core-scrollNarrative-immersive-narrative": {
+    "category": "core",
+    "familyId": "scrollNarrative",
+    "templateId": "core-scrollNarrative-immersive-narrative"
+  },
+  "core-scrollNarrative-product-feature-showcase": {
+    "category": "core",
+    "familyId": "scrollNarrative",
+    "templateId": "product-feature-showcase"
+  },
+  "product-feature-showcase": {
+    "category": "core",
+    "familyId": "scrollNarrative",
+    "templateId": "product-feature-showcase"
+  },
+  "core-scrollNarrative-product-launch-timeline": {
+    "category": "core",
+    "familyId": "scrollNarrative",
+    "templateId": "product-launch-timeline"
+  },
+  "product-launch-timeline": {
+    "category": "core",
+    "familyId": "scrollNarrative",
+    "templateId": "product-launch-timeline"
+  },
+  "core-scrollNarrative-vision-launch-narrative": {
+    "category": "core",
+    "familyId": "scrollNarrative",
+    "templateId": "vision-launch-narrative"
+  },
+  "vision-launch-narrative": {
+    "category": "core",
+    "familyId": "scrollNarrative",
+    "templateId": "vision-launch-narrative"
+  },
+  "scrollNarrative": {
+    "category": "core",
+    "familyId": "scrollNarrative",
+    "templateId": "core-scrollNarrative-immersive-narrative"
+  },
+  "scroll-narrative": {
+    "category": "core",
+    "familyId": "scrollNarrative",
+    "templateId": "core-scrollNarrative-immersive-narrative"
+  },
+  "scrollnarrative": {
+    "category": "core",
+    "familyId": "scrollNarrative",
+    "templateId": "core-scrollNarrative-immersive-narrative"
+  },
   "core-skeuomorphism-core-skeuomorphism-tech-corp-homepage": {
     "category": "core",
     "familyId": "skeuomorphism",
@@ -241,6 +296,16 @@
     "familyId": "typography",
     "templateId": "kinetic"
   },
+  "visual-3dElements-visual-3dElements-spatial-ui": {
+    "category": "visual",
+    "familyId": "3dElements",
+    "templateId": "visual-3dElements-spatial-ui"
+  },
+  "visual-3dElements-spatial-ui": {
+    "category": "visual",
+    "familyId": "3dElements",
+    "templateId": "visual-3dElements-spatial-ui"
+  },
   "visual-3dElements-visual-tech-3d-elements": {
     "category": "visual",
     "familyId": "3dElements",
@@ -254,17 +319,17 @@
   "3dElements": {
     "category": "visual",
     "familyId": "3dElements",
-    "templateId": "visual-tech-3d-elements"
+    "templateId": "visual-3dElements-spatial-ui"
   },
   "3d-elements": {
     "category": "visual",
     "familyId": "3dElements",
-    "templateId": "visual-tech-3d-elements"
+    "templateId": "visual-3dElements-spatial-ui"
   },
   "3delements": {
     "category": "visual",
     "familyId": "3dElements",
-    "templateId": "visual-tech-3d-elements"
+    "templateId": "visual-3dElements-spatial-ui"
   },
   "visual-accessibility-accessibilityHighContrast": {
     "category": "visual",
@@ -966,6 +1031,16 @@
     "familyId": "neon",
     "templateId": "visual-neon"
   },
+  "visual-neonCyberpunk-visual-neonCyberpunk-netrunner-deck": {
+    "category": "visual",
+    "familyId": "neonCyberpunk",
+    "templateId": "visual-neonCyberpunk-netrunner-deck"
+  },
+  "visual-neonCyberpunk-netrunner-deck": {
+    "category": "visual",
+    "familyId": "neonCyberpunk",
+    "templateId": "visual-neonCyberpunk-netrunner-deck"
+  },
   "visual-neonCyberpunk-visual-neon-cyberpunk": {
     "category": "visual",
     "familyId": "neonCyberpunk",
@@ -1220,61 +1295,6 @@
     "category": "visual",
     "familyId": "sciFiHud",
     "templateId": "dashboard"
-  },
-  "visual-scrollNarrative-product-feature-showcase": {
-    "category": "visual",
-    "familyId": "scrollNarrative",
-    "templateId": "product-feature-showcase"
-  },
-  "product-feature-showcase": {
-    "category": "visual",
-    "familyId": "scrollNarrative",
-    "templateId": "product-feature-showcase"
-  },
-  "visual-scrollNarrative-product-launch-timeline": {
-    "category": "visual",
-    "familyId": "scrollNarrative",
-    "templateId": "product-launch-timeline"
-  },
-  "product-launch-timeline": {
-    "category": "visual",
-    "familyId": "scrollNarrative",
-    "templateId": "product-launch-timeline"
-  },
-  "visual-scrollNarrative-parallax-story-experience": {
-    "category": "visual",
-    "familyId": "scrollNarrative",
-    "templateId": "parallax-story-experience"
-  },
-  "parallax-story-experience": {
-    "category": "visual",
-    "familyId": "scrollNarrative",
-    "templateId": "parallax-story-experience"
-  },
-  "visual-scrollNarrative-vision-launch-narrative": {
-    "category": "visual",
-    "familyId": "scrollNarrative",
-    "templateId": "vision-launch-narrative"
-  },
-  "vision-launch-narrative": {
-    "category": "visual",
-    "familyId": "scrollNarrative",
-    "templateId": "vision-launch-narrative"
-  },
-  "scrollNarrative": {
-    "category": "visual",
-    "familyId": "scrollNarrative",
-    "templateId": "parallax-story-experience"
-  },
-  "scroll-narrative": {
-    "category": "visual",
-    "familyId": "scrollNarrative",
-    "templateId": "parallax-story-experience"
-  },
-  "scrollnarrative": {
-    "category": "visual",
-    "familyId": "scrollNarrative",
-    "templateId": "parallax-story-experience"
   },
   "visual-smoke-Smoke": {
     "category": "visual",
@@ -1691,6 +1711,16 @@
     "familyId": "retroOS",
     "templateId": "retro-os-windows95"
   },
+  "retro-steampunk-retro-steampunk-aether-industries": {
+    "category": "retro",
+    "familyId": "steampunk",
+    "templateId": "retro-steampunk-aether-industries"
+  },
+  "retro-steampunk-aether-industries": {
+    "category": "retro",
+    "familyId": "steampunk",
+    "templateId": "retro-steampunk-aether-industries"
+  },
   "retro-steampunk-retro-steampunk-dashboard": {
     "category": "retro",
     "familyId": "steampunk",
@@ -1704,7 +1734,7 @@
   "steampunk": {
     "category": "retro",
     "familyId": "steampunk",
-    "templateId": "retro-steampunk-dashboard"
+    "templateId": "retro-steampunk-aether-industries"
   },
   "retro-swissDesign-retro-swissDesign-helvetica": {
     "category": "retro",
@@ -1791,19 +1821,19 @@
     "familyId": "mouseTracking",
     "templateId": "interaction-mouse-tracking"
   },
-  "layout-magazine-layout-magazine-editorial": {
+  "layout-magazine-layout-magazine-lumiere": {
     "category": "layout",
     "familyId": "magazine",
-    "templateId": "layout-magazine-editorial"
+    "templateId": "layout-magazine-lumiere"
   },
-  "layout-magazine-editorial": {
+  "layout-magazine-lumiere": {
     "category": "layout",
     "familyId": "magazine",
-    "templateId": "layout-magazine-editorial"
+    "templateId": "layout-magazine-lumiere"
   },
   "magazine": {
     "category": "layout",
     "familyId": "magazine",
-    "templateId": "layout-magazine-editorial"
+    "templateId": "layout-magazine-lumiere"
   }
 }

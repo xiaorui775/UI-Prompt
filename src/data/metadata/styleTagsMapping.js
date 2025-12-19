@@ -219,6 +219,12 @@ export const styleEnhancements = {
     tags: ['contemporary', 'depth', 'effectDriven', 'geometric', 'creative'],
     relatedStyles: ['visual-tech-generative-art']
   },
+  'visual-3dElements-spatial-ui': {
+    primaryCategory: 'visual',
+    categories: ['visual', 'tech'],
+    tags: ['contemporary', 'depth', 'effectDriven', '3d', 'creative', 'interactive', 'parallax'],
+    relatedStyles: ['visual-tech-generative-art', 'visual-tech-sci-fi-hud', 'interaction-mouseTracking']
+  },
 
   // Soft & Minimal
   'visual-softUI': {
@@ -537,17 +543,23 @@ export const styleEnhancements = {
   },
 
   // Scroll Narrative (NEW - replaces parallaxScrolling)
-  'visual-scrollNarrative': {
-    primaryCategory: 'visual',
-    categories: ['visual', 'interaction'],
+  'core-scrollNarrative': {
+    primaryCategory: 'core',
+    categories: ['core', 'interaction'],
     tags: ['contemporary', 'motionBased', 'immersive', 'creative', 'content'],
     relatedStyles: ['interaction-mouseTracking']
+  },
+  'core-scrollNarrative-immersive-narrative': {
+    primaryCategory: 'core',
+    categories: ['core', 'interaction'],
+    tags: ['contemporary', 'motionBased', 'immersive', 'interactive', 'creative'],
+    relatedStyles: ['core-scrollNarrative', 'interaction-mouseTracking', 'visual-kineticTypography']
   },
   'visual-kineticTypography': {
     primaryCategory: 'visual',
     categories: ['visual', 'typography'],
     tags: ['contemporary', 'bold', 'motionBased', 'creative'],
-    relatedStyles: ['visual-scrollNarrative', 'retro-arcadeCRT', 'visual-neonCyberpunk']
+    relatedStyles: ['core-scrollNarrative', 'retro-arcadeCRT', 'visual-neonCyberpunk']
   },
 
   // VisualTech 系列
@@ -749,6 +761,12 @@ export const styleEnhancements = {
     tags: ['retro', 'neon', 'colorful', 'futuristic', 'gaming', 'creative'],
     relatedStyles: ['visual-neon-noir', 'visual-y2k', 'retro-digital-arcadeCRT']
   },
+  'visual-neonCyberpunk-netrunner-deck': {
+    primaryCategory: 'visual',
+    categories: ['visual', 'interaction'],
+    tags: ['futuristic', 'neon', 'cyberpunk', 'hacker', 'terminal', 'interactive', 'dashboard'],
+    relatedStyles: ['visual-neon-cyberpunk', 'visual-neon-noir', 'retro-digital-arcadeCRT']
+  },
   'visual-neon-noir': {
     primaryCategory: 'visual',
     categories: ['visual', 'retro'],
@@ -858,6 +876,13 @@ export const styleEnhancements = {
     ]
   },
 
+  'retro-steampunk-aether-industries': {
+    primaryCategory: 'retro',
+    categories: ['retro', 'industrial', 'victorian'],
+    tags: ['retro', 'victorian', 'industrial', 'mechanical', 'brass', 'futuristic', 'creative', 'enterprise'],
+    relatedStyles: ['retro-steampunk-dashboard', 'core-skeuomorphism', 'visual-industrial', 'retro-retroFuturism']
+  },
+
   // --- Layout 系列補充：打破常規網格 / 分屏 / 瀑布流 ---
   brokenGrid: {
     primaryCategory: 'layout',
@@ -878,7 +903,7 @@ export const styleEnhancements = {
     categories: ['layout', 'visual'],
     // 瀑布流佈局：作品集 / 卡片集合用，偏創意內容展示
     tags: ['contemporary', 'colorful', 'creative', 'content'],
-    relatedStyles: ['visual-scrollNarrative', 'visual-gradient-mesh-gradient', 'maximalism']
+    relatedStyles: ['core-scrollNarrative', 'visual-gradient-mesh-gradient', 'maximalism']
   },
 
   // --- Retro 系列補充：街機 CRT 家族卡片 ---
@@ -898,19 +923,27 @@ export const styleEnhancements = {
     relatedStyles: ['retro-arcadeCRT', 'visual-y2k', 'visual-neonCyberpunk']
   },
 
+  // ========== Layout Patterns (版面設計) ==========
+  'layout-magazine': {
+    primaryCategory: 'layout',
+    categories: ['layout', 'editorial', 'typography'],
+    tags: ['contemporary', 'editorial', 'elegant', 'typography', 'content'],
+    relatedStyles: ['core-typography', 'retro-newspaper', 'core-minimalism']
+  },
+
   // ========== Interaction Patterns (增強版) ==========
   'interaction-mouseTracking': {
     primaryCategory: 'interaction',
     categories: ['interaction', 'visual'],
     tags: ['contemporary', 'motionBased', 'effectDriven', 'gaming', 'creative', 'animated'],
-    relatedStyles: ['visual-scrollNarrative', 'visual-tech-generative-art', 'visual-tech-sci-fi-hud']
+    relatedStyles: ['core-scrollNarrative', 'visual-tech-generative-art', 'visual-tech-sci-fi-hud']
   },
   'interaction-mouse-tracking': {
     primaryCategory: 'interaction',
     categories: ['interaction', 'visual'],
     // 鼠標追蹤 + 粒子 + 3D 視差
     tags: ['contemporary', 'motionBased', 'effectDriven', 'gaming', 'creative'],
-    relatedStyles: ['visual-scrollNarrative', 'visual-tech-generative-art', 'visual-tech-sci-fi-hud']
+    relatedStyles: ['core-scrollNarrative', 'visual-tech-generative-art', 'visual-tech-sci-fi-hud']
   }
 };
 
@@ -1238,6 +1271,6 @@ export default {
     primaryCategory: 'visual',
     categories: ['visual', 'artistic'],
     tags: ['contemporary', 'artistic', 'cultural', 'gallery', 'exhibition', 'brush', 'elegant', 'interactive'],
-    relatedStyles: ['visual-inkWash', 'visual-scrollNarrative', 'visual-wabiSabi']
+    relatedStyles: ['visual-inkWash', 'core-scrollNarrative', 'visual-wabiSabi']
   },
 };

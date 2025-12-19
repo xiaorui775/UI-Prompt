@@ -17,21 +17,21 @@
     {
       "id": "saas-landing",
       "title": {
-        "zh-CN": "SaaS 產品落地頁",
+        "zh-CN": "SaaS 产品落地页",
         "en-US": "SaaS Landing Page"
       }
     },
     {
       "id": "core-minimalism-japanese-style",
       "title": {
-        "zh-CN": "日式極簡風格",
+        "zh-CN": "日式极简风格",
         "en-US": "Japanese Minimalist Style"
       }
     },
     {
       "id": "core-minimalism-portfolio",
       "title": {
-        "zh-CN": "極簡作品集",
+        "zh-CN": "极简作品集",
         "en-US": "Minimalist Portfolio"
       }
     }

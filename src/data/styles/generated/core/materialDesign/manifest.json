@@ -3,35 +3,45 @@
   "category": "core",
   "family": {
     "name": {
-      "zh-CN": "Material Design 系統",
+      "zh-CN": "Material Design 系统",
       "en-US": "Material Design System"
     },
     "description": {
-      "zh-CN": "完整的 Material Design 系統指南，展示設計原則、組件和交互模式。提供現代化的卡片佈局、陰影階層和涟漪反饋效果。",
+      "zh-CN": "完整的 Material Design 系统指南，展示设计原则、组件和交互模式。提供现代化的卡片布局、阴影阶层和涟漪反馈效果。",
       "en-US": "A comprehensive Material Design system guide showcasing design principles, components, and interaction patterns. Features modern card layouts, shadow hierarchy, and ripple effects."
     },
-    "tags": ["contemporary", "depth", "geometric", "enterprise", "interactive"],
-    "relatedStyles": ["core-flatDesign", "core-fluent2", "visual-softUI"]
+    "tags": [
+      "contemporary",
+      "depth",
+      "geometric",
+      "enterprise",
+      "interactive"
+    ],
+    "relatedStyles": [
+      "core-flatDesign",
+      "core-fluent2",
+      "visual-softUI"
+    ]
   },
   "templates": [
     {
       "id": "core-materialDesign-principles",
       "title": {
-        "zh-CN": "Material Design 設計原則",
+        "zh-CN": "Material Design 设计原则",
         "en-US": "Material Design Principles"
       }
     },
     {
       "id": "core-material-design",
       "title": {
-        "zh-CN": "Material Design 基礎",
+        "zh-CN": "Material Design 基础",
         "en-US": "Material Design Basic"
       }
     },
     {
       "id": "core-materialYouAndroidSettings",
       "title": {
-        "zh-CN": "Material You Android 設定",
+        "zh-CN": "Material You Android 设定",
         "en-US": "Material You Android Settings"
       }
     }

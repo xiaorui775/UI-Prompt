@@ -78,15 +78,13 @@ function StylePreviewContent({ style }) {
   } = style;
 
   // ========== Resolve display title ==========
-  const displayTitle = useMemo(() => {
-    return resolveI18nValue(title, language, t);
-  }, [title, language, t]);
+  const displayTitle = resolveI18nValue(title, language, t);
 
   // ========== Stabilize previews list ==========
-  const previewsList = useMemo(
-    () => (Array.isArray(previews) ? previews : []),
-    [previews]
-  );
+  // Note: Array.isArray() is extremely fast (nanoseconds), so useMemo is not needed
+  // despite ESLint warning. The cost of memoization exceeds the cost of the check.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const previewsList = Array.isArray(previews) ? previews : [];
 
   // ========== Check if React preview ==========
   const isReactPreview = !!(variant && variant.reactComponent);
@@ -303,11 +301,10 @@ export function StylePreviewPage() {
   // Non-deferred: { style: Object }
   const isDeferred = 'styleMetadata' in loaderData && 'style' in loaderData;
 
-  // Always call useMemo (React Hook rules) - use empty string when not deferred
-  const skeletonTitle = useMemo(() => {
-    if (!isDeferred) return '';
-    return resolveI18nValue(loaderData.styleMetadata.title, language, t);
-  }, [isDeferred, loaderData, language, t]);
+  // Calculate skeleton title - use empty string when not deferred
+  const skeletonTitle = !isDeferred
+    ? ''
+    : resolveI18nValue(loaderData.styleMetadata.title, language, t);
 
   if (!isDeferred) {
     // Legacy non-deferred path (for backwards compatibility)

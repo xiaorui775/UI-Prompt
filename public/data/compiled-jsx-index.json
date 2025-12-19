@@ -1,7 +1,15 @@
 {
-  "generated": "2025-12-18T10:16:07.444Z",
-  "count": 20,
+  "generated": "2025-12-18T22:54:55.505Z",
+  "count": 23,
   "files": {
+    "core-scrollNarrative-vision-launch-narrative:fullpage": {
+      "hash": "8219728e",
+      "file": "core-scrollNarrative-vision-launch-narrative_fullpage-8219728e.js",
+      "mode": "react",
+      "componentName": "App",
+      "lucideIcons": [],
+      "size": 14119
+    },
     "core-skeuomorphism-core-skeuomorphism-analog-synthesizer:fullpage": {
       "hash": "b384b4e0",
       "file": "core-skeuomorphism-core-skeuomorphism-analog-synthesizer_fullpage-b384b4e0.js",
@@ -9,6 +17,48 @@
       "componentName": "App",
       "lucideIcons": [],
       "size": 21396
+    },
+    "layout-magazine-layout-magazine-lumiere:fullpage": {
+      "hash": "fd2c75b5",
+      "file": "layout-magazine-layout-magazine-lumiere_fullpage-fd2c75b5.js",
+      "mode": "react",
+      "componentName": "LumiereLayout",
+      "lucideIcons": [
+        "Menu",
+        "Search",
+        "X",
+        "ArrowRight",
+        "Instagram",
+        "Twitter",
+        "Facebook",
+        "Share2",
+        "Bookmark",
+        "ArrowUpRight",
+        "Play",
+        "Pause",
+        "ChevronDown"
+      ],
+      "size": 29937
+    },
+    "retro-steampunk-retro-steampunk-aether-industries:fullpage": {
+      "hash": "8ca30fd6",
+      "file": "retro-steampunk-retro-steampunk-aether-industries_fullpage-8ca30fd6.js",
+      "mode": "react",
+      "componentName": "SteampunkCompanySite",
+      "lucideIcons": [
+        "Menu",
+        "X",
+        "ArrowRight",
+        "Cog",
+        "Wrench",
+        "Compass",
+        "Gauge",
+        "Clock",
+        "Scroll",
+        "Zap",
+        "Shield"
+      ],
+      "size": 23930
     },
     "retro-swissDesign-retro-swissDesign-helvetica:demo": {
       "hash": "0aa86014",
@@ -55,6 +105,27 @@
       "componentName": "App",
       "lucideIcons": [],
       "size": 14199
+    },
+    "visual-3dElements-visual-3dElements-spatial-ui:fullpage": {
+      "hash": "0d77f3ec",
+      "file": "visual-3dElements-visual-3dElements-spatial-ui_fullpage-0d77f3ec.js",
+      "mode": "react",
+      "componentName": "SpatialUI",
+      "lucideIcons": [
+        "Layers",
+        "Activity",
+        "Box",
+        "Zap",
+        "Settings",
+        "Shield",
+        "ChevronRight",
+        "Database",
+        "Globe",
+        "Cpu",
+        "Hexagon",
+        "Combine"
+      ],
+      "size": 26680
     },
     "visual-blueprint-visual-blueprint:demo": {
       "hash": "539ea180",
@@ -225,14 +296,6 @@
         "Grid"
       ],
       "size": 16258
-    },
-    "visual-scrollNarrative-vision-launch-narrative:fullpage": {
-      "hash": "8219728e",
-      "file": "visual-scrollNarrative-vision-launch-narrative_fullpage-8219728e.js",
-      "mode": "react",
-      "componentName": "App",
-      "lucideIcons": [],
-      "size": 14119
     },
     "visual-wabiSabi-visual-wabiSabi-wabiSabi-zen-website:demo": {
       "hash": "057b01ad",

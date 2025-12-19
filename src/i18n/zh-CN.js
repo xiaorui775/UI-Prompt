@@ -1,3 +1,8 @@
+import { getFormattedStyleCount } from '../utils/styleStats.js';
+
+// Dynamic style count (e.g., "70+")
+const STYLE_COUNT = getFormattedStyleCount();
+
 export default {
   "nav": {
     "logoShort": "UIP",
@@ -52,7 +57,7 @@ export default {
     "all": "全部",
     "styles": "设计风格",
     "components": "UI 组件",
-    "stylesDescription": "探索 70+ 种现代 UI 设计风格",
+    "stylesDescription": `探索 ${STYLE_COUNT} 种现代 UI 设计风格`,
     "componentsDescription": "浏览 40+ 种可复用 UI 组件",
     "searchPlaceholder": "搜索风格或组件...",
     "searchStyles": "搜索风格 (按名称或描述)",
@@ -97,7 +102,7 @@ export default {
       "problemTitle": "我们发现的问题",
       "problemDesc": "当每个人都用相同的 Prompt 请 AI 生成 UI，结果就是千篇一律的设计。缺乏统一的设计语言、细节粗糙、代码混乱...",
       "solutionTitle": "我们的解决方案",
-      "solutionDesc": "我们整理了 70+ 种经过实战验证的设计风格，每个风格都有完整的 Prompt 模板和 CSS 规范。复制、粘贴、生成 — 就这么简单。",
+      "solutionDesc": `我们整理了 ${STYLE_COUNT} 种经过实战验证的设计风格，每个风格都有完整的 Prompt 模板和 CSS 规范。复制、粘贴、生成 — 就这么简单。`,
       "philosophyTitle": "设计哲学",
       "philosophyDesc": "极简外壳，真实演示。我们相信好的工具应该让创作者专注于创作本身。",
       "contactTitle": "联系我们",
@@ -3420,7 +3425,7 @@ export default {
     "features": {
       "title": "核心功能",
       "subtitle": "解决 AI 生成 UI 的同质化问题，提供经过实战验证的 Prompt 模板",
-      "styles": "40+ 设计风格",
+      "styles": `${STYLE_COUNT} 设计风格`,
       "stylesDesc": "从经典到现代的完整风格库，涵盖极简、赛博朋克、新拟态等主流设计",
       "prompts": "AI Prompt 模板",
       "promptsDesc": "双语 Prompt 模板，经过实战验证，直接粘贴到 Claude Code 即可使用",
@@ -3441,7 +3446,7 @@ export default {
       "title": "使用流程",
       "subtitle": "四步快速生成高质量 UI",
       "step1Title": "浏览风格",
-      "step1Desc": "探索 40+ 种设计风格，找到最适合你项目的风格",
+      "step1Desc": `探索 ${STYLE_COUNT} 种设计风格，找到最适合你项目的风格`,
       "step2Title": "查看 Prompt",
       "step2Desc": "点击风格卡片，查看完整的 AI Prompt 模板",
       "step3Title": "复制 Prompt",
@@ -3463,7 +3468,7 @@ export default {
       "problem4Title": "可维护性差",
       "problem4": "代码结构混乱，难以修改和扩展",
       "afterTitle": "我们的解决方案",
-      "solution1Title": "40+ 独特风格",
+      "solution1Title": `${STYLE_COUNT} 独特风格`,
       "solution1": "从经典到现代，每种风格都有明确的设计语言",
       "solution2Title": "完整设计系统",
       "solution2": "提供结构化的 Prompt 模板和设计规范",

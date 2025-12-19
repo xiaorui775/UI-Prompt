@@ -176,6 +176,93 @@ export async function createComponentLoader({ params }) {
 }
 
 /**
+ * Create a deferred component loader specialized for ComponentPreviewPage.
+ *
+ * Key optimizations (align with StylePreviewPage pattern):
+ * - Load only lightweight manifest-derived metadata eagerly
+ * - Defer the heavy variant HTML/CSS/prompt loading (first variant only) as a Promise
+ *
+ * This significantly reduces the waterfall and avoids loading ALL variants up front.
+ *
+ * @param {Object} args - Loader args
+ * @param {Object} args.params - Route params
+ * @param {Request} args.request - Request (for reading variantIndex from query string)
+ * @returns {Promise<{component: Object, preloadedVariant: Promise, preloadedVariantId: string|null}>}
+ */
+export async function createComponentPreviewLoaderDeferred({ params, request }) {
+  const {
+    loadComponentManifest,
+    loadVariantContent,
+    loadVariantPrompts
+  } = await import('../data/loaders/jsonComponentLoader.js');
+
+  const { category, componentId } = params;
+
+  const manifest = await loadComponentManifest(category, componentId);
+  if (!manifest) {
+    throw new Response('Component not found', {
+      status: 404,
+      statusText: 'Not Found'
+    });
+  }
+
+  const manifestVariants = Array.isArray(manifest.variants) ? manifest.variants : [];
+
+  // Read desired variant index from URL (component preview uses `variantIndex`)
+  let requestedIndex = 0;
+  try {
+    const url = new URL(request.url);
+    const raw = url.searchParams.get('variantIndex');
+    const parsed = raw === null ? 0 : parseInt(raw, 10);
+    requestedIndex = Number.isFinite(parsed) ? parsed : 0;
+  } catch {
+    requestedIndex = 0;
+  }
+
+  const safeIndex =
+    requestedIndex >= 0 && requestedIndex < manifestVariants.length
+      ? requestedIndex
+      : 0;
+
+  const preloadedVariantId = manifestVariants[safeIndex]?.id || manifestVariants[0]?.id || null;
+
+  // Defer heavy content loading (don't await)
+  const preloadedVariant = preloadedVariantId
+    ? Promise.all([
+      loadVariantContent(category, componentId, preloadedVariantId),
+      loadVariantPrompts(category, componentId, preloadedVariantId)
+    ]).then(([content, prompts]) => ({
+      variantId: preloadedVariantId,
+      ...content,
+      ...prompts
+    }))
+    : Promise.resolve({
+      variantId: null,
+      demoHTML: '',
+      customStyles: '',
+      customPrompt: null,
+      stylePrompt: null
+    });
+
+  // Lightweight component metadata (no per-variant HTML/CSS loaded here)
+  const component = {
+    id: manifest.id,
+    category: manifest.category,
+    title: manifest.component?.name,
+    description: manifest.component?.description,
+    tags: manifest.component?.tags,
+    relatedComponents: manifest.component?.relatedComponents,
+    variants: manifestVariants
+  };
+
+  return {
+    component,
+    preloadedVariant,
+    preloadedVariantId
+  };
+}
+
+/**
  * Create a lazy route configuration with component and error boundary
  * @param {Function} componentImport - Dynamic import function for the component
  * @param {Function} [loaderFn] - Optional loader function
