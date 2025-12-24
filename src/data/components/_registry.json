@@ -27,7 +27,8 @@
         "toast-notifications",
         "modal-dialog",
         "reaction-picker",
-        "tour-guide"
+        "tour-guide",
+        "loading-animate"
       ]
     },
     "advanced": {

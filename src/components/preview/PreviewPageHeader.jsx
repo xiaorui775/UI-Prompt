@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Code2, Sparkles } from 'lucide-react';
+import { Code2, Sparkles, Zap } from 'lucide-react';
 import { PreviewSelector } from './PreviewSelector';
 import { hasMultiplePreviews } from '../../utils/previewsHelper';
 import { previewLogger as logger } from '../../utils/logger';
@@ -55,7 +55,10 @@ export function PreviewPageHeader({
   isComponent = false,
   onEditCode: customOnEditCode,
   onClose: customOnClose,
-  categoryLabel
+  categoryLabel,
+  // Performance mode props
+  perfMode = false,
+  onTogglePerfMode
 }) {
   /**
    * Handle Edit Code button click
@@ -110,7 +113,13 @@ export function PreviewPageHeader({
   };
 
   return (
-    <header className="border-b border-gray-200/60 dark:border-gray-800/60 backdrop-blur-xl bg-white/80 dark:bg-gray-900/80 sticky top-0 z-50 px-4 py-3 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 transition-all duration-300">
+    <header
+      className={`border-b border-gray-200/60 dark:border-gray-800/60 sticky top-0 z-50 px-4 py-3 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 ${
+        perfMode
+          ? 'bg-white dark:bg-gray-900'
+          : 'backdrop-blur-xl bg-white/80 dark:bg-gray-900/80 transition-all duration-300'
+      }`}
+    >
       {/* Left Section: Branding & Mobile Tools */}
       <div className="flex items-center justify-between w-full md:w-auto gap-4">
         <div className="flex items-center gap-3">
@@ -135,6 +144,22 @@ export function PreviewPageHeader({
 
         {/* Mobile Actions (Right aligned on mobile) */}
         <div className="flex md:hidden gap-1">
+          {/* Performance Mode Toggle (Mobile) */}
+          {onTogglePerfMode && (
+            <button
+              type="button"
+              onClick={onTogglePerfMode}
+              className={`p-2 rounded-md transition-all ${
+                perfMode
+                  ? 'text-amber-500 bg-amber-50 dark:bg-amber-900/20'
+                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700/50'
+              }`}
+              title={perfMode ? 'Performance Mode: ON (effects reduced)' : 'Performance Mode: OFF'}
+              aria-label="Toggle Performance Mode"
+            >
+              <Zap className="h-5 w-5" />
+            </button>
+          )}
           {/* Edit Code (Mobile) - hidden for React previews */}
           {!isReactPreview && (
             <button
@@ -202,6 +227,23 @@ export function PreviewPageHeader({
       {/* Right Section: Desktop Tools */}
       <div className="hidden md:flex items-center gap-1">
         <div className="h-6 w-px bg-gray-200 dark:bg-gray-700 mx-1"></div>
+
+        {/* Performance Mode Toggle (Desktop) */}
+        {onTogglePerfMode && (
+          <button
+            type="button"
+            onClick={onTogglePerfMode}
+            className={`p-2 rounded-md transition-all ${
+              perfMode
+                ? 'text-amber-500 bg-amber-50 dark:bg-amber-900/20'
+                : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700/50'
+            }`}
+            title={perfMode ? 'Performance Mode: ON (effects reduced)' : 'Performance Mode: OFF'}
+            aria-label="Toggle Performance Mode"
+          >
+            <Zap className="h-[18px] w-[18px]" />
+          </button>
+        )}
 
         {/* Edit Code button - hidden for React previews */}
         {!isReactPreview && (
@@ -277,7 +319,10 @@ PreviewPageHeader.propTypes = {
   isComponent: PropTypes.bool,
   onEditCode: PropTypes.func,
   onClose: PropTypes.func,
-  categoryLabel: PropTypes.string
+  categoryLabel: PropTypes.string,
+  // Performance mode props
+  perfMode: PropTypes.bool,
+  onTogglePerfMode: PropTypes.func
 };
 
 PreviewPageHeader.defaultProps = {

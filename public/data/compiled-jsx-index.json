@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-22T16:38:02.340Z",
+  "generated": "2025-12-24T02:55:59.146Z",
   "count": 30,
   "files": {
     "core-scrollNarrative-core-scrollNarrative-immersive-narrative:fullpage": {
@@ -205,8 +205,8 @@
       "size": 30955
     },
     "visual-3dElements-visual-3dElements-spatial-ui:fullpage": {
-      "hash": "0d77f3ec",
-      "file": "visual-3dElements-visual-3dElements-spatial-ui_fullpage-0d77f3ec.js",
+      "hash": "0931fe35",
+      "file": "visual-3dElements-visual-3dElements-spatial-ui_fullpage-0931fe35.js",
       "mode": "react",
       "componentName": "SpatialUI",
       "lucideIcons": [
@@ -223,7 +223,7 @@
         "Hexagon",
         "Combine"
       ],
-      "size": 26680
+      "size": 31526
     },
     "visual-blueprint-visual-blueprint:demo": {
       "hash": "539ea180",

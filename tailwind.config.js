@@ -5,7 +5,7 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
     // 讓預覽 iframe 也能吃到 Tailwind utilities（避免依賴 Tailwind CDN）
-    "./public/data/content/**/*.{html,md}",
+    "./public/data/content/**/*.{html,md,jsx,tsx}",
     // Fallback：部分組件/風格可能只內嵌在 generated JSON 中
     "./src/data/components/generated/**/*.json",
     "./src/data/styles/generated/**/*.json",
@@ -26,6 +26,11 @@ export default {
     // 使用正則表達式保護所有 dark: 變體
     {
       pattern: /dark:(bg|text|border|hover|focus)-.*/,
+    },
+    // 針對部分 JSX 模板的動態色彩 class（例如 `text-${item.col}-400`）
+    // Tailwind 靜態掃描無法解析 template string 內的動態片段，需 safelist
+    {
+      pattern: /(text|bg)-(cyan|purple|emerald|amber)-400/,
     },
   ],
   theme: {

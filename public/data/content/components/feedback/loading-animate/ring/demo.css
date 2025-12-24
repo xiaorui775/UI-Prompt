@@ -1,0 +1,52 @@
+.ring-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem;
+}
+
+.ring-loader {
+  position: relative;
+  width: 56px;
+  height: 56px;
+}
+
+@keyframes ring-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ring-spin-reverse {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.ring-outer {
+  position: absolute;
+  inset: 0;
+  border: 4px solid transparent;
+  border-top-color: #3b82f6;
+  border-right-color: #3b82f6;
+  border-radius: 50%;
+  animation: ring-spin 1s linear infinite;
+}
+
+.ring-inner {
+  position: absolute;
+  inset: 8px;
+  border: 4px solid transparent;
+  border-bottom-color: #8b5cf6;
+  border-left-color: #8b5cf6;
+  border-radius: 50%;
+  animation: ring-spin-reverse 0.8s linear infinite;
+}
+
+.ring-text {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}

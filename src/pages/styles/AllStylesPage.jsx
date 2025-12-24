@@ -152,7 +152,7 @@ export function AllStylesPage() {
       className="styles-page"
       title={t('common.styles')}
       description={t('common.stylesDescription')}
-      isLoading={isLoading}
+      isLoading={isLoading || (filteredStyles.length === 0 && !isFullyLoaded)}
       isError={isError}
       onRetry={handleRetry}
       toolbarSkeletonVariant="complex"

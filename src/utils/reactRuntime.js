@@ -8,6 +8,8 @@
  * @author UI Style Architecture
  */
 
+import appCssUrl from '../index.css?url';
+
 // React 18 CDN URLs (production minified)
 const REACT_CDN = 'https://unpkg.com/react@18/umd/react.production.min.js';
 const REACT_DOM_CDN = 'https://unpkg.com/react-dom@18/umd/react-dom.production.min.js';
@@ -45,8 +47,8 @@ export function generateReactIframeHTML(options = {}) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${escapeHTML(title)}</title>
 
-  <!-- Tailwind CSS (for utility classes) -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- App CSS (includes Tailwind utilities) -->
+  <link rel="stylesheet" href="${appCssUrl}">
 
   <!-- React 18 Runtime (Production) -->
   <script src="${REACT_CDN}" crossorigin="anonymous"></script>

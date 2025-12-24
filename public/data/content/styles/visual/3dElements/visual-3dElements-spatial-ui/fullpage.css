@@ -78,3 +78,29 @@
 .animate-spin-3d {
   animation: spin3d 8s linear infinite;
 }
+
+/* Reduce effects mode: flatten 3D + stop expensive transforms/animations */
+.reduce-effects .transform-style-3d {
+  transform-style: flat;
+}
+
+.reduce-effects .perspective-container {
+  perspective: none;
+}
+
+.reduce-effects .translate-z-4,
+.reduce-effects .translate-z-8,
+.reduce-effects .translate-z-12,
+.reduce-effects .translate-z-16,
+.reduce-effects .translate-z-20,
+.reduce-effects .hover\:translate-z-8:hover,
+.reduce-effects .hover\:translate-z-12:hover,
+.reduce-effects .hover\:translate-z-16:hover {
+  transform: none !important;
+}
+
+.reduce-effects .animate-float,
+.reduce-effects .animate-spin-3d,
+.reduce-effects [class*="animate-"] {
+  animation: none !important;
+}

@@ -1,0 +1,44 @@
+.wave-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem;
+}
+
+.wave-bars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 48px;
+}
+
+@keyframes wave {
+  0%, 40%, 100% {
+    transform: scaleY(0.4);
+  }
+  20% {
+    transform: scaleY(1);
+  }
+}
+
+.wave-bar {
+  width: 6px;
+  height: 100%;
+  background: linear-gradient(180deg, #3b82f6, #60a5fa);
+  border-radius: 3px;
+  animation: wave 1.2s ease-in-out infinite;
+}
+
+.wave-bar:nth-child(1) { animation-delay: 0s; }
+.wave-bar:nth-child(2) { animation-delay: 0.1s; }
+.wave-bar:nth-child(3) { animation-delay: 0.2s; }
+.wave-bar:nth-child(4) { animation-delay: 0.3s; }
+.wave-bar:nth-child(5) { animation-delay: 0.4s; }
+
+.wave-text {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}

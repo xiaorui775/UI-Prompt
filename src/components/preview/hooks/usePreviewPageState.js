@@ -45,13 +45,23 @@ export function usePreviewPageState({
   previewsList = [],
   defaultPreviewId = '',
   searchParams,
-  language = 'en-US' // eslint-disable-line no-unused-vars -- Reserved for future i18n use
+  language = 'en-US', // eslint-disable-line no-unused-vars -- Reserved for future i18n use
+  isLoadingPreviewRef = null
 }) {
   // ========== Core State ==========
 
   const [showPrompt, setShowPrompt] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndexState] = useState(0);
+
+  /**
+   * 統一的索引切換入口：先開啟遮罩再切換索引
+   * 這可避免「索引已變更但遮罩尚未出現」導致的舊內容閃爍
+   */
+  const setActiveIndex = useCallback((next) => {
+    setIsLoading(true);
+    setActiveIndexState(next);
+  }, []);
 
   // ========== Derived Values ==========
 
@@ -98,39 +108,52 @@ export function usePreviewPageState({
       const index = parseInt(urlPreviewIndex, 10);
       // 驗證索引有效性
       if (!isNaN(index) && index >= 0 && index < previewsList.length) {
-        setActiveIndex(index);
+        setActiveIndexState(index);
       } else {
-        setActiveIndex(getDefaultIndex());
+        setActiveIndexState(getDefaultIndex());
       }
     } else {
-      setActiveIndex(getDefaultIndex());
+      setActiveIndexState(getDefaultIndex());
     }
     setIsLoading(true);
   }, [styleId, previewsList, searchParams, getDefaultIndex]);
 
   /**
-   * Effect 2: activeIndex 切換時重置 Loading
-   * 避免先渲染到回退內容，顯示 Loading 視覺
-   */
-  useEffect(() => {
-    setIsLoading(true);
-  }, [activeIndex]);
-
-  /**
-   * Effect 3: Loading 超時後備
+   * Effect 2: Loading 超時後備
    * 如果 2 秒內未完成加載，強制關閉 Loading
    * 避免無限加載狀態
    */
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+    // 如果正在載入預覽內容（例如需要抓取 previewId / 編譯 JSX），不要太早關閉遮罩，
+    // 否則可能出現「內容未準備好但遮罩先消失」的閃爍。
+    // 仍保留最終上限，避免極端情況下無限 Loading。
+    const CHECK_INTERVAL_MS = 2000;
+    const MAX_LOADING_MS = 12000;
 
-    return () => clearTimeout(timer);
-  }, [styleId, activeIndex]);
+    const startedAt = Date.now();
+    let timerId = null;
+
+    const tick = () => {
+      const elapsed = Date.now() - startedAt;
+      const isPreviewLoading = Boolean(isLoadingPreviewRef?.current);
+
+      if (!isPreviewLoading || elapsed >= MAX_LOADING_MS) {
+        setIsLoading(false);
+        return;
+      }
+
+      timerId = window.setTimeout(tick, CHECK_INTERVAL_MS);
+    };
+
+    timerId = window.setTimeout(tick, CHECK_INTERVAL_MS);
+
+    return () => {
+      if (timerId) window.clearTimeout(timerId);
+    };
+  }, [styleId, activeIndex, isLoadingPreviewRef]);
 
   /**
-   * Effect 4: ESC 鍵關閉窗口
+   * Effect 3: ESC 鍵關閉窗口
    * 監聽 Escape 鍵，關閉預覽窗口
    */
   useEffect(() => {
@@ -145,7 +168,7 @@ export function usePreviewPageState({
   }, []);
 
   /**
-   * Effect 5: PostMessage 通信處理
+   * Effect 4: PostMessage 通信處理
    * 監聽來自 iframe 空狀態頁面的消息
    * 當用戶點擊空狀態的「AI Prompt」按鈕時，觸發打開 Prompt 抽屜
    *

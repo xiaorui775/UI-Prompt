@@ -1,4 +1,4 @@
-import { Suspense, useMemo, useCallback, useEffect, useState } from 'react';
+import { Suspense, useMemo, useCallback, useEffect, useState, useRef } from 'react';
 import { useLoaderData, useSearchParams, Await } from 'react-router-dom';
 
 import { useLanguage } from '../../hooks/useLanguage';
@@ -54,9 +54,24 @@ function PreviewSkeleton({ title }) {
  * Main preview content component (receives loaded style data)
  */
 function StylePreviewContent({ style }) {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { language, t } = useLanguage();
-  const perfMode = searchParams.get('perf') === '1';
+  const iframeRef = useRef(null);
+  const isLoadingPreviewRef = useRef(false);
+  const perfParam = searchParams.get('perf'); // '1' | '0' | null
+  const perfMode = perfParam === '1';
+  const twParam = searchParams.get('tw'); // '1' | '0' | null
+  const includeTailwindCdn = twParam === '1';
+  const isChromium = useMemo(() => {
+    const ua = navigator?.userAgent || '';
+    return (
+      /Chrome\//.test(ua) &&
+      !/Edg\//.test(ua) &&
+      !/OPR\//.test(ua) &&
+      !/Brave\//.test(ua) &&
+      !/SamsungBrowser\//.test(ua)
+    );
+  }, []);
 
   // ========== Extract style properties ==========
   const {
@@ -98,7 +113,8 @@ function StylePreviewContent({ style }) {
     previewsList,
     defaultPreviewId,
     searchParams,
-    language
+    language,
+    isLoadingPreviewRef
   });
 
   // ========== Use extracted async loader hook ==========
@@ -107,6 +123,7 @@ function StylePreviewContent({ style }) {
     asyncPreviewId,
     isLoadingPreview,
     currentPreview,
+    currentPreviewId,
     previewCacheRef
   } = useAsyncPreviewLoader({
     previewsList,
@@ -114,12 +131,48 @@ function StylePreviewContent({ style }) {
     fullPagePreviewId,
     styleId: style.id,
     isReactPreview,
-    setIsLoading,
     language
   });
 
+  // Keep a ref for timeout/fallback logic (avoid premature overlay dismissal while async preview loads)
+  isLoadingPreviewRef.current = isLoadingPreview;
+
+  // ========== Derived values ==========
+  const isDataVisualization = currentPreview?.type === 'data-visualization';
+  const isIframePreview = !isDataVisualization && !isReactPreview;
+  const autoPerfCandidate =
+    perfParam === null &&
+    isChromium &&
+    currentPreviewId === 'visual-3dElements-spatial-ui';
+  const effectivePerfMode = perfMode || autoPerfCandidate;
+
+  // ========== Chrome: auto-enable perf mode for heavy template ==========
+  useEffect(() => {
+    if (!autoPerfCandidate) return;
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
+      if (newParams.get('perf') === null) newParams.set('perf', '1');
+      return newParams;
+    }, { replace: true });
+  }, [autoPerfCandidate, setSearchParams]);
+
+  // Toggle performance mode by updating URL params
+  const handleTogglePerfMode = useCallback(() => {
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
+      const current = newParams.get('perf'); // '1' | '0' | null
+      const effectivePerf =
+        current === '1' ||
+        (current === null &&
+          isChromium &&
+          currentPreviewId === 'visual-3dElements-spatial-ui');
+      newParams.set('perf', effectivePerf ? '0' : '1');
+      return newParams;
+    });
+  }, [setSearchParams, isChromium, currentPreviewId]);
+
   // ========== Build preview HTML using extended utility ==========
-  const previewHTML = useMemo(() => {
+  const nextPreviewHTML = useMemo(() => {
     const hasAsyncContent = asyncPreview && (
       asyncPreview.html ||
       asyncPreview.styles ||
@@ -150,7 +203,9 @@ function StylePreviewContent({ style }) {
       customStyles,
       displayTitle,
       suppressLoadingUI: true,
-      perfMode
+      language,
+      perfMode: effectivePerfMode,
+      includeTailwindCdn
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps -- previewCacheRef is stable (useRef)
   }, [
@@ -166,8 +221,66 @@ function StylePreviewContent({ style }) {
     customStyles,
     displayTitle,
     language,
-    perfMode
+    effectivePerfMode,
+    includeTailwindCdn
   ]);
+
+  // ========== Avoid iframe churn while async content loads ==========
+  // Keep the last committed srcDoc during async loading. Overlay遮罩會覆蓋舊內容，
+  // 並透過注入 freeze CSS 降低舊頁面動畫/特效開銷，避免「先 blank 再真正內容」造成的雙重重載。
+  const [iframeSrcDoc, setIframeSrcDoc] = useState(() => nextPreviewHTML);
+
+  useEffect(() => {
+    if (!isIframePreview) return;
+    if (isLoadingPreview) return;
+
+    // 若內容沒有變化（例如某些情況 activeIndex 變更但 previewId 相同），避免遮罩卡住
+    if (iframeSrcDoc === nextPreviewHTML) {
+      if (isLoading) setIsLoading(false);
+      return;
+    }
+
+    // 確保遮罩在 iframe 重新載入期間保持顯示
+    if (!isLoading) setIsLoading(true);
+    setIframeSrcDoc(nextPreviewHTML);
+  }, [isIframePreview, isLoadingPreview, nextPreviewHTML, iframeSrcDoc, isLoading, setIsLoading]);
+
+  useEffect(() => {
+    if (!isIframePreview) return;
+    if (!isLoadingPreview) return;
+
+    try {
+      const doc = iframeRef.current?.contentDocument;
+      if (!doc) return;
+
+      const STYLE_ID = 'ui-style-freeze-style';
+      let styleEl = doc.getElementById(STYLE_ID);
+
+      if (!styleEl) {
+        styleEl = doc.createElement('style');
+        styleEl.id = STYLE_ID;
+        styleEl.setAttribute('data-ui-style', 'freeze');
+        const head = doc.head || doc.getElementsByTagName('head')?.[0] || null;
+        (head || doc.documentElement).appendChild(styleEl);
+      }
+
+      // 專注於「降低舊內容的成本」，而不是保持外觀（反正有 LoadingOverlay 覆蓋）
+      styleEl.textContent = `
+        * , *::before, *::after {
+          animation: none !important;
+          transition: none !important;
+          scroll-behavior: auto !important;
+        }
+        * {
+          -webkit-backdrop-filter: none !important;
+          backdrop-filter: none !important;
+          filter: none !important;
+        }
+      `.trim();
+    } catch {
+      // Best-effort: ignore
+    }
+  }, [isIframePreview, isLoadingPreview]);
 
   // ========== Generate prompt content (lazy) ==========
   const [promptContent, setPromptContent] = useState('');
@@ -227,9 +340,6 @@ function StylePreviewContent({ style }) {
     }
   }, [activeIndex]);
 
-  // ========== Derived values ==========
-  const isDataVisualization = currentPreview?.type === 'data-visualization';
-
   // ========== Render ==========
   return (
     <>
@@ -247,6 +357,8 @@ function StylePreviewContent({ style }) {
             onOpenFullPage={handleOpenFullPageWindow}
             promptContent={promptContent}
             language={language}
+            perfMode={effectivePerfMode}
+            onTogglePerfMode={handleTogglePerfMode}
           />
         )}
 
@@ -269,9 +381,9 @@ function StylePreviewContent({ style }) {
             </div>
           ) : (
             <iframe
-              key={`${style.id}:${activeIndex}`}
               title={`${displayTitle} - Preview`}
-              srcDoc={previewHTML}
+              ref={iframeRef}
+              srcDoc={iframeSrcDoc}
               className="w-full h-full border-0"
               onLoad={() => setIsLoading(false)}
               onError={(e) => {

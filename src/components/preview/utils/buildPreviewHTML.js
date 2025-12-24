@@ -10,7 +10,6 @@
 import { cachedSanitize } from '../../../utils/sanitizeCache';
 import { getDemoHTML } from '../../../utils/i18n/demoI18n';
 import appCssUrl from '../../../index.css?url';
-import { generateReactIframeHTML } from '../../../utils/reactRuntime';
 import { generatePreactIframeHTML } from '../../../utils/preactRuntime';
 import { preprocessJSX } from '../../../utils/jsxPreprocessor';
 
@@ -20,19 +19,77 @@ function getPerfModeCSS(enabled) {
   if (!enabled) return '';
   return `
 /* UI Style perf mode: reduce heavy effects/animations for smoother preview */
-*,
-*::before,
-*::after {
-  animation: none !important;
-  transition: none !important;
+html[data-ui-style-perf="1"] * {
   scroll-behavior: auto !important;
 }
 
-* {
-  backdrop-filter: none !important;
+/* Prefer "reduce" over "disable" by default, but for some templates (3D + glass)
+   Chrome can still struggle. Perf mode is allowed to be aggressive. */
+
+/* Backdrop blur is expensive (especially in Chrome + 3D transforms).
+   Disable it in perf mode to avoid costly offscreen rasterization. */
+html[data-ui-style-perf="1"] [class*="backdrop-blur"] {
+  --tw-backdrop-blur: blur(0px) !important;
   -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Also disable inline backdrop-filter usage. */
+html[data-ui-style-perf="1"] [style*="backdrop-filter"] {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Normal blur utilities (NOT backdrop-blur-*): disable blur in perf mode. */
+html[data-ui-style-perf="1"] [class*="blur-"]:not([class*="backdrop-blur"]) {
+  --tw-blur: blur(0px) !important;
   filter: none !important;
+}
+
+/* Disable drop-shadow/filter effects in perf mode (very expensive with blend/blur). */
+html[data-ui-style-perf="1"] [class*="drop-shadow"],
+html[data-ui-style-perf="1"] [style*="filter:"] {
+  filter: none !important;
+}
+
+/* Avoid expensive blending modes (force normal compositing). */
+html[data-ui-style-perf="1"] [class*="mix-blend"],
+html[data-ui-style-perf="1"] [style*="mix-blend-mode"] {
   mix-blend-mode: normal !important;
+}
+
+/* mask-image (and webkit variant) can be expensive on large layers. */
+html[data-ui-style-perf="1"] [style*="mask-image"],
+html[data-ui-style-perf="1"] [style*="-webkit-mask-image"] {
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+/* Large shadows can trigger huge raster surfaces. */
+html[data-ui-style-perf="1"] [class*="shadow"],
+html[data-ui-style-perf="1"] [style*="box-shadow"] {
+  box-shadow: none !important;
+}
+
+/* Reduce 3D compositing cost by flattening preserve-3d where possible. */
+html[data-ui-style-perf="1"] .transform-style-3d {
+  transform-style: flat !important;
+}
+html[data-ui-style-perf="1"] .perspective-container,
+html[data-ui-style-perf="1"] [style*="perspective"] {
+  perspective: none !important;
+}
+
+/* Disable animation/transition cost: target Tailwind animation utilities / inline styles. */
+html[data-ui-style-perf="1"] [class*="animate-"],
+html[data-ui-style-perf="1"] [style*="animation:"] {
+  animation: none !important;
+}
+
+/* Disable transitions to avoid extra composites on hover. */
+html[data-ui-style-perf="1"] [class*="transition"],
+html[data-ui-style-perf="1"] [style*="transition:"] {
+  transition: none !important;
 }
 `.trim();
 }
@@ -51,6 +108,16 @@ function injectCSSIntoHTMLDocument(html, css) {
     return html.replace(/<body[^>]*>/i, (match) => `${styleTag}${match}`);
   }
   return `${styleTag}${html}`;
+}
+
+function injectPerfMarkerIntoHTMLDocument(html) {
+  if (!html) return html;
+  if (!/<html[\s>]/i.test(html)) return html;
+  if (/data-ui-style-perf\s*=\s*["']1["']/i.test(html)) return html;
+  return html.replace(/<html(\s[^>]*)?>/i, (match, attrs = '') => {
+    const safeAttrs = attrs || '';
+    return `<html${safeAttrs} data-ui-style-perf="1">`;
+  });
 }
 
 /**
@@ -360,18 +427,77 @@ export function buildReactErrorHTML(error, language = 'en-US') {
 export function buildReactJSXPreview({
   compiledCode,
   componentName = 'App',
+  lucideIcons = [],
   styles = '',
   title = 'React Preview',
-  perfMode = false
+  perfMode = false,
+  includeTailwindCdn = true  // Default to true for JSX templates since they commonly use Tailwind
 }) {
-  return generateReactIframeHTML({
-    compiledCode,
-    componentName,
+  const icons = Array.isArray(lucideIcons)
+    ? [...new Set(lucideIcons)].filter(Boolean)
+    : [];
+
+  const lucideSetup = icons.length > 0
+    ? `
+      const __lucide = window.LucideReact || {};
+      const __LucideFallback = () => null;
+      const { ${icons.map((name) => `${name} = __LucideFallback`).join(', ')} } = __lucide;
+    `
+    : `
+      const __lucide = window.LucideReact || {};
+      const __LucideFallback = () => null;
+    `;
+
+  const wrappedCode = `
+    (function() {
+      'use strict';
+
+      try {
+        const React = window.React || window.preact || {};
+        const { h, render } = window.preact || {};
+        const {
+          useState, useEffect, useRef, useMemo, useCallback, useReducer,
+          useContext, useLayoutEffect, useId,
+          createContext, memo, forwardRef, lazy, Suspense, Fragment,
+          createElement, cloneElement, createRef, Component, PureComponent,
+          Children, isValidElement
+        } = window.preact || {};
+
+        ${lucideSetup}
+
+        ${compiledCode}
+
+        const container = document.getElementById('root');
+        const ResolvedComponent = (typeof ${componentName} !== 'undefined')
+          ? ${componentName}
+          : (window.${componentName} || null);
+
+        if (container && ResolvedComponent && h && render) {
+          render(h(ResolvedComponent, null), container);
+        } else if (container) {
+          container.innerHTML = '<div class="runtime-error"><strong>Component Not Found:</strong> ' +
+            'The component "${componentName}" was not defined in the code.</div>';
+        }
+      } catch (error) {
+        const container = document.getElementById('root');
+        if (container) {
+          container.innerHTML = '<div class="runtime-error"><strong>Execution Error:</strong> ' +
+            (error.message || 'Unknown error') + '</div>';
+        }
+        console.error('[React JSX via Preact] Execution error:', error);
+      }
+    })();
+  `;
+
+  return generatePreactIframeHTML({
+    compiledCode: wrappedCode,
     customStyles: styles,
     title,
     mountId: 'root',
     theme: 'light',
-    perfMode
+    perfMode,
+    enableLucide: icons.length > 0,
+    includeTailwindCdn
   });
 }
 
@@ -383,7 +509,13 @@ export function buildReactJSXPreview({
  * @param {string} options.title - 頁面標題
  * @returns {string} 完整的 Preact 預覽 HTML
  */
-export function buildPreactJSXPreview({ jsx, styles = '', title = 'Preact Preview' }) {
+export function buildPreactJSXPreview({
+  jsx,
+  styles = '',
+  title = 'Preact Preview',
+  perfMode = false,
+  includeTailwindCdn = true  // Default to true for JSX templates since they commonly use Tailwind
+}) {
   // Preprocess JSX to fix escape sequences
   const { code: processedJSX, errors, warnings } = preprocessJSX(jsx);
 
@@ -430,7 +562,9 @@ export function buildPreactJSXPreview({ jsx, styles = '', title = 'Preact Previe
     customStyles: styles,
     title,
     mountId: 'root',
-    theme: 'light'
+    theme: 'light',
+    perfMode,
+    includeTailwindCdn
   });
 }
 
@@ -469,18 +603,22 @@ function buildHTMLDocument({
   content,
   bodyClass = 'preview-fullscreen',
   language = 'en-US',
-  perfMode = false
+  perfMode = false,
+  includeTailwindCdn = false
 }) {
   const langAttr = language || 'en-US';
   const perfCSS = getPerfModeCSS(perfMode);
   const mergedStyles = perfCSS ? `${styles}\n\n${perfCSS}` : styles;
 
+  const perfAttr = perfMode ? ' data-ui-style-perf="1"' : '';
+
   return `<!DOCTYPE html>
-<html lang="${langAttr}">
+<html lang="${langAttr}"${perfAttr}>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${title}</title>
+  ${includeTailwindCdn ? '<script src="https://cdn.tailwindcss.com"></script>' : ''}
   <link rel="stylesheet" href="${appCssUrl}">
   <style>
     ${mergedStyles}
@@ -627,7 +765,8 @@ export function buildPreviewHTML({
   previewCacheRef, // eslint-disable-line no-unused-vars -- Reserved for future preview cache optimization
   suppressLoadingUI = false,
   language = 'en-US',
-  perfMode = false
+  perfMode = false,
+  includeTailwindCdn = false
 }) {
   const resolvedLanguage = language || 'en-US';
   const perfCSS = getPerfModeCSS(perfMode);
@@ -635,7 +774,7 @@ export function buildPreviewHTML({
   // ========== JSX 渲染模式處理 ==========
   // 優先處理 asyncPreview 的 JSX 渲染模式
   if (asyncPreview) {
-    const { renderMode, compiledCode, componentName, error, jsx, styles, html } = asyncPreview;
+    const { renderMode, compiledCode, componentName, lucideIcons, error, jsx, styles, html } = asyncPreview;
 
     // 1a. React JSX 模式 - 使用編譯後的代碼
     if (renderMode === 'react-jsx') {
@@ -649,9 +788,11 @@ export function buildPreviewHTML({
         return buildReactJSXPreview({
           compiledCode,
           componentName: componentName || 'App',
+          lucideIcons,
           styles: `${styles || customStyles || ''}${perfCSS ? `\n\n${perfCSS}` : ''}`,
           title: `${displayTitle} - Full Preview`,
-          perfMode
+          perfMode,
+          includeTailwindCdn
         });
       }
 
@@ -669,7 +810,9 @@ export function buildPreviewHTML({
       return buildPreactJSXPreview({
         jsx,
         styles: `${styles || customStyles || ''}${perfCSS ? `\n\n${perfCSS}` : ''}`,
-        title: `${displayTitle} - Full Preview`
+        title: `${displayTitle} - Full Preview`,
+        perfMode,
+        includeTailwindCdn
       });
     }
 
@@ -681,9 +824,11 @@ export function buildPreviewHTML({
         // 若提供了樣式，無論是否存在外部連結都內嵌到文檔內，避免 CSS 被忽略
         if (styles) {
           const withInlineCss = inlineExternalCSS(html, styles);
-          return perfCSS ? injectCSSIntoHTMLDocument(withInlineCss, perfCSS) : withInlineCss;
+          const marked = perfCSS ? injectPerfMarkerIntoHTMLDocument(withInlineCss) : withInlineCss;
+          return perfCSS ? injectCSSIntoHTMLDocument(marked, perfCSS) : marked;
         }
-        return perfCSS ? injectCSSIntoHTMLDocument(html, perfCSS) : html;
+        const marked = perfCSS ? injectPerfMarkerIntoHTMLDocument(html) : html;
+        return perfCSS ? injectCSSIntoHTMLDocument(marked, perfCSS) : marked;
       }
 
       return buildHTMLDocument({
@@ -691,7 +836,8 @@ export function buildPreviewHTML({
         styles: sanitizeStyles(styles || ''),
         content: processHTML(html || '', resolvedLanguage),
         language: resolvedLanguage,
-        perfMode
+        perfMode,
+        includeTailwindCdn
       });
     }
   }
@@ -703,9 +849,11 @@ export function buildPreviewHTML({
     if (previewContent.html && isCompleteHTMLDocument(previewContent.html)) {
       if (previewContent.styles) {
         const withInlineCss = inlineExternalCSS(previewContent.html, previewContent.styles);
-        return perfCSS ? injectCSSIntoHTMLDocument(withInlineCss, perfCSS) : withInlineCss;
+        const marked = perfCSS ? injectPerfMarkerIntoHTMLDocument(withInlineCss) : withInlineCss;
+        return perfCSS ? injectCSSIntoHTMLDocument(marked, perfCSS) : marked;
       }
-      return perfCSS ? injectCSSIntoHTMLDocument(previewContent.html, perfCSS) : previewContent.html;
+      const marked = perfCSS ? injectPerfMarkerIntoHTMLDocument(previewContent.html) : previewContent.html;
+      return perfCSS ? injectCSSIntoHTMLDocument(marked, perfCSS) : marked;
     }
 
     return buildHTMLDocument({
@@ -713,7 +861,8 @@ export function buildPreviewHTML({
       styles: sanitizeStyles(previewContent.styles),
       content: processHTML(previewContent.html, resolvedLanguage),
       language: resolvedLanguage,
-      perfMode
+      perfMode,
+      includeTailwindCdn
     });
   }
 
@@ -756,9 +905,11 @@ export function buildPreviewHTML({
     if (previewHTML && isCompleteHTMLDocument(previewHTML)) {
       if (previewStyles) {
         const withInlineCss = inlineExternalCSS(previewHTML, previewStyles);
-        return perfCSS ? injectCSSIntoHTMLDocument(withInlineCss, perfCSS) : withInlineCss;
+        const marked = perfCSS ? injectPerfMarkerIntoHTMLDocument(withInlineCss) : withInlineCss;
+        return perfCSS ? injectCSSIntoHTMLDocument(marked, perfCSS) : marked;
       }
-      return perfCSS ? injectCSSIntoHTMLDocument(previewHTML, perfCSS) : previewHTML;
+      const marked = perfCSS ? injectPerfMarkerIntoHTMLDocument(previewHTML) : previewHTML;
+      return perfCSS ? injectCSSIntoHTMLDocument(marked, perfCSS) : marked;
     }
 
     return buildHTMLDocument({
@@ -766,7 +917,8 @@ export function buildPreviewHTML({
       styles: sanitizeStyles(previewStyles),
       content: processHTML(previewHTML, resolvedLanguage),
       language: resolvedLanguage,
-      perfMode
+      perfMode,
+      includeTailwindCdn
     });
   }
 
@@ -776,9 +928,11 @@ export function buildPreviewHTML({
     if (isCompleteHTMLDocument(fullPageHTML)) {
       if (fullPageStyles) {
         const withInlineCss = inlineExternalCSS(fullPageHTML, fullPageStyles);
-        return perfCSS ? injectCSSIntoHTMLDocument(withInlineCss, perfCSS) : withInlineCss;
+        const marked = perfCSS ? injectPerfMarkerIntoHTMLDocument(withInlineCss) : withInlineCss;
+        return perfCSS ? injectCSSIntoHTMLDocument(marked, perfCSS) : marked;
       }
-      return perfCSS ? injectCSSIntoHTMLDocument(fullPageHTML, perfCSS) : fullPageHTML;
+      const marked = perfCSS ? injectPerfMarkerIntoHTMLDocument(fullPageHTML) : fullPageHTML;
+      return perfCSS ? injectCSSIntoHTMLDocument(marked, perfCSS) : marked;
     }
 
     return buildHTMLDocument({
@@ -786,7 +940,8 @@ export function buildPreviewHTML({
       styles: sanitizeStyles(fullPageStyles),
       content: processHTML(fullPageHTML, resolvedLanguage),
       language: resolvedLanguage,
-      perfMode
+      perfMode,
+      includeTailwindCdn
     });
   }
 
@@ -798,7 +953,8 @@ export function buildPreviewHTML({
     styles: sanitizeStyles(customStyles),
     content: processHTML(extractedContent, resolvedLanguage),
     language: resolvedLanguage,
-    perfMode
+    perfMode,
+    includeTailwindCdn
   });
 }
 

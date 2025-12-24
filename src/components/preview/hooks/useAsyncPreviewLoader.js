@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { loadPreview, batchPreloadPreviews, preloadPreview, cancelBatchPreload } from '../../../utils/previewLoader';
 import { compileJSX } from '../../../utils/jsxCompiler';
+import { getPreloadedContent } from '../../../utils/preloadHelpers';
+import { detectJSXMode } from '../../../utils/jsxPreprocessor';
 import { previewLogger as logger } from '../../../utils/logger';
 import { getPreviewCache } from '../../../utils/LRUCache';
 
@@ -21,7 +23,6 @@ const previewCache = getPreviewCache(50);
  * @param {string} params.fullPagePreviewId - Full page preview ID for fallback
  * @param {string} params.styleId - Style ID for ultimate fallback
  * @param {boolean} params.isReactPreview - Whether this is a React component preview (skips async loading)
- * @param {Function} params.setIsLoading - Parent's loading state setter
  *
  * @returns {Object} Hook state and utilities
  * @returns {Object|null} asyncPreview - Loaded preview content {html?, jsx?, styles, renderMode?, compiledCode?, componentName?, error?}
@@ -37,7 +38,6 @@ export function useAsyncPreviewLoader({
   fullPagePreviewId,
   styleId,
   isReactPreview,
-  setIsLoading,
   language = 'en-US' // eslint-disable-line no-unused-vars -- Reserved for future i18n use
 }) {
   // 🚀 使用全局 LRU 緩存（保留 ref 供外部訪問統計）
@@ -46,7 +46,28 @@ export function useAsyncPreviewLoader({
   // Async preview state
   const [asyncPreview, setAsyncPreview] = useState(null);
   const [asyncPreviewId, setAsyncPreviewId] = useState(null);
-  const [isLoadingPreview, setIsLoadingPreview] = useState(false);
+  const [isLoadingPreview, setIsLoadingPreview] = useState(() => {
+    if (isReactPreview) return false;
+
+    // 初次掛載時，若需要透過 previewId/fullPagePreviewId 載入內容，
+    // 先把 isLoadingPreview 設為 true，避免 iframe onLoad 很快把外層遮罩關掉造成閃爍。
+    const safeList = Array.isArray(previewsList) ? previewsList : [];
+    if (safeList.length === 0) return false;
+
+    const index = Math.min(Math.max(activeIndex, 0), safeList.length - 1);
+    const current = safeList[index] || safeList[0];
+    const needsAsync = Boolean(current?.previewId || fullPagePreviewId);
+    if (!needsAsync) return false;
+
+    const id = current?.previewId || fullPagePreviewId || current?.id || styleId || null;
+    if (!id) return false;
+
+    if (previewCache.get(id)) return false;
+    const preloaded = getPreloadedContent(id);
+    if (preloaded && (preloaded.html || preloaded.jsx || preloaded.styles)) return false;
+
+    return true;
+  });
 
   // Compute current preview object from previewsList
   const currentPreview = useMemo(() => {
@@ -118,6 +139,16 @@ export function useAsyncPreviewLoader({
     // Async loading with cleanup flag to prevent state updates after unmount
     let cancelled = false;
 
+    // React component preview does not use iframe content; skip all async loading work.
+    if (isReactPreview) {
+      setAsyncPreview(null);
+      setAsyncPreviewId(null);
+      setIsLoadingPreview(false);
+      return () => {
+        cancelled = true;
+      };
+    }
+
     /**
      * Fallback compiler for React JSX when remote loading fails
      * Compiles local demoJSX to avoid being stuck on "loading"
@@ -142,6 +173,7 @@ export function useAsyncPreviewLoader({
           renderMode: 'react-jsx',
           compiledCode: result.code,
           componentName: result.componentName,
+          lucideIcons: result.lucideIcons || [],
           styles: currentPreview.styles || currentPreview.fullPageStyles || ''
         };
 
@@ -152,7 +184,6 @@ export function useAsyncPreviewLoader({
         if (cacheKey) {
           previewCache.set(cacheKey, previewData);
         }
-        setIsLoading(false);
         return true;
       } catch (error) {
         if (cancelled) return true;
@@ -162,7 +193,6 @@ export function useAsyncPreviewLoader({
           error: error.message,
           styles: currentPreview?.styles || currentPreview?.fullPageStyles || ''
         });
-        setIsLoading(false);
         return false;
       }
     };
@@ -172,14 +202,92 @@ export function useAsyncPreviewLoader({
     if (cachedPreview) {
       setAsyncPreviewId(currentPreviewId);
       setAsyncPreview(cachedPreview);
-      setIsLoading(false);
       setIsLoadingPreview(false);
       return;
     }
 
+    // Check if route-level preload already fetched the first preview (eliminate initial waterfall)
+    const preloaded = currentPreviewId ? getPreloadedContent(currentPreviewId) : null;
+    if (preloaded && (preloaded.html || preloaded.jsx || preloaded.styles)) {
+      const styles = preloaded.styles || '';
+
+      // JSX: detect mode and either compile (React) or run directly (Preact h())
+      if (preloaded.jsx) {
+        const detectedMode = detectJSXMode(preloaded.jsx);
+
+        if (detectedMode === 'react') {
+          setIsLoadingPreview(true);
+          // OPTIMIZATION v3: Pass previewId for pre-compiled JSX lookup
+          compileJSX(preloaded.jsx, {
+            mode: 'react',
+            previewId: currentPreviewId,
+            type: 'fullpage'
+          })
+            .then((result) => {
+              if (cancelled) return;
+              const previewData = {
+                renderMode: 'react-jsx',
+                compiledCode: result.code,
+                componentName: result.componentName,
+                lucideIcons: result.lucideIcons || [],
+                styles
+              };
+              setAsyncPreviewId(currentPreviewId);
+              setAsyncPreview(previewData);
+              previewCache.set(currentPreviewId, previewData);
+            })
+            .catch((error) => {
+              if (cancelled) return;
+              logger.error('[React JSX] Preloaded compilation error:', error);
+              setAsyncPreview({
+                renderMode: 'react-jsx',
+                error: error.message,
+                lucideIcons: [],
+                styles
+              });
+            })
+            .finally(() => {
+              if (!cancelled) setIsLoadingPreview(false);
+            });
+
+          return () => {
+            cancelled = true;
+          };
+        }
+
+        const previewData = {
+          jsx: preloaded.jsx,
+          demoJSX: preloaded.jsx,
+          styles,
+          renderMode: 'jsx'
+        };
+
+        setAsyncPreviewId(currentPreviewId);
+        setAsyncPreview(previewData);
+        previewCache.set(currentPreviewId, previewData);
+        setIsLoadingPreview(false);
+        return () => {
+          cancelled = true;
+        };
+      }
+
+      // HTML
+      const previewData = {
+        html: preloaded.html || '',
+        styles
+      };
+
+      setAsyncPreviewId(currentPreviewId);
+      setAsyncPreview(previewData);
+      previewCache.set(currentPreviewId, previewData);
+      setIsLoadingPreview(false);
+      return () => {
+        cancelled = true;
+      };
+    }
+
     // Check if current preview matches already loaded content
     if (currentPreviewId && asyncPreviewId === currentPreviewId && asyncPreview) {
-      setIsLoading(false);
       setIsLoadingPreview(false);
       return;
     }
@@ -203,10 +311,10 @@ export function useAsyncPreviewLoader({
               renderMode: 'react-jsx',
               compiledCode: result.code,
               componentName: result.componentName,
+              lucideIcons: result.lucideIcons || [],
               styles: currentPreview.styles || ''
             });
             setIsLoadingPreview(false);
-            setIsLoading(false);
           })
           .catch(error => {
             logger.error('[React JSX] Compilation error:', error);
@@ -214,17 +322,16 @@ export function useAsyncPreviewLoader({
               renderMode: 'react-jsx',
               compiledCode: '',
               error: error.message,
+              lucideIcons: [],
               styles: currentPreview.styles || ''
             });
             setIsLoadingPreview(false);
-            setIsLoading(false);
           });
         return;
       }
 
       // No async content needed - close loading states
       setIsLoadingPreview(false);
-      setIsLoading(false);
       return;
     }
 
@@ -247,20 +354,20 @@ export function useAsyncPreviewLoader({
               renderMode: 'react-jsx',
               compiledCode: result.code,
               componentName: result.componentName,
+              lucideIcons: result.lucideIcons || [],
               styles: content.styles || ''
             };
 
             setAsyncPreview(previewData);
-            setIsLoading(false);
             previewCache.set(currentPreviewId, previewData);
           } catch (error) {
             logger.error('[React JSX] Compilation error:', error);
             setAsyncPreview({
               renderMode: 'react-jsx',
               error: error.message,
+              lucideIcons: [],
               styles: content.styles || ''
             });
-            setIsLoading(false);
           }
         }
         // Handle Preact JSX mode: store raw JSX
@@ -273,7 +380,6 @@ export function useAsyncPreviewLoader({
           };
 
           setAsyncPreview(previewData);
-          setIsLoading(false);
           previewCache.set(currentPreviewId, previewData);
         }
         // Handle HTML mode: store static HTML and styles
@@ -284,7 +390,6 @@ export function useAsyncPreviewLoader({
           };
 
           setAsyncPreview(previewData);
-          setIsLoading(false);
           previewCache.set(currentPreviewId, previewData);
         }
 
@@ -295,7 +400,6 @@ export function useAsyncPreviewLoader({
           const handled = await compileReactFallback();
           if (!handled) {
             setAsyncPreview({ html: '', styles: '' });
-            setIsLoading(false);
           }
         }
       })
@@ -305,7 +409,6 @@ export function useAsyncPreviewLoader({
           const handled = await compileReactFallback();
           if (!handled) {
             setAsyncPreview({ html: '', styles: '' });
-            setIsLoading(false);
           }
         }
       })
@@ -326,7 +429,7 @@ export function useAsyncPreviewLoader({
     previewsList,
     fullPagePreviewId,
     currentPreviewId, // Keep for cache key changes
-    setIsLoading
+    isReactPreview
   ]);
 
   return {
