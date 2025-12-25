@@ -233,12 +233,28 @@ export function getJSXStats(code) {
 // ============================================
 
 /**
+ * OPTIMIZATION: Cache for JSX mode detection results
+ * Uses first 100 chars as key to avoid storing large code strings
+ * LRU-style eviction when capacity exceeded
+ */
+const jsxModeCache = new Map();
+const MAX_JSX_MODE_CACHE = 50;
+
+/**
  * Detect JSX mode: 'react', 'preact-h', or null (not JSX)
+ * OPTIMIZATION: Results are cached to avoid repeated regex matching
+ *
  * @param {string} code - Code to analyze
  * @returns {'react' | 'preact-h' | null} Detected mode
  */
 export function detectJSXMode(code) {
   if (!code || typeof code !== 'string') return null;
+
+  // OPTIMIZATION: Check cache first using code prefix as key
+  const cacheKey = code.substring(0, 100);
+  if (jsxModeCache.has(cacheKey)) {
+    return jsxModeCache.get(cacheKey);
+  }
 
   // Check Preact h() patterns first (existing format - higher priority)
   const hasHCalls = /\bh\s*\(/.test(code);
@@ -246,6 +262,8 @@ export function detectJSXMode(code) {
   const hasWindowPreact = /window\.preact/.test(code);
 
   if ((hasHCalls && hasDemoComponent) || hasWindowPreact) {
+    // Cache result before returning
+    cacheJSXMode(cacheKey, 'preact-h');
     return 'preact-h';
   }
 
@@ -256,10 +274,27 @@ export function detectJSXMode(code) {
   const hasReactAPI = /React\.(useState|useEffect|createElement|memo|forwardRef)/.test(code);
 
   if (hasJSXTags || hasReactImport || hasExportDefault || hasReactAPI) {
+    // Cache result before returning
+    cacheJSXMode(cacheKey, 'react');
     return 'react';
   }
 
+  // Cache null result as well
+  cacheJSXMode(cacheKey, null);
   return null;
+}
+
+/**
+ * Helper to cache JSX mode with LRU eviction
+ * @private
+ */
+function cacheJSXMode(key, mode) {
+  // LRU: evict oldest if at capacity
+  if (jsxModeCache.size >= MAX_JSX_MODE_CACHE) {
+    const firstKey = jsxModeCache.keys().next().value;
+    jsxModeCache.delete(firstKey);
+  }
+  jsxModeCache.set(key, mode);
 }
 
 /**

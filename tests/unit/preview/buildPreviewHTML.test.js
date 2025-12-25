@@ -415,6 +415,23 @@ describe('buildPreviewHTML', () => {
     expect(html).toContain('function App()');
   });
 
+  it('should expose Lucide icons globally for React JSX even without lucideIcons list', () => {
+    const html = buildPreviewHTML({
+      ...defaultOptions,
+      asyncPreview: {
+        renderMode: 'react-jsx',
+        // 模擬「未 import icon 但直接使用」的情境（例如 Synthwave 模板）
+        compiledCode: 'function App() { return React.createElement(Disc, null); }',
+        componentName: 'App',
+        lucideIcons: [],
+        styles: ''
+      }
+    });
+
+    expect(html).toContain('Object.keys(__lucide)');
+    expect(html).toContain('window[key] = value');
+  });
+
   it('should show loading HTML for React JSX when isLoadingPreview', () => {
     const html = buildPreviewHTML({
       ...defaultOptions,

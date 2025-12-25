@@ -12,7 +12,6 @@ import { LanguageLayout } from '../components/LanguageLayout';
 import { LANG_TO_URL } from '../components/seo/seoConfig';
 import { getPreferredLanguage } from '../utils/i18n/languagePreference';
 import {
-  createStyleLoader,
   createStyleLoaderDeferred,
   createComponentLoader,
   createComponentPreviewLoaderDeferred,
@@ -118,9 +117,10 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
+        // OPTIMIZATION: Use deferred loader for faster Time to First Paint
         lazy: createLazyRoute(
           () => import('../pages/styles/CodeEditorPage.jsx'),
-          createStyleLoader
+          createStyleLoaderDeferred
         ),
       },
     ],

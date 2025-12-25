@@ -20,8 +20,21 @@ import { enhanceStyles } from '../data/metadata/styleTagsMapping';
 
 const logger = createLogger('ProgressiveStyleLoad');
 
+// 分級優先級分組 (Tiered Priority Groups)
+const PRIORITY_GROUPS = {
+  critical: ['layout'],        // 5.5KB - 首屏必須（最小，立即載入）
+  high: ['interaction', 'core'], // 17KB + 145KB - 常用內容
+  normal: ['retro'],           // 162KB - 正常優先級
+  low: ['visual'],             // 831KB - 最大，背景載入
+};
+
 // 分類加載優先級（按文件大小，小的優先）
-const CATEGORY_PRIORITY = ['layout', 'interaction', 'core', 'retro', 'visual'];
+const CATEGORY_PRIORITY = [
+  ...PRIORITY_GROUPS.critical,
+  ...PRIORITY_GROUPS.high,
+  ...PRIORITY_GROUPS.normal,
+  ...PRIORITY_GROUPS.low,
+];
 
 // 分類路徑映射
 const CATEGORY_PATHS = {

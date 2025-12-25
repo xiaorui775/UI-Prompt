@@ -104,8 +104,9 @@ export const useSelectionStore = create(
     selectAll: (componentIds) => set((state) => {
       state.multiSelection = [...componentIds];
       state.selectedComponentId = componentIds[0] || null;
-      // Sync external Set
-      _selectionSet = new Set(componentIds);
+      // OPTIMIZATION: Clear before reassignment to prevent memory leak
+      _selectionSet.clear();
+      componentIds.forEach(id => _selectionSet.add(id));
     }),
 
     // ========== Getters ==========

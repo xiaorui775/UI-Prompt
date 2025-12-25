@@ -104,3 +104,31 @@
 .reduce-effects [class*="animate-"] {
   animation: none !important;
 }
+
+/* Chromium lite mode: keep 3D but reduce depth + disable the most expensive effects */
+.chromium-lite .translate-z-4 { transform: translateZ(6px); }
+.chromium-lite .translate-z-8 { transform: translateZ(18px); }
+.chromium-lite .translate-z-12 { transform: translateZ(28px); }
+.chromium-lite .translate-z-16 { transform: translateZ(40px); }
+.chromium-lite .translate-z-20 { transform: translateZ(56px); }
+
+.chromium-lite .hover\:translate-z-8:hover { transform: translateZ(18px); }
+.chromium-lite .hover\:translate-z-12:hover { transform: translateZ(34px); }
+.chromium-lite .hover\:translate-z-16:hover { transform: translateZ(56px); }
+
+/* Backdrop blur + mask + blend are common Chrome perf killers */
+.chromium-lite [class*="backdrop-blur"] {
+  --tw-backdrop-blur: blur(0px) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.chromium-lite [style*="mask-image"],
+.chromium-lite [style*="-webkit-mask-image"] {
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+.chromium-lite [class*="mix-blend"] {
+  mix-blend-mode: normal !important;
+}

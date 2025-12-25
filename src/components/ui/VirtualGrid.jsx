@@ -18,12 +18,12 @@ import { useWindowSize, calculateListHeight } from '../../hooks/useWindowSize';
  */
 
 // Extracted Row component for stable react-window reference
-const GridRow = memo(function GridRow({ index, style, data }) {
-  const { rows, renderItem, gap, columnCount } = data;
+const GridRow = memo(function GridRow({ ariaAttributes, index, style, rows, renderItem, gap, columnCount }) {
   const rowItems = rows[index] || [];
 
   return (
     <div
+      {...ariaAttributes}
       style={{
         ...style,
         display: 'grid',
@@ -85,7 +85,7 @@ export function VirtualGrid({
     let mounted = true;
     import('react-window').then((mod) => {
       if (!mounted) return;
-      const List = mod.FixedSizeList || (mod.default && mod.default.FixedSizeList);
+      const List = mod.List || (mod.default && mod.default.List);
       setFixedSizeList(() => List);
     }).catch(() => {
       // react-window 加載失敗，使用回退
@@ -129,8 +129,8 @@ export function VirtualGrid({
   // 計算行高（項目高度 + 間距）
   const rowHeight = itemHeight + gap;
 
-  // Memoize itemData for stable GridRow props
-  const itemData = useMemo(() => ({
+  // Memoize rowProps for stable GridRow props
+  const rowProps = useMemo(() => ({
     rows,
     renderItem,
     gap,
@@ -157,15 +157,13 @@ export function VirtualGrid({
   return (
     <div ref={containerRef}>
       <FixedSizeList
-        height={dynamicListHeight}
-        itemCount={rows.length}
-        itemSize={rowHeight}
-        width="100%"
+        rowCount={rows.length}
+        rowHeight={rowHeight}
         overscanCount={2}
-        itemData={itemData}
-      >
-        {GridRow}
-      </FixedSizeList>
+        rowComponent={GridRow}
+        rowProps={rowProps}
+        style={{ height: dynamicListHeight, width: '100%' }}
+      />
     </div>
   );
 }

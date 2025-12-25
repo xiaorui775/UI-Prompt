@@ -211,7 +211,8 @@ export function preloadAdjacentPreviews(previewsList, currentIndex, category, fa
     const preview = previewsList[index];
     const previewId = preview?.previewId || preview?.id;
 
-    if (previewId && !preloadedContent.has(previewId)) {
+    // OPTIMIZATION: Check both caches to prevent duplicate requests
+    if (previewId && !preloadedContent.has(previewId) && !preloadPromises.has(previewId)) {
       // Use requestIdleCallback for non-critical preloading
       if (typeof requestIdleCallback !== 'undefined') {
         requestIdleCallback(() => {

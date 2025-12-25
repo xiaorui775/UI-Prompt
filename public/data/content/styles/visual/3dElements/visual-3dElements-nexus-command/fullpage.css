@@ -209,3 +209,22 @@ video {
   outline: 2px solid rgba(6, 182, 212, 0.5);
   outline-offset: 2px;
 }
+
+/* Reduce effects mode: aggressively disable expensive compositing */
+.reduce-effects *,
+.reduce-effects *::before,
+.reduce-effects *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+
+.reduce-effects .backdrop-blur-md,
+.reduce-effects .backdrop-blur-xl {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.reduce-effects .preserve-3d {
+  transform-style: flat !important;
+}

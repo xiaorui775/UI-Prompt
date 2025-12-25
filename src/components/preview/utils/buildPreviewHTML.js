@@ -437,15 +437,29 @@ export function buildReactJSXPreview({
     ? [...new Set(lucideIcons)].filter(Boolean)
     : [];
 
-  const lucideSetup = icons.length > 0
-    ? `
+  const lucideSetup = `
       const __lucide = window.LucideReact || {};
       const __LucideFallback = () => null;
-      const { ${icons.map((name) => `${name} = __LucideFallback`).join(', ')} } = __lucide;
-    `
-    : `
-      const __lucide = window.LucideReact || {};
-      const __LucideFallback = () => null;
+      ${icons.length > 0
+        ? `const { ${icons.map((name) => `${name} = __LucideFallback`).join(', ')} } = __lucide;`
+        : ''}
+
+      // 兼容「未顯式 import lucide icon」的模板：
+      // 這類模板會直接使用 <Disc /> / <Terminal />，若未宣告對應變數會觸發 ReferenceError。
+      // 我們把 LucideReact 的圖標回填到全域（不覆蓋既有全域符號），讓未解構的情況也能正常解析。
+      try {
+        Object.keys(__lucide).forEach((key) => {
+          const value = __lucide[key];
+          const isValidIcon =
+            /^[A-Z]/.test(key) &&
+            (typeof value === 'function' || (typeof value === 'object' && value !== null));
+
+          if (!isValidIcon) return;
+          if (key === 'Icon' || key === 'IconNode') return;
+          if (key in window) return;
+          window[key] = value;
+        });
+      } catch (_) {}
     `;
 
   const wrappedCode = `
@@ -496,7 +510,9 @@ export function buildReactJSXPreview({
     mountId: 'root',
     theme: 'light',
     perfMode,
-    enableLucide: icons.length > 0,
+    // React JSX templates frequently use lucide icons but may omit explicit imports;
+    // always load lucide runtime to avoid "X is not defined" in style previews.
+    enableLucide: true,
     includeTailwindCdn
   });
 }

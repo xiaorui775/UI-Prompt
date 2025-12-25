@@ -1,5 +1,5 @@
-import { useEffect, useState, useMemo, useCallback } from 'react';
-import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom';
+import { useEffect, useState, useMemo, useCallback, Suspense } from 'react';
+import { useLoaderData, useNavigate, useSearchParams, Await } from 'react-router-dom';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useCopyToClipboard } from '../../hooks/useCopyToClipboard';
 import { CodeEditor } from '../../components/code/CodeEditor';
@@ -10,13 +10,107 @@ import { loadPreview } from '../../utils/previewLoader';
 import appCssUrl from '../../index.css?url';
 
 /**
+ * Code Editor Skeleton - 載入骨架屏
+ * OPTIMIZATION: Shows immediately while style data loads via deferred loader
+ */
+function CodeEditorSkeleton({ title: _title = '...' }) {
+  const { t } = useLanguage();
+
+  return (
+    <div className="fixed inset-0 z-50 bg-gray-900 flex flex-col">
+      {/* 頂部工具欄骨架 */}
+      <div className="h-14 bg-gray-800 border-b border-gray-700 flex items-center px-4">
+        <div className="flex-1">
+          <div className="h-4 w-48 bg-gray-700 rounded animate-pulse" />
+        </div>
+        <div className="flex gap-2">
+          <div className="h-8 w-16 bg-gray-700 rounded animate-pulse" />
+          <div className="h-8 w-16 bg-gray-700 rounded animate-pulse" />
+          <div className="h-8 w-16 bg-gray-700 rounded animate-pulse" />
+        </div>
+      </div>
+
+      {/* 主體區域骨架 */}
+      <div className="flex-1 flex overflow-hidden">
+        {/* 編輯器面板骨架 */}
+        <div className="w-1/2 bg-gray-900 p-4">
+          <div className="space-y-2">
+            {[...Array(15)].map((_, i) => (
+              <div
+                key={i}
+                className="h-4 bg-gray-800 rounded animate-pulse"
+                style={{ width: `${Math.random() * 40 + 40}%` }}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* 分割線 */}
+        <div className="w-1 bg-gray-700" />
+
+        {/* 預覽面板骨架 */}
+        <div className="w-1/2 bg-white flex items-center justify-center">
+          <div className="text-gray-400 animate-pulse">
+            {t('loading') || 'Loading...'}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
  * 代碼編輯器頁面
  * - 支持實時編輯 HTML/CSS 並預覽
  * - 分割視圖：左側編輯器，右側預覽
  * - Tab 切換：HTML / CSS / Full Code
+ *
+ * OPTIMIZATION: Supports deferred loading for faster Time to First Paint
  */
 export function CodeEditorPage() {
-  const { style } = useLoaderData();
+  const loaderData = useLoaderData();
+
+  // Handle both deferred and non-deferred loader data
+  // Deferred: { styleMetadata, style: Promise }
+  // Non-deferred: { style: Object }
+  const style = loaderData.style;
+  const styleMetadata = loaderData.styleMetadata;
+
+  // Extract title for skeleton from metadata (available immediately with deferred)
+  const skeletonTitle = styleMetadata?.title || '...';
+
+  // If style is a Promise (deferred), use Await
+  const isDeferred = style && typeof style.then === 'function';
+
+  if (isDeferred) {
+    return (
+      <Suspense fallback={<CodeEditorSkeleton title={skeletonTitle} />}>
+        <Await
+          resolve={style}
+          errorElement={
+            <div className="fixed inset-0 z-50 bg-gray-900 flex items-center justify-center">
+              <div className="text-center p-8">
+                <h2 className="text-xl font-bold text-red-600 mb-2">Failed to load code editor</h2>
+                <p className="text-gray-400">Please try again later</p>
+              </div>
+            </div>
+          }
+        >
+          {(loadedStyle) => <CodeEditorContent style={loadedStyle} />}
+        </Await>
+      </Suspense>
+    );
+  }
+
+  // Non-deferred: render directly
+  return <CodeEditorContent style={style} />;
+}
+
+/**
+ * 代碼編輯器內容組件
+ * Extracted to support both deferred and non-deferred rendering
+ */
+function CodeEditorContent({ style }) {
   const navigate = useNavigate();
   const { t, language } = useLanguage();
   const [searchParams] = useSearchParams();

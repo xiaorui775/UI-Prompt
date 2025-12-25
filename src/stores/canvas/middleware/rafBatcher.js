@@ -2,7 +2,12 @@
  * RAF Batcher for Canvas Store
  * Handles requestAnimationFrame-based batching for throttled updates
  * Merges multiple updates in the same frame into a single state update
+ *
+ * OPTIMIZATION: Added capacity limit to prevent unbounded memory growth
  */
+
+// Maximum entries per batch before forcing immediate flush
+const MAX_BATCH_SIZE = 100;
 
 /**
  * Creates a RAF batcher for throttled canvas updates
@@ -16,6 +21,17 @@ export const createRafBatcher = (set) => {
     layout: new Map(),    // id -> partialLayout
     styleResp: new Map(), // id -> { bp -> partial }
     layoutResp: new Map() // id -> { bp -> partial }
+  };
+
+  /**
+   * Check if any batch exceeds capacity limit
+   * @returns {boolean} True if capacity exceeded
+   */
+  const isCapacityExceeded = () => {
+    return batched.base.size >= MAX_BATCH_SIZE ||
+           batched.layout.size >= MAX_BATCH_SIZE ||
+           batched.styleResp.size >= MAX_BATCH_SIZE ||
+           batched.layoutResp.size >= MAX_BATCH_SIZE;
   };
 
   const flushBatched = () => {
@@ -67,6 +83,12 @@ export const createRafBatcher = (set) => {
   };
 
   const scheduleFlush = () => {
+    // OPTIMIZATION: Force immediate flush if capacity exceeded
+    if (isCapacityExceeded()) {
+      flushBatched();
+      return;
+    }
+
     if (rafScheduled) return;
     rafScheduled = true;
     requestAnimationFrame(() => {

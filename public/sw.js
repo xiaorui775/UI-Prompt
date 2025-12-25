@@ -11,7 +11,7 @@
  * - Preview content: Stale-while-revalidate (instant + fresh)
  */
 
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v3';
 const CACHE_NAME = `ui-style-${CACHE_VERSION}`;
 
 // Cache categories
@@ -63,9 +63,9 @@ self.addEventListener('activate', (event) => {
 function getCacheStrategy(request) {
   const url = new URL(request.url);
 
-  // App shell and HTML - Cache first
+  // App shell and HTML - Network first (avoid stale HTML causing chunk mismatch after deploy)
   if (url.pathname === '/' || url.pathname.endsWith('.html')) {
-    return 'cache-first';
+    return 'network-first';
   }
 
   // Data files - Network first
@@ -85,6 +85,13 @@ function getCacheStrategy(request) {
 
   // Default: network first
   return 'network-first';
+}
+
+function isNavigationRequest(request) {
+  if (request.mode === 'navigate') return true;
+  if (request.destination === 'document') return true;
+  const accept = request.headers.get('accept') || '';
+  return accept.includes('text/html');
 }
 
 /**
@@ -136,6 +143,12 @@ async function networkFirst(request, cacheName) {
       return cached;
     }
 
+    // SPA fallback: allow offline/failed navigations to reuse cached index.html
+    if (isNavigationRequest(request)) {
+      const fallback = await cache.match('/index.html');
+      if (fallback) return fallback;
+    }
+
     return new Response('Offline and not cached', { status: 503 });
   }
 }
@@ -176,14 +189,21 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Always treat navigations as HTML and keep them fresh to avoid stale app shell issues.
+  // This also covers language-prefixed SPA routes like /zh/styles.
+  if (isNavigationRequest(event.request)) {
+    event.respondWith(networkFirst(event.request, CACHE_SHELL));
+    return;
+  }
+
   const strategy = getCacheStrategy(event.request);
   let cacheName = CACHE_SHELL;
 
   // Determine cache bucket
-  if (event.request.url.includes('/data/')) {
-    cacheName = CACHE_DATA;
-  } else if (event.request.url.includes('/content/styles/')) {
+  if (event.request.url.includes('/data/content/styles/')) {
     cacheName = CACHE_PREVIEW;
+  } else if (event.request.url.includes('/data/')) {
+    cacheName = CACHE_DATA;
   } else if (event.request.url.match(/\.(js|css|woff2?|ttf|eot)$/)) {
     cacheName = CACHE_ASSETS;
   }

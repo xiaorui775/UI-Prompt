@@ -60,7 +60,9 @@ function StyleCardComponent({
   renderMode = 'auto',
   // 🚀 新增：用於延遲載入 demo 內容
   categoryId = null,
-  familyId = null
+  familyId = null,
+  // 🚀 新增：虛擬化模式（禁用 lazy loading）
+  _isVirtualized = false
 }) {
   // ===== 狀態管理 =====
   const [showPrompt, setShowPrompt] = useState(false);

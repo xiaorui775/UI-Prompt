@@ -884,4 +884,51 @@
           font-size: 1.2rem;
         }
       }
-    
+
+      /* ========== PERF / REDUCE EFFECTS ========== */
+      /* 用於 Preview `?perf=1`（Chrome 預設會自動開啟），避免 3D+blur 導致掉幀 */
+      html[data-ui-style-perf="1"] .studio-3d-page {
+        background-attachment: scroll !important;
+      }
+
+      html[data-ui-style-perf="1"] .studio-3d-page *,
+      html[data-ui-style-perf="1"] .studio-3d-page *::before,
+      html[data-ui-style-perf="1"] .studio-3d-page *::after {
+        animation: none !important;
+        transition: none !important;
+        box-shadow: none !important;
+        transform-style: flat !important;
+        will-change: auto !important;
+      }
+
+      html[data-ui-style-perf="1"] .studio-3d-page * {
+        perspective: none !important;
+      }
+
+      html[data-ui-style-perf="1"] .studio-3d-page .header-3d,
+      html[data-ui-style-perf="1"] .studio-3d-page [style*="backdrop-filter"] {
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+      }
+
+      html[data-ui-style-perf="1"] .studio-3d-page [style*="filter:"],
+      html[data-ui-style-perf="1"] .studio-3d-page [class*="blur"] {
+        filter: none !important;
+      }
+
+      /* 移除純裝飾的 3D 漂浮方塊（最容易觸發大量 compositing） */
+      html[data-ui-style-perf="1"] .studio-3d-page .hero-cubes {
+        display: none !important;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .studio-3d-page {
+          background-attachment: scroll;
+        }
+        .studio-3d-page *,
+        .studio-3d-page *::before,
+        .studio-3d-page *::after {
+          animation: none !important;
+          transition: none !important;
+        }
+      }

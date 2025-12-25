@@ -123,7 +123,6 @@ function StylePreviewContent({ style }) {
     asyncPreviewId,
     isLoadingPreview,
     currentPreview,
-    currentPreviewId,
     previewCacheRef
   } = useAsyncPreviewLoader({
     previewsList,
@@ -140,10 +139,8 @@ function StylePreviewContent({ style }) {
   // ========== Derived values ==========
   const isDataVisualization = currentPreview?.type === 'data-visualization';
   const isIframePreview = !isDataVisualization && !isReactPreview;
-  const autoPerfCandidate =
-    perfParam === null &&
-    isChromium &&
-    currentPreviewId === 'visual-3dElements-spatial-ui';
+  const is3dElementsFamily = style?.id === 'visual-3dElements';
+  const autoPerfCandidate = perfParam === null && isChromium && is3dElementsFamily;
   const effectivePerfMode = perfMode || autoPerfCandidate;
 
   // ========== Chrome: auto-enable perf mode for heavy template ==========
@@ -161,15 +158,11 @@ function StylePreviewContent({ style }) {
     setSearchParams((prev) => {
       const newParams = new URLSearchParams(prev);
       const current = newParams.get('perf'); // '1' | '0' | null
-      const effectivePerf =
-        current === '1' ||
-        (current === null &&
-          isChromium &&
-          currentPreviewId === 'visual-3dElements-spatial-ui');
+      const effectivePerf = current === '1' || (current === null && autoPerfCandidate);
       newParams.set('perf', effectivePerf ? '0' : '1');
       return newParams;
     });
-  }, [setSearchParams, isChromium, currentPreviewId]);
+  }, [setSearchParams, autoPerfCandidate]);
 
   // ========== Build preview HTML using extended utility ==========
   const nextPreviewHTML = useMemo(() => {

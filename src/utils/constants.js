@@ -12,10 +12,11 @@
 /**
  * Virtual scrolling threshold - switch to virtual scroll when items exceed this count
  * Used by: AllStylesPage, AllComponentsPage
- * Note: Lowered from 12 to 20 to enable virtualization earlier for better scroll performance
- * with larger datasets (100-200 items)
+ * Note: Lowered to 15 to enable virtualization earlier for better scroll performance
+ * with larger datasets (100-200 items). At 15 items, users already need to scroll multiple times,
+ * so enabling virtualization prevents initial scroll jank.
  */
-export const VIRTUAL_SCROLL_THRESHOLD = 20;
+export const VIRTUAL_SCROLL_THRESHOLD = 15;
 
 /**
  * Number of skeleton cards to show during loading
