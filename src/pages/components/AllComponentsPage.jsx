@@ -211,7 +211,7 @@ export function AllComponentsPage() {
         <VirtualGrid
           items={filteredComponents}
           renderItem={renderComponentCard}
-          itemHeight={280}
+          itemHeight={360}
           gap={24}
           listHeight={800}
           threshold={VIRTUAL_SCROLL_THRESHOLD}
