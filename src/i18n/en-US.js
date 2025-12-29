@@ -305,7 +305,9 @@ export default {
     "delivery": "Delivery: First outline structure and state checklist, then provide Tailwind style strategy (key classes), finally provide HTML snippet ready for copy-paste (no framework code needed).",
     "copied": "Copied to clipboard",
     "copyFailed": "Copy failed",
-    "lengthLabel": "Word count: {words} | Characters: {chars}"
+    "lengthLabel": "Word count: {words} | Characters: {chars}",
+    "stylePrompt": "Style Prompt",
+    "customPrompt": "Custom Prompt"
   },
   "language": {
     "switch": "Switch Language",
@@ -360,15 +362,15 @@ export default {
     "components": {
       "input": {
         "autocomplete-search": {
-          "description": "Autocomplete search component with intelligent suggestions and keyboard navigation support",
+          "description": "An autocomplete search input component that provides intelligent suggestion matching as users type their queries. Features dynamic result filtering, customizable suggestion rendering, keyboard navigation, and debounced search for efficient query input.",
           "title": "Autocomplete Search"
         },
         "tags-input": {
-          "description": "Tags input component for adding and managing multiple tags or labels",
+          "description": "A tags input component for managing collections of text tags or labels with flexible input options. Features tag creation through various input methods, tag removal, duplicate prevention, and customizable tag display with icons and colors.",
           "title": "Tags Input"
         },
         "rich-textarea": {
-          "description": "Rich text textarea component with formatting capabilities and enhanced editing features",
+          "description": "A rich textarea component that combines basic textarea functionality with enhanced features like auto-growing height, character counters, and comprehensive formatting hints. Supports markdown preview, syntax highlighting, and fully customizable placeholder text.",
           "title": "Rich Textarea"
         }
       },
@@ -396,7 +398,7 @@ export default {
               "name": ""
             }
           },
-          "description": "Toast notification component for displaying temporary messages that auto-dismiss after a set time",
+          "description": "A toast notification component for displaying brief, non-intrusive messages to users with automatic dismissal. Supports multiple notification types, auto-dismissal functionality, custom actions, and stacking behavior for effective user communication and feedback.",
           "title": "Toast Notifications"
         },
         "modal-dialog": {
@@ -446,12 +448,12 @@ export default {
               "name": "Image Preview"
             }
           },
-          "description": "Modal dialog component for displaying content in an overlay window with various style variants",
+          "description": "A modal dialog component for displaying important information or requesting user actions in a focused overlay interface. Features customizable content, action buttons, and backdrop interaction handling for attention-grabbing notifications and user confirmations.",
           "title": "Modal Dialog"
         },
         "reaction-picker": {
           "title": "Reaction Picker",
-          "description": "Social interaction emoji picker with multiple design styles",
+          "description": "An interactive reaction picker component allowing users to select emoji or reaction icons for feedback and engagement purposes. Features emoji library, search functionality, recent reactions tracking, and customizable reaction categories.",
           "variants": {
             "material-design": {
               "name": "Material Design",
@@ -470,6 +472,54 @@ export default {
               "description": "Clean black and white design"
             }
           }
+        },
+        "tour-guide": {
+          "variants": {
+            "default": {
+              "description": "Default tour guide variant with step-by-step visual guidance",
+              "name": "Default"
+            }
+          },
+          "description": "A step-by-step user guidance component for displaying product features and workflows in a focused overlay interface. Features smart highlighting, step navigation, and interactive tooltips for onboarding and feature introduction.",
+          "title": "Tour Guide"
+        },
+        "loading-animate": {
+          "variants": {
+            "spinner": {
+              "description": "Classic circular spinning loader",
+              "name": "Spinner"
+            },
+            "dots": {
+              "description": "Three bouncing dots animation",
+              "name": "Dots"
+            },
+            "progress": {
+              "description": "Linear progress indicator animation",
+              "name": "Progress Bar"
+            },
+            "skeleton": {
+              "description": "Content placeholder loading animation",
+              "name": "Skeleton"
+            },
+            "pulse": {
+              "description": "Pulsing size animation effect",
+              "name": "Pulse"
+            },
+            "wave": {
+              "description": "Sequential wave bars animation",
+              "name": "Wave"
+            },
+            "ring": {
+              "description": "Ring border spinning animation",
+              "name": "Ring"
+            },
+            "bounce": {
+              "description": "Bouncing balls animation",
+              "name": "Bounce"
+            }
+          },
+          "description": "Versatile loading animation component with spinner, dots, progress bar, skeleton, pulse, wave, ring and bounce variants",
+          "title": "Loading Animate"
         }
       },
       "dataDisplay": {
@@ -496,8 +546,8 @@ export default {
               "name": "Neumorphism"
             }
           },
-          "description": "Basic table component for displaying structured data in rows and columns",
-          "title": "Table"
+          "description": "A foundational table component for displaying tabular data with headers, rows, and columns in organized format. Supports sorting, filtering, pagination, and responsive behavior while maintaining clarity and accessibility for effective data presentation.",
+          "title": "Basic Table"
         },
         "card-grid": {
           "variants": {
@@ -522,7 +572,7 @@ export default {
               "name": "3D Perspective"
             }
           },
-          "description": "Card grid component for displaying content in a responsive grid layout",
+          "description": "A flexible card grid component for displaying collections of items in a responsive grid layout. Supports various card sizes, dynamic column adjustment based on screen size, and hover interactions for improved user engagement.",
           "title": "Card Grid"
         },
         "list-view": {
@@ -548,7 +598,7 @@ export default {
               "name": "Glassmorphism"
             }
           },
-          "description": "List view component for displaying items in a vertical list format",
+          "description": "A versatile list view component for displaying structured data in scrollable list format. Features item selection, filtering, sorting capabilities, and customizable item templates for flexible data presentation and user interaction.",
           "title": "List View"
         },
         "timeline": {
@@ -582,12 +632,12 @@ export default {
               "name": "Minimalist"
             }
           },
-          "description": "Statistics card component for displaying key metrics and numerical data",
+          "description": "A statistics card component specifically designed for presenting key metrics, performance indicators, and important data points. Displays titles, values, trends, and comparative data with visual indicators, icons, and customizable styling for dashboard applications.",
           "title": "Statistics Card"
         },
         "animated-counter": {
           "title": "Animated Counter",
-          "description": "Number scrolling counter with various animation effects",
+          "description": "An animated counter component that displays numerical values with smooth counting animations and transitions. Perfect for statistics display, achievement counters, and metric presentations with customizable animation duration and easing functions.",
           "variants": {
             "minimalism": {
               "name": "Minimalism",
@@ -614,19 +664,19 @@ export default {
       },
       "advanced": {
         "calendar-date-picker": {
-          "description": "Calendar and date picker component for selecting dates with various calendar views",
+          "description": "An advanced calendar-based date picker component that provides users with an intuitive interface for selecting single dates, date ranges, or multiple dates. Features include month and year navigation, keyboard accessibility, and customizable date formatting options for flexible date selection scenarios.",
           "title": "Calendar Date Picker"
         },
         "file-upload": {
-          "description": "File upload component with drag-and-drop support and progress tracking",
+          "description": "A versatile file upload component that handles single and multiple file uploads with drag-and-drop support, file type validation, and progress tracking. Includes file preview thumbnails, upload cancellation, and comprehensive error handling for robust file management.",
           "title": "File Upload"
         },
         "rich-text-editor": {
-          "description": "Rich text editor component with formatting toolbar and WYSIWYG editing capabilities",
+          "description": "A comprehensive rich text editor component with formatting toolbar, content styling capabilities, and support for multiple text formats. Includes text manipulation, list formatting, link insertion, and extensible plugin architecture for enhanced content creation.",
           "title": "Rich Text Editor"
         },
         "color-picker": {
-          "description": "Color picker component for selecting colors from a palette or custom color input",
+          "description": "A sophisticated color picker component that enables users to select colors through multiple input methods including hex input, RGB sliders, HSL controls, and visual color palettes. Offers live preview, color history, and accessibility features for inclusive color selection experiences.",
           "title": "Color Picker"
         },
         "range-slider": {
@@ -659,7 +709,7 @@ export default {
             "material-brightness": {},
             "neumorphism-volume": {}
           },
-          "description": "Range slider component for selecting a range of values with dual handles",
+          "description": "A flexible range slider component for selecting single or multiple values within defined ranges. Features dual handles, custom step sizes, value labels, and smooth animations. Supports vertical and horizontal orientations with full keyboard accessibility.",
           "title": "Range Slider"
         },
         "custom-scrollbar": {
@@ -685,7 +735,7 @@ export default {
               "name": ""
             }
           },
-          "description": "Custom scrollbar component with styled scrollbars matching your design system",
+          "description": "A customizable scrollbar component that replaces default browser scrollbars with stylized alternatives. Supports vertical and horizontal scrolling with custom colors, widths, and animation effects while maintaining full accessibility and smooth scrolling performance.",
           "title": "Custom Scrollbar"
         },
         "scrollbar-thumb": {
@@ -707,24 +757,38 @@ export default {
               "name": ""
             }
           },
-          "description": "Scrollbar thumb component with customizable styling for scrollbar handles",
+          "description": "A custom scrollbar thumb component that provides visual indication of scroll position and enables scroll navigation. Features customizable styling, smooth tracking, and responsive behavior for enhanced scrolling experience and visual feedback.",
           "title": "Scrollbar Thumb"
         },
         "kanban-board": {
-          "description": "Kanban board component for managing tasks in columns with drag-and-drop functionality",
+          "description": "An advanced kanban board component for task and workflow management, featuring drag-and-drop card organization across multiple columns. Supports card creation, editing, deletion, and column customization for flexible project management and team collaboration.",
           "title": "Kanban Board"
         },
         "query-builder": {
-          "description": "Query builder component for constructing complex database queries visually",
+          "description": "A powerful query builder component for constructing database queries without coding, featuring drag-and-drop condition building, logical operators, and field selection. Supports filter grouping, query validation, and export functionality for flexible data querying.",
           "title": "Query Builder"
         },
         "code-editor": {
-          "description": "Code editor component with syntax highlighting and code editing features",
+          "description": "A powerful code editor component designed for developers, featuring syntax highlighting for multiple programming languages, real-time code validation, line numbering, and customizable themes. Supports keyboard shortcuts, code folding, and extensible plugin architecture for enhanced development workflows.",
           "title": "Code Editor"
         },
         "map-picker": {
-          "description": "Map picker component for selecting locations on an interactive map",
+          "description": "An interactive map-based location picker component that allows users to select geographical coordinates through map interaction, search functionality, and address input. Features location preview, zooming capabilities, and integration with geocoding services.",
           "title": "Map Picker"
+        },
+        "focus-navigator": {
+          "variants": {
+            "default": {
+              "description": "Clean focus navigation design with top progress label, section buttons, and up/down navigation buttons. Perfect for simple multi-section content.",
+              "name": "Clean & Simple"
+            },
+            "featured": {
+              "description": "Feature-rich focus navigation design with sidebar navigation, progress bar, section badges, and visual feedback. Perfect for complex multi-section applications.",
+              "name": "Featured with Sidebar"
+            }
+          },
+          "description": "Interactive focus navigator component that allows users to change focus position on the webpage by clicking buttons. Supports smooth scrolling, progress tracking, and multiple design variants.",
+          "title": "Focus Navigator"
         }
       },
       "interactive": {

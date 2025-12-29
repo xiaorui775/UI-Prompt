@@ -1,11 +1,10 @@
-import { useEffect, useMemo, useRef, useState, memo } from 'react';
-import { useWindowSize, calculateListHeight } from '../../hooks/useWindowSize';
+import { useCallback, useEffect, useMemo, useRef, useState, memo } from 'react';
+import { useWindowSize } from '../../hooks/useWindowSize';
 
 /**
  * VirtualGrid - 虛擬化固定高度 Grid 組件
  *
  * 專為 ComponentCard 等固定高度卡片設計的虛擬滾動組件
- * - 動態 import react-window 的 FixedSizeList，避免首屏体積增加
  * - 將 Grid 轉換為行列表，每行渲染多個卡片
  * - 響應式 column 計算
  *
@@ -17,19 +16,87 @@ import { useWindowSize, calculateListHeight } from '../../hooks/useWindowSize';
  * @module components/ui/VirtualGrid
  */
 
-// Extracted Row component for stable react-window reference
-const GridRow = memo(function GridRow({ ariaAttributes, index, style, rows, renderItem, gap, columnCount }) {
+function findRowStartIndex(rowOffsets, offset) {
+  if (!rowOffsets || rowOffsets.length < 2) return 0;
+  const lastRowIndex = rowOffsets.length - 2;
+
+  const clamped = Math.max(0, Math.min(offset, rowOffsets[rowOffsets.length - 1]));
+
+  let low = 0;
+  let high = rowOffsets.length - 1;
+
+  while (low < high) {
+    const mid = Math.floor((low + high + 1) / 2);
+    if (rowOffsets[mid] <= clamped) {
+      low = mid;
+    } else {
+      high = mid - 1;
+    }
+  }
+
+  return Math.min(low, lastRowIndex);
+}
+
+// Extracted Row component for stable rendering reference
+const GridRow = memo(function GridRow({
+  ariaAttributes,
+  index,
+  style,
+  rows,
+  renderItem,
+  gap,
+  columnCount,
+  minRowHeight,
+  onRowHeightChange
+}) {
   const rowItems = rows[index] || [];
+  const rowRef = useRef(null);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+    if (!onRowHeightChange) return undefined;
+
+    const element = rowRef.current;
+    if (!element) return undefined;
+
+    let rafId = null;
+    const reportHeight = () => {
+      if (rafId !== null) return;
+      rafId = window.requestAnimationFrame(() => {
+        rafId = null;
+        onRowHeightChange(index, element.getBoundingClientRect().height);
+      });
+    };
+
+    reportHeight();
+
+    if (typeof ResizeObserver !== 'undefined') {
+      const observer = new ResizeObserver(reportHeight);
+      observer.observe(element);
+      return () => {
+        observer.disconnect();
+        if (rafId !== null) window.cancelAnimationFrame(rafId);
+      };
+    }
+
+    window.addEventListener('resize', reportHeight);
+    return () => {
+      window.removeEventListener('resize', reportHeight);
+      if (rafId !== null) window.cancelAnimationFrame(rafId);
+    };
+  }, [index, onRowHeightChange]);
 
   return (
     <div
+      ref={rowRef}
       {...ariaAttributes}
       style={{
         ...style,
         display: 'grid',
         gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
         gap: gap,
-        paddingBottom: gap
+        paddingBottom: gap,
+        minHeight: minRowHeight
       }}
     >
       {rowItems.map((item, colIdx) => (
@@ -68,30 +135,15 @@ export function VirtualGrid({
     768: 3,   // md
     1024: 4   // lg
   },
-  listHeight: propListHeight,
   threshold = 20,
-  heightOffset = 112  // Header (64px) + padding (48px)
+  overscanCount = 2
 }) {
-  const [FixedSizeList, setFixedSizeList] = useState(null);
   const [columnCount, setColumnCount] = useState(breakpoints.default || 2);
   const containerRef = useRef(null);
+  const minRowHeight = itemHeight + gap;
 
-  // Dynamic height calculation based on window size
-  const { height: windowHeight } = useWindowSize();
-  const dynamicListHeight = propListHeight ?? calculateListHeight(windowHeight, heightOffset);
-
-  // 動態載入 react-window
-  useEffect(() => {
-    let mounted = true;
-    import('react-window').then((mod) => {
-      if (!mounted) return;
-      const List = mod.List || (mod.default && mod.default.List);
-      setFixedSizeList(() => List);
-    }).catch(() => {
-      // react-window 加載失敗，使用回退
-    });
-    return () => { mounted = false; };
-  }, []);
+  // 視窗高度：用於計算可見行範圍（window 捲動虛擬化）
+  const { height: viewportHeight } = useWindowSize();
 
   // 響應式列數計算
   useEffect(() => {
@@ -126,19 +178,103 @@ export function VirtualGrid({
     return result;
   }, [items, columnCount]);
 
-  // 計算行高（項目高度 + 間距）
-  const rowHeight = itemHeight + gap;
+  const [rowHeights, setRowHeights] = useState(() => []);
 
-  // Memoize rowProps for stable GridRow props
-  const rowProps = useMemo(() => ({
-    rows,
-    renderItem,
-    gap,
-    columnCount
-  }), [rows, renderItem, gap, columnCount]);
+  useEffect(() => {
+    setRowHeights(Array.from({ length: rows.length }, () => minRowHeight));
+  }, [minRowHeight, rows.length]);
 
-  // 回退：未載入 FixedSizeList 或項目太少時使用普通 Grid
-  if (!FixedSizeList || items.length <= threshold) {
+  const rowOffsets = useMemo(() => {
+    const offsets = new Array(rows.length + 1);
+    offsets[0] = 0;
+    for (let i = 0; i < rows.length; i += 1) {
+      const h = rowHeights[i] ?? minRowHeight;
+      offsets[i + 1] = offsets[i] + h;
+    }
+    return offsets;
+  }, [minRowHeight, rowHeights, rows.length]);
+
+  const totalHeight = rowOffsets[rows.length] || 0;
+
+  const [visibleRange, setVisibleRange] = useState(() => ({
+    startIndex: 0,
+    stopIndex: Math.min(rows.length - 1, 0)
+  }));
+
+  const handleRowHeightChange = useCallback((rowIndex, height) => {
+    if (!Number.isFinite(height)) return;
+    if (rowIndex < 0 || rowIndex >= rows.length) return;
+
+    const nextHeight = Math.max(minRowHeight, Math.ceil(height));
+
+    setRowHeights((prev) => {
+      const current = prev[rowIndex] ?? minRowHeight;
+      if (Math.abs(current - nextHeight) < 1) return prev;
+      const next = prev.length === rows.length ? [...prev] : Array.from({ length: rows.length }, () => minRowHeight);
+      next[rowIndex] = nextHeight;
+      return next;
+    });
+  }, [minRowHeight, rows.length]);
+
+  const updateVisibleRange = useCallback(() => {
+    if (typeof window === 'undefined') return;
+    if (items.length <= threshold) return;
+    const container = containerRef.current;
+    if (!container) return;
+
+    const rect = container.getBoundingClientRect();
+    const containerTop = rect.top + window.scrollY;
+    const scrollTopWithinContainer = Math.max(0, window.scrollY - containerTop);
+
+    const startBase = findRowStartIndex(rowOffsets, scrollTopWithinContainer);
+    const stopBase = findRowStartIndex(rowOffsets, scrollTopWithinContainer + viewportHeight);
+
+    const startIndex = Math.max(0, startBase - overscanCount);
+    const stopIndex = Math.min(rows.length - 1, stopBase + overscanCount);
+
+    setVisibleRange((prev) => {
+      if (prev.startIndex === startIndex && prev.stopIndex === stopIndex) return prev;
+      return { startIndex, stopIndex };
+    });
+  }, [items.length, overscanCount, rowOffsets, rows.length, threshold, viewportHeight]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+    if (items.length <= threshold) return undefined;
+
+    let rafId = null;
+    const scheduleUpdate = () => {
+      if (rafId !== null) return;
+      rafId = window.requestAnimationFrame(() => {
+        rafId = null;
+        updateVisibleRange();
+      });
+    };
+
+    updateVisibleRange();
+    window.addEventListener('scroll', scheduleUpdate, { passive: true });
+    window.addEventListener('resize', scheduleUpdate);
+
+    return () => {
+      window.removeEventListener('scroll', scheduleUpdate);
+      window.removeEventListener('resize', scheduleUpdate);
+      if (rafId !== null) window.cancelAnimationFrame(rafId);
+    };
+  }, [items.length, threshold, updateVisibleRange]);
+
+  const visibleRowIndexes = useMemo(() => {
+    if (rows.length === 0) return [];
+    const start = Math.max(0, Math.min(visibleRange.startIndex, rows.length - 1));
+    const stop = Math.min(visibleRange.stopIndex, rows.length - 1);
+    if (stop < start) return [];
+    return Array.from(
+      { length: stop - start + 1 },
+      (_, i) => start + i
+    );
+  }, [rows.length, visibleRange.startIndex, visibleRange.stopIndex]);
+
+  // 回退：項目太少時使用普通 Grid
+  if (items.length <= threshold) {
     return (
       <div
         ref={containerRef}
@@ -155,15 +291,38 @@ export function VirtualGrid({
   }
 
   return (
-    <div ref={containerRef}>
-      <FixedSizeList
-        rowCount={rows.length}
-        rowHeight={rowHeight}
-        overscanCount={2}
-        rowComponent={GridRow}
-        rowProps={rowProps}
-        style={{ height: dynamicListHeight, width: '100%' }}
-      />
+    <div
+      ref={containerRef}
+      role="list"
+      style={{
+        position: 'relative',
+        height: totalHeight,
+        width: '100%'
+      }}
+    >
+      {visibleRowIndexes.map((index) => (
+        <GridRow
+          key={index}
+          ariaAttributes={{
+            'aria-posinset': index + 1,
+            'aria-setsize': rows.length,
+            role: 'listitem'
+          }}
+          index={index}
+          rows={rows}
+          renderItem={renderItem}
+          gap={gap}
+          columnCount={columnCount}
+          minRowHeight={minRowHeight}
+          onRowHeightChange={handleRowHeightChange}
+          style={{
+            position: 'absolute',
+            left: 0,
+            transform: `translateY(${rowOffsets[index] || 0}px)`,
+            width: '100%'
+          }}
+        />
+      ))}
     </div>
   );
 }

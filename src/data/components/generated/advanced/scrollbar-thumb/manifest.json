@@ -2,14 +2,8 @@
   "id": "scrollbar-thumb",
   "category": "advanced",
   "component": {
-    "name": {
-      "zh-CN": "滚动条滑块",
-      "en-US": "Scrollbar Thumb"
-    },
-    "description": {
-      "zh-CN": "一个自定义滚动条滑块组件，提供滚动位置的视觉指示并启用滚动导航。包含可自定义的样式、流畅的跟踪和响应式行为，增强滚动体验和视觉反馈。",
-      "en-US": "A custom scrollbar thumb component that provides visual indication of scroll position and enables scroll navigation. Features customizable styling, smooth tracking, and responsive behavior for enhanced scrolling experience and visual feedback."
-    },
+    "name": "Scrollbar Thumb",
+    "description": "A custom scrollbar thumb component that provides visual indication of scroll position and enables scroll navigation. Features customizable styling, smooth tracking, and responsive behavior for enhanced scrolling experience and visual feedback.",
     "tags": [
       "advanced"
     ],
@@ -18,53 +12,29 @@
   "variants": [
     {
       "id": "minimal-modern",
-      "name": {
-        "zh-CN": "现代极简",
-        "en-US": "Minimal Modern"
-      },
-      "description": {
-        "zh-CN": "光滑的滚动条滑块实现，采用现代风格、流畅动画和清晰的可见性指示。提供精确的滚动位置反馈，同时保持对内容的最小视觉干扰。",
-        "en-US": "A sleek scrollbar thumb implementation featuring modern styling, smooth animations, clear visibility indicators, and intuitive hover states. Provides precise scroll position feedback while maintaining minimal visual intrusion on content with excellent responsive behavior."
-      },
+      "name": "Minimal Modern",
+      "description": "A sleek scrollbar thumb implementation featuring modern styling, smooth animations, clear visibility indicators, and intuitive hover states. Provides precise scroll position feedback while maintaining minimal visual intrusion on content with excellent responsive behavior.",
       "hasContent": true,
       "hasStyles": true
     },
     {
       "id": "gradient-effects",
-      "name": {
-        "zh-CN": "渐变效果",
-        "en-US": "Gradient Effects"
-      },
-      "description": {
-        "zh-CN": "渐变效果风格的滚动条滑块实现",
-        "en-US": "Scrollbar Thumb implementation in Gradient Effects style"
-      },
+      "name": "Gradient Effects",
+      "description": "Scrollbar Thumb implementation in Gradient Effects style",
       "hasContent": true,
       "hasStyles": true
     },
     {
       "id": "brand-customizable",
-      "name": {
-        "zh-CN": "品牌定制",
-        "en-US": "Brand Customizable"
-      },
-      "description": {
-        "zh-CN": "品牌定制风格的滚动条滑块实现",
-        "en-US": "Scrollbar Thumb implementation in Brand Customizable style"
-      },
+      "name": "Brand Customizable",
+      "description": "Scrollbar Thumb implementation in Brand Customizable style",
       "hasContent": true,
       "hasStyles": true
     },
     {
       "id": "interactive-enhanced",
-      "name": {
-        "zh-CN": "交互增强",
-        "en-US": "Interactive Enhanced"
-      },
-      "description": {
-        "zh-CN": "交互增强风格的滚动条滑块实现",
-        "en-US": "Scrollbar Thumb implementation in Interactive Enhanced style"
-      },
+      "name": "Interactive Enhanced",
+      "description": "Scrollbar Thumb implementation in Interactive Enhanced style",
       "hasContent": true,
       "hasStyles": true
     }

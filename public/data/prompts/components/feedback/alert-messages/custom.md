@@ -1,46 +1,31 @@
-# Custom Prompt
+# Alert Messages
 
-## 中文版本 (zh-CN)
+## Prompt (en-US)
 
-### 警告消息
-
-警告消息组件，用于向用户显示成功、警告、错误和信息通知
-
-**分类**：反馈组件
-
-**使用指南**：
-此组件可以与不同的 UI 风格变体进行自定义。选择适合您设计系统的变体。
-
-**可用变体**：
-- **极简主义**：简洁极简的警告消息设计，带有简单的边框和间距
-- **玻璃态**：玻璃态警告消息设计，具有毛玻璃效果
-- **新粗野主义**：新粗野主义警告消息设计，带有粗边框和颜色
-- **新拟态**：新拟态警告消息设计，带有柔和的阴影和高光
-- **Material**：Material Design 警告消息设计，带有提升效果和Material原则
-
-**实施注意事项**：
-- 确保适当的可访问性属性
-- 在不同屏幕尺寸上进行测试
-- 验证颜色对比度以确保可读性
+Create alert message components for displaying success, warning, error, and info notifications. Feature clear visual hierarchy with icons, dismissible option, and consistent styling. Support inline and banner formats.
 
 ---
 
-## English Version (en-US)
+## 提示詞 (zh-CN)
 
-### Alert Messages
+### 組件描述
+警告消息組件用於顯示成功、警告、錯誤和信息通知，適用於表單驗證、操作結果、系統狀態等場景。
 
-Alert message component for displaying success, warning, error, and info notifications to users
+### 視覺要點
+- 類型區分顏色（成功綠、錯誤紅、警告黃、信息藍）
+- 左側圖標增強識別
+- 消息標題和詳細內容
+- 可關閉按鈕（可選）
+- 圓角邊框
 
-**Category**: Feedback Components
+### 互動設計
+- 點擊關閉按鈕消失
+- 可選：動畫進入/退出
+- 支援操作按鈕（重試、查看詳情）
 
-**Usage Guidelines**:
-This component can be customized with different UI style variants. Choose the variant that best fits your design system.
-
-
-**Implementation Notes**:
-- Ensure proper accessibility attributes
-- Test across different screen sizes
-- Validate color contrast for readability
-
-
----
+### 變體風格
+- **極簡**：細邊框、簡潔樣式
+- **玻璃態**：毛玻璃背景
+- **新粗野**：粗邊框、撞色
+- **新擬物**：柔和凹凸
+- **Material**：提升陰影

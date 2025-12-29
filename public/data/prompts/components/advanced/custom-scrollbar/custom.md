@@ -1,46 +1,31 @@
-# Custom Prompt
+# Custom Scrollbar
 
-## 中文版本 (zh-CN)
+## Prompt (en-US)
 
-### 自定义滚动条
-
-自定义滚动条组件，具有与设计系统匹配的样式化滚动条
-
-**分类**：进阶组件
-
-**使用指南**：
-此组件可以与不同的 UI 风格变体进行自定义。选择适合您设计系统的变体。
-
-**可用变体**：
-- **Material Design**：Material Design 自定义滚动条设计，带有提升效果
-- **玻璃态**：玻璃态自定义滚动条设计，具有毛玻璃效果
-- **霓虹赛博朋克**：霓虹赛博朋克自定义滚动条设计，带有未来科技感
-- **极简扁平**：极简扁平自定义滚动条设计，带有简单的样式
-- **渐变彩虹**：渐变彩虹自定义滚动条设计，带有多彩渐变效果
-
-**实施注意事项**：
-- 确保适当的可访问性属性
-- 在不同屏幕尺寸上进行测试
-- 验证颜色对比度以确保可读性
+Create a customizable scrollbar replacing default browser scrollbars with stylized alternatives. Support vertical/horizontal scrolling with custom colors, widths, and hover animations while maintaining smooth performance and accessibility.
 
 ---
 
-## English Version (en-US)
+## 提示詞 (zh-CN)
 
-### Custom Scrollbar
+### 組件描述
+自定義滾動條替換瀏覽器默認滾動條，提供與設計系統一致的視覺體驗，適用於需要精細UI控制的應用。
 
-Custom scrollbar component with styled scrollbars matching your design system
+### 視覺要點
+- 可配置軌道和滑塊顏色
+- 可調節寬度（4-12px）
+- 圓角滑塊
+- 軌道背景透明或淺色
+- 滾動時淡入顯示（可選）
 
-**Category**: Advanced Components
+### 互動設計
+- 懸停時滑塊變寬或變亮
+- 拖拽滑塊滾動內容
+- 點擊軌道跳轉位置
 
-**Usage Guidelines**:
-This component can be customized with different UI style variants. Choose the variant that best fits your design system.
-
-
-**Implementation Notes**:
-- Ensure proper accessibility attributes
-- Test across different screen sizes
-- Validate color contrast for readability
-
-
----
+### 變體風格
+- **Material**：標準陰影、提升效果
+- **玻璃態**：毛玻璃背景、透明邊框
+- **賽博朋克**：霓虹發光、未來感
+- **極簡扁平**：細線、無裝飾
+- **彩虹漸層**：多彩漸變效果

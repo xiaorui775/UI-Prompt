@@ -1,40 +1,28 @@
-# Custom Prompt
+# Query Builder
 
-## 中文版本 (zh-CN)
+## Prompt (en-US)
 
-### 查询构建器
-
-查询构建器组件，用于可视化构建复杂的数据库查询
-
-**分类**：进阶组件
-
-**使用指南**：
-此组件可以与不同的 UI 风格变体进行自定义。选择适合您设计系统的变体。
-
-
-**实施注意事项**：
-- 确保适当的可访问性属性
-- 在不同屏幕尺寸上进行测试
-- 验证颜色对比度以确保可读性
+Create a powerful query builder for constructing database queries visually without coding. Feature drag-and-drop condition building, logical operators (AND/OR), field selection, and nested grouping. Support query validation and SQL export.
 
 ---
 
-## English Version (en-US)
+## 提示詞 (zh-CN)
 
-### Query Builder
+### 組件描述
+查詢構建器以可視化方式構建數據庫查詢，適用於報表篩選、數據分析、後台管理等場景。
 
-Query builder component for constructing complex database queries visually
+### 視覺要點
+- 規則行：字段選擇 + 操作符 + 值輸入
+- AND/OR 邏輯切換按鈕
+- 嵌套分組縮進顯示
+- 新增/刪除規則按鈕
+- 導出 SQL 預覽區域
 
-**Category**: Advanced Components
+### 互動設計
+- 拖拽重排規則順序
+- 點擊切換 AND/OR
+- 動態新增條件
+- 實時驗證反饋
 
-**Usage Guidelines**:
-This component can be customized with different UI style variants. Choose the variant that best fits your design system.
-
-
-**Implementation Notes**:
-- Ensure proper accessibility attributes
-- Test across different screen sizes
-- Validate color contrast for readability
-
-
----
+### 變體風格
+- **默認**：直觀界面、拖拽支持、驗證提示

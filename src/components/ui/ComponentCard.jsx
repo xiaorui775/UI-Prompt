@@ -8,6 +8,7 @@ import { injectAppStylesIntoIframe } from '../../utils/previewCss';
 import { useSharedIntersectionObserver } from '../../hooks/useSharedIntersectionObserver';
 import { useLazyComponentContent } from '../../hooks/useLazyComponentContent';
 import { scheduleIdleCallback } from '../../utils/idleCallbackBatcher';
+import { createI18nResolver } from '../../utils/i18n/resolveI18nValue';
 import appCssUrl from '../../index.css?url';
 
 /**
@@ -65,11 +66,13 @@ function ComponentCardComponent({
   const { language, t } = useLanguage();
   const iframeRef = useRef(null);
   const containerRef = useRef(null);
+  const descriptionRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
   const [isIntersecting, setIsIntersecting] = useState(false);
   const [readyToInject, setReadyToInject] = useState(false); // requestIdleCallback 双條件
   const [hasInjected, setHasInjected] = useState(false); // 避免重複注入
   const [isDescExpanded, setIsDescExpanded] = useState(false); // Read more 狀態
+  const [isDescOverflowing, setIsDescOverflowing] = useState(false); // 描述是否超出 3 行
 
   // Use shared IntersectionObserver for efficient visibility detection
   const sharedObserverRef = useSharedIntersectionObserver(
@@ -198,35 +201,60 @@ function ComponentCardComponent({
     }
   };
 
-  // 截取描述的第一句話 (最多 80 字符)
-  // 支持 i18n 對象或字符串格式
-  const getI18nText = (text) => {
-    if (!text) return '';
+  // Resolve i18n value (object / key / plain text) to current language
+  const resolveText = useMemo(() => createI18nResolver(language, t), [language, t]);
 
-    // 如果是 i18n 對象（含有語言鍵），選擇當前語言版本
-    if (typeof text === 'object' && text !== null) {
-      // 直接使用 language 值（'zh-CN' 或 'en-US'）
-      return text[language] || text['zh-CN'] || '';
+  const titleText = resolveText(title);
+  const descText = resolveText(description);
+
+  // 內容/語言切換時重置展開狀態
+  useEffect(() => {
+    setIsDescExpanded(false);
+  }, [descText]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+    const element = descriptionRef.current;
+    if (!element) return undefined;
+
+    const LINE_HEIGHT = 20;
+    const MAX_LINES = 3;
+
+    let rafId = null;
+    const checkOverflow = () => {
+      const el = descriptionRef.current;
+      if (!el) return;
+      const lines = Math.ceil(el.scrollHeight / LINE_HEIGHT);
+      const overflowByLines = lines > MAX_LINES;
+      const overflowByHeight = (el.scrollHeight - el.clientHeight) > 1;
+      setIsDescOverflowing(overflowByLines || overflowByHeight);
+    };
+
+    const scheduleCheck = () => {
+      if (rafId !== null) return;
+      rafId = window.requestAnimationFrame(() => {
+        rafId = null;
+        checkOverflow();
+      });
+    };
+
+    scheduleCheck();
+
+    if (typeof ResizeObserver !== 'undefined') {
+      const observer = new ResizeObserver(scheduleCheck);
+      observer.observe(element);
+      return () => {
+        observer.disconnect();
+        if (rafId !== null) window.cancelAnimationFrame(rafId);
+      };
     }
 
-    // 如果是字符串，直接返回
-    return typeof text === 'string' ? text : '';
-  };
-
-  const titleText = getI18nText(title);
-  const descText = getI18nText(description);
-
-  // 描述長度閾值（中英文不同）
-  // 中文字符信息密度更高，所以使用較小的閾值
-  // 中文：約 45 字符（約 2-3 行）
-  // 英文：約 120 字符（約 2-3 行）
-  const DESC_THRESHOLD = language === 'zh-CN' ? 45 : 120;
-  const needsTruncation = descText.length > DESC_THRESHOLD;
-
-  // 根據展開狀態決定顯示的描述
-  const displayDescription = isDescExpanded
-    ? descText
-    : (needsTruncation ? descText.slice(0, DESC_THRESHOLD) + '...' : descText);
+    window.addEventListener('resize', scheduleCheck);
+    return () => {
+      window.removeEventListener('resize', scheduleCheck);
+      if (rafId !== null) window.cancelAnimationFrame(rafId);
+    };
+  }, [descText]);
 
   // 處理 Read more/Show less 點擊
   const handleReadMoreClick = (e) => {
@@ -257,14 +285,14 @@ function ComponentCardComponent({
           </div>
         )}
 
-        {isIntersecting && hasContent ? (
-          <iframe
-            ref={iframeRef}
-            title={`${title}-preview`}
-            className="w-full h-full border-0 pointer-events-none"
-            style={{
-              transform: 'scale(0.65)',
-              transformOrigin: 'top left',
+	        {isIntersecting && hasContent ? (
+	          <iframe
+	            ref={iframeRef}
+	            title={`${titleText}-preview`}
+	            className="w-full h-full border-0 pointer-events-none"
+	            style={{
+	              transform: 'scale(0.65)',
+	              transformOrigin: 'top left',
               width: '154%',
               height: '154%'
             }}
@@ -327,20 +355,23 @@ function ComponentCardComponent({
           {titleText}
         </h3>
 
-        {/* 描述區域 */}
-        <div className="space-y-1">
-          <p className={`text-xs text-gray-600 dark:text-gray-300 leading-relaxed ${!isDescExpanded ? 'line-clamp-3' : ''}`}>
-            {displayDescription}
-          </p>
-          {needsTruncation && (
-            <button
-              onClick={handleReadMoreClick}
-              className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors"
-            >
-              {isDescExpanded ? t('ui.showLess') || '↑ Show less' : t('ui.readMore') || '→ Read more'}
-            </button>
-          )}
-        </div>
+	        {/* 描述區域 */}
+	        <div className="space-y-1">
+	          <p
+	            ref={descriptionRef}
+	            className={`text-xs text-gray-600 dark:text-gray-300 leading-relaxed ${!isDescExpanded ? 'line-clamp-3' : ''}`}
+	          >
+	            {descText}
+	          </p>
+	          {(isDescOverflowing || isDescExpanded) && (
+	            <button
+	              onClick={handleReadMoreClick}
+	              className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors"
+	            >
+	              {isDescExpanded ? t('ui.showLess') || '↑ Show less' : t('ui.readMore') || '→ Read more'}
+	            </button>
+	          )}
+	        </div>
       </div>
     </div>
   );

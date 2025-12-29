@@ -277,10 +277,14 @@ function StylePreviewContent({ style }) {
 
   // ========== Generate prompt content (lazy) ==========
   const [promptContent, setPromptContent] = useState('');
+  const [stylePromptContent, setStylePromptContent] = useState('');
+  const [customPromptContent, setCustomPromptContent] = useState('');
   const [isGeneratingPrompt, setIsGeneratingPrompt] = useState(false);
 
   useEffect(() => {
     setPromptContent('');
+    setStylePromptContent('');
+    setCustomPromptContent('');
     setIsGeneratingPrompt(false);
   }, [style.id, activeIndex, language]);
 
@@ -293,6 +297,19 @@ function StylePreviewContent({ style }) {
     const timeoutId = window.setTimeout(() => {
       if (cancelled) return;
       try {
+        // 分別提取 stylePrompt 和 customPrompt
+        // 優先使用 currentPreview 的 prompt，其次使用 style 的 prompt
+        const extractedStylePrompt =
+          currentPreview?.stylePrompt?.[language] ||
+          style?.stylePrompt?.[language] ||
+          '';
+
+        const extractedCustomPrompt =
+          currentPreview?.customPrompt?.[language] ||
+          style?.customPrompt?.[language] ||
+          '';
+
+        // 保持向後兼容的 promptContent
         const generated = PreviewPromptGenerator.generate(
           style,
           style.description || '',
@@ -306,10 +323,19 @@ function StylePreviewContent({ style }) {
           '', // previewColorScheme
           currentPreview
         );
-        if (!cancelled) setPromptContent(generated);
+
+        if (!cancelled) {
+          setPromptContent(generated);
+          setStylePromptContent(extractedStylePrompt);
+          setCustomPromptContent(extractedCustomPrompt);
+        }
       } catch (error) {
         logger.error('Error generating prompt:', error);
-        if (!cancelled) setPromptContent('');
+        if (!cancelled) {
+          setPromptContent('');
+          setStylePromptContent('');
+          setCustomPromptContent('');
+        }
       } finally {
         if (!cancelled) setIsGeneratingPrompt(false);
       }
@@ -394,6 +420,8 @@ function StylePreviewContent({ style }) {
         onClose={() => setShowPrompt(false)}
         title={`${displayTitle} - Prompt`}
         content={promptContent}
+        stylePrompt={stylePromptContent}
+        customPrompt={customPromptContent}
         isGenerating={isGeneratingPrompt}
       />
     </>

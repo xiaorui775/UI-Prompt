@@ -1,40 +1,28 @@
-# Custom Prompt
+# Rich Textarea
 
-## 中文版本 (zh-CN)
+## Prompt (en-US)
 
-### 富文本域
-
-富文本文本域组件，具有格式化功能和增强的编辑特性
-
-**分类**：输入组件
-
-**使用指南**：
-此组件可以与不同的 UI 风格变体进行自定义。选择适合您设计系统的变体。
-
-
-**实施注意事项**：
-- 确保适当的可访问性属性
-- 在不同屏幕尺寸上进行测试
-- 验证颜色对比度以确保可读性
+Create a rich textarea with auto-growing height, character counter, and formatting hints. Support markdown preview, syntax highlighting, and customizable placeholder. Feature resize handles and maximum character limit display.
 
 ---
 
-## English Version (en-US)
+## 提示詞 (zh-CN)
 
-### Rich Textarea
+### 組件描述
+富文本域結合基礎文本輸入和增強功能，適用於評論輸入、描述填寫、Markdown 編輯等場景。
 
-Rich text textarea component with formatting capabilities and enhanced editing features
+### 視覺要點
+- 自動增長高度
+- 字符計數顯示
+- 可選工具欄（格式化提示）
+- 邊框聚焦狀態
+- Markdown 預覽區（可選）
 
-**Category**: Input Components
+### 互動設計
+- 輸入時高度自動調整
+- 超出字符限制警告
+- 拖拽調整大小（可選）
+- 鍵盤快捷鍵格式化
 
-**Usage Guidelines**:
-This component can be customized with different UI style variants. Choose the variant that best fits your design system.
-
-
-**Implementation Notes**:
-- Ensure proper accessibility attributes
-- Test across different screen sizes
-- Validate color contrast for readability
-
-
----
+### 變體風格
+- **默認**：自動擴展、字符計數、視覺反饋

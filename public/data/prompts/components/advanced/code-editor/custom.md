@@ -1,40 +1,28 @@
-# Custom Prompt
+# Code Editor
 
-## 中文版本 (zh-CN)
+## Prompt (en-US)
 
-### 代码编辑器
-
-代码编辑器组件，具有语法高亮和代码编辑功能
-
-**分类**：进阶组件
-
-**使用指南**：
-此组件可以与不同的 UI 风格变体进行自定义。选择适合您设计系统的变体。
-
-
-**实施注意事项**：
-- 确保适当的可访问性属性
-- 在不同屏幕尺寸上进行测试
-- 验证颜色对比度以确保可读性
+Create a powerful code editor with syntax highlighting for multiple languages, line numbering, and customizable themes. Feature keyboard shortcuts, code folding, real-time validation, and Mac-style window controls for an enhanced development experience.
 
 ---
 
-## English Version (en-US)
+## 提示詞 (zh-CN)
 
-### Code Editor
+### 組件描述
+代碼編輯器為開發者提供專業的代碼編寫環境，適用於在線 IDE、代碼片段展示、教學平台等場景。
 
-Code editor component with syntax highlighting and code editing features
+### 視覺要點
+- 等寬字體（Fira Code、JetBrains Mono）
+- 行號左側欄
+- 語法高亮（關鍵字、字符串、註釋等）
+- 深色主題背景（Tokyo Night、Dracula）
+- Mac 風格窗口控制按鈕（紅黃綠）
 
-**Category**: Advanced Components
+### 互動設計
+- 代碼選中高亮
+- 代碼折疊展開
+- 智能縮進
+- 括號匹配
 
-**Usage Guidelines**:
-This component can be customized with different UI style variants. Choose the variant that best fits your design system.
-
-
-**Implementation Notes**:
-- Ensure proper accessibility attributes
-- Test across different screen sizes
-- Validate color contrast for readability
-
-
----
+### 變體風格
+- **默認**：Tokyo Night 深色主題、Mac 窗口控制、流暢動畫

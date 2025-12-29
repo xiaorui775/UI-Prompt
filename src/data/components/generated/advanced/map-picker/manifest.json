@@ -2,14 +2,8 @@
   "id": "map-picker",
   "category": "advanced",
   "component": {
-    "name": {
-      "zh-CN": "地图选择器",
-      "en-US": "Map Picker"
-    },
-    "description": {
-      "zh-CN": "一个交互式的基于地图的位置选择器组件，允许用户通过地图交互、搜索功能和地址输入选择地理坐标。包含位置预览、缩放功能和地理编码服务集成。",
-      "en-US": "An interactive map-based location picker component that allows users to select geographical coordinates through map interaction, search functionality, and address input. Features location preview, zooming capabilities, and integration with geocoding services."
-    },
+    "name": "Map Picker",
+    "description": "An interactive map-based location picker component that allows users to select geographical coordinates through map interaction, search functionality, and address input. Features location preview, zooming capabilities, and integration with geocoding services.",
     "tags": [
       "advanced"
     ],
@@ -18,14 +12,8 @@
   "variants": [
     {
       "id": "default",
-      "name": {
-        "zh-CN": "默认样式",
-        "en-US": "Default"
-      },
-      "description": {
-        "zh-CN": "交互式地图选择器，支持拖拽地图、搜索位置、缩放控制和实时坐标显示。带有红色标记针、网格背景、公园和水体图层，提供完整的位置选择体验。",
-        "en-US": "Interactive map picker with drag-to-pan, location search, zoom controls, and real-time coordinate display. Features red marker pin, grid background, park and water layers for a complete location selection experience."
-      },
+      "name": "Default",
+      "description": "Interactive map picker with drag-to-pan, location search, zoom controls, and real-time coordinate display. Features red marker pin, grid background, park and water layers for a complete location selection experience.",
       "hasContent": true,
       "hasStyles": true
     }

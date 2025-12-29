@@ -24,6 +24,9 @@ async function fetchText(url) {
 
 /**
  * 解析 Markdown 格式的 Prompt 為雙語對象
+ * 支持兩種格式：
+ * - Style 格式: ## 中文版本 (zh-CN) / ## English Version (en-US)
+ * - Component 格式: ## 提示詞 (zh-CN) / ## Prompt (en-US)
  * @param {string} md - Markdown 內容
  * @returns {Object} 雙語對象 { 'zh-CN': '...', 'en-US': '...' }
  */
@@ -32,10 +35,15 @@ export function parsePromptMd(md) {
     return { 'zh-CN': '', 'en-US': '' };
   }
 
-  // 提取中文版本
-  const zhMatch = md.match(/## 中文版本[^\n]*\n([\s\S]*?)(?=\n---\n|\n## English|$)/);
-  // 提取英文版本
-  const enMatch = md.match(/## English Version[^\n]*\n([\s\S]*?)$/);
+  // 中文內容匹配：支持 "中文版本" 或 "提示詞"
+  const zhMatch = md.match(
+    /##\s*(?:中文版本|提示詞)\s*(?:\([^)]*\))?\s*\n([\s\S]*?)(?=\n---|\n##\s*(?:English|Prompt)|$)/i
+  );
+
+  // 英文內容匹配：支持 "English Version" 或 "Prompt"
+  const enMatch = md.match(
+    /##\s*(?:English\s*Version|Prompt)\s*(?:\([^)]*\))?\s*\n([\s\S]*?)(?=\n---|\n##\s*(?:中文|提示詞)|$)/i
+  );
 
   return {
     'zh-CN': zhMatch ? zhMatch[1].trim() : '',

@@ -64,7 +64,8 @@ export function PreviewModal({
   previews,
   colorScheme = null,
   variant = null,
-  stylePrompt = null
+  stylePrompt = null,
+  customPrompt = null
 }) {
   const { t, language } = useLanguage();
 
@@ -109,7 +110,7 @@ export function PreviewModal({
   }, [isOpen, isReactPreview, fullPagePreviewId, previewsList.length, setLoading]);
 
   // 構建 Prompt 內容
-  const promptContent = useMemo(() => {
+  const { promptContent, stylePromptContent, customPromptContent } = useMemo(() => {
     const previewDescription = currentPreview?.description
       ? resolveI18nValue(currentPreview.description, language, t)
       : '';
@@ -120,13 +121,15 @@ export function PreviewModal({
       title: displayTitle,
       description: displayDescription,
       stylePrompt,
+      customPrompt,
       fullPageHTML: previewsList.length > 0
         ? (previewsList[activeIndex]?.html || previewsList[0]?.html || '')
         : (fullPageHTML || htmlContent),
       demoHTML: htmlContent
     };
 
-    return PreviewPromptGenerator.generate(
+    // 生成向後兼容的 promptContent
+    const generatedPrompt = PreviewPromptGenerator.generate(
       styleObject,
       displayDescription,
       styleObject.fullPageHTML,
@@ -136,9 +139,27 @@ export function PreviewModal({
       previewColorScheme,
       currentPreview
     );
+
+    // 分別提取 stylePrompt 和 customPrompt
+    // 優先使用 currentPreview 的 prompt，其次使用傳入的 props
+    const extractedStylePrompt =
+      currentPreview?.stylePrompt?.[language] ||
+      (typeof stylePrompt === 'object' ? stylePrompt?.[language] : stylePrompt) ||
+      '';
+
+    const extractedCustomPrompt =
+      currentPreview?.customPrompt?.[language] ||
+      (typeof customPrompt === 'object' ? customPrompt?.[language] : customPrompt) ||
+      '';
+
+    return {
+      promptContent: generatedPrompt,
+      stylePromptContent: extractedStylePrompt,
+      customPromptContent: extractedCustomPrompt
+    };
   }, [
     currentPreview, language, t, displayTitle, displayDescription,
-    stylePrompt, previewsList, activeIndex, fullPageHTML, htmlContent, colorScheme
+    stylePrompt, customPrompt, previewsList, activeIndex, fullPageHTML, htmlContent, colorScheme
   ]);
 
   // 構建預覽 HTML
@@ -287,6 +308,8 @@ export function PreviewModal({
         onClose={closePrompt}
         title={t('preview.promptTitle', { title: displayTitle })}
         content={promptContent}
+        stylePrompt={stylePromptContent}
+        customPrompt={customPromptContent}
       />
     </>
   );
@@ -346,6 +369,14 @@ PreviewModal.propTypes = {
   }),
   /** 風格 Prompt */
   stylePrompt: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.shape({
+      'zh-CN': PropTypes.string,
+      'en-US': PropTypes.string
+    })
+  ]),
+  /** 自定義 Prompt */
+  customPrompt: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.shape({
       'zh-CN': PropTypes.string,

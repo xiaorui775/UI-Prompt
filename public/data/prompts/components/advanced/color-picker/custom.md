@@ -1,40 +1,28 @@
-# Custom Prompt
+# Color Picker
 
-## 中文版本 (zh-CN)
+## Prompt (en-US)
 
-### 颜色选择器
-
-颜色选择器组件，用于从调色板或自定义颜色输入中选择颜色
-
-**分类**：进阶组件
-
-**使用指南**：
-此组件可以与不同的 UI 风格变体进行自定义。选择适合您设计系统的变体。
-
-
-**实施注意事项**：
-- 确保适当的可访问性属性
-- 在不同屏幕尺寸上进行测试
-- 验证颜色对比度以确保可读性
+Create a sophisticated color picker with multiple input methods: hex input, RGB/HSL sliders, and visual color palettes. Feature live preview, color history, preset swatches, and accessibility support for inclusive color selection.
 
 ---
 
-## English Version (en-US)
+## 提示詞 (zh-CN)
 
-### Color Picker
+### 組件描述
+顏色選擇器提供多種顏色輸入方式，適用於設計工具、主題定制、圖像編輯等場景。
 
-Color picker component for selecting colors from a palette or custom color input
+### 視覺要點
+- 色相/飽和度漸層面板
+- 色相條滑塊
+- 透明度滑塊（可選）
+- 預設調色板格子
+- 當前顏色預覽區
 
-**Category**: Advanced Components
+### 互動設計
+- 拖拽選擇顏色
+- 輸入框直接輸入 HEX/RGB
+- 點擊預設色塊快速選擇
+- 顏色歷史記錄
 
-**Usage Guidelines**:
-This component can be customized with different UI style variants. Choose the variant that best fits your design system.
-
-
-**Implementation Notes**:
-- Ensure proper accessibility attributes
-- Test across different screen sizes
-- Validate color contrast for readability
-
-
----
+### 變體風格
+- **默認**：完整控件、流暢過渡、響應式設計

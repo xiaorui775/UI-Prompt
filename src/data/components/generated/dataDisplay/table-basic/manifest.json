@@ -2,14 +2,8 @@
   "id": "table-basic",
   "category": "dataDisplay",
   "component": {
-    "name": {
-      "zh-CN": "基础表格",
-      "en-US": "Basic Table"
-    },
-    "description": {
-      "zh-CN": "一个基础表格组件，用于以有组织的格式显示带有标题、行和列的表格数据。支持排序、筛选、分页和响应式行为，同时保持清晰和无障碍，实现有效的数据展示。",
-      "en-US": "A foundational table component for displaying tabular data with headers, rows, and columns in organized format. Supports sorting, filtering, pagination, and responsive behavior while maintaining clarity and accessibility for effective data presentation."
-    },
+    "name": "Basic Table",
+    "description": "A foundational table component for displaying tabular data with headers, rows, and columns in organized format. Supports sorting, filtering, pagination, and responsive behavior while maintaining clarity and accessibility for effective data presentation.",
     "tags": [
       "dataDisplay",
       "table",
@@ -21,66 +15,36 @@
   "variants": [
     {
       "id": "minimalism",
-      "name": {
-        "zh-CN": "极简风格",
-        "en-US": "Minimalism"
-      },
-      "description": {
-        "zh-CN": "结构良好的表格实现，具有清晰的标题、有组织的行和响应式滚动。提供有效的表格数据可视化，具有直观的交互模式用于数据浏览和探索。",
-        "en-US": "A well-structured table implementation featuring clear headers, organized rows, responsive scrolling, and intuitive controls. Provides effective tabular data visualization with intuitive interaction patterns for data browsing and exploration across all devices."
-      },
+      "name": "Minimalism",
+      "description": "A well-structured table implementation featuring clear headers, organized rows, responsive scrolling, and intuitive controls. Provides effective tabular data visualization with intuitive interaction patterns for data browsing and exploration across all devices.",
       "hasContent": true,
       "hasStyles": true
     },
     {
       "id": "bootstrap5",
-      "name": {
-        "zh-CN": "Bootstrap 5",
-        "en-US": "Bootstrap 5"
-      },
-      "description": {
-        "zh-CN": "Bootstrap 5风格的基础表格实现",
-        "en-US": "Basic Table implementation in Bootstrap 5 style"
-      },
+      "name": "Bootstrap 5",
+      "description": "Basic Table implementation in Bootstrap 5 style",
       "hasContent": true,
       "hasStyles": true
     },
     {
       "id": "neo-brutalism",
-      "name": {
-        "zh-CN": "新残酷主义",
-        "en-US": "Neo Brutalism"
-      },
-      "description": {
-        "zh-CN": "新残酷主义风格的基础表格实现",
-        "en-US": "Basic Table implementation in Neo Brutalism style"
-      },
+      "name": "Neo Brutalism",
+      "description": "Basic Table implementation in Neo Brutalism style",
       "hasContent": true,
       "hasStyles": true
     },
     {
       "id": "glassmorphism",
-      "name": {
-        "zh-CN": "玻璃拟态",
-        "en-US": "Glassmorphism"
-      },
-      "description": {
-        "zh-CN": "玻璃拟态风格的基础表格实现",
-        "en-US": "Basic Table implementation in Glassmorphism style"
-      },
+      "name": "Glassmorphism",
+      "description": "Basic Table implementation in Glassmorphism style",
       "hasContent": true,
       "hasStyles": true
     },
     {
       "id": "neumorphism",
-      "name": {
-        "zh-CN": "拟态风格",
-        "en-US": "Neumorphism"
-      },
-      "description": {
-        "zh-CN": "拟态风格风格的基础表格实现",
-        "en-US": "Basic Table implementation in Neumorphism style"
-      },
+      "name": "Neumorphism",
+      "description": "Basic Table implementation in Neumorphism style",
       "hasContent": true,
       "hasStyles": true
     }

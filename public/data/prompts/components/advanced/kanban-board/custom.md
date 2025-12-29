@@ -1,40 +1,29 @@
-# Custom Prompt
+# Kanban Board
 
-## 中文版本 (zh-CN)
+## Prompt (en-US)
 
-### 看板
-
-看板组件，用于在列中管理任务，具有拖放功能
-
-**分类**：进阶组件
-
-**使用指南**：
-此组件可以与不同的 UI 风格变体进行自定义。选择适合您设计系统的变体。
-
-
-**实施注意事项**：
-- 确保适当的可访问性属性
-- 在不同屏幕尺寸上进行测试
-- 验证颜色对比度以确保可读性
+Create an advanced kanban board for task and workflow management with drag-and-drop card organization. Feature multiple columns, card creation/editing, column customization, and visual progress tracking for team collaboration.
 
 ---
 
-## English Version (en-US)
+## 提示詞 (zh-CN)
 
-### Kanban Board
+### 組件描述
+看板組件用於任務和工作流管理，支持拖拽排序，適用於項目管理、敏捷開發、任務追蹤等場景。
 
-Kanban board component for managing tasks in columns with drag-and-drop functionality
+### 視覺要點
+- 列標題帶任務計數
+- 卡片顯示標題、標籤、截止日期
+- 列之間明確分隔
+- 拖拽時卡片半透明
+- 可選：用戶頭像、進度條
 
-**Category**: Advanced Components
+### 互動設計
+- 拖拽卡片到其他列
+- 列內上下排序
+- 點擊卡片編輯詳情
+- 新增卡片輸入框
 
-**Usage Guidelines**:
-This component can be customized with different UI style variants. Choose the variant that best fits your design system.
-
-
-**Implementation Notes**:
-- Ensure proper accessibility attributes
-- Test across different screen sizes
-- Validate color contrast for readability
-
-
----
+### 變體風格
+- **簡潔**：清晰列分隔、流暢拖拽
+- **詳細**：任務詳情、進度條、頭像、標籤

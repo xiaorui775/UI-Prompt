@@ -318,6 +318,7 @@ function StyleCardComponent({
             colorScheme={colorScheme}
             variant={variant}
             stylePrompt={stylePrompt}
+            customPrompt={customPrompt}
           />
         </Suspense>
       )}

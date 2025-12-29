@@ -4,14 +4,15 @@ import { useLoaderData, useSearchParams, useNavigate, useParams } from 'react-ro
 import { useLanguage } from '../../hooks/useLanguage';
 import { usePromptContent } from '../../hooks/usePromptContent';
 import { useUnifiedPreviewPageState, PREVIEW_PAGE_MODES } from '../../hooks/useUnifiedPreviewPageState';
+import { LANG_TO_URL } from '../../components/seo/seoConfig';
 import { PromptDrawer } from '../../components/prompt/PromptDrawer';
 import { CodeModal } from '../../components/ui/CodeModal';
 import { PreviewPageHeader } from '../../components/preview/PreviewPageHeader';
 import { LoadingOverlay } from '../../components/preview/LoadingOverlay';
 import { promptGenerator } from '../../utils/prompt/PromptGeneratorFacade';
 import { getCategoryNavKey } from '../../utils/componentHelper';
-import { ErrorBoundary } from '../../components/ErrorBoundary';
 import { createI18nResolver } from '../../utils/i18n/resolveI18nValue';
+import { ErrorBoundary } from '../../components/ErrorBoundary';
 
 import {
   buildComponentPreviewHTML,
@@ -43,22 +44,44 @@ export function ComponentPreviewPage() {
   const { category, componentId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { t, language } = useLanguage();
+  const { t, language, _translationsVersion } = useLanguage();
 
   // ========== 2. Close handler (defined early for hook) ==========
   const handleClose = useCallback(() => {
-    navigate('/components');
-  }, [navigate]);
+    const urlLang = LANG_TO_URL[language] || 'zh';
+    navigate(`/${urlLang}/components`);
+  }, [navigate, language]);
 
   // ========== 3. Transform variants to previews format ==========
   const previewsList = useMemo(() => {
     if (!component?.variants?.length) return [];
-    return component.variants.map((variant, idx) => ({
-      id: variant.id || `variant-${idx}`,
-      name: variant.name || `Variant ${idx + 1}`,
-      type: 'full'
-    }));
-  }, [component?.variants]);
+
+    void _translationsVersion;
+
+    const categoryId = component.category || category;
+    const resolvedComponentId = component.id || componentId;
+    const baseKey = resolvedComponentId
+      ? `data.components.${categoryId}.${resolvedComponentId}`
+      : null;
+
+    const resolveI18n = createI18nResolver(language, t);
+    const getTranslatedOrFallback = (i18nKey, fallbackValue) => {
+      if (!i18nKey) return fallbackValue;
+      const translated = t(i18nKey);
+      return translated && translated !== i18nKey ? translated : fallbackValue;
+    };
+
+    return component.variants.map((variant, idx) => {
+      const fallbackName = resolveI18n(variant.name) || `Variant ${idx + 1}`;
+      const nameKey = baseKey && variant.id ? `${baseKey}.variants.${variant.id}.name` : null;
+
+      return {
+        id: variant.id || `variant-${idx}`,
+        name: getTranslatedOrFallback(nameKey, fallbackName),
+        type: 'full'
+      };
+    });
+  }, [component, category, componentId, language, t, _translationsVersion]);
 
   // ========== 4. Unified preview state hook ==========
   const {
@@ -81,32 +104,52 @@ export function ComponentPreviewPage() {
     language
   });
 
-  // ========== 5. Create i18n resolver ==========
-  const resolveI18n = useMemo(
-    () => createI18nResolver(language, t),
-    [language, t]
-  );
-
   // ========== 6. Process component data ==========
   const componentData = useMemo(() => {
     if (!component) return null;
 
+    void _translationsVersion;
+
     const categoryId = component.category || category;
+    const resolvedComponentId = component.id || componentId;
     const navKey = getCategoryNavKey(categoryId);
+
+    const baseKey = resolvedComponentId
+      ? `data.components.${categoryId}.${resolvedComponentId}`
+      : null;
+
+    const resolveI18n = createI18nResolver(language, t);
+    const getTranslatedOrFallback = (i18nKey, fallbackValue) => {
+      if (!i18nKey) return fallbackValue;
+      const translated = t(i18nKey);
+      return translated && translated !== i18nKey ? translated : fallbackValue;
+    };
 
     return {
       ...component,
-      title: resolveI18n(component.title),
-      description: resolveI18n(component.description),
+      title: getTranslatedOrFallback(
+        baseKey ? `${baseKey}.title` : null,
+        resolveI18n(component.title)
+      ),
+      description: getTranslatedOrFallback(
+        baseKey ? `${baseKey}.description` : null,
+        resolveI18n(component.description)
+      ),
       categoryId,
       categoryLabel: t(`nav.${navKey}`),
       variants: (component.variants || []).map(variant => ({
         ...variant,
-        name: resolveI18n(variant.name),
-        description: resolveI18n(variant.description)
+        name: getTranslatedOrFallback(
+          baseKey && variant.id ? `${baseKey}.variants.${variant.id}.name` : null,
+          resolveI18n(variant.name)
+        ),
+        description: getTranslatedOrFallback(
+          baseKey && variant.id ? `${baseKey}.variants.${variant.id}.description` : null,
+          resolveI18n(variant.description)
+        )
       }))
     };
-  }, [component, category, resolveI18n, t]);
+  }, [component, category, componentId, language, t, _translationsVersion]);
 
   // ========== 7. Async variant loader (load only what we need) ==========
   const {

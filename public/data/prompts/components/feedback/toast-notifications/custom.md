@@ -1,46 +1,32 @@
-# Custom Prompt
+# Toast Notifications
 
-## 中文版本 (zh-CN)
+## Prompt (en-US)
 
-### 提示通知
-
-提示通知组件，用于显示临时消息，在设定时间后自动消失
-
-**分类**：反馈组件
-
-**使用指南**：
-此组件可以与不同的 UI 风格变体进行自定义。选择适合您设计系统的变体。
-
-**可用变体**：
-- **极简主义**：简洁极简的提示通知设计，带有简单的样式
-- **Material**：Material Design 提示通知设计，带有提升效果
-- **玻璃态**：玻璃态提示通知设计，具有毛玻璃效果
-- **新拟态**：新拟态提示通知设计，带有柔和的阴影和高光
-- **Bootstrap**：Bootstrap 提示通知设计，带有标准Bootstrap样式
-
-**实施注意事项**：
-- 确保适当的可访问性属性
-- 在不同屏幕尺寸上进行测试
-- 验证颜色对比度以确保可读性
+Create toast notifications for brief, non-intrusive user messages with auto-dismissal. Support multiple types (success, error, warning, info), stacking behavior, custom actions, and smooth enter/exit animations. Position in corner of screen.
 
 ---
 
-## English Version (en-US)
+## 提示詞 (zh-CN)
 
-### Toast Notifications
+### 組件描述
+提示通知顯示臨時消息並自動消失，適用於操作反饋、狀態更新、系統通知等場景。
 
-Toast notification component for displaying temporary messages that auto-dismiss after a set time
+### 視覺要點
+- 固定於螢幕角落（右上/右下）
+- 類型圖標（成功✓、錯誤✕、警告⚠、信息ℹ）
+- 消息文字和可選操作按鈕
+- 關閉按鈕
+- 進度條顯示剩餘時間（可選）
 
-**Category**: Feedback Components
+### 互動設計
+- 自動消失（3-5秒）
+- 懸停時暫停計時
+- 點擊關閉
+- 多個通知堆疊顯示
 
-**Usage Guidelines**:
-This component can be customized with different UI style variants. Choose the variant that best fits your design system.
-
-
-**Implementation Notes**:
-- Ensure proper accessibility attributes
-- Test across different screen sizes
-- Validate color contrast for readability
-
-
----
+### 變體風格
+- **極簡**：簡潔樣式、細邊框
+- **Material**：提升陰影、動效
+- **玻璃態**：毛玻璃背景
+- **新擬物**：柔和凹凸
+- **Bootstrap**：標準 Bootstrap 樣式

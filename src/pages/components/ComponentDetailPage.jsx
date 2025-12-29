@@ -23,7 +23,7 @@ import { createI18nResolver } from '../../utils/i18n/resolveI18nValue';
 export function ComponentDetailPage() {
   const { category, componentId } = useParams();
   const navigate = useNavigate();
-  const { t, language } = useLanguage();
+  const { t, language, _translationsVersion } = useLanguage();
 
   // 從 Route Loader 獲取預加載的組件數據
   const loaderData = useLoaderData();
@@ -45,18 +45,37 @@ export function ComponentDetailPage() {
   const componentData = useMemo(() => {
     if (!componentFromLoader) return null;
 
+    void _translationsVersion;
+
     // 使用共享的 i18n 解析器
     const resolveI18n = createI18nResolver(language, t);
 
     // 獲取分類配置 - 使用 componentHelper 統一管理
     const categoryId = componentFromLoader.category || category;
+    const resolvedComponentId = componentFromLoader.id || componentId;
     // 從 registry 動態獲取 nav key，避免硬編碼
     const navKey = getCategoryNavKey(categoryId);
 
+    const getTranslatedOrFallback = (i18nKey, fallbackValue) => {
+      if (!i18nKey) return fallbackValue;
+      const translated = t(i18nKey);
+      return translated && translated !== i18nKey ? translated : fallbackValue;
+    };
+
+    const baseKey = resolvedComponentId
+      ? `data.components.${categoryId}.${resolvedComponentId}`
+      : null;
+
     return {
       ...componentFromLoader,
-      title: resolveI18n(componentFromLoader.title),
-      description: resolveI18n(componentFromLoader.description),
+      title: getTranslatedOrFallback(
+        baseKey ? `${baseKey}.title` : null,
+        resolveI18n(componentFromLoader.title)
+      ),
+      description: getTranslatedOrFallback(
+        baseKey ? `${baseKey}.description` : null,
+        resolveI18n(componentFromLoader.description)
+      ),
       categoryId: categoryId,
       categoryKey: navKey,
       categoryIcon: '',
@@ -64,11 +83,17 @@ export function ComponentDetailPage() {
       // 處理變體的 i18n - 添加安全檢查
       variants: (componentFromLoader.variants || []).map(variant => ({
         ...variant,
-        name: resolveI18n(variant.name),
-        description: resolveI18n(variant.description)
+        name: getTranslatedOrFallback(
+          baseKey && variant.id ? `${baseKey}.variants.${variant.id}.name` : null,
+          resolveI18n(variant.name)
+        ),
+        description: getTranslatedOrFallback(
+          baseKey && variant.id ? `${baseKey}.variants.${variant.id}.description` : null,
+          resolveI18n(variant.description)
+        )
       }))
     };
-  }, [componentFromLoader, language, t, category]);
+  }, [componentFromLoader, language, t, category, componentId, _translationsVersion]);
 
   // 處理查看代碼
   const handleViewCode = (variant) => {

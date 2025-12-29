@@ -1,82 +1,31 @@
-# Custom Prompt
+# List View
 
-## 中文版本 (zh-CN)
+## Prompt (en-US)
 
-### 列表视图
-
-列表视图组件，用于以垂直列表格式显示项目
-
-**分类**：数据展示
-
-**使用指南**：
-此组件可以与不同的 UI 风格变体进行自定义。选择适合您设计系统的变体。
-
-**可用变体**：
-- **极简主义**：简洁极简的列表视图设计，带有简单的间距
-- **Material Design**：Material Design列表视图，带有提升和波纹效果
-- **Bootstrap 5**：Bootstrap 5列表视图设计，带有标准Bootstrap样式
-- **新拟物化**：柔和的新拟物化列表视图设计，带有微妙的阴影
-- **玻璃态**：玻璃态列表视图设计，具有毛玻璃效果
-
-**实施注意事项**：
-- 确保适当的可访问性属性
-- 在不同屏幕尺寸上进行测试
-- 验证颜色对比度以确保可读性
+Create a versatile list view component for displaying structured data in scrollable format. Feature item selection, filtering, sorting capabilities, and customizable templates. Support efficient scrolling, responsive interaction feedback, and clear visual separation between items.
 
 ---
 
-## English Version (en-US)
+## 提示詞 (zh-CN)
 
-### List View
+### 組件描述
+列表視圖以垂直滾動方式展示數據項目，適用於消息列表、任務清單、搜索結果等場景。
 
-List view component for displaying items in a vertical list format
+### 視覺要點
+- 列表項之間有清晰分隔（邊框或間距）
+- 支援左側圖標/頭像、右側操作按鈕
+- 選中項有高亮背景
+- 適當的內邊距（12-16px）
+- 支援虛擬滾動處理大量數據
 
-**Category**: Data Display
+### 互動設計
+- 懸停時背景變色
+- 支援單選/多選模式
+- 滑動刪除（可選）
 
-**Usage Guidelines**:
-This component can be customized with different UI style variants. Choose the variant that best fits your design system.
-
-**Available Variants**:
-- **Minimalism**: Clean and minimal list view design with simple spacing
-- **Material Design**: Material Design list view with elevation and ripple effects
-- **Bootstrap 5**: Bootstrap 5 list view design with standard Bootstrap styling
-- **Neumorphism**: Soft neumorphic list view design with subtle shadows
-- **Glassmorphism**: Glassmorphic list view design with frosted glass effect
-
-**Implementation Notes**:
-- Ensure proper accessibility attributes
-- Test across different screen sizes
-- Validate color contrast for readability
-
----
-
-**Advanced Implementation & Best Practices**
-
-**Component Design Patterns**: Implement flexible, reusable component architecture with clear prop interfaces and composition patterns. Design for extensibility and maintainability.
-
-**State Management**: Handle all component states effectively - loading, error, empty, disabled, success. Provide clear visual feedback for each state with appropriate timing and transitions.
-
-**Animation & Transitions**: Apply purposeful motion that enhances user understanding. Use appropriate durations (150-400ms), easing curves (ease-out for entrances), and respect prefers-reduced-motion preferences.
-
-**Responsive Behavior**: Ensure components adapt gracefully across all screen sizes. Implement touch-friendly targets (44x44px minimum), optimize layouts for mobile-first, and enhance progressively for larger screens.
-
-**Accessibility Standards**: Meet WCAG 2.1 Level AA compliance with keyboard navigation, screen reader support, proper ARIA labels, focus management, and sufficient color contrast (4.5:1 minimum).
-
-**Performance Optimization**: Minimize re-renders, implement virtual scrolling for long lists, lazy load heavy components, and optimize animations using GPU-accelerated properties (transform, opacity).
-
-**Error Handling**: Provide clear error messages with actionable solutions. Handle edge cases gracefully with appropriate fallbacks and user guidance.
-
-**Testing Strategy**: Implement comprehensive testing including unit tests for logic, integration tests for component interactions, accessibility audits, and visual regression tests.
-
-**Code Quality**: Write clean, self-documenting code with clear naming conventions, appropriate comments, and consistent patterns. Follow established style guides and best practices.
-
-**User Experience**: Design intuitive interactions with instant feedback (<100ms), clear affordances, and progressive disclosure of complexity. Optimize for common use cases while supporting power users.
-
-**Browser Compatibility**: Test across modern browsers (Chrome, Firefox, Safari, Edge) and provide fallbacks for newer CSS features using @supports and feature detection.
-
-**Documentation**: Provide clear usage examples, prop documentation, and implementation guidelines for developers integrating these components.
-
-**Internationalization**: Design components to support multiple languages with appropriate text directionality (LTR/RTL), date/number formatting, and translation-friendly patterns.
-
-**Theme Support**: Implement theming capabilities using CSS custom properties, allowing easy customization of colors, spacing, and typography while maintaining design consistency.
-
+### 變體風格
+- **極簡**：細線分隔、大量留白
+- **Material**：波紋點擊效果、陰影浮動
+- **Bootstrap**：標準列表組樣式
+- **新擬物**：凹凸陰影、柔和邊緣
+- **玻璃態**：半透明背景、模糊效果

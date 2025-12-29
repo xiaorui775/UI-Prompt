@@ -6,10 +6,10 @@ import { FilterTabs } from '../../components/ui/FilterTabs';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useRemoteCategories } from '../../hooks/useRemoteCategories';
 import { useComponentFilterUrlSync } from '../../hooks/useComponentFilterUrlSync';
-import { applyTranslationsToCategories } from '../../utils/categoryHelper';
 import { loadComponentMetadataOnly } from '../../data/components/loaders';
-import { createI18nResolver } from '../../utils/i18n/resolveI18nValue';
 import { SKELETON_COUNTS, VIRTUAL_SCROLL_THRESHOLD } from '../../utils/constants';
+import { applyTranslationsToCategories } from '../../utils/categoryHelper';
+import { createI18nResolver } from '../../utils/i18n/resolveI18nValue';
 import { ListPageScaffold } from '../../components/scaffold';
 import { SEOHead, getPageSEO, generateComponentListSchema } from '../../components/seo';
 
@@ -25,7 +25,7 @@ import { SEOHead, getPageSEO, generateComponentListSchema } from '../../componen
  * - 使用 React.memo 避免不必要的 ComponentCard 重渲染
  */
 export function AllComponentsPage() {
-  const { t, language } = useLanguage();
+  const { t, language, _translationsVersion } = useLanguage();
 
   // 使用共享的數據加載 hook
   const {
@@ -39,8 +39,9 @@ export function AllComponentsPage() {
 
   // 獲取翻譯後的分类数据
   const translatedCategories = useMemo(() => {
+    void _translationsVersion;
     return applyTranslationsToCategories(categories, language);
-  }, [language, categories]);
+  }, [language, categories, _translationsVersion]);
 
   // 獲取有效分類 ID 列表
   const validCategoryIds = useMemo(() =>
@@ -59,13 +60,28 @@ export function AllComponentsPage() {
 
   // 所有組件列表 (扁平化) - 使用 _uniqueKey 避免 key 碰撞
   const allComponents = useMemo(() => {
+    void _translationsVersion;
     const resolveI18n = createI18nResolver(language, t);
     const counts = {};
 
+    const getTranslatedOrFallback = (i18nKey, fallbackValue) => {
+      if (!i18nKey) return fallbackValue;
+      const translated = t(i18nKey);
+      return translated && translated !== i18nKey ? translated : fallbackValue;
+    };
+
     return translatedCategories.flatMap(cat =>
       cat.data.map(item => {
-        const title = resolveI18n(item.title);
-        const description = resolveI18n(item.description);
+        const fallbackTitle = resolveI18n(item.title);
+        const fallbackDescription = resolveI18n(item.description);
+
+        // Prefer i18n keys in src/i18n/* for localized component copy.
+        // Falls back to existing metadata strings when translation is missing.
+        const titleKey = item.id ? `data.components.${cat.id}.${item.id}.title` : null;
+        const descKey = item.id ? `data.components.${cat.id}.${item.id}.description` : null;
+
+        const title = getTranslatedOrFallback(titleKey, fallbackTitle);
+        const description = getTranslatedOrFallback(descKey, fallbackDescription);
         const demoHTML = item.demoHTML || item.variants?.[0]?.demoHTML || '';
         const customStyles = item.customStyles || item.variants?.[0]?.customStyles || '';
 
@@ -89,7 +105,7 @@ export function AllComponentsPage() {
         };
       })
     );
-  }, [translatedCategories, t, language]);
+  }, [translatedCategories, t, language, _translationsVersion]);
 
   // 🚀 預計算分類索引，加速分類篩選
   const componentsByCategory = useMemo(() => {
@@ -213,7 +229,6 @@ export function AllComponentsPage() {
           renderItem={renderComponentCard}
           itemHeight={360}
           gap={24}
-          listHeight={800}
           threshold={VIRTUAL_SCROLL_THRESHOLD}
         />
       ) : (

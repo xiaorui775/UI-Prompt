@@ -10,6 +10,7 @@
 
 import { createLogger } from '../../utils/logger';
 import { MIN_PREVIEW_CONTENT_LENGTH } from '../../utils/constants';
+import { parsePromptMd } from './PromptLoader.js';
 
 const logger = createLogger('jsonComponentLoader');
 
@@ -256,14 +257,8 @@ export async function loadVariantPrompts(category, componentId, variantId = null
 
     if (customPrompt || stylePrompt) {
       return {
-        customPrompt: customPrompt ? {
-          'zh-CN': customPrompt,
-          'en-US': customPrompt
-        } : null,
-        stylePrompt: stylePrompt ? {
-          'zh-CN': stylePrompt,
-          'en-US': stylePrompt
-        } : null
+        customPrompt: customPrompt ? parsePromptMd(customPrompt) : null,
+        stylePrompt: stylePrompt ? parsePromptMd(stylePrompt) : null
       };
     }
   }

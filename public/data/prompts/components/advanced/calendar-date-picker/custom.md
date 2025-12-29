@@ -1,40 +1,28 @@
-# Custom Prompt
+# Calendar Date Picker
 
-## 中文版本 (zh-CN)
+## Prompt (en-US)
 
-### 日历日期选择器
-
-日历和日期选择器组件，用于选择日期，具有多种日历视图
-
-**分类**：进阶组件
-
-**使用指南**：
-此组件可以与不同的 UI 风格变体进行自定义。选择适合您设计系统的变体。
-
-
-**实施注意事项**：
-- 确保适当的可访问性属性
-- 在不同屏幕尺寸上进行测试
-- 验证颜色对比度以确保可读性
+Create an intuitive calendar-based date picker for selecting single dates, date ranges, or multiple dates. Feature month/year navigation, keyboard accessibility, and customizable date formatting. Support date validation, disabled dates, and locale-aware display.
 
 ---
 
-## English Version (en-US)
+## 提示詞 (zh-CN)
 
-### Calendar Date Picker
+### 組件描述
+日曆日期選擇器提供直觀的日期選擇界面，適用於表單日期輸入、預訂系統、活動安排等場景。
 
-Calendar and date picker component for selecting dates with various calendar views
+### 視覺要點
+- 月視圖網格佈局（7列 x 6行）
+- 當前日期高亮標記
+- 選中日期使用主題色填充
+- 月份/年份導航箭頭
+- 週日標題行（日-六或一-日）
 
-**Category**: Advanced Components
+### 互動設計
+- 點擊選擇日期
+- 左右箭頭切換月份
+- 支援鍵盤方向鍵導航
+- 禁用日期灰顯不可點擊
 
-**Usage Guidelines**:
-This component can be customized with different UI style variants. Choose the variant that best fits your design system.
-
-
-**Implementation Notes**:
-- Ensure proper accessibility attributes
-- Test across different screen sizes
-- Validate color contrast for readability
-
-
----
+### 變體風格
+- **默認**：簡潔清晰、標準網格、適中間距

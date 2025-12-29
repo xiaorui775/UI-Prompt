@@ -1,40 +1,28 @@
-# Custom Prompt
+# Rich Text Editor
 
-## 中文版本 (zh-CN)
+## Prompt (en-US)
 
-### 富文本编辑器
-
-富文本编辑器组件，具有格式化工具栏和所见即所得编辑功能
-
-**分类**：进阶组件
-
-**使用指南**：
-此组件可以与不同的 UI 风格变体进行自定义。选择适合您设计系统的变体。
-
-
-**实施注意事项**：
-- 确保适当的可访问性属性
-- 在不同屏幕尺寸上进行测试
-- 验证颜色对比度以确保可读性
+Create a comprehensive rich text editor with formatting toolbar and WYSIWYG editing. Feature bold, italic, headings, lists, links, and images. Support text manipulation, keyboard shortcuts, and extensible plugin architecture.
 
 ---
 
-## English Version (en-US)
+## 提示詞 (zh-CN)
 
-### Rich Text Editor
+### 組件描述
+富文本編輯器提供所見即所得的內容編輯體驗，適用於文章撰寫、評論輸入、郵件編寫等場景。
 
-Rich text editor component with formatting toolbar and WYSIWYG editing capabilities
+### 視覺要點
+- 工具欄按鈕組（格式化、對齊、列表）
+- 可編輯內容區域
+- 工具欄分隔線區分功能組
+- 激活狀態按鈕高亮
+- 可選：字數統計
 
-**Category**: Advanced Components
+### 互動設計
+- 選中文字後格式化
+- 工具欄按鈕切換樣式
+- 支持快捷鍵（Ctrl+B 加粗）
+- 拖拽調整圖片大小
 
-**Usage Guidelines**:
-This component can be customized with different UI style variants. Choose the variant that best fits your design system.
-
-
-**Implementation Notes**:
-- Ensure proper accessibility attributes
-- Test across different screen sizes
-- Validate color contrast for readability
-
-
----
+### 變體風格
+- **默認**：完整工具欄、響應式編輯、流暢體驗

@@ -2,95 +2,71 @@
   "id": "loading-animate",
   "category": "feedback",
   "component": {
-    "name": {
-      "zh-CN": "加载动画",
-      "en-US": "Loading Animate"
-    },
-    "description": {
-      "zh-CN": "多样化的加载动画组件，包含旋转加载、跳动圆点、进度条、骨架屏、脉冲、波浪、环形和弹跳球八种类型",
-      "en-US": "Versatile loading animation component with spinner, dots, progress bar, skeleton, pulse, wave, ring and bounce variants"
-    },
-    "tags": ["feedback", "loading", "animation"],
-    "relatedComponents": ["toast-notifications"]
+    "name": "Loading Animate",
+    "description": "Versatile loading animation component with spinner, dots, progress bar, skeleton, pulse, wave, ring and bounce variants",
+    "tags": [
+      "feedback",
+      "loading",
+      "animation"
+    ],
+    "relatedComponents": [
+      "toast-notifications"
+    ]
   },
   "variants": [
     {
       "id": "spinner",
-      "name": { "zh-CN": "旋转加载", "en-US": "Spinner" },
-      "description": {
-        "zh-CN": "经典的圆形旋转加载动画",
-        "en-US": "Classic circular spinning loader"
-      },
+      "name": "Spinner",
+      "description": "Classic circular spinning loader",
       "hasContent": true,
       "hasStyles": true
     },
     {
       "id": "dots",
-      "name": { "zh-CN": "跳动圆点", "en-US": "Dots" },
-      "description": {
-        "zh-CN": "三个圆点交替跳动的轻量动画",
-        "en-US": "Three bouncing dots animation"
-      },
+      "name": "Dots",
+      "description": "Three bouncing dots animation",
       "hasContent": true,
       "hasStyles": true
     },
     {
       "id": "progress",
-      "name": { "zh-CN": "进度条", "en-US": "Progress Bar" },
-      "description": {
-        "zh-CN": "线性进度指示器动画",
-        "en-US": "Linear progress indicator animation"
-      },
+      "name": "Progress Bar",
+      "description": "Linear progress indicator animation",
       "hasContent": true,
       "hasStyles": true
     },
     {
       "id": "skeleton",
-      "name": { "zh-CN": "骨架屏", "en-US": "Skeleton" },
-      "description": {
-        "zh-CN": "内容占位符加载动画",
-        "en-US": "Content placeholder loading animation"
-      },
+      "name": "Skeleton",
+      "description": "Content placeholder loading animation",
       "hasContent": true,
       "hasStyles": true
     },
     {
       "id": "pulse",
-      "name": { "zh-CN": "脉冲", "en-US": "Pulse" },
-      "description": {
-        "zh-CN": "元素大小脉冲跳动效果",
-        "en-US": "Pulsing size animation effect"
-      },
+      "name": "Pulse",
+      "description": "Pulsing size animation effect",
       "hasContent": true,
       "hasStyles": true
     },
     {
       "id": "wave",
-      "name": { "zh-CN": "波浪", "en-US": "Wave" },
-      "description": {
-        "zh-CN": "多个条形依序波浪起伏",
-        "en-US": "Sequential wave bars animation"
-      },
+      "name": "Wave",
+      "description": "Sequential wave bars animation",
       "hasContent": true,
       "hasStyles": true
     },
     {
       "id": "ring",
-      "name": { "zh-CN": "环形", "en-US": "Ring" },
-      "description": {
-        "zh-CN": "环形边框旋转动画",
-        "en-US": "Ring border spinning animation"
-      },
+      "name": "Ring",
+      "description": "Ring border spinning animation",
       "hasContent": true,
       "hasStyles": true
     },
     {
       "id": "bounce",
-      "name": { "zh-CN": "弹跳球", "en-US": "Bounce" },
-      "description": {
-        "zh-CN": "小球上下弹跳效果",
-        "en-US": "Bouncing balls animation"
-      },
+      "name": "Bounce",
+      "description": "Bouncing balls animation",
       "hasContent": true,
       "hasStyles": true
     }

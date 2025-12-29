@@ -1,40 +1,28 @@
-# Custom Prompt
+# Autocomplete Search
 
-## 中文版本 (zh-CN)
+## Prompt (en-US)
 
-### 自动完成搜索
-
-自动完成搜索组件，支持智能建议和键盘导航
-
-**分类**：输入组件
-
-**使用指南**：
-此组件可以与不同的 UI 风格变体进行自定义。选择适合您设计系统的变体。
-
-
-**实施注意事项**：
-- 确保适当的可访问性属性
-- 在不同屏幕尺寸上进行测试
-- 验证颜色对比度以确保可读性
+Create an autocomplete search input with intelligent suggestion matching. Feature dynamic result filtering, customizable suggestion rendering, keyboard navigation, and debounced input. Support matching highlight, recent searches, and clear button.
 
 ---
 
-## English Version (en-US)
+## 提示詞 (zh-CN)
 
-### Autocomplete Search
+### 組件描述
+自動完成搜索在用戶輸入時提供智能建議，適用於搜索框、地址輸入、產品搜索等場景。
 
-Autocomplete search component with intelligent suggestions and keyboard navigation support
+### 視覺要點
+- 輸入框帶搜索圖標
+- 下拉建議列表
+- 匹配文字高亮顯示
+- 載入指示器
+- 清除按鈕
 
-**Category**: Input Components
+### 互動設計
+- 輸入時即時篩選
+- 上下鍵選擇建議
+- Enter 確認選擇
+- 點擊建議項填入
 
-**Usage Guidelines**:
-This component can be customized with different UI style variants. Choose the variant that best fits your design system.
-
-
-**Implementation Notes**:
-- Ensure proper accessibility attributes
-- Test across different screen sizes
-- Validate color contrast for readability
-
-
----
+### 變體風格
+- **默認**：響應式建議、清晰高亮、流暢動畫

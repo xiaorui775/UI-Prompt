@@ -1,40 +1,28 @@
-# Custom Prompt
+# Map Picker
 
-## 中文版本 (zh-CN)
+## Prompt (en-US)
 
-### 地图选择器
-
-地图选择器组件，用于在交互式地图上选择位置
-
-**分类**：进阶组件
-
-**使用指南**：
-此组件可以与不同的 UI 风格变体进行自定义。选择适合您设计系统的变体。
-
-
-**实施注意事项**：
-- 确保适当的可访问性属性
-- 在不同屏幕尺寸上进行测试
-- 验证颜色对比度以确保可读性
+Create an interactive map-based location picker for selecting geographical coordinates. Feature drag-to-pan, zoom controls, location search, and real-time coordinate display. Support marker placement, address input, and geocoding integration.
 
 ---
 
-## English Version (en-US)
+## 提示詞 (zh-CN)
 
-### Map Picker
+### 組件描述
+地圖選擇器通過交互式地圖選擇地理位置，適用於地址輸入、配送定位、POI標記等場景。
 
-Map picker component for selecting locations on an interactive map
+### 視覺要點
+- 地圖視窗佔主要區域
+- 紅色標記圖釘
+- 縮放控制按鈕（+/-）
+- 搜索輸入框（可選）
+- 坐標顯示區域
 
-**Category**: Advanced Components
+### 互動設計
+- 拖拽平移地圖
+- 點擊放置標記
+- 雙擊縮放
+- 搜索後自動定位
 
-**Usage Guidelines**:
-This component can be customized with different UI style variants. Choose the variant that best fits your design system.
-
-
-**Implementation Notes**:
-- Ensure proper accessibility attributes
-- Test across different screen sizes
-- Validate color contrast for readability
-
-
----
+### 變體風格
+- **默認**：完整控件、網格背景、公園水域圖層
