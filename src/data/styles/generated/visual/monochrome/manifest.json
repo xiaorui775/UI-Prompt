@@ -15,6 +15,13 @@
   },
   "templates": [
     {
+      "id": "portfolio-showcase",
+      "title": {
+        "zh-CN": "作品集展示",
+        "en-US": "Portfolio Showcase"
+      }
+    },
+    {
       "id": "visual-monochrome",
       "title": {
         "zh-CN": "单色",

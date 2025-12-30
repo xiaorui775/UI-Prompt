@@ -21,6 +21,7 @@ import { SEOHead, getPageSEO, generateComponentListSchema } from '../../componen
  *
  * 💡 性能優化：
  * - 使用 useDebounce 防抖搜索輸入，避免每次按鍵觸發篩選重算
+ * - 預計算搜索索引 (_searchIndex)，避免每次搜索時重複調用 toLowerCase()
  * - 使用 VirtualGrid 虛擬滾動，僅渲染可見區域（>20 items 時啟用）
  * - 使用 React.memo 避免不必要的 ComponentCard 重渲染
  */
@@ -101,7 +102,13 @@ export function AllComponentsPage() {
           _categoryKey: cat.key,
           _categoryIcon: cat.icon,
           _categoryLabel: t(`nav.${cat.key}`),
-          _uniqueKey: uniqueKey
+          _uniqueKey: uniqueKey,
+          // 🚀 Task 8-9: 預計算搜索索引，供 filteredComponents 使用
+          _searchIndex: {
+            title: (title || '').toLowerCase(),
+            id: (item.id || '').toLowerCase(),
+            desc: (description || '').toLowerCase()
+          }
         };
       })
     );
@@ -134,13 +141,19 @@ export function AllComponentsPage() {
       return categoryComponents;
     }
 
-    // 執行搜索篩選
+    // 🚀 Task 8-9: 使用預計算的搜索索引
     const query = debouncedSearchQuery.toLowerCase();
-    return categoryComponents.filter(
-      comp =>
-        comp.title?.toLowerCase().includes(query) ||
-        comp.description?.toLowerCase().includes(query)
-    );
+    return categoryComponents.filter(comp => {
+      // 優先使用預計算索引
+      if (comp._searchIndex) {
+        return comp._searchIndex.title.includes(query) ||
+               comp._searchIndex.id.includes(query) ||
+               comp._searchIndex.desc.includes(query);
+      }
+      // 回退到原始邏輯（向後兼容）
+      return comp.title?.toLowerCase().includes(query) ||
+             comp.description?.toLowerCase().includes(query);
+    });
   }, [componentsByCategory, activeCategory, debouncedSearchQuery]);
 
   // 是否有啟用篩選

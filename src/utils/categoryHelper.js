@@ -76,6 +76,11 @@ export const filterStylesByCategories = (styles, selectedCategories = []) => {
  * 搜索風格
  * Search styles by keyword
  *
+ * 🚀 性能優化：
+ * - 支持預計算的 _searchIndex 字段，避免每次搜索時重複調用 toLowerCase()
+ * - 當 style._searchIndex 存在時，直接使用預計算的小寫值
+ * - 回退到原始邏輯以保持向後兼容
+ *
  * @param {Array} styles - 風格数組
  * @param {String} keyword - 搜索关鍵詞
  * @returns {Array} 搜索結果数組
@@ -88,13 +93,18 @@ export const searchStyles = (styles, keyword = '') => {
   const lowerKeyword = keyword.toLowerCase().trim();
 
   return styles.filter(style => {
-    // 搜索标題
+    // 🚀 優先使用預計算的搜索索引
+    // Prefer pre-computed search index for performance
+    if (style._searchIndex) {
+      return style._searchIndex.title.includes(lowerKeyword) ||
+             style._searchIndex.id.includes(lowerKeyword) ||
+             style._searchIndex.desc.includes(lowerKeyword);
+    }
+
+    // 回退到原始邏輯（向後兼容）
+    // Fallback to original logic (backward compatible)
     const titleMatch = (style.title || '').toLowerCase().includes(lowerKeyword);
-
-    // 搜索ID
     const idMatch = (style.id || '').toLowerCase().includes(lowerKeyword);
-
-    // 搜索描述
     const descMatch = (style.description || '').toLowerCase().includes(lowerKeyword);
 
     return titleMatch || idMatch || descMatch;
@@ -224,6 +234,10 @@ export const getPopularTags = (styles, limit = 10) => {
  * 检查風格是否匹配篩選條件
  * Check if style matches filters
  *
+ * 🚀 Task 7: 支持預計算的 _searchIndex 字段
+ * - 當 style._searchIndex 存在時，直接使用預計算的小寫值
+ * - 回退到原始邏輯以保持向後兼容
+ *
  * @param {Object} style - 風格對象
  * @param {Object} filters - 篩選條件
  * @returns {Boolean} 是否匹配
@@ -232,12 +246,22 @@ export const isStyleMatchingFilters = (style, filters = {}) => {
   // 检查关鍵詞
   if (filters.keyword) {
     const keyword = filters.keyword.toLowerCase();
-    const title = (style.title || '').toLowerCase();
-    const id = (style.id || '').toLowerCase();
-    const desc = (style.description || '').toLowerCase();
 
-    if (!title.includes(keyword) && !id.includes(keyword) && !desc.includes(keyword)) {
-      return false;
+    // 🚀 Task 7: 優先使用預計算的搜索索引
+    if (style._searchIndex) {
+      const { title, id, desc } = style._searchIndex;
+      if (!title.includes(keyword) && !id.includes(keyword) && !desc.includes(keyword)) {
+        return false;
+      }
+    } else {
+      // 回退到原始邏輯（向後兼容）
+      const title = (style.title || '').toLowerCase();
+      const id = (style.id || '').toLowerCase();
+      const desc = (style.description || '').toLowerCase();
+
+      if (!title.includes(keyword) && !id.includes(keyword) && !desc.includes(keyword)) {
+        return false;
+      }
     }
   }
 

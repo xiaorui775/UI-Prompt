@@ -161,29 +161,53 @@ function ColumnVariable({ items, renderItem, defaultItemHeight, listHeight, gap,
   )
 }
 
+/**
+ * Measured - 測量子元素高度並回調
+ *
+ * 🚀 性能優化策略：
+ * - 使用 ref 存儲 callback，避免 ResizeObserver effect 重建
+ * - ResizeObserver 只在 mount 時創建一次（空依賴陣列）
+ * - RAF 批量處理避免多次更新（合併同一幀內的多次回調）
+ * - 高度變化閾值（1px）避免微小變化觸發重排
+ *
+ * 🛠️ Task 5 修復：
+ * - 移除 useLayoutEffect + [onSize] 依賴，因為調用方使用 inline callback
+ *   導致每次渲染都觸發 useLayoutEffect
+ * - 直接在渲染時更新 ref（同步且無開銷）
+ * - 確保 ResizeObserver 回調總是調用最新版本的 onSize
+ */
 function Measured({ children, onSize }) {
   const ref = useRef(null)
-  const rafRef = useRef(null) // 🚀 性能优化：使用 requestAnimationFrame 批量處理尺寸更新
-  const lastHeightRef = useRef(0) // 🚀 性能优化：記录上次高度，避免重複更新
+  const rafRef = useRef(null)
+  const lastHeightRef = useRef(0)
+  // 🚀 使用 ref 存儲 callback，避免依賴變化導致 ResizeObserver 重建
+  const onSizeRef = useRef(onSize)
+
+  // 🛠️ Task 5: 直接在渲染時更新 ref（替代 useLayoutEffect）
+  // 因為調用方使用 inline callback `(h) => setSize(index, h)`，
+  // 每次渲染都會創建新函數引用，導致 useLayoutEffect 頻繁執行。
+  // 直接賦值 ref 沒有這個問題，且無額外開銷。
+  onSizeRef.current = onSize
 
   useEffect(() => {
     if (!ref.current) return
     const el = ref.current
 
     const ro = new ResizeObserver((entries) => {
-      // 🚀 性能优化：取消之前的 RAF，避免多次更新
+      // 取消之前的 RAF，避免多次更新
       if (rafRef.current) {
         cancelAnimationFrame(rafRef.current)
       }
 
-      // 🚀 性能优化：使用 RAF 批量處理，在瀏覽器下一幀更新
+      // RAF 批量處理，在瀏覽器下一幀更新
       rafRef.current = requestAnimationFrame(() => {
         for (const entry of entries) {
           const h = entry.contentRect?.height || el.offsetHeight || 0
-          // 🚀 性能优化：只有高度變化超過 1px 才更新，避免微小變化觸發重排
+          // 只有高度變化超過 1px 才更新
           if (h > 0 && Math.abs(h - lastHeightRef.current) > 1) {
             lastHeightRef.current = h
-            onSize(h)
+            // 🚀 使用 ref 中的回調，確保調用最新版本
+            onSizeRef.current(h)
           }
         }
       })
@@ -195,7 +219,7 @@ function Measured({ children, onSize }) {
     const initialHeight = el.offsetHeight || 0
     if (initialHeight > 0) {
       lastHeightRef.current = initialHeight
-      onSize(initialHeight)
+      onSizeRef.current(initialHeight)
     }
 
     return () => {
@@ -204,7 +228,7 @@ function Measured({ children, onSize }) {
         cancelAnimationFrame(rafRef.current)
       }
     }
-  }, [onSize])
+  }, []) // 🚀 空依賴：只在 mount 時創建 ResizeObserver
 
   return <div ref={ref}>{children}</div>
 }

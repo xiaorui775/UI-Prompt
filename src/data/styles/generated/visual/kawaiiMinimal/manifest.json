@@ -7,18 +7,25 @@
       "en-US": "Kawaii Minimal"
     },
     "description": {
-      "zh-CN": "可爱最小化，采用萌系可爱元素和最小化美学。创造可爱友好的介面，结合简洁性与趣味性。，创造可爱友好的介面，结合简洁性与趣味性。可爱极简设计采用可爱活泼元素和极简主义。融合可爱设计与极简精妙。",
-      "en-US": "Kawaii minimal design with cute, playful elements and minimalist creating immersive and engaging digital experiences through thoughtful design principles, modern aesthetics, and user-centered approach to interface creating immersive and engaging digital experiences through thoughtful design principles, modern aesthetics, and user-centered approach to interface development This design approach offers a distinctive visual language suitable for modern applications. It combines aesthetic principles with functional design elements to create compelling user experiences. adorable design with minimalist sophistication. Delivers exceptional visual quality and sophisticated design excellence."
+      "zh-CN": "结合日系可爱元素与现代极简设计理念的温柔美学。采用柔和的粉彩配色、圆润的边角、俏皮的动画效果和温暖的视觉语言，营造出友好、治愈的用户体验。适合创意工具、个人看板、生活方式应用等需要温馨氛围的场景。",
+      "en-US": "A gentle aesthetic that combines Japanese kawaii elements with modern minimalist design principles. Features soft pastel colors, rounded corners, playful animations, and warm visual language to create a friendly and healing user experience. Ideal for creative tools, personal dashboards, lifestyle applications, and scenarios that require a warm atmosphere."
     },
-    "tags": [],
-    "relatedStyles": []
+    "tags": ["contemporary", "minimal", "colorful", "playful", "creative", "soft", "friendly"],
+    "relatedStyles": ["visual-y2k", "visual-paperCutout", "core-minimalism", "visual-softGradient"]
   },
   "templates": [
     {
+      "id": "visual-kawaiiMinimal-dashboard",
+      "title": {
+        "zh-CN": "可爱仪表板",
+        "en-US": "Kawaii Dashboard"
+      }
+    },
+    {
       "id": "visual-kawaiiMinimal",
       "title": {
-        "zh-CN": "可爱极简",
-        "en-US": "Kawaii Minimal"
+        "zh-CN": "可爱极简基础",
+        "en-US": "Kawaii Minimal Base"
       }
     }
   ]

@@ -58,6 +58,11 @@ function StylePreviewContent({ style }) {
   const { language, t } = useLanguage();
   const iframeRef = useRef(null);
   const isLoadingPreviewRef = useRef(false);
+  const [iframeInstanceKey, setIframeInstanceKey] = useState(0);
+  // 🛡️ 防止無限重置迴圈
+  const resetCountRef = useRef(0);
+  const MAX_RESET_COUNT = 5;
+  const [previewError, setPreviewError] = useState(null);
   const perfParam = searchParams.get('perf'); // '1' | '0' | null
   const perfMode = perfParam === '1';
   const twParam = searchParams.get('tw'); // '1' | '0' | null
@@ -222,6 +227,158 @@ function StylePreviewContent({ style }) {
   // Keep the last committed srcDoc during async loading. Overlay遮罩會覆蓋舊內容，
   // 並透過注入 freeze CSS 降低舊頁面動畫/特效開銷，避免「先 blank 再真正內容」造成的雙重重載。
   const [iframeSrcDoc, setIframeSrcDoc] = useState(() => nextPreviewHTML);
+
+  // Prevent accidental navigation inside preview iframe (e.g., clicking a template menu that links to app routes),
+  // which can cause nested app rendering and duplicated preview headers.
+  //
+  // 🛡️ Security considerations:
+  // - Block all absolute URLs that could navigate away from srcDoc
+  // - Allow hash-only navigation (#anchor) for in-page scrolling
+  // - Allow safe pseudo-protocols (mailto:, tel:)
+  // - Block javascript: to prevent XSS (though sandbox already helps)
+  // - Log blocked navigations for debugging
+  const installIframeNavigationGuard = useCallback((doc) => {
+    try {
+      const root = doc?.documentElement;
+      if (!root) return;
+      if (root.getAttribute('data-ui-style-nav-guard') === '1') return;
+      root.setAttribute('data-ui-style-nav-guard', '1');
+
+      doc.addEventListener(
+        'click',
+        (event) => {
+          const target = event?.target;
+          const anchor = target?.closest?.('a[href]');
+          if (!anchor) return;
+
+          const href = anchor.getAttribute('href') || '';
+          if (!href) return;
+
+          // Allow hash-only navigation (in-page anchors)
+          if (href.startsWith('#')) return;
+
+          // Allow safe pseudo-protocols
+          if (/^(mailto:|tel:)/i.test(href)) return;
+
+          // Block javascript: protocol (XSS prevention, defense in depth)
+          if (/^javascript:/i.test(href)) {
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+          }
+
+          // Block data: protocol (potential XSS vector)
+          if (/^data:/i.test(href)) {
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+          }
+
+          // Block absolute URLs (http://, https://, //, /)
+          // These would navigate the iframe away from srcDoc
+          const isAbsoluteUrl = /^(https?:)?\/\//i.test(href) || href.startsWith('/');
+          if (isAbsoluteUrl) {
+            logger.debug('Blocked absolute URL navigation in preview iframe', { href });
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+          }
+
+          // Block relative URLs that could escape preview context
+          // (any non-hash href at this point is a relative path)
+          logger.debug('Blocked relative URL navigation in preview iframe', { href });
+          event.preventDefault();
+          event.stopPropagation();
+        },
+        true
+      );
+
+      doc.addEventListener(
+        'submit',
+        (event) => {
+          // Block all form submissions - they would navigate the iframe
+          logger.debug('Blocked form submission in preview iframe');
+          event.preventDefault();
+          event.stopPropagation();
+        },
+        true
+      );
+
+      // 🛡️ Additional protection: intercept window.open calls
+      try {
+        const iframeWindow = doc.defaultView;
+        if (iframeWindow && iframeWindow.open) {
+          const originalOpen = iframeWindow.open;
+          iframeWindow.open = function(...args) {
+            logger.debug('Blocked window.open in preview iframe', { url: args[0] });
+            // Return null to indicate popup was blocked
+            return null;
+          };
+          // Store reference for potential cleanup
+          iframeWindow.__originalOpen = originalOpen;
+        }
+      } catch {
+        // Cross-origin restriction or sandbox limitation - acceptable
+      }
+
+      // 🛡️ Task 1: 攔截 window.location 賦值
+      try {
+        const iframeWindow = doc.defaultView;
+        if (iframeWindow) {
+          const locationDescriptor = Object.getOwnPropertyDescriptor(iframeWindow, 'location');
+          if (locationDescriptor && locationDescriptor.configurable !== false) {
+            Object.defineProperty(iframeWindow, 'location', {
+              get: locationDescriptor.get,
+              set: (value) => {
+                logger.warn('Blocked location assignment in preview iframe', { value });
+                // 靜默忽略，不拋出錯誤
+              },
+              configurable: true
+            });
+          }
+        }
+      } catch {
+        // Sandbox 或跨域限制 - 可接受
+      }
+    } catch {
+      // Best-effort: ignore
+    }
+  }, []);
+
+  const handleIframeLoad = useCallback(() => {
+    try {
+      const href = iframeRef.current?.contentWindow?.location?.href;
+      // 🚀 Task 3: 簡化 isSrcDoc 邏輯為正則表達式
+      // srcDoc documents should remain on about:srcdoc; any other URL means navigation escaped.
+      const isSrcDoc = /^about:(srcdoc|blank)($|#)/.test(href || '');
+
+      if (!isSrcDoc && typeof href === 'string') {
+        // 🛡️ Task 2: 重置次數上限防止無限迴圈
+        resetCountRef.current += 1;
+        if (resetCountRef.current > MAX_RESET_COUNT) {
+          logger.error('Exceeded maximum iframe reset attempts', { count: resetCountRef.current, href });
+          setPreviewError('Preview failed to load after multiple attempts');
+          setIsLoading(false);
+          return;
+        }
+        logger.warn('Preview iframe navigated away from srcDoc, resetting', { href, attempt: resetCountRef.current });
+        setIsLoading(true);
+        setIframeInstanceKey((prev) => (prev + 1) % 10000); // 上界限制
+        return;
+      }
+
+      // 🎉 成功加載，重置計數器
+      resetCountRef.current = 0;
+      setPreviewError(null);
+
+      const doc = iframeRef.current?.contentDocument;
+      if (doc) installIframeNavigationGuard(doc);
+    } catch {
+      // Best-effort: ignore
+    }
+
+    setIsLoading(false);
+  }, [installIframeNavigationGuard, setIsLoading]);
 
   useEffect(() => {
     if (!isIframePreview) return;
@@ -398,13 +555,42 @@ function StylePreviewContent({ style }) {
                 <variant.reactComponent autoStart={true} mode="full" />
               )}
             </div>
+          ) : previewError ? (
+            // 🛡️ 顯示預覽錯誤（超過重置上限時）
+            <div className="w-full h-full flex items-center justify-center">
+              <div className="text-center p-8 max-w-md">
+                <div className="mb-4 text-red-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-16 h-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                </div>
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                  Preview Error
+                </h2>
+                <p className="text-gray-600 dark:text-gray-400 mb-6">
+                  {previewError}
+                </p>
+                <button
+                  onClick={() => {
+                    resetCountRef.current = 0;
+                    setPreviewError(null);
+                    setIsLoading(true);
+                    setIframeInstanceKey((prev) => (prev + 1) % 10000);
+                  }}
+                  className="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-black transition-colors"
+                >
+                  Retry
+                </button>
+              </div>
+            </div>
           ) : (
             <iframe
               title={`${displayTitle} - Preview`}
               ref={iframeRef}
               srcDoc={iframeSrcDoc}
               className="w-full h-full border-0"
-              onLoad={() => setIsLoading(false)}
+              key={`style-preview:${style.id}:${iframeInstanceKey}`}
+              onLoad={handleIframeLoad}
               onError={(e) => {
                 setIsLoading(false);
                 logger.error('iframe error:', e);

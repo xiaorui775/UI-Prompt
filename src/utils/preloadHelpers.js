@@ -11,6 +11,7 @@
 
 import { previewLogger as logger } from './logger';
 import { buildContentPath } from '../data/loaders/config/pathHelper.js';
+import { isUiStyleAppIndexHtml } from './isUiStyleAppIndexHtml';
 
 /**
  * In-flight preload promises to prevent duplicate requests
@@ -48,7 +49,7 @@ async function fetchWithTimeout(url, timeout = 5000) {
                           text.trim().toLowerCase().startsWith('<html');
     const isNonHtmlFile = url.endsWith('.css') || url.endsWith('.jsx') || url.endsWith('.js');
 
-    if (isHtmlFallback && isNonHtmlFile) {
+    if (isHtmlFallback && (isNonHtmlFile || isUiStyleAppIndexHtml(text))) {
       return null;
     }
 

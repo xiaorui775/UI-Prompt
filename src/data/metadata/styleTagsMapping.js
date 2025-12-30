@@ -267,6 +267,12 @@ export const styleEnhancements = {
     tags: ['contemporary', 'minimal', 'colorful', 'playful', 'creative'],
     relatedStyles: ['visual-y2k', 'visual-paperCutout']
   },
+  'visual-kawaiiMinimal-dashboard': {
+    primaryCategory: 'visual',
+    categories: ['visual', 'modern'],
+    tags: ['contemporary', 'minimal', 'colorful', 'playful', 'creative', 'dashboard', 'springy'],
+    relatedStyles: ['visual-kawaiiMinimal', 'visual-y2k', 'visual-paperCutout']
+  },
   'visual-paperCutout': {
     primaryCategory: 'visual',
     categories: ['visual', 'texture'],

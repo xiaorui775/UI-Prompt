@@ -6,6 +6,7 @@
 import { isValidPreactJSX, detectJSXMode, validateJSX } from '../../utils/jsxPreprocessor';
 import { createLogger } from '../../utils/logger';
 import { buildContentPath } from './config/pathHelper.js';
+import { isUiStyleAppIndexHtml } from '../../utils/isUiStyleAppIndexHtml';
 
 const logger = createLogger('ContentLoader');
 
@@ -57,6 +58,14 @@ export async function fetchText(url, options = {}) {
     const expectsNonHtml = requestUrl.endsWith('.css') ||
                           requestUrl.endsWith('.jsx') ||
                           requestUrl.endsWith('.js');
+
+    // Guard against SPA fallback returning the app shell for missing content files (including .html).
+    if (isHtmlContent && isUiStyleAppIndexHtml(text)) {
+      if (!silent) {
+        logger.warn(`SPA fallback detected for ${requestUrl}, returning empty string`);
+      }
+      return '';
+    }
 
     if (isHtmlContent && expectsNonHtml) {
       if (!silent) {

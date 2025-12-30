@@ -8,6 +8,7 @@ import { isValidPreactJSX, detectJSXMode, validateJSX } from './jsxPreprocessor'
 import { FAMILY_ID_MAP, resolveAlias } from '../data/loaders/config/familyIdMap.js';
 import { buildPublicPath, buildContentPath } from '../data/loaders/config/pathHelper.js';
 import { LRUCache } from './LRUCache';
+import { isUiStyleAppIndexHtml } from './isUiStyleAppIndexHtml';
 
 /**
  * 內存緩存，避免重複加載相同預覽
@@ -221,9 +222,8 @@ async function loadContentFromPublic(category, familyId, templateId) {
     // For HTML files, detect Vite's index.html using STRICT markers only
     // Note: <div id="root"></div> alone is NOT sufficient - many valid templates
     // (e.g., Steampunk with React + Babel Standalone) legitimately use this pattern
-    const isViteIndexHtml = content.includes('/@vite/client') ||
-                           content.includes('/src/main.jsx');
-    if (isViteIndexHtml) {
+    const isAppIndexHtml = isUiStyleAppIndexHtml(content);
+    if (isAppIndexHtml) {
       logger.warn(`SPA fallback detected (index.html), ignoring for HTML file`);
       return null;
     }

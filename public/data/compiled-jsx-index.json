@@ -1,6 +1,6 @@
 {
-  "generated": "2025-12-28T10:43:06.194Z",
-  "count": 30,
+  "generated": "2025-12-30T09:04:51.906Z",
+  "count": 31,
   "files": {
     "core-scrollNarrative-core-scrollNarrative-immersive-narrative:fullpage": {
       "hash": "d01bbcbe",
@@ -345,6 +345,28 @@
         "Cloud"
       ],
       "size": 23465
+    },
+    "visual-kawaiiMinimal-visual-kawaiiMinimal-dashboard:fullpage": {
+      "hash": "e4c25a99",
+      "file": "visual-kawaiiMinimal-visual-kawaiiMinimal-dashboard_fullpage-e4c25a99.js",
+      "mode": "react",
+      "componentName": "KawaiiDashboard",
+      "lucideIcons": [
+        "Heart",
+        "Check",
+        "Plus",
+        "Music",
+        "Calendar",
+        "Clock",
+        "Star",
+        "Settings",
+        "Layout",
+        "Smile",
+        "PenTool",
+        "Coffee",
+        "MoreHorizontal"
+      ],
+      "size": 21359
     },
     "visual-monochrome-portfolio-showcase:demo": {
       "hash": "7f7f4ac7",

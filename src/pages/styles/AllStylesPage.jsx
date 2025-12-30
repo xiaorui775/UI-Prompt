@@ -20,6 +20,11 @@ import { LANGUAGES } from '../../utils/i18n/languageConstants';
  * 合并所有 9 个风格分类,支持多維度搜索和筛选
  *
  * 使用 ListPageScaffold 統一 UI 骨架
+ *
+ * 💡 性能優化：
+ * - 使用 debouncedFilters 防抖搜索輸入，避免每次按鍵觸發篩選重算
+ * - 預計算搜索索引 (_searchIndex)，避免每次搜索時重複調用 toLowerCase()
+ * - 使用 VirtualMasonryVariable 虛擬滾動，僅渲染可見區域
  */
 export function AllStylesPage() {
   const { t, language } = useLanguage();
@@ -41,10 +46,12 @@ export function AllStylesPage() {
     loggerName: 'AllStylesPage'
   });
 
-  // 篩選狀態 - 使用 URL 同步 hook
-  const { filters, setFilters, clearFilters } = useFilterUrlSync();
+  // 篩選狀態 - 使用 URL 同步 hook（含 debounce）
+  // filters: 即時狀態（用於 UI 顯示）
+  // debouncedFilters: 防抖後狀態（用於實際篩選，減少計算頻率）
+  const { filters, debouncedFilters, setFilters, clearFilters } = useFilterUrlSync();
 
-  // 獲取所有風格数据 (已增強 with 标籤 + 翻譯)
+  // 獲取所有風格数据 (已增強 with 标籤 + 翻譯 + 搜索索引)
   const allStyles = useMemo(() => {
     const translatedCategories = applyTranslationsToCategories(categories, language);
     const items = translatedCategories.flatMap(cat =>
@@ -55,20 +62,30 @@ export function AllStylesPage() {
       }))
     );
     // 生成稳定且唯一的 _uniqueKey："<catId>-<id>"，若重複則加序號
+    // 🚀 同時預計算搜索索引，避免每次搜索時重複調用 toLowerCase()
     const counts = {};
     return items.map((it) => {
       const base = `${it._categoryId}-${it.id || 'noid'}`;
       const idx = counts[base] || 0;
       counts[base] = idx + 1;
       const uniqueKey = idx === 0 ? base : `${base}#${idx}`;
-      return { ...it, _uniqueKey: uniqueKey };
+      return {
+        ...it,
+        _uniqueKey: uniqueKey,
+        // 🚀 預計算搜索索引（小寫版本），供 searchStyles 使用
+        _searchIndex: {
+          title: (it.title || '').toLowerCase(),
+          id: (it.id || '').toLowerCase(),
+          desc: (it.description || '').toLowerCase()
+        }
+      };
     });
   }, [language, categories]);
 
-  // 應用篩選邏輯
+  // 應用篩選邏輯（使用 debouncedFilters 減少計算頻率）
   const filteredStyles = useMemo(() => {
-    return applyFilters(allStyles, filters);
-  }, [allStyles, filters]);
+    return applyFilters(allStyles, debouncedFilters);
+  }, [allStyles, debouncedFilters]);
 
   // 標籤使用次數，供 FilterBar 隱藏未覆蓋的標籤
   const tagStats = useMemo(() => getTagStatistics(allStyles), [allStyles]);

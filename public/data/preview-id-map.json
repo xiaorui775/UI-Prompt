@@ -821,6 +821,16 @@
     "familyId": "inkWash",
     "templateId": "visual-inkWash-gallery"
   },
+  "visual-kawaiiMinimal-visual-kawaiiMinimal-dashboard": {
+    "category": "visual",
+    "familyId": "kawaiiMinimal",
+    "templateId": "visual-kawaiiMinimal-dashboard"
+  },
+  "visual-kawaiiMinimal-dashboard": {
+    "category": "visual",
+    "familyId": "kawaiiMinimal",
+    "templateId": "visual-kawaiiMinimal-dashboard"
+  },
   "visual-kawaiiMinimal-visual-kawaiiMinimal": {
     "category": "visual",
     "familyId": "kawaiiMinimal",
