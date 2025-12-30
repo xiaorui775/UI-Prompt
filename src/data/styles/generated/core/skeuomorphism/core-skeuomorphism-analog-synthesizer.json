@@ -43,11 +43,11 @@
     "dark-mode"
   ],
   "type": "fullpage",
-  "contentUrl": "/data/content/core/skeuomorphism/core-skeuomorphism-analog-synthesizer/fullpage.jsx",
-  "stylesUrl": "/data/content/core/skeuomorphism/core-skeuomorphism-analog-synthesizer/fullpage.css",
+  "contentUrl": "/data/content/styles/core/skeuomorphism/core-skeuomorphism-analog-synthesizer/fullpage.jsx",
+  "stylesUrl": "/data/content/styles/core/skeuomorphism/core-skeuomorphism-analog-synthesizer/fullpage.css",
   "previews": [
     {
-      "id": "analog-synthesizer-main",
+      "id": "core-skeuomorphism-analog-synthesizer",
       "title": {
         "zh-CN": "主控制台",
         "en-US": "Main Console"
