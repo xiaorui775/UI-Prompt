@@ -1,10 +1,12 @@
 import { useMemo, useCallback, useState } from 'react';
-import { StyleCard } from '../../components/ui/StyleCard';
-import { StyleListRow } from '../../components/ui/StyleListRow';
-import { MasonryContainer } from '../../components/ui/MasonryContainer';
-import { VirtualMasonryVariable } from '../../components/ui/VirtualMasonryVariable';
-import { ViewModeToggle } from '../../components/ui/ViewModeToggle';
-import { FilterBar } from '../../components/filter/FilterBar';
+import {
+  StyleCard,
+  StyleListRow,
+  MasonryContainer,
+  VirtualMasonryVariable,
+  ViewModeToggle
+} from '../../components/ui';
+import { FilterBar } from '../../components/filter';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useProgressiveStyleLoad } from '../../hooks/useProgressiveStyleLoad';
 import { useFilterUrlSync } from '../../hooks/useFilterUrlSync';
@@ -190,6 +192,7 @@ export function AllStylesPage() {
         filteredLabel: t('common.foundResults', { count: filteredStyles.length }),
         totalLabel: t('common.showingAll', { count: filteredStyles.length }),
         showTotal: false,
+        isProgressiveLoading: !isFullyLoaded,
         rightContent: (
           <ViewModeToggle
             viewMode={viewMode}

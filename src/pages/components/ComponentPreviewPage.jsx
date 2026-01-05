@@ -5,21 +5,22 @@ import { useLanguage } from '../../hooks/useLanguage';
 import { usePromptContent } from '../../hooks/usePromptContent';
 import { useUnifiedPreviewPageState, PREVIEW_PAGE_MODES } from '../../hooks/useUnifiedPreviewPageState';
 import { LANG_TO_URL } from '../../components/seo/seoConfig';
-import { PromptDrawer } from '../../components/prompt/PromptDrawer';
-import { CodeModal } from '../../components/ui/CodeModal';
-import { PreviewPageHeader } from '../../components/preview/PreviewPageHeader';
-import { LoadingOverlay } from '../../components/preview/LoadingOverlay';
-import { promptGenerator } from '../../utils/prompt/PromptGeneratorFacade';
-import { getCategoryNavKey } from '../../utils/componentHelper';
-import { createI18nResolver } from '../../utils/i18n/resolveI18nValue';
-import { ErrorBoundary } from '../../components/ErrorBoundary';
-
+import { PromptDrawer } from '../../components/prompt';
+import { CodeModal } from '../../components/ui';
+import {
+  PreviewPageHeader,
+  LoadingOverlay,
+  useAsyncComponentVariantLoader
+} from '../../components/preview';
 import {
   buildComponentPreviewHTML,
   buildComponentEmptyStateHTML,
   buildComponentLoadingHTML
 } from '../../components/preview/utils/buildComponentPreviewHTML';
-import { useAsyncComponentVariantLoader } from '../../components/preview/hooks/useAsyncComponentVariantLoader';
+import { promptGenerator } from '../../utils/prompt/PromptGeneratorFacade';
+import { getCategoryNavKey } from '../../utils/componentHelper';
+import { createI18nResolver } from '../../utils/i18n/resolveI18nValue';
+import { ErrorBoundary } from '../../components/ErrorBoundary';
 
 import { createLogger } from '../../utils/logger';
 

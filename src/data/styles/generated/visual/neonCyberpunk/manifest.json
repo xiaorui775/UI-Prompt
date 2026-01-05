@@ -3,7 +3,7 @@
   "category": "visual",
   "family": {
     "name": {
-      "zh-CN": "Neon Cyberpunk 霓虹...",
+      "zh-CN": "霓虹赛博朋克",
       "en-US": "Neon Cyberpunk"
     },
     "description": {
@@ -24,21 +24,21 @@
     {
       "id": "visual-neon-cyberpunk",
       "title": {
-        "zh-CN": "Neon Cyberpu...",
+        "zh-CN": "霓虹赛博朋克",
         "en-US": "Neon Cyberpunk"
       }
     },
     {
       "id": "cyberpunkGamingStore",
       "title": {
-        "zh-CN": "赛博punkGaming商店",
+        "zh-CN": "赛博朋克游戏商店",
         "en-US": "CyberpunkGamingStore"
       }
     },
     {
       "id": "cyberpunkMatrixTerminal",
       "title": {
-        "zh-CN": "赛博punkMatrix...",
+        "zh-CN": "赛博朋克矩阵终端",
         "en-US": "CyberpunkMatrixTerminal"
       }
     }

@@ -1,10 +1,26 @@
 {
-  "generated": "2025-12-30T09:32:19.868Z",
-  "count": 31,
+  "generated": "2026-01-05T12:55:20.330Z",
+  "count": 33,
   "files": {
-    "core-scrollNarrative-core-scrollNarrative-immersive-narrative:fullpage": {
+    "core-minimalism-core-minimalism-design-principles:fullpage": {
+      "hash": "713882de",
+      "file": "core-minimalism-core-minimalism-design-principles_fullpage-713882de.js",
+      "mode": "react",
+      "componentName": "App",
+      "lucideIcons": [
+        "ArrowRight",
+        "MoveRight",
+        "Minus",
+        "Plus",
+        "Type",
+        "LayoutGrid",
+        "Eye"
+      ],
+      "size": 16475
+    },
+    "core-scrollNarrative-immersive-narrative:fullpage": {
       "hash": "d01bbcbe",
-      "file": "core-scrollNarrative-core-scrollNarrative-immersive-narrative_fullpage-d01bbcbe.js",
+      "file": "core-scrollNarrative-immersive-narrative_fullpage-d01bbcbe.js",
       "mode": "react",
       "componentName": "ScrollyTellingApp",
       "lucideIcons": [
@@ -222,6 +238,23 @@
         "Combine"
       ],
       "size": 35013
+    },
+    "visual-biophilic-visual-biophilic-canopy-soul:fullpage": {
+      "hash": "e6512f7d",
+      "file": "visual-biophilic-visual-biophilic-canopy-soul_fullpage-e6512f7d.js",
+      "mode": "react",
+      "componentName": "BiophilicApp",
+      "lucideIcons": [
+        "Leaf",
+        "Wind",
+        "Sun",
+        "Droplets",
+        "Play",
+        "Pause",
+        "ChevronRight",
+        "Heart"
+      ],
+      "size": 18453
     },
     "visual-blueprint-visual-blueprint:demo": {
       "hash": "539ea180",

@@ -15,6 +15,13 @@
   },
   "templates": [
     {
+      "id": "core-minimalism-design-principles",
+      "title": {
+        "zh-CN": "设计原则展示",
+        "en-US": "Design Principles Showcase"
+      }
+    },
+    {
       "id": "saas-landing",
       "title": {
         "zh-CN": "SaaS 产品落地页",

@@ -1,8 +1,5 @@
 import { useMemo, useCallback } from 'react';
-import { ComponentCard } from '../../components/ui/ComponentCard';
-import { VirtualGrid } from '../../components/ui/VirtualGrid';
-import { SearchBar } from '../../components/ui/SearchBar';
-import { FilterTabs } from '../../components/ui/FilterTabs';
+import { ComponentCard, VirtualGrid, SearchBar, FilterTabs } from '../../components/ui';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useRemoteCategories } from '../../hooks/useRemoteCategories';
 import { useComponentFilterUrlSync } from '../../hooks/useComponentFilterUrlSync';

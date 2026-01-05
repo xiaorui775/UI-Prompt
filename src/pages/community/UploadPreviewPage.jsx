@@ -8,7 +8,7 @@ import { useEffect, useState, useMemo, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useCopyToClipboard } from '../../hooks/useCopyToClipboard';
-import { LivePreview } from '../../components/code/LivePreview';
+import { LivePreview } from '../../components/code';
 import { fetchUploadById, recordView, toggleLike, checkLiked } from '../../utils/uploadApi';
 import {
   X,

@@ -33,6 +33,12 @@ export const styleEnhancements = {
     tags: ['contemporary', 'minimal', 'flat', 'creative', 'clean'],
     relatedStyles: ['core-flatDesign']
   },
+  'core-minimalism-design-principles': {
+    primaryCategory: 'core',
+    categories: ['core'],
+    tags: ['contemporary', 'minimal', 'flat', 'educational', 'clean', 'typography'],
+    relatedStyles: ['core-minimalism', 'core-flatDesign', 'core-typography']
+  },
   'core-fluent2': {
     primaryCategory: 'core',
     categories: ['core'],
@@ -552,6 +558,12 @@ export const styleEnhancements = {
     categories: ['visual', 'nature'],
     tags: ['contemporary', 'organic', 'colorful', 'natural', 'harmonious', 'creative'],
     relatedStyles: ['visual-nature-solarpunk', 'natural']
+  },
+  'visual-biophilic-canopy-soul': {
+    primaryCategory: 'visual',
+    categories: ['visual', 'nature', 'wellness'],
+    tags: ['contemporary', 'organic', 'natural', 'meditation', 'wellness', 'landing-page', 'interactive'],
+    relatedStyles: ['visual-biophilic', 'visual-wabiSabi', 'core-minimalism']
   },
 
   // Scroll Narrative (NEW - replaces parallaxScrolling)

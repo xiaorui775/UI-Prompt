@@ -36,6 +36,13 @@
         "zh-CN": "智能家居办公",
         "en-US": "Smart Home Office"
       }
+    },
+    {
+      "id": "visual-tech-sci-fi-hud",
+      "title": {
+        "zh-CN": "科技科幻 HUD",
+        "en-US": "Tech Sci-Fi HUD"
+      }
     }
   ]
 }

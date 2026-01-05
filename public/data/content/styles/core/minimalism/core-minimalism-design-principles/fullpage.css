@@ -1,0 +1,38 @@
+/* Core Minimalism Design Principles - Base Styles */
+
+/* Minimal CSS as most styling is handled by Tailwind in the JSX */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Ensure smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Additional base styles for form elements */
+input,
+button {
+  font-family: inherit;
+}
+
+input:focus {
+  outline: none;
+}
+
+/* Ensure proper line rendering */
+hr,
+.divider {
+  border: none;
+  height: 1px;
+  background-color: #e5e7eb;
+}

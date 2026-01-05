@@ -34,6 +34,13 @@
         "zh-CN": "视觉启航叙事",
         "en-US": "Vision Launch Narrative"
       }
+    },
+    {
+      "id": "immersive-narrative",
+      "title": {
+        "zh-CN": "沉浸式叙事",
+        "en-US": "Immersive Narrative"
+      }
     }
   ]
 }

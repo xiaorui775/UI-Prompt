@@ -5,7 +5,7 @@ import { CyberNavbar } from '../cyberpunk/CyberNavbar';
 import { CyberHero } from '../cyberpunk/CyberHero';
 import { CyberCards, CyberTerminal, CyberFooter } from '../cyberpunk/ContentSections';
 import { GlobalStyles } from '../cyberpunk/GlobalStyles';
-import { BrowserFrame } from '../ui/BrowserFrame';
+import { BrowserFrame } from '../ui';
 import { createLogger } from '../../utils/logger';
 
 const logger = createLogger('CyberpunkPreview');

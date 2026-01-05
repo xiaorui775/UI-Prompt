@@ -11,13 +11,13 @@ import { useMemo, useEffect, memo } from 'react';
 import PropTypes from 'prop-types';
 
 import { useLanguage } from '../../hooks/useLanguage';
-import { PromptDrawer } from '../prompt/PromptDrawer';
+import { PromptDrawer } from '../prompt';
 import { PreviewPromptGenerator } from '../../utils/promptGenerator';
 import { PreviewSelector } from './PreviewSelector';
 import { hasMultiplePreviews } from '../../utils/previewsHelper';
 import { DataVisualizationPreview } from './DataVisualizationPreview';
 import { LANGUAGES } from '../../utils/i18n/languageConstants';
-import { LoadingDots } from '../ui/LoadingDots';
+import { LoadingDots } from '../ui';
 
 // 重構後的模組
 import { usePreviewState } from './hooks/usePreviewState';

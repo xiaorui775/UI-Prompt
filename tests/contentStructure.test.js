@@ -81,6 +81,25 @@ function getContentDir(category, familyId, templateId) {
 }
 
 /**
+ * Get all subdirectories in a family's content folder
+ * Used to detect orphaned content directories not in manifest
+ */
+function getContentSubdirectories(category, familyId) {
+  const contentBase = path.join(
+    projectRoot,
+    'public/data/content/styles',
+    category,
+    familyId
+  );
+
+  if (!fs.existsSync(contentBase)) return [];
+
+  return fs.readdirSync(contentBase, { withFileTypes: true })
+    .filter(dirent => dirent.isDirectory())
+    .map(dirent => dirent.name);
+}
+
+/**
  * Validate content structure for a single template
  */
 function validateTemplateContent(category, familyId, templateId) {
@@ -378,6 +397,75 @@ describe('Content Structure Integrity', () => {
       expect(emptyFiles).toEqual([]);
     });
   });
+
+  describe('Template Count Consistency', () => {
+    it('should have equal template count between manifest and content directories', () => {
+      const mismatches = [];
+
+      for (const { category, familyId, templates } of allFamilies) {
+        const manifestTemplateIds = templates.map(t =>
+          typeof t === 'string' ? t : t.id
+        );
+        const contentDirs = getContentSubdirectories(category, familyId);
+
+        if (manifestTemplateIds.length !== contentDirs.length) {
+          mismatches.push({
+            family: `${category}/${familyId}`,
+            manifestCount: manifestTemplateIds.length,
+            contentCount: contentDirs.length,
+            manifestTemplates: manifestTemplateIds,
+            contentDirs: contentDirs
+          });
+        }
+      }
+
+      if (mismatches.length > 0) {
+        console.error('\n❌ Template count mismatch:');
+        mismatches.forEach(({ family, manifestCount, contentCount, manifestTemplates, contentDirs }) => {
+          console.error(`   - ${family}: manifest=${manifestCount}, content=${contentCount}`);
+
+          // Find missing in manifest (exists in content but not in manifest)
+          const missingInManifest = contentDirs.filter(dir => !manifestTemplates.includes(dir));
+          if (missingInManifest.length > 0) {
+            console.error(`     Missing in manifest: ${missingInManifest.join(', ')}`);
+          }
+
+          // Find missing in content (exists in manifest but not in content)
+          const missingInContent = manifestTemplates.filter(id => !contentDirs.includes(id));
+          if (missingInContent.length > 0) {
+            console.error(`     Missing in content: ${missingInContent.join(', ')}`);
+          }
+        });
+      }
+
+      expect(mismatches).toEqual([]);
+    });
+
+    it('should not have orphaned content directories without manifest entries', () => {
+      const orphanedDirs = [];
+
+      for (const { category, familyId, templates } of allFamilies) {
+        const manifestTemplateIds = new Set(
+          templates.map(t => typeof t === 'string' ? t : t.id)
+        );
+        const contentDirs = getContentSubdirectories(category, familyId);
+
+        for (const dir of contentDirs) {
+          if (!manifestTemplateIds.has(dir)) {
+            orphanedDirs.push(`${category}/${familyId}/${dir}`);
+          }
+        }
+      }
+
+      if (orphanedDirs.length > 0) {
+        console.error('\n❌ Orphaned content directories (not in manifest):');
+        orphanedDirs.forEach(dir => console.error(`   - ${dir}`));
+        console.error('\n   To fix: Add these templates to manifest.json or delete the directories');
+      }
+
+      expect(orphanedDirs).toEqual([]);
+    });
+  });
 });
 
 // NOTE: auroraGlass specific tests are skipped because content directories don't exist yet
@@ -414,6 +502,7 @@ describe.skip('Specific Style Validation', () => {
 export {
   validateTemplateContent,
   getAllFamiliesWithTemplates,
+  getContentSubdirectories,
   hasFullpageFile,
   FULLPAGE_VARIANTS,
   REQUIRED_CSS,

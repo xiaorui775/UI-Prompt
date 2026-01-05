@@ -189,30 +189,30 @@
     "familyId": "scrollNarrative",
     "templateId": "vision-launch-narrative"
   },
-  "core-scrollNarrative-core-scrollNarrative-immersive-narrative": {
-    "category": "core",
-    "familyId": "scrollNarrative",
-    "templateId": "core-scrollNarrative-immersive-narrative"
-  },
   "core-scrollNarrative-immersive-narrative": {
     "category": "core",
     "familyId": "scrollNarrative",
-    "templateId": "core-scrollNarrative-immersive-narrative"
+    "templateId": "immersive-narrative"
+  },
+  "immersive-narrative": {
+    "category": "core",
+    "familyId": "scrollNarrative",
+    "templateId": "immersive-narrative"
   },
   "scrollNarrative": {
     "category": "core",
     "familyId": "scrollNarrative",
-    "templateId": "core-scrollNarrative-immersive-narrative"
+    "templateId": "immersive-narrative"
   },
   "scroll-narrative": {
     "category": "core",
     "familyId": "scrollNarrative",
-    "templateId": "core-scrollNarrative-immersive-narrative"
+    "templateId": "immersive-narrative"
   },
   "scrollnarrative": {
     "category": "core",
     "familyId": "scrollNarrative",
-    "templateId": "core-scrollNarrative-immersive-narrative"
+    "templateId": "immersive-narrative"
   },
   "core-skeuomorphism-core-skeuomorphism-tech-corp-homepage": {
     "category": "core",
@@ -243,28 +243,6 @@
     "category": "core",
     "familyId": "skeuomorphism",
     "templateId": "core-skeuomorphism-analog-synthesizer"
-  },
-  "core-skeuomorphism-analog-synthesizer-main": {
-    "category": "core",
-    "familyId": "skeuomorphism",
-    "templateId": "core-skeuomorphism-analog-synthesizer",
-    "previewId": "analog-synthesizer-main"
-  },
-  "analog-synthesizer-main": {
-    "category": "core",
-    "familyId": "skeuomorphism",
-    "templateId": "core-skeuomorphism-analog-synthesizer",
-    "previewId": "analog-synthesizer-main"
-  },
-  "core-skeuomorphism-core-skeuomorphism-product-landing": {
-    "category": "core",
-    "familyId": "skeuomorphism",
-    "templateId": "core-skeuomorphism-product-landing"
-  },
-  "core-skeuomorphism-product-landing": {
-    "category": "core",
-    "familyId": "skeuomorphism",
-    "templateId": "core-skeuomorphism-product-landing"
   },
   "skeuomorphism": {
     "category": "core",
@@ -416,6 +394,16 @@
     "familyId": "antiDesign",
     "templateId": "visual-antiDesign-studio"
   },
+  "visual-biophilic-visual-biophilic-canopy-soul": {
+    "category": "visual",
+    "familyId": "biophilic",
+    "templateId": "visual-biophilic-canopy-soul"
+  },
+  "visual-biophilic-canopy-soul": {
+    "category": "visual",
+    "familyId": "biophilic",
+    "templateId": "visual-biophilic-canopy-soul"
+  },
   "visual-biophilic-visual-biophilic-biophilic": {
     "category": "visual",
     "familyId": "biophilic",
@@ -440,16 +428,6 @@
     "category": "visual",
     "familyId": "blueprint",
     "templateId": "visual-blueprint"
-  },
-  "visual-blueprint-visual-blueprint-dashboard": {
-    "category": "visual",
-    "familyId": "blueprint",
-    "templateId": "visual-blueprint-dashboard"
-  },
-  "visual-blueprint-dashboard": {
-    "category": "visual",
-    "familyId": "blueprint",
-    "templateId": "visual-blueprint-dashboard"
   },
   "blueprint": {
     "category": "visual",
@@ -956,16 +934,6 @@
     "familyId": "memphis",
     "templateId": "visual-memphis-memphis-creative"
   },
-  "visual-monochrome-visual-monochrome": {
-    "category": "visual",
-    "familyId": "monochrome",
-    "templateId": "visual-monochrome"
-  },
-  "visual-monochrome": {
-    "category": "visual",
-    "familyId": "monochrome",
-    "templateId": "visual-monochrome"
-  },
   "visual-monochrome-portfolio-showcase": {
     "category": "visual",
     "familyId": "monochrome",
@@ -975,6 +943,16 @@
     "category": "visual",
     "familyId": "monochrome",
     "templateId": "portfolio-showcase"
+  },
+  "visual-monochrome-visual-monochrome": {
+    "category": "visual",
+    "familyId": "monochrome",
+    "templateId": "visual-monochrome"
+  },
+  "visual-monochrome": {
+    "category": "visual",
+    "familyId": "monochrome",
+    "templateId": "visual-monochrome"
   },
   "monochrome": {
     "category": "visual",

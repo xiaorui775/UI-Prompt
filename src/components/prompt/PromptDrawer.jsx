@@ -3,8 +3,7 @@ import { Copy, X } from 'lucide-react';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useToast } from '../../hooks/useToast';
 import { useCopyToClipboard } from '../../hooks/useCopyToClipboard';
-import { Toast } from '../ui/Toast';
-import { LoadingDots } from '../ui/LoadingDots';
+import { Toast, LoadingDots } from '../ui';
 
 /**
  * PromptDrawer - 顯示 AI Prompt 的抽屜組件

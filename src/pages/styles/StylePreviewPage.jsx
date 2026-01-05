@@ -2,20 +2,18 @@ import { Suspense, useMemo, useCallback, useEffect, useState, useRef } from 'rea
 import { useLoaderData, useSearchParams, Await } from 'react-router-dom';
 
 import { useLanguage } from '../../hooks/useLanguage';
-import { PromptDrawer } from '../../components/prompt/PromptDrawer';
+import { PromptDrawer } from '../../components/prompt';
 import { PreviewPromptGenerator } from '../../utils/promptGenerator';
-import { DataVisualizationPreview } from '../../components/preview/DataVisualizationPreview';
 import { previewLogger as logger } from '../../utils/logger';
 import { resolveI18nValue } from '../../utils/i18n/resolveI18nValue';
-import { LoadingOverlay } from '../../components/preview/LoadingOverlay';
-import { LoadingDots } from '../../components/ui/LoadingDots';
-
-// Extracted hooks
-import { usePreviewPageState } from '../../components/preview/hooks/usePreviewPageState';
-import { useAsyncPreviewLoader } from '../../components/preview/hooks/useAsyncPreviewLoader';
-
-// Extracted components
-import { PreviewPageHeader } from '../../components/preview/PreviewPageHeader';
+import { LoadingDots } from '../../components/ui';
+import {
+  DataVisualizationPreview,
+  LoadingOverlay,
+  PreviewPageHeader,
+  usePreviewPageState,
+  useAsyncPreviewLoader
+} from '../../components/preview';
 
 // Extended utility
 import { buildPreviewHTML } from '../../components/preview/utils/buildPreviewHTML';

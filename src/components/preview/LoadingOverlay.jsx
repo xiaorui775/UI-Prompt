@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { LoadingDots } from '../ui/LoadingDots';
+import { LoadingDots } from '../ui';
 
 /**
  * LoadingOverlay component - Simple loading overlay with animated dots

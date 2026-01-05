@@ -8,7 +8,7 @@ import { dataVisualizationScenarios } from '../../data/components/dataVisualizat
 import { useLanguage } from '../../hooks/useLanguage';
 import { injectAppStylesIntoIframe } from '../../utils/previewCss';
 import { stripExternalAssets } from './utils/buildPreviewHTML';
-import { LoadingDots } from '../ui/LoadingDots';
+import { LoadingDots } from '../ui';
 
 // 語言取值助手：支援不同大小写/連字號鍵，並提供稳健後备
 const pickI18n = (obj, language) => {

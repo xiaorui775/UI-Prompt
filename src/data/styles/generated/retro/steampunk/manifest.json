@@ -30,6 +30,13 @@
         "zh-CN": "蒸汽控制台",
         "en-US": "Steam Console"
       }
+    },
+    {
+      "id": "retro-steampunk-aether-industries",
+      "title": {
+        "zh-CN": "以太工业",
+        "en-US": "Aether Industries"
+      }
     }
   ]
 }

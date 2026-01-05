@@ -11,7 +11,7 @@
 
 import { useLanguage } from '../../hooks/useLanguage';
 import { SKELETON_COUNTS } from '../../utils/constants';
-import { LoadingDots } from '../ui/LoadingDots';
+import { LoadingDots } from '../ui';
 
 /**
  * Page Header Slot Component
@@ -73,6 +73,7 @@ export function ToolbarSkeleton({ variant = 'complex' }) {
  * @param {boolean} props.showTotal - Whether to show total count on right side
  * @param {string} props.totalLabelRight - Label for total count on right side
  * @param {React.ReactNode} props.rightContent - Custom content to render on the right side
+ * @param {boolean} props.isProgressiveLoading - Whether progressive loading is in progress (shows LoadingDots)
  */
 export function ResultStats({
   isLoading,
@@ -83,7 +84,8 @@ export function ResultStats({
   totalLabel,
   showTotal = true,
   totalLabelRight,
-  rightContent
+  rightContent,
+  isProgressiveLoading = false
 }) {
   const { t } = useLanguage();
 
@@ -91,6 +93,8 @@ export function ResultStats({
     <div className="mb-6 flex items-center justify-between">
       {isLoading ? (
         <div className="h-4 w-40 rounded bg-slate-200 dark:bg-slate-700 animate-pulse motion-reduce:animate-none" />
+      ) : isProgressiveLoading ? (
+        <LoadingDots size="small" />
       ) : (
         <p className="text-sm text-gray-500 dark:text-gray-400">
           {isFiltered ? filteredLabel : totalLabel}
