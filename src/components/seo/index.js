@@ -26,6 +26,7 @@ export {
   generateStyleListSchema,
   generateStyleDetailSchema,
   generateComponentListSchema,
+  generateComponentDetailSchema,
   generateBreadcrumbSchema,
   generateFAQSchema,
 } from './schemaGenerators';

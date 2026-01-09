@@ -191,10 +191,12 @@ export function FeaturesSection() {
       <div
         className="absolute inset-0 opacity-10 dark:opacity-5 pointer-events-none"
         style={{ backgroundImage: 'radial-gradient(#444 1px, transparent 1px)', backgroundSize: '24px 24px' }}
+        aria-hidden="true"
+        role="presentation"
       />
 
       {/* Decorative Background Scribbles */}
-      <div className="absolute top-20 left-10 opacity-5 dark:opacity-[0.02] pointer-events-none rotate-12 hidden lg:block">
+      <div className="absolute top-20 left-10 opacity-5 dark:opacity-[0.02] pointer-events-none rotate-12 hidden lg:block" aria-hidden="true" role="presentation">
         <Scissors size={200} />
       </div>
 

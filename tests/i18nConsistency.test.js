@@ -26,7 +26,7 @@ const MANIFEST_PATHS = [
 
 // Regex patterns for language detection
 const CHINESE_CHAR_REGEX = /[\u4e00-\u9fff\u3400-\u4dbf]/;
-const ONLY_ASCII_REGEX = /^[\x00-\x7F]*$/;
+const ONLY_ASCII_REGEX = /^[\x20-\x7F]*$/; // 避免控制字符，從空格(0x20)開始
 
 // Minimum length to check (skip very short strings like "3D")
 const MIN_CHECK_LENGTH = 3;
@@ -139,7 +139,7 @@ function findManifestFiles(dir) {
  * @param {string} filePath - File path for error reporting
  * @returns {Array<{path: string, field: string, zhCN: string, enUS: string}>}
  */
-function extractI18nFields(manifest, filePath) {
+function extractI18nFields(manifest, _filePath) {
   const results = [];
 
   function traverse(obj, currentPath = '') {
@@ -147,7 +147,6 @@ function extractI18nFields(manifest, filePath) {
 
     // Check if this object is an i18n object (has zh-CN or en-US keys)
     if (obj['zh-CN'] !== undefined || obj['en-US'] !== undefined) {
-      const parentPath = currentPath.split('.').slice(0, -1).join('.');
       const fieldName = currentPath.split('.').pop();
 
       if (I18N_FIELDS.includes(fieldName)) {
@@ -315,7 +314,7 @@ describe('i18n Consistency', () => {
   describe('Coverage', () => {
     it('should have scanned at least some manifest files', () => {
       expect(allManifests.length).toBeGreaterThan(0);
-      console.log(`\n✅ Scanned ${allManifests.length} manifest files for i18n consistency`);
+      // ✅ Scanned manifest files for i18n consistency (removed console.log)
     });
   });
 });

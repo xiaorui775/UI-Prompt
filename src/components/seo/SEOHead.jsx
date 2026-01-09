@@ -115,7 +115,7 @@ SEOHead.propTypes = {
     'app',
     'player',
   ]),
-  jsonLd: PropTypes.object,
+  jsonLd: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   noindex: PropTypes.bool,
   additionalMeta: PropTypes.arrayOf(PropTypes.object),
 };

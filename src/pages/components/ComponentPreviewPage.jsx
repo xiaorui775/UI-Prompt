@@ -59,12 +59,6 @@ export function ComponentPreviewPage() {
 
     void _translationsVersion;
 
-    const categoryId = component.category || category;
-    const resolvedComponentId = component.id || componentId;
-    const baseKey = resolvedComponentId
-      ? `data.components.${categoryId}.${resolvedComponentId}`
-      : null;
-
     const resolveI18n = createI18nResolver(language, t);
 
     return component.variants.map((variant, idx) => {
@@ -76,7 +70,7 @@ export function ComponentPreviewPage() {
         type: 'full'
       };
     });
-  }, [component, category, componentId, language, t, _translationsVersion]);
+  }, [component, category, language, t, _translationsVersion]);
 
   // ========== 4. Unified preview state hook ==========
   const {
@@ -106,12 +100,9 @@ export function ComponentPreviewPage() {
     void _translationsVersion;
 
     const categoryId = component.category || category;
-    const resolvedComponentId = component.id || componentId;
     const navKey = getCategoryNavKey(categoryId);
 
-    const baseKey = resolvedComponentId
-      ? `data.components.${categoryId}.${resolvedComponentId}`
-      : null;
+
 
     const resolveI18n = createI18nResolver(language, t);
 
@@ -127,7 +118,7 @@ export function ComponentPreviewPage() {
         description: resolveI18n(variant.description)
       }))
     };
-  }, [component, category, componentId, language, t, _translationsVersion]);
+  }, [component, category, language, t, _translationsVersion]);
 
   // ========== 7. Async variant loader (load only what we need) ==========
   const {

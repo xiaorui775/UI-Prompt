@@ -1,7 +1,13 @@
 import { useMemo, useState, useEffect } from 'react';
 import { useParams, useNavigate, useLoaderData } from 'react-router-dom';
 import { useLanguage } from '../../hooks/useLanguage';
-import { LANG_TO_URL } from '../../components/seo/seoConfig';
+import {
+  SEOHead,
+  LANG_TO_URL,
+  BASE_URL,
+  generateComponentDetailSchema,
+  generateBreadcrumbSchema,
+} from '../../components/seo';
 import { usePromptContent } from '../../hooks/usePromptContent';
 import { VariantGrid, CodeModal } from '../../components/ui';
 import { PromptDrawer } from '../../components/prompt';
@@ -51,7 +57,6 @@ export function ComponentDetailPage() {
 
     // 獲取分類配置 - 使用 componentHelper 統一管理
     const categoryId = componentFromLoader.category || category;
-    const resolvedComponentId = componentFromLoader.id || componentId;
     // 從 registry 動態獲取 nav key，避免硬編碼
     const navKey = getCategoryNavKey(categoryId);
 
@@ -70,7 +75,7 @@ export function ComponentDetailPage() {
         description: resolveI18n(variant.description)
       }))
     };
-  }, [componentFromLoader, language, t, category, componentId, _translationsVersion]);
+  }, [componentFromLoader, language, t, category, _translationsVersion]);
 
   // 處理查看代碼
   const handleViewCode = (variant) => {
@@ -116,6 +121,52 @@ export function ComponentDetailPage() {
     navigate(`/${urlLang}/components`);
   };
 
+  // ========== SEO Meta Data (計算在 early return 前避免 Hooks 錯誤) ==========
+  const langPrefix = LANG_TO_URL[language] || 'zh';
+
+  // Generate SEO description - 支援 null componentData
+  const seoDescription = componentData?.description
+    ? `${componentData.title} - ${componentData.description.slice(0, 120)}${componentData.description.length > 120 ? '...' : ''}`
+    : componentData?.title
+      ? (language === 'zh-CN'
+          ? `${componentData.title} UI 组件 - ${componentData.variants?.length || 0} 种风格变体，包含完整代码和 AI 提示词`
+          : `${componentData.title} UI Component - ${componentData.variants?.length || 0} style variants with complete code and AI prompts`)
+      : '';
+
+  // Generate JSON-LD schemas - 防禦性處理 null componentData
+  const componentSchema = useMemo(
+    () => componentData ? generateComponentDetailSchema(componentData, language) : null,
+    [componentData, language]
+  );
+
+  const breadcrumbSchema = useMemo(
+    () => componentData ? generateBreadcrumbSchema([
+      {
+        name: language === 'zh-CN' ? '首页' : 'Home',
+        url: `${BASE_URL}/${langPrefix}`,
+      },
+      {
+        name: language === 'zh-CN' ? '组件库' : 'Components',
+        url: `${BASE_URL}/${langPrefix}/components`,
+      },
+      {
+        name: componentData.categoryLabel,
+        url: `${BASE_URL}/${langPrefix}/components?category=${componentData.categoryId}`,
+      },
+      {
+        name: componentData.title,
+        url: `${BASE_URL}/${langPrefix}/components/${category}/${componentId}`,
+      },
+    ]) : null,
+    [language, langPrefix, componentData, category, componentId]
+  );
+
+  // Combine schemas
+  const combinedJsonLd = useMemo(
+    () => componentSchema && breadcrumbSchema ? [componentSchema, breadcrumbSchema] : [],
+    [componentSchema, breadcrumbSchema]
+  );
+
   // 找不到組件（Route loader 應該已處理 404，這是備用）
   if (!componentData) {
     return (
@@ -144,6 +195,17 @@ export function ComponentDetailPage() {
 
   return (
     <>
+      {/* SEO Head - Dynamic meta tags for this component */}
+      <SEOHead
+        title={componentData.title}
+        description={seoDescription}
+        keywords={`${componentData.title},UI组件,${componentData.categoryLabel},React组件,前端组件,AI提示词`}
+        path={`/components/${category}/${componentId}`}
+        language={language}
+        ogType="article"
+        jsonLd={combinedJsonLd}
+      />
+
       <section className="mb-24">
         {/* 頂部导航欄 */}
         <div className="mb-8">

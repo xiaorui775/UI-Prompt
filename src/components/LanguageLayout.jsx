@@ -12,6 +12,7 @@ import {
 } from '../hooks/useLanguageFromUrl';
 import { LANG_TO_URL } from '../components/seo/seoConfig';
 import { getPreferredLanguage } from '../utils/i18n/languagePreference';
+import { trackPageView } from '../utils/analytics';
 
 /**
  * Layout component that syncs URL language parameter with language context
@@ -33,6 +34,11 @@ export function LanguageLayout() {
       setLanguageDirectly(urlLanguage);
     }
   }, [urlLanguage, language, setLanguageDirectly]);
+
+  // Track page view on route change (SPA navigation)
+  useEffect(() => {
+    trackPageView(location.pathname + location.search, document.title);
+  }, [location.pathname, location.search]);
 
   // Invalid language code, redirect to detected language
   if (!isValid) {

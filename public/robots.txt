@@ -1,5 +1,5 @@
 # robots.txt for uiprompt.site
-# Last updated: 2024
+# Last updated: 2026-01
 
 User-agent: *
 Allow: /
@@ -28,5 +28,7 @@ Disallow: /assets/
 Disallow: /data/*.json
 Disallow: /sw.js
 
-# Crawl-delay for politeness
-Crawl-delay: 1
+# Note: Crawl-delay is NOT supported by Google/Baidu
+# Google automatically adjusts crawl rate based on server response
+# For Googlebot rate control, use Google Search Console instead
+# Crawl-delay: 1  # Only affects Bing/Yandex, disabled for cleaner validation

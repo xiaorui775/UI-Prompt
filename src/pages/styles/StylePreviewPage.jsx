@@ -14,6 +14,13 @@ import {
   usePreviewPageState,
   useAsyncPreviewLoader
 } from '../../components/preview';
+import {
+  SEOHead,
+  generateStyleDetailSchema,
+  generateBreadcrumbSchema,
+  BASE_URL,
+  LANG_TO_URL,
+} from '../../components/seo';
 
 // Extended utility
 import { buildPreviewHTML } from '../../components/preview/utils/buildPreviewHTML';
@@ -514,9 +521,69 @@ function StylePreviewContent({ style }) {
     }
   }, [activeIndex]);
 
+  // ========== SEO Meta Data ==========
+  const langPrefix = LANG_TO_URL[language] || 'zh';
+  const styleId = style.familyId || style.id;
+  const resolvedDescription = resolveI18nValue(description, language, t);
+
+  // Generate SEO description - combine style title with description
+  const seoDescription = resolvedDescription
+    ? `${displayTitle} - ${resolvedDescription.slice(0, 120)}${resolvedDescription.length > 120 ? '...' : ''}`
+    : language === 'zh-CN'
+      ? `${displayTitle} UI 设计风格 - 获取专业 AI 生成提示词，包含完整代码示例和实时预览`
+      : `${displayTitle} UI Design Style - Get professional AI prompts with complete code examples and live preview`;
+
+  // Generate JSON-LD schemas
+  const styleSchema = useMemo(
+    () => generateStyleDetailSchema(
+      {
+        ...style,
+        name: displayTitle,
+        description: resolvedDescription,
+      },
+      language
+    ),
+    [style, displayTitle, resolvedDescription, language]
+  );
+
+  const breadcrumbSchema = useMemo(
+    () => generateBreadcrumbSchema([
+      {
+        name: language === 'zh-CN' ? '首页' : 'Home',
+        url: `${BASE_URL}/${langPrefix}`,
+      },
+      {
+        name: language === 'zh-CN' ? '风格库' : 'Styles',
+        url: `${BASE_URL}/${langPrefix}/styles`,
+      },
+      {
+        name: displayTitle,
+        url: `${BASE_URL}/${langPrefix}/styles/preview/${styleId}`,
+      },
+    ]),
+    [language, langPrefix, displayTitle, styleId]
+  );
+
+  // Combine schemas
+  const combinedJsonLd = useMemo(
+    () => [styleSchema, breadcrumbSchema],
+    [styleSchema, breadcrumbSchema]
+  );
+
   // ========== Render ==========
   return (
     <>
+      {/* SEO Head - Dynamic meta tags for this style */}
+      <SEOHead
+        title={displayTitle}
+        description={seoDescription}
+        keywords={`${displayTitle},UI设计,AI提示词,${style.tags?.join(',') || 'CSS,前端设计'}`}
+        path={`/styles/preview/${styleId}`}
+        language={language}
+        ogType="article"
+        jsonLd={combinedJsonLd}
+      />
+
       <div className="fixed inset-0 z-50 bg-white dark:bg-gray-900 flex flex-col">
         {!isFullPageMode && (
           <PreviewPageHeader

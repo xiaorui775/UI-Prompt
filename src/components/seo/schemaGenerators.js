@@ -151,6 +151,45 @@ export function generateComponentListSchema(components, language) {
 }
 
 /**
+ * Generate SoftwareSourceCode schema for individual component pages
+ * @param {Object} component - Component object with name, description, category, etc.
+ * @param {string} language - Current language
+ * @returns {Object} JSON-LD schema
+ */
+export function generateComponentDetailSchema(component, language) {
+  const langPrefix = LANG_TO_URL[language] || 'zh';
+  const componentUrl = `${BASE_URL}/${langPrefix}/components/${component.categoryId || component.category}/${component.id}`;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareSourceCode',
+    '@id': componentUrl,
+    name: component.title || component.name,
+    description: component.description,
+    programmingLanguage: ['JavaScript', 'JSX', 'CSS', 'HTML'],
+    runtimePlatform: 'Web Browser',
+    creator: {
+      '@type': 'Organization',
+      name: 'UI Style Prompt',
+    },
+    inLanguage: language,
+    keywords: component.tags?.join(', ') || 'UI component, React, frontend',
+    datePublished: component.createdAt || new Date().toISOString().split('T')[0],
+    dateModified: component.updatedAt || new Date().toISOString().split('T')[0],
+    url: componentUrl,
+    codeRepository: BASE_URL,
+    // Include variant count if available
+    ...(component.variants?.length && {
+      hasPart: component.variants.slice(0, 5).map((variant) => ({
+        '@type': 'SoftwareSourceCode',
+        name: variant.name,
+        description: variant.description,
+      })),
+    }),
+  };
+}
+
+/**
  * Generate BreadcrumbList schema
  * @param {Array} breadcrumbs - Array of {name, url} objects
  * @returns {Object} JSON-LD schema

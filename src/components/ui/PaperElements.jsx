@@ -12,12 +12,14 @@ export const WashiTape = ({ color = "bg-rose-300", className = "" }) => (
     style={{
       clipPath: 'polygon(2% 0%, 98% 0%, 100% 100%, 0% 100%, 1% 5%, 0% 10%, 2% 20%, 0% 30%, 1% 40%, 0% 50%, 2% 60%, 0% 70%, 1% 80%, 0% 90%)'
     }}
+    aria-hidden="true"
+    role="presentation"
   />
 );
 
 // Push Pin Component
 export const PushPin = ({ color = "bg-red-500", className = "" }) => (
-  <div className={`absolute w-4 h-4 rounded-full shadow-md z-20 ${color} border-2 border-white/30 ${className}`}>
+  <div className={`absolute w-4 h-4 rounded-full shadow-md z-20 ${color} border-2 border-white/30 ${className}`} aria-hidden="true" role="presentation">
     <div className="absolute top-1 left-1 w-1.5 h-1.5 bg-white/40 rounded-full"></div>
     <div className="absolute top-3 left-1.5 w-1 h-3 bg-black/20 -z-10 transform skew-x-12"></div>
   </div>

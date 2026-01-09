@@ -333,7 +333,7 @@ ${externalAssetsHTML}
     <div className={`demo-box relative z-10 ${demoBoxClass}`} style={demoBoxStyle}>
       <iframe
         ref={iframeRef}
-        title={`style-demo-${id}`}
+        title={`${language === 'zh-CN' ? 'UI 样式预览' : 'UI Style Preview'}: ${id}`}
         className="relative w-full h-full border-0 z-10 mix-blend-multiply dark:mix-blend-normal"
         sandbox="allow-same-origin allow-scripts allow-forms"
       />

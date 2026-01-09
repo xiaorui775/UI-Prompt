@@ -185,10 +185,10 @@ export function StyleCardContainer({
       {/* Demo 區域 */}
       <div className="relative bg-gray-50 dark:bg-zinc-950 overflow-hidden">
         {/* Decorative background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-50 dark:from-zinc-900 dark:to-zinc-950 opacity-50"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-50 dark:from-zinc-900 dark:to-zinc-950 opacity-50" aria-hidden="true" role="presentation"></div>
 
         {/* Grid Pattern Overlay for texture feel */}
-        <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]" style={{backgroundImage: 'radial-gradient(#6366f1 1px, transparent 1px)', backgroundSize: '16px 16px'}}></div>
+        <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]" style={{backgroundImage: 'radial-gradient(#6366f1 1px, transparent 1px)', backgroundSize: '16px 16px'}} aria-hidden="true" role="presentation"></div>
 
         {demoContent}
       </div>
